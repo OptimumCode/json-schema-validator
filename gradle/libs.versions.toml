@@ -1,0 +1,10 @@
+[versions]
+kotlin = "1.8.22"
+
+[plugins]
+mutliplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+[libraries]
+serializationJson = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.5.1" }
+kotlinTest = { group = "org.jetbrains.kotlin", name = "kotlin-test"}
