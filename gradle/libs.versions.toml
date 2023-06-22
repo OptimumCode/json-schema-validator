@@ -1,10 +1,14 @@
 [versions]
 kotlin = "1.8.22"
+kotest = "5.5.4"
 
 [plugins]
-mutliplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-mutliplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotest-multiplatform = { id = "io.kotest.multiplatform", version.ref = "kotest" }
 
 [libraries]
-serializationJson = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.5.1" }
-kotlinTest = { group = "org.jetbrains.kotlin", name = "kotlin-test"}
+kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.5.1" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
