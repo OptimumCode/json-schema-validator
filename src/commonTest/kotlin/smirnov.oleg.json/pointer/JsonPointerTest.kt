@@ -2,73 +2,90 @@ package smirnov.oleg.json.pointer
 
 import io.kotest.assertions.asClue
 import io.kotest.assertions.assertSoftly
-import io.kotest.assertions.withClue
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldStartWith
+import io.kotest.matchers.types.beOfType
 import io.kotest.matchers.types.shouldBeSameInstanceAs
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.buildJsonArray
-import kotlinx.serialization.json.buildJsonObject
 
 @Suppress("unused")
 class JsonPointerTest : FunSpec() {
   init {
-      listOf(
-        buildJsonObject {
-          put("test", JsonPrimitive("a"))
-        },
-        buildJsonArray {
-          add(JsonPrimitive("a"))
-        },
-        JsonPrimitive("a"),
-      ).forEach {
-        test("root pointer should match ${it::class.simpleName}") {
-          val element: JsonElement? = it.at(JsonPointer.ROOT)
-          withClue("is the same instance") {
-            element shouldBeSameInstanceAs it
-          }
-        }
-      }
-
-    test("returns property from object") {
-      val jsonObject = buildJsonObject {
-        put("test", JsonPrimitive("a"))
-      }
-
-      jsonObject.at(JsonPointer("/test")) shouldBe JsonPrimitive("a")
+    test("empty string results empty pointer") {
+      JsonPointer("") shouldBeSameInstanceAs EmptyPointer
     }
-
-    test("returns array element") {
-      val array = buildJsonArray {
-        add(JsonPrimitive("a"))
+    test("pointer should start with /") {
+      val exception = shouldThrow<IllegalArgumentException> { JsonPointer("slash") }
+      exception.message shouldStartWith "JSON pointer must start from /"
+    }
+    listOf(
+      "zero",
+      "01",
+      "10000000000",
+      "0a",
+      "2147483648", // more than Int.MAX
+    ).forEach {
+      test("$it is not an index") {
+        JsonPointer("/$it").assertSegment(property = it, index = -1)
       }
-      array.at(JsonPointer("/0")) shouldBe JsonPrimitive("a")
     }
 
     listOf(
-      '~' to "~0",
-      '/' to "~1"
-    ).forEach { (actual, escaped) ->
-      test("handles escaped charter $escaped as $actual") {
-        val jsonObject = buildJsonObject {
-          put("name${actual}field", JsonPrimitive("a"))
-          put("${actual}field", JsonPrimitive("b"))
-          put("name${actual}", JsonPrimitive("c"))
-        }
+      "0",
+      "1",
+      "256",
+      "2147483646",
+    ).forEach {
+      test("$it is an index") {
+        JsonPointer("/$it").assertSegment(property = it, index = it.toInt())
+      }
+    }
 
-        assertSoftly {
-          JsonPointer("/name${escaped}field").asClue {
-            jsonObject.at(it) shouldBe JsonPrimitive("a")
-          }
-          JsonPointer("/${escaped}field").asClue {
-            jsonObject.at(it) shouldBe JsonPrimitive("b")
-          }
-          JsonPointer("/name${escaped}").asClue {
-            jsonObject.at(it) shouldBe JsonPrimitive("c")
-          }
+    test("extracts segment path") {
+      val pointer = JsonPointer("/first/second")
+      assertSoftly {
+        pointer.assertSegment(property = "first")
+        pointer.next shouldNotBe null
+        pointer.next!!.assertSegment(property = "second")
+        pointer.next?.next shouldBe EmptyPointer
+      }
+    }
+
+
+    listOf(
+      '/' to "~1",
+      '~' to "~0",
+    ).forEach { (actual, escaped) ->
+      test("parses escaped character '$escaped' as '$actual'") {
+        val pointer = JsonPointer("/$escaped")
+        pointer.assertSegment("$actual")
+      }
+
+      test("parses several escaped characters '$escaped' as '$actual'") {
+        val pointer = JsonPointer("/${escaped}and$escaped/test")
+        pointer.assertSegment("${actual}and$actual")
+        pointer.next.apply {
+          shouldNotBe(null)
+          this!!.assertSegment("test")
         }
       }
+    }
+
+    test("correctly reads ~ at the end") {
+      val pointer = JsonPointer("/~")
+      pointer.assertSegment(property = "~")
+    }
+  }
+
+  private fun JsonPointer.assertSegment(property: String, index: Int = -1) {
+    asClue {
+      this should beOfType<SegmentPointer>()
+      this as SegmentPointer
+      this.propertyName shouldBe property
+      this.index shouldBe index
     }
   }
 }
