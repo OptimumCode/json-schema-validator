@@ -2,6 +2,7 @@ plugins {
   alias(libs.plugins.kotlin.mutliplatform)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.kotest.multiplatform)
+  alias(libs.plugins.kover)
 }
 
 repositories {
