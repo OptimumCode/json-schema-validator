@@ -50,7 +50,7 @@ class JsonPointerTest : FunSpec() {
         pointer.assertSegment(property = "first")
         pointer.next shouldNotBe null
         pointer.next!!.assertSegment(property = "second")
-        pointer.next?.next shouldBe EmptyPointer
+        pointer.next.next shouldBe EmptyPointer
       }
     }
 

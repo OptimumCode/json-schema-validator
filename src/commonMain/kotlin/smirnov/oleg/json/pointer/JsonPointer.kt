@@ -7,7 +7,7 @@ fun JsonPointer(path: String): JsonPointer = JsonPointer.compile(path)
 sealed class JsonPointer(
   private val fullPath: String,
   private val pathOffset: Int,
-  val next: JsonPointer? = null,
+  internal val next: JsonPointer? = null,
 ) {
 
   override fun toString(): String {
