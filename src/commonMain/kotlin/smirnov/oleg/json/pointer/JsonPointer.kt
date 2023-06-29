@@ -18,6 +18,23 @@ sealed class JsonPointer(
     }
   }
 
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (other == null || this::class != other::class) return false
+
+    other as JsonPointer
+
+    if (fullPath != other.fullPath) return false
+    return pathOffset == other.pathOffset
+  }
+
+  override fun hashCode(): Int {
+    var result = fullPath.hashCode()
+    result = 31 * result + pathOffset
+    return result
+  }
+
+
   companion object {
     const val SEPARATOR: Char = '/'
     const val QUOTATION: Char = '~'

@@ -70,5 +70,15 @@ class JsonPointerWorkTest : FunSpec() {
         }
       }
     }
+
+    listOf(
+      "",
+      "/test",
+      "/0/test",
+    ).forEach {
+      test("two pointers with path $it are equal") {
+        JsonPointer(it) shouldBe JsonPointer(it)
+      }
+    }
   }
 }
