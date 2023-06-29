@@ -9,16 +9,13 @@ import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.longOrNull
 import smirnov.oleg.json.pointer.JsonPointer
-import smirnov.oleg.json.pointer.div
 import smirnov.oleg.json.schema.ErrorCollector
 import smirnov.oleg.json.schema.ValidationError
 import smirnov.oleg.json.schema.internal.AssertionContext
-import smirnov.oleg.json.schema.internal.AssertionFactory
 import smirnov.oleg.json.schema.internal.JsonSchemaAssertion
 import smirnov.oleg.json.schema.internal.LoadingContext
 
-internal object TypeAssertionFactory : AssertionFactory {
-  private const val typeProperty: String = "type"
+internal object TypeAssertionFactory : AbstractAssertionFactory("type") {
 
   private val typeValidations: Map<String, Validation> = mapOf<String, (JsonElement) -> Boolean>(
     "null" to { it is JsonNull },
@@ -30,22 +27,16 @@ internal object TypeAssertionFactory : AssertionFactory {
     "object" to { it is JsonObject },
   ).mapValues { Validation(it.key, it.value) }
 
-  override fun isApplicable(element: JsonElement): Boolean {
-    return element is JsonObject && element.contains(typeProperty)
-  }
-
-  override fun create(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
-    require(element is JsonObject) { "cannot extract $typeProperty property from ${element::class.simpleName}" }
-    val typeElement = requireNotNull(element[typeProperty]) { "no property $typeProperty found in element $element" }
-    return when (typeElement) {
-      is JsonPrimitive -> createFromPrimitive(typeElement, context)
-      is JsonArray -> createFromArray(typeElement, context)
-      else -> throw IllegalArgumentException("$typeProperty must be either array or a primitive")
+  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+    return when (element) {
+      is JsonPrimitive -> createFromPrimitive(element, context)
+      is JsonArray -> createFromArray(element, context)
+      else -> throw IllegalArgumentException("$property must be either array or a primitive")
     }
   }
 
   private fun createFromArray(typeElement: JsonArray, context: LoadingContext): JsonSchemaAssertion {
-    require(typeElement.isNotEmpty()) { "$typeProperty must be a non empty array if it is not a string" }
+    require(typeElement.isNotEmpty()) { "$property must be a non empty array if it is not a string" }
     require(typeElement.all { it is JsonPrimitive && it.isString }) {
       "each element must be a string"
     }
@@ -53,15 +44,15 @@ internal object TypeAssertionFactory : AssertionFactory {
     require(types.toSet().size == types.size) { "array must consist of unique values" }
     val unknown = types.filter { it !in typeValidations.keys }
     require(unknown.isEmpty()) { "unknown types: $unknown (known: ${typeValidations.keys})" }
-    return TypeAssertion(context.schemaPath / typeProperty, types.map { requireNotNull(typeValidations[it]) { "unknown type $it" } })
+    return TypeAssertion(context.schemaPath, types.map { requireNotNull(typeValidations[it]) { "unknown type $it" } })
   }
 
   private fun createFromPrimitive(typeElement: JsonPrimitive, context: LoadingContext): JsonSchemaAssertion {
-    require(typeElement.isString) { "$typeProperty must be a string if it is not an array" }
+    require(typeElement.isString) { "$property must be a string if it is not an array" }
     val type = typeElement.content
     val validation: Validation =
       requireNotNull(typeValidations[type]) { "unknown type $type (known: ${typeValidations.keys})" }
-    return TypeAssertion(context.schemaPath / typeProperty, listOf(validation))
+    return TypeAssertion(context.schemaPath, listOf(validation))
   }
 }
 
