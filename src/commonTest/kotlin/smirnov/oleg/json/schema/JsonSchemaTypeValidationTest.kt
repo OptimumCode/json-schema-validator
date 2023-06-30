@@ -1,6 +1,7 @@
 package smirnov.oleg.json.schema
 
 import io.kotest.assertions.asClue
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainOnly
@@ -100,6 +101,81 @@ class JsonSchemaTypeValidationTest : FunSpec() {
         valid shouldBe true
         errors shouldHaveSize 0
       }
+    }
+    test("unknown type") {
+      shouldThrow<IllegalArgumentException> {
+        JsonSchema.fromDescription(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "type": "unknown"
+          }
+          """.trimIndent()
+        )
+      }.message shouldBe "unknown type 'unknown' (known: [null, string, boolean, number, integer, array, object])"
+    }
+    test("unknown type in array") {
+      shouldThrow<IllegalArgumentException> {
+        JsonSchema.fromDescription(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "type": ["unknown","number"]
+          }
+          """.trimIndent()
+        )
+      }.message shouldBe "unknown types [unknown] (known: [null, string, boolean, number, integer, array, object])"
+    }
+    test("type not a string") {
+      shouldThrow<IllegalArgumentException> {
+        JsonSchema.fromDescription(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "type": 42
+          }
+          """.trimIndent()
+        )
+      }.message shouldBe "type must be a string if it is not an array"
+    }
+
+    test("type array not a string") {
+      shouldThrow<IllegalArgumentException> {
+        JsonSchema.fromDescription(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "type": [42]
+          }
+          """.trimIndent()
+        )
+      }.message shouldBe "each type element must be a string"
+    }
+
+    test("duplicates in array") {
+      shouldThrow<IllegalArgumentException> {
+        JsonSchema.fromDescription(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "type": ["number", "string", "number"]
+          }
+          """.trimIndent()
+        )
+      }.message shouldBe "array must consist of unique values"
+    }
+
+    test("neither array or string") {
+      shouldThrow<IllegalArgumentException> {
+        JsonSchema.fromDescription(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "type": {"type": "number"}
+          }
+          """.trimIndent()
+        )
+      }.message shouldBe "type must be either array or a string"
     }
   }
 }
