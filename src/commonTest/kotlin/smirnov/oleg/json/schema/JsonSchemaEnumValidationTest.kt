@@ -85,5 +85,17 @@ class JsonSchemaEnumValidationTest : FunSpec() {
         )
       }.message shouldBe "enum must consist of unique elements"
     }
+    test("empty array") {
+      shouldThrow<IllegalArgumentException> {
+        JsonSchema.fromDescription(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "enum": []
+          }
+          """.trimIndent()
+        )
+      }.message shouldBe "enum must have at least one element"
+    }
   }
 }
