@@ -7,19 +7,24 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainOnly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.JsonUnquotedLiteral
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 
+@OptIn(ExperimentalSerializationApi::class)
 @Suppress("unused")
 class JsonSchemaTypeValidationTest : FunSpec() {
   init {
     val possibleTypes = mapOf(
       "boolean" to JsonPrimitive(true),
       "string" to JsonPrimitive("true"),
-      "number" to JsonPrimitive(42.0),
+      // JsonUnquotedLiteral is used to bypass the JS conversion to integer value
+      // If we use JsonPrimitive(42.0) the 42.0 will be converted to 42
+      "number" to JsonUnquotedLiteral("42.0"),
       "integer" to JsonPrimitive(42),
       "null" to JsonNull,
       "array" to buildJsonArray {},
