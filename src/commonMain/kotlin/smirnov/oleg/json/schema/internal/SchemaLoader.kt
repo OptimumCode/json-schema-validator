@@ -3,6 +3,7 @@ package smirnov.oleg.json.schema.internal
 import kotlinx.serialization.json.JsonObject
 import smirnov.oleg.json.schema.internal.factories.ConstAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.EnumAssertionFactory
+import smirnov.oleg.json.schema.internal.factories.MaximumAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.MultipleOfAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.TypeAssertionFactory
 
@@ -11,6 +12,7 @@ private val factories: List<AssertionFactory> = listOf(
   EnumAssertionFactory,
   ConstAssertionFactory,
   MultipleOfAssertionFactory,
+  MaximumAssertionFactory,
 )
 
 class SchemaLoader {
