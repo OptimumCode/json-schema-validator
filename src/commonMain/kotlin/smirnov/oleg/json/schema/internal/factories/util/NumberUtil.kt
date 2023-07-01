@@ -30,6 +30,7 @@ internal operator fun Number.compareTo(maxValue: Number): Int {
 internal class NumberComparisonAssertion(
   private val path: JsonPointer,
   private val boundary: Number,
+  private val boundaryContent: String,
   private val errorMessage: String,
   private val check: (Number, Number) -> Boolean,
 ) : JsonSchemaAssertion {
@@ -45,7 +46,7 @@ internal class NumberComparisonAssertion(
       ValidationError(
         schemaPath = path,
         objectPath = context.objectPath,
-        message = "${element.content} $errorMessage $boundary",
+        message = "${element.content} $errorMessage $boundaryContent",
       )
     )
     return false

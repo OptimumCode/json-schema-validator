@@ -26,6 +26,7 @@ internal object MultipleOfAssertionFactory : AbstractAssertionFactory("multipleO
     return NumberComparisonAssertion(
       context.schemaPath,
       multipleOfValue,
+      element.content,
       errorMessage = "is not a multiple of",
       check = ::isMultipleOf,
     )

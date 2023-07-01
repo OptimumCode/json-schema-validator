@@ -4,16 +4,19 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.JsonUnquotedLiteral
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 
+@OptIn(ExperimentalSerializationApi::class)
 @Suppress("unused")
 class JsonSchemaMaximumValidationTest : FunSpec() {
   init {
-    listOf(10, 10.0).forEach { number ->
+    listOf("10", "10.0").forEach { number ->
       val schemaPositive = JsonSchema.fromDescription(
         """
         {
@@ -24,7 +27,8 @@ class JsonSchemaMaximumValidationTest : FunSpec() {
       )
       listOf(
         JsonPrimitive(10),
-        JsonPrimitive(10.0),
+        // Because 10.0 in JS is 10
+        JsonUnquotedLiteral("10.0"),
         JsonPrimitive(9.5),
         JsonPrimitive(9),
       ).forEach {

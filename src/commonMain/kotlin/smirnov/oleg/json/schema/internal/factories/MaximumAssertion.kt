@@ -18,6 +18,7 @@ internal object MaximumAssertionFactory : AbstractAssertionFactory("maximum") {
     return NumberComparisonAssertion(
       context.schemaPath,
       maximumValue,
+      element.content,
       errorMessage = "must be less or equal to",
       ) { a, b -> a <= b  }
   }
