@@ -1,4 +1,4 @@
-package smirnov.oleg.json.schema
+package smirnov.oleg.json.schema.assertions.number
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
@@ -8,6 +8,9 @@ import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
+import smirnov.oleg.json.schema.JsonSchema
+import smirnov.oleg.json.schema.KEY
+import smirnov.oleg.json.schema.ValidationError
 
 @Suppress("unused")
 class JsonSchemaMultipleOfValidationTest : FunSpec() {

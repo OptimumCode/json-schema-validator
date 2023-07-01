@@ -1,14 +1,14 @@
 package smirnov.oleg.json.schema.internal
 
 import kotlinx.serialization.json.JsonObject
-import smirnov.oleg.json.schema.internal.factories.ConstAssertionFactory
-import smirnov.oleg.json.schema.internal.factories.EnumAssertionFactory
-import smirnov.oleg.json.schema.internal.factories.ExclusiveMaximumAssertionFactory
-import smirnov.oleg.json.schema.internal.factories.ExclusiveMinimumAssertionFactory
-import smirnov.oleg.json.schema.internal.factories.MaximumAssertionFactory
-import smirnov.oleg.json.schema.internal.factories.MinimumAssertionFactory
-import smirnov.oleg.json.schema.internal.factories.MultipleOfAssertionFactory
-import smirnov.oleg.json.schema.internal.factories.TypeAssertionFactory
+import smirnov.oleg.json.schema.internal.factories.general.ConstAssertionFactory
+import smirnov.oleg.json.schema.internal.factories.general.EnumAssertionFactory
+import smirnov.oleg.json.schema.internal.factories.general.TypeAssertionFactory
+import smirnov.oleg.json.schema.internal.factories.number.ExclusiveMaximumAssertionFactory
+import smirnov.oleg.json.schema.internal.factories.number.ExclusiveMinimumAssertionFactory
+import smirnov.oleg.json.schema.internal.factories.number.MaximumAssertionFactory
+import smirnov.oleg.json.schema.internal.factories.number.MinimumAssertionFactory
+import smirnov.oleg.json.schema.internal.factories.number.MultipleOfAssertionFactory
 
 private val factories: List<AssertionFactory> = listOf(
   TypeAssertionFactory,

@@ -1,4 +1,4 @@
-package smirnov.oleg.json.schema
+package smirnov.oleg.json.schema.assertions.number
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
@@ -11,26 +11,28 @@ import kotlinx.serialization.json.JsonUnquotedLiteral
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
+import smirnov.oleg.json.schema.JsonSchema
+import smirnov.oleg.json.schema.KEY
+import smirnov.oleg.json.schema.ValidationError
 
 @OptIn(ExperimentalSerializationApi::class)
 @Suppress("unused")
-class JsonSchemaMaximumValidationTest : FunSpec() {
+class JsonSchemaExclusiveMaximumValidationTest : FunSpec() {
   init {
     listOf("10", "10.0").forEach { number ->
       val schemaPositive = JsonSchema.fromDescription(
         """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-          "maximum": $number
+          "exclusiveMaximum": $number
         }
         """.trimIndent()
       )
       listOf(
-        JsonPrimitive(10),
-        // Because 10.0 in JS is 10
-        JsonUnquotedLiteral("10.0"),
-        JsonPrimitive(9.5),
         JsonPrimitive(9),
+        JsonPrimitive(9.99),
+        JsonPrimitive(8),
+        JsonPrimitive(8.5),
       ).forEach {
         test("$it passes validation against $number") {
           val errors = mutableListOf<ValidationError>()
@@ -43,6 +45,9 @@ class JsonSchemaMaximumValidationTest : FunSpec() {
       listOf(
         JsonPrimitive(11),
         JsonPrimitive(10.1),
+        JsonPrimitive(10),
+        // Because 10.0 in JS is 10
+        JsonUnquotedLiteral("10.0"),
       ).forEach {
         test("$it fails validation against $number") {
           val errors = mutableListOf<ValidationError>()
@@ -50,9 +55,9 @@ class JsonSchemaMaximumValidationTest : FunSpec() {
           valid shouldBe false
           errors.shouldContainExactly(
             ValidationError(
-              schemaPath = JsonPointer("/maximum"),
+              schemaPath = JsonPointer("/exclusiveMaximum"),
               objectPath = JsonPointer.ROOT,
-              message = "$it must be less or equal to $number",
+              message = "$it must be less than $number",
             )
           )
         }
@@ -63,7 +68,7 @@ class JsonSchemaMaximumValidationTest : FunSpec() {
       """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-          "maximum": 10
+          "exclusiveMaximum": 10
         }
         """.trimIndent()
     )

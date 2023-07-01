@@ -1,4 +1,4 @@
-package smirnov.oleg.json.schema.internal.factories
+package smirnov.oleg.json.schema.internal.factories.general
 
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
@@ -8,6 +8,7 @@ import smirnov.oleg.json.schema.ValidationError
 import smirnov.oleg.json.schema.internal.AssertionContext
 import smirnov.oleg.json.schema.internal.JsonSchemaAssertion
 import smirnov.oleg.json.schema.internal.LoadingContext
+import smirnov.oleg.json.schema.internal.factories.AbstractAssertionFactory
 
 internal object EnumAssertionFactory : AbstractAssertionFactory("enum") {
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {

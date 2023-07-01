@@ -1,4 +1,4 @@
-package smirnov.oleg.json.schema
+package smirnov.oleg.json.schema.assertions.number
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
@@ -11,6 +11,9 @@ import kotlinx.serialization.json.JsonUnquotedLiteral
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
+import smirnov.oleg.json.schema.JsonSchema
+import smirnov.oleg.json.schema.KEY
+import smirnov.oleg.json.schema.ValidationError
 
 @OptIn(ExperimentalSerializationApi::class)
 @Suppress("unused")

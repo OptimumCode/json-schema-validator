@@ -1,4 +1,4 @@
-package smirnov.oleg.json.schema
+package smirnov.oleg.json.schema.assertions.number
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
@@ -11,25 +11,29 @@ import kotlinx.serialization.json.JsonUnquotedLiteral
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
+import smirnov.oleg.json.schema.JsonSchema
+import smirnov.oleg.json.schema.KEY
+import smirnov.oleg.json.schema.ValidationError
 
 @OptIn(ExperimentalSerializationApi::class)
 @Suppress("unused")
-class JsonSchemaExclusiveMinimumValidationTest : FunSpec() {
+class JsonSchemaMaximumValidationTest : FunSpec() {
   init {
     listOf("10", "10.0").forEach { number ->
       val schemaPositive = JsonSchema.fromDescription(
         """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-          "exclusiveMinimum": $number
+          "maximum": $number
         }
         """.trimIndent()
       )
       listOf(
-        JsonPrimitive(11),
-        JsonPrimitive(10.01),
-        JsonPrimitive(12),
-        JsonPrimitive(11.5),
+        JsonPrimitive(10),
+        // Because 10.0 in JS is 10
+        JsonUnquotedLiteral("10.0"),
+        JsonPrimitive(9.5),
+        JsonPrimitive(9),
       ).forEach {
         test("$it passes validation against $number") {
           val errors = mutableListOf<ValidationError>()
@@ -40,11 +44,8 @@ class JsonSchemaExclusiveMinimumValidationTest : FunSpec() {
       }
 
       listOf(
-        JsonPrimitive(10),
-        // Because 10.0 in JS is 10
-        JsonUnquotedLiteral("10.0"),
-        JsonPrimitive(9),
-        JsonPrimitive(9.99),
+        JsonPrimitive(11),
+        JsonPrimitive(10.1),
       ).forEach {
         test("$it fails validation against $number") {
           val errors = mutableListOf<ValidationError>()
@@ -52,9 +53,9 @@ class JsonSchemaExclusiveMinimumValidationTest : FunSpec() {
           valid shouldBe false
           errors.shouldContainExactly(
             ValidationError(
-              schemaPath = JsonPointer("/exclusiveMinimum"),
+              schemaPath = JsonPointer("/maximum"),
               objectPath = JsonPointer.ROOT,
-              message = "$it must be greater than $number",
+              message = "$it must be less or equal to $number",
             )
           )
         }
@@ -65,7 +66,7 @@ class JsonSchemaExclusiveMinimumValidationTest : FunSpec() {
       """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-          "exclusiveMinimum": 10
+          "maximum": 10
         }
         """.trimIndent()
     )

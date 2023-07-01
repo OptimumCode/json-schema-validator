@@ -1,4 +1,4 @@
-package smirnov.oleg.json.schema.internal.factories.util
+package smirnov.oleg.json.schema.internal.factories.number.util
 
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
