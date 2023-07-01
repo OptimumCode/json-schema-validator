@@ -14,13 +14,13 @@ import smirnov.oleg.json.schema.KEY
 import smirnov.oleg.json.schema.ValidationError
 
 @Suppress("unused")
-class JsonShameMinLengthValidationTest : FunSpec() {
+class JsonSchemaMaxLengthValidationTest : FunSpec() {
   init {
     val schema = JsonSchema.fromDescription(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-        "minLength": 10
+        "maxLength": 20
       }
       """.trimIndent()
     )
@@ -29,8 +29,9 @@ class JsonShameMinLengthValidationTest : FunSpec() {
       "OQF1dZuGiXPBwNI2enQ2",
       "ⱜ⠚\u2FDBⲢ⯕⃣⠽␁⧂\u245D≻\u2FDD╉♊\u20CF⯟ℯ∙⧩",
       "JpEblYiJE57H70qGNXs",
-      "ⅵ┡\u243A⢻␀⁾⡪∛⫑⏽",
-      "Si1kaAhdpS",
+      "╒",
+      "V",
+      ""
     )
     for (str in validStrings) {
       test("'$str' passes validation") {
@@ -42,11 +43,9 @@ class JsonShameMinLengthValidationTest : FunSpec() {
     }
 
     val invalidStrings = listOf(
-      "5z0byD49N",
-      "⸖⿻ⲏ⯥ⲃ⮔∸ⲷ▭",
-      " ⍘↽♔⚪➕ⷰ➖",
-      "⧦",
-      "",
+      "EFDzZMRawYGD9eNfknAUB",
+      "⌻ⲝ⣞ℤ⸍⠗⠜ↈ✋☧⾛✩ⓥ⇩⡽⚘\u20FC◭┐⥸⒗",
+      "⠺⪒⑸⋶⥠⇀⨑⨋ⅸ⥼\u245F⏇Ⓙⴷ⻘⢢≧\u20C8⬫⡜⸁",
     )
     for (str in invalidStrings) {
       test("'$str' does not pass validation") {
@@ -55,9 +54,9 @@ class JsonShameMinLengthValidationTest : FunSpec() {
         valid shouldBe false
         errors.shouldContainExactly(
           ValidationError(
-            schemaPath = JsonPointer("/minLength"),
+            schemaPath = JsonPointer("/maxLength"),
             objectPath = JsonPointer.ROOT,
-            message = "string length (${str.length}) must be greater or equal to 10",
+            message = "string length (${str.length}) must be less or equal to 20",
           )
         )
       }
