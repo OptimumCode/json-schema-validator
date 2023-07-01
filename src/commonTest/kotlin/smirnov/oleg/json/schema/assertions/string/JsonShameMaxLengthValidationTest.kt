@@ -4,7 +4,10 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
 import smirnov.oleg.json.schema.KEY
@@ -56,6 +59,22 @@ class JsonShameMaxLengthValidationTest : FunSpec() {
             message = "string length (${str.length}) must be less or equal to 20",
           )
         )
+      }
+    }
+
+    listOf(
+      JsonPrimitive(true),
+      JsonPrimitive(42.1),
+      JsonPrimitive(42),
+      JsonNull,
+      buildJsonObject { },
+      buildJsonArray { },
+    ).forEach {
+      test("$it passes validation") {
+        val errors = mutableListOf<ValidationError>()
+        val valid = schema.validate(it, errors::add)
+        valid shouldBe true
+        errors shouldHaveSize 0
       }
     }
   }
