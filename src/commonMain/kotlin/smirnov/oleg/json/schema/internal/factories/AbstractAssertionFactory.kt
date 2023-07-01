@@ -7,6 +7,9 @@ import smirnov.oleg.json.schema.internal.JsonSchemaAssertion
 import smirnov.oleg.json.schema.internal.LoadingContext
 
 internal abstract class AbstractAssertionFactory(
+  /**
+   * JSON property name that will be used to extract element for assertion from JSON schema definition
+   */
   protected val property: String,
 ) : AssertionFactory {
   final override fun isApplicable(element: JsonElement): Boolean {
