@@ -1,6 +1,11 @@
 package smirnov.oleg.json.schema.internal
 
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.boolean
+import kotlinx.serialization.json.booleanOrNull
+import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.internal.factories.general.ConstAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.general.EnumAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.general.TypeAssertionFactory
@@ -28,9 +33,35 @@ private val factories: List<AssertionFactory> = listOf(
 )
 
 class SchemaLoader {
-  fun load(schemaDefinition: JsonObject): JsonSchemaAssertion {
+  fun load(schemaDefinition: JsonElement): JsonSchemaAssertion {
+    return loadSchema(schemaDefinition)
+  }
+
+  private fun loadSchema(
+    schemaDefinition: JsonElement,
+    context: LoadingContext = defaultLoadingContext()
+  ): JsonSchemaAssertion {
+    require(
+      schemaDefinition is JsonObject
+          || (schemaDefinition is JsonPrimitive && schemaDefinition.booleanOrNull != null)
+    ) {
+      "schema must be either a valid JSON object or boolean"
+    }
+    if (schemaDefinition is JsonPrimitive) {
+      return if (schemaDefinition.boolean) {
+        TrueSchemaAssertion
+      } else {
+        FalseSchemaAssertion(path = JsonPointer.ROOT)
+      }
+    }
     val assertions = factories.filter { it.isApplicable(schemaDefinition) }
-      .map { it.create(schemaDefinition, DefaultLoadingContext()) }
+      .map {
+        it.create(schemaDefinition, context)
+      }
     return AssertionsCollection(assertions)
+  }
+
+  private fun defaultLoadingContext(): DefaultLoadingContext = DefaultLoadingContext { el, context ->
+    loadSchema(el, context)
   }
 }

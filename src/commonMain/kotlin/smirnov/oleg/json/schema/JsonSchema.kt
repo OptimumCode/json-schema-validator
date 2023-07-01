@@ -20,7 +20,6 @@ class JsonSchema internal constructor(
     @JvmStatic
     fun fromDescription(schema: String): JsonSchema {
       val schemaElement: JsonElement = Json.parseToJsonElement(schema)
-      require(schemaElement is JsonObject) { "schema must be a valid JSON object but was ${schemaElement::class.simpleName}" }
       val schemaAssertion = SchemaLoader().load(schemaElement)
       return JsonSchema(schemaAssertion)
     }

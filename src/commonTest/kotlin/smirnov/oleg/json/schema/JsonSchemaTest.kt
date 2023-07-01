@@ -8,7 +8,7 @@ internal const val KEY = "\$"
 @Suppress("unused")
 class JsonSchemaTest : FunSpec() {
   init {
-    test("loads schema from string description") {
+    test("loads schema object from string description") {
       shouldNotThrowAny {
         JsonSchema.fromDescription(
           """
@@ -18,6 +18,18 @@ class JsonSchemaTest : FunSpec() {
           }
           """.trimIndent()
         )
+      }
+    }
+
+    test("loads true schema from string description") {
+      shouldNotThrowAny {
+        JsonSchema.fromDescription("true")
+      }
+    }
+
+    test("loads false schema from string description") {
+      shouldNotThrowAny {
+        JsonSchema.fromDescription("false")
       }
     }
   }
