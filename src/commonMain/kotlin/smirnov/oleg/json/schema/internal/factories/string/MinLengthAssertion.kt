@@ -13,11 +13,11 @@ import smirnov.oleg.json.schema.internal.LoadingContext
 import smirnov.oleg.json.schema.internal.factories.AbstractAssertionFactory
 
 @Suppress("unused")
-internal object MaxLengthAssertionFactory : AbstractAssertionFactory("maxLength") {
+internal object MinLengthAssertionFactory : AbstractAssertionFactory("minLength") {
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
     require(element is JsonPrimitive && !element.isString) { "$property must be an integer" }
-    val maxLength = requireNotNull(element.intOrNull) { "$property must be a valid integer" }
-    require(maxLength >= 0) { "$property must be a non-negative integer" }
-    return LengthAssertion(context.schemaPath, maxLength, "must be less or equal to") { a, b -> a <= b }
+    val minLength = requireNotNull(element.intOrNull) { "$property must be a valid integer" }
+    require(minLength >= 0) { "$property must be a non-negative integer" }
+    return LengthAssertion(context.schemaPath, minLength, "must be greater or equal to") { a, b -> a >= b }
   }
 }
