@@ -10,6 +10,7 @@ import smirnov.oleg.json.schema.ValidationError
 import smirnov.oleg.json.schema.internal.AssertionContext
 import smirnov.oleg.json.schema.internal.JsonSchemaAssertion
 import smirnov.oleg.json.schema.internal.LoadingContext
+import smirnov.oleg.json.schema.internal.factories.util.NumberComparisonAssertion
 
 @Suppress("unused")
 internal object MultipleOfAssertionFactory : AbstractAssertionFactory("multipleOf") {
@@ -22,36 +23,19 @@ internal object MultipleOfAssertionFactory : AbstractAssertionFactory("multipleO
       is Long -> multipleOfValue > 0
       else -> error("unexpected value type ${multipleOfValue::class.simpleName}")
     }) { "$property value ${element.content} must be greater than zero" }
-    return MultipleOfAssertion(context.schemaPath, multipleOfValue)
+    return NumberComparisonAssertion(
+      context.schemaPath,
+      multipleOfValue,
+      errorMessage = "is not a multiple of",
+      check = ::isMultipleOf,
+    )
   }
 }
 
-private class MultipleOfAssertion(
-  private val path: JsonPointer,
-  private val multipleOfValue: Number,
-) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
-    if (element !is JsonPrimitive || element.isString) {
-      return true
-    }
-    val isMultipleOf = when (val number = element.longOrNull ?: element.doubleOrNull) {
-      is Double -> number isMultipleOf multipleOfValue
-      is Long -> number isMultipleOf multipleOfValue
-      null -> true
-      else -> false
-    }
-    if (isMultipleOf) {
-      return true
-    }
-    errorCollector.onError(
-      ValidationError(
-        schemaPath = path,
-        objectPath = context.objectPath,
-        message = "${element.content} is not a multiple of $multipleOfValue"
-      )
-    )
-    return false
-  }
+private fun isMultipleOf(a: Number, b: Number): Boolean = when (a) {
+  is Double -> a isMultipleOf b
+  is Long -> a isMultipleOf b
+  else -> false
 }
 
 private infix fun Double.isMultipleOf(number: Number): Boolean = when (number) {
