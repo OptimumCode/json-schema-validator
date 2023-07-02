@@ -8,6 +8,7 @@ import kotlinx.serialization.json.booleanOrNull
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.pointer.div
 import smirnov.oleg.json.pointer.get
+import smirnov.oleg.json.schema.internal.factories.array.ContainsAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.array.ItemsAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.array.MaxItemsAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.array.MinItemsAssertionFactory
@@ -40,6 +41,7 @@ private val factories: List<AssertionFactory> = listOf(
   MaxItemsAssertionFactory,
   MinItemsAssertionFactory,
   UniqueItemsAssertionFactory,
+  ContainsAssertionFactory,
 )
 
 class SchemaLoader {
