@@ -9,6 +9,7 @@ import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.pointer.div
 import smirnov.oleg.json.pointer.get
 import smirnov.oleg.json.schema.internal.factories.array.ItemsAssertionFactory
+import smirnov.oleg.json.schema.internal.factories.array.MaxItemsAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.general.ConstAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.general.EnumAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.general.TypeAssertionFactory
@@ -34,6 +35,7 @@ private val factories: List<AssertionFactory> = listOf(
   MinLengthAssertionFactory,
   PatternAssertionFactory,
   ItemsAssertionFactory,
+  MaxItemsAssertionFactory,
 )
 
 class SchemaLoader {
