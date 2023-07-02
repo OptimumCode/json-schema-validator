@@ -13,7 +13,7 @@ internal class FalseSchemaAssertion(
       ValidationError(
         schemaPath = path,
         objectPath = context.objectPath,
-        message = "All values fail against the false schema",
+        message = "all values fail against the false schema",
       )
     )
     return false

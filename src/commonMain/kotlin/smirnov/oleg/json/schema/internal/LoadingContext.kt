@@ -11,21 +11,15 @@ interface LoadingContext {
   fun at(property: String): LoadingContext
   fun at(index: Int): LoadingContext
 
+  /**
+   * Returns [JsonSchemaAssertion] generated from [element] JSON schema.
+   * @throws IllegalArgumentException [element] is not a valid schema
+   */
   fun schemaFrom(element: JsonElement): JsonSchemaAssertion
-}
 
-data class DefaultLoadingContext(
-  override val schemaPath: JsonPointer = JsonPointer.ROOT,
-  private val schemaSupplier: (JsonElement, LoadingContext) -> JsonSchemaAssertion,
-) : LoadingContext {
-  override fun at(property: String): LoadingContext {
-    return copy(schemaPath = schemaPath / property)
-  }
-
-  override fun at(index: Int): LoadingContext {
-    return copy(schemaPath = schemaPath[index])
-  }
-
-  override fun schemaFrom(element: JsonElement): JsonSchemaAssertion = schemaSupplier(element, this)
-
+  /**
+   * Returns `true` if JSON schema can be created from passed [element].
+   * Otherwise, returns `false`
+   */
+  fun isJsonSchema(element: JsonElement): Boolean
 }

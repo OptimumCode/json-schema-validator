@@ -6,6 +6,9 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.booleanOrNull
 import smirnov.oleg.json.pointer.JsonPointer
+import smirnov.oleg.json.pointer.div
+import smirnov.oleg.json.pointer.get
+import smirnov.oleg.json.schema.internal.factories.array.ItemsAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.general.ConstAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.general.EnumAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.general.TypeAssertionFactory
@@ -30,38 +33,50 @@ private val factories: List<AssertionFactory> = listOf(
   MaxLengthAssertionFactory,
   MinLengthAssertionFactory,
   PatternAssertionFactory,
+  ItemsAssertionFactory,
 )
 
 class SchemaLoader {
   fun load(schemaDefinition: JsonElement): JsonSchemaAssertion {
     return loadSchema(schemaDefinition)
   }
-
-  private fun loadSchema(
-    schemaDefinition: JsonElement,
-    context: LoadingContext = defaultLoadingContext()
-  ): JsonSchemaAssertion {
-    require(
-      schemaDefinition is JsonObject
-          || (schemaDefinition is JsonPrimitive && schemaDefinition.booleanOrNull != null)
-    ) {
-      "schema must be either a valid JSON object or boolean"
-    }
-    if (schemaDefinition is JsonPrimitive) {
-      return if (schemaDefinition.boolean) {
-        TrueSchemaAssertion
-      } else {
-        FalseSchemaAssertion(path = JsonPointer.ROOT)
-      }
-    }
-    val assertions = factories.filter { it.isApplicable(schemaDefinition) }
-      .map {
-        it.create(schemaDefinition, context)
-      }
-    return AssertionsCollection(assertions)
-  }
-
-  private fun defaultLoadingContext(): DefaultLoadingContext = DefaultLoadingContext { el, context ->
-    loadSchema(el, context)
-  }
 }
+
+private fun loadSchema(
+  schemaDefinition: JsonElement,
+  context: LoadingContext = defaultLoadingContext()
+): JsonSchemaAssertion {
+  require(context.isJsonSchema(schemaDefinition)) {
+    "schema must be either a valid JSON object or boolean"
+  }
+  if (schemaDefinition is JsonPrimitive) {
+    return if (schemaDefinition.boolean) {
+      TrueSchemaAssertion
+    } else {
+      FalseSchemaAssertion(path = context.schemaPath)
+    }
+  }
+  val assertions = factories.filter { it.isApplicable(schemaDefinition) }
+    .map {
+      it.create(schemaDefinition, context)
+    }
+  return AssertionsCollection(assertions)
+}
+
+private data class DefaultLoadingContext(
+  override val schemaPath: JsonPointer = JsonPointer.ROOT,
+) : LoadingContext {
+  override fun at(property: String): LoadingContext {
+    return copy(schemaPath = schemaPath / property)
+  }
+
+  override fun at(index: Int): LoadingContext {
+    return copy(schemaPath = schemaPath[index])
+  }
+
+  override fun schemaFrom(element: JsonElement): JsonSchemaAssertion = loadSchema(element, this)
+  override fun isJsonSchema(element: JsonElement): Boolean = (element is JsonObject
+      || (element is JsonPrimitive && element.booleanOrNull != null))
+}
+
+private fun defaultLoadingContext(): DefaultLoadingContext = DefaultLoadingContext()
