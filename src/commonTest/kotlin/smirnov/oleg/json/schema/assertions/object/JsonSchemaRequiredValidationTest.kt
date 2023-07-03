@@ -73,20 +73,6 @@ class JsonSchemaRequiredValidationTest : FunSpec() {
       }
     }
 
-    listOf(
-      JsonPrimitive("a"),
-      JsonPrimitive(42),
-      JsonPrimitive(42.5),
-      JsonPrimitive(true),
-      JsonNull,
-      buildJsonArray { },
-    ).forEach {
-      test("not an object $it passes validation") {
-        val errors = mutableListOf<ValidationError>()
-        val valid = schema.validate(it, errors::add)
-        valid shouldBe true
-        errors shouldHaveSize 0
-      }
-    }
+    notAnObjectPasses(schema)
   }
 }

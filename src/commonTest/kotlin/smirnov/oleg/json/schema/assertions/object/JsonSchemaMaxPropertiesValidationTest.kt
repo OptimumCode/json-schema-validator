@@ -68,6 +68,8 @@ class JsonSchemaMaxPropertiesValidationTest : FunSpec() {
       }
     }
 
+    notAnObjectPasses(schema)
+
     test("reports negative value") {
       shouldThrow<IllegalArgumentException> {
         JsonSchema.fromDescription(
