@@ -24,6 +24,7 @@ import smirnov.oleg.json.schema.internal.factories.number.MultipleOfAssertionFac
 import smirnov.oleg.json.schema.internal.factories.`object`.MaxPropertiesAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.`object`.MinPropertiesAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.`object`.PropertiesAssertionFactory
+import smirnov.oleg.json.schema.internal.factories.`object`.PropertyNamesAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.`object`.RequiredAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.string.MaxLengthAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.string.MinLengthAssertionFactory
@@ -50,6 +51,7 @@ private val factories: List<AssertionFactory> = listOf(
   MinPropertiesAssertionFactory,
   RequiredAssertionFactory,
   PropertiesAssertionFactory,
+  PropertyNamesAssertionFactory,
 )
 
 class SchemaLoader {
