@@ -16,6 +16,7 @@ import smirnov.oleg.json.schema.ValidationError
 @Suppress("unused")
 class JsonSchemaAnyOfValidationTest : FunSpec() {
   init {
+    testInvalidSchemaInArray("anyOf")
     JsonSchema.fromDescription(
       """
       {
