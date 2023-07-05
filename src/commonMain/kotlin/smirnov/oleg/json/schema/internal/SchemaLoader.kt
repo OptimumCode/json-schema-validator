@@ -16,6 +16,7 @@ import smirnov.oleg.json.schema.internal.factories.array.UniqueItemsAssertionFac
 import smirnov.oleg.json.schema.internal.factories.condition.AllOfAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.condition.AnyOfAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.condition.IfThenElseAssertionFactory
+import smirnov.oleg.json.schema.internal.factories.condition.NotAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.general.ConstAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.general.EnumAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.general.TypeAssertionFactory
@@ -60,6 +61,7 @@ private val factories: List<AssertionFactory> = listOf(
   IfThenElseAssertionFactory,
   AllOfAssertionFactory,
   AnyOfAssertionFactory,
+  NotAssertionFactory,
 )
 
 class SchemaLoader {
