@@ -13,6 +13,7 @@ import smirnov.oleg.json.schema.internal.factories.array.ItemsAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.array.MaxItemsAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.array.MinItemsAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.array.UniqueItemsAssertionFactory
+import smirnov.oleg.json.schema.internal.factories.condition.AllOfAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.condition.IfThenElseAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.general.ConstAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.general.EnumAssertionFactory
@@ -56,6 +57,7 @@ private val factories: List<AssertionFactory> = listOf(
   PropertyNamesAssertionFactory,
   DependenciesAssertionFactory,
   IfThenElseAssertionFactory,
+  AllOfAssertionFactory,
 )
 
 class SchemaLoader {
