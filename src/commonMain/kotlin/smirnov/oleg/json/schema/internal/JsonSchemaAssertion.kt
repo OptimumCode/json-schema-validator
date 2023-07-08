@@ -3,7 +3,7 @@ package smirnov.oleg.json.schema.internal
 import kotlinx.serialization.json.JsonElement
 import smirnov.oleg.json.schema.ErrorCollector
 
-interface JsonSchemaAssertion {
+internal interface JsonSchemaAssertion {
   /**
    * Validates passes [element].
    * If [element] does not pass the assertion returns `false` and calls [ErrorCollector.onError] on passed [errorCollector].

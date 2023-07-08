@@ -2,7 +2,7 @@ package smirnov.oleg.json.schema.internal
 
 import kotlinx.serialization.json.JsonElement
 
-interface AssertionFactory {
+internal interface AssertionFactory {
   /**
    * Checks whether the factory can create an assertion from the [element].
    *

@@ -8,6 +8,7 @@ import kotlinx.serialization.json.booleanOrNull
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.pointer.div
 import smirnov.oleg.json.pointer.get
+import smirnov.oleg.json.schema.JsonSchema
 import smirnov.oleg.json.schema.internal.factories.array.ContainsAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.array.ItemsAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.array.MaxItemsAssertionFactory
@@ -64,47 +65,89 @@ private val factories: List<AssertionFactory> = listOf(
   NotAssertionFactory,
 )
 
+private const val DEFINITIONS_PROPERTY: String = "definitions"
+private const val ID_PROPERTY: String = "\$id"
+
+private const val rootReference = '#'
+
 class SchemaLoader {
-  fun load(schemaDefinition: JsonElement): JsonSchemaAssertion {
-    return loadSchema(schemaDefinition)
+  fun load(schemaDefinition: JsonElement): JsonSchema {
+    val baseId = extractBaseID(schemaDefinition)
+    val context = defaultLoadingContext(baseId)
+    loadDefinitions(schemaDefinition, context)
+    val schemaAssertion = loadSchema(schemaDefinition, context)
+    return JsonSchema(baseId, schemaAssertion, context.references)
   }
+
+  private fun loadDefinitions(schemaDefinition: JsonElement, context: DefaultLoadingContext) {
+    if (schemaDefinition !is JsonObject) {
+      return
+    }
+    val definitionsElement = schemaDefinition[DEFINITIONS_PROPERTY] ?: return
+    require(definitionsElement is JsonObject) { "$DEFINITIONS_PROPERTY must be an object" }
+    val definitionsContext = context.at(DEFINITIONS_PROPERTY)
+    for ((name, element) in definitionsElement) {
+      loadSchema(element, definitionsContext.at(name))
+    }
+  }
+
+  private fun extractBaseID(schemaDefinition: JsonElement): String =
+    when (schemaDefinition) {
+      is JsonObject -> {
+        schemaDefinition[ID_PROPERTY]?.let {
+          require(it is JsonPrimitive && it.isString) { "$ID_PROPERTY must be a string" }
+          it.content
+        } ?: ""
+      }
+
+      else -> ""
+    }.trimEnd(rootReference)
 }
 
 private fun loadSchema(
   schemaDefinition: JsonElement,
-  context: LoadingContext = defaultLoadingContext()
+  context: DefaultLoadingContext,
 ): JsonSchemaAssertion {
   require(context.isJsonSchema(schemaDefinition)) {
     "schema must be either a valid JSON object or boolean"
   }
-  if (schemaDefinition is JsonPrimitive) {
-    return if (schemaDefinition.boolean) {
+  return when (schemaDefinition) {
+    is JsonPrimitive -> if (schemaDefinition.boolean) {
       TrueSchemaAssertion
     } else {
       FalseSchemaAssertion(path = context.schemaPath)
     }
-  }
-  val assertions = factories.filter { it.isApplicable(schemaDefinition) }
-    .map {
-      it.create(schemaDefinition, context)
-    }
-  return AssertionsCollection(assertions)
+
+    else -> factories.filter { it.isApplicable(schemaDefinition) }
+      .map {
+        it.create(schemaDefinition, context)
+      }.let(::AssertionsCollection)
+  }.apply(context::register)
 }
 
 private data class DefaultLoadingContext(
+  private val baseId: String,
   override val schemaPath: JsonPointer = JsonPointer.ROOT,
+  val references: MutableMap<String, JsonSchemaAssertion> = hashMapOf(),
 ) : LoadingContext {
-  override fun at(property: String): LoadingContext {
+  override fun at(property: String): DefaultLoadingContext {
     return copy(schemaPath = schemaPath / property)
   }
 
-  override fun at(index: Int): LoadingContext {
+  override fun at(index: Int): DefaultLoadingContext {
     return copy(schemaPath = schemaPath[index])
   }
 
   override fun schemaFrom(element: JsonElement): JsonSchemaAssertion = loadSchema(element, this)
   override fun isJsonSchema(element: JsonElement): Boolean = (element is JsonObject
       || (element is JsonPrimitive && element.booleanOrNull != null))
+
+  fun register(assertion: JsonSchemaAssertion) {
+    val referenceId = "$baseId$rootReference$schemaPath"
+    references.put(referenceId, assertion)?.apply {
+      throw IllegalStateException("duplicated definition $referenceId")
+    }
+  }
 }
 
-private fun defaultLoadingContext(): DefaultLoadingContext = DefaultLoadingContext()
+private fun defaultLoadingContext(baseId: String): DefaultLoadingContext = DefaultLoadingContext(baseId)

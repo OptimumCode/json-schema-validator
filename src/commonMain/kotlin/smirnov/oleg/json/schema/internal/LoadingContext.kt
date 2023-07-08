@@ -5,7 +5,7 @@ import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.pointer.div
 import smirnov.oleg.json.pointer.get
 
-interface LoadingContext {
+internal interface LoadingContext {
   val schemaPath: JsonPointer
 
   fun at(property: String): LoadingContext

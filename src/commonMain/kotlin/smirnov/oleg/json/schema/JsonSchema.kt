@@ -10,7 +10,9 @@ import smirnov.oleg.json.schema.internal.SchemaLoader
 import kotlin.jvm.JvmStatic
 
 class JsonSchema internal constructor(
+  private val baseId: String,
   private val assertion: JsonSchemaAssertion,
+  private val references: Map<String, JsonSchemaAssertion>,
 ) {
   fun validate(value: JsonElement, errorCollector: ErrorCollector): Boolean {
     return assertion.validate(value, DefaultAssertionContext(JsonPointer.ROOT), errorCollector)
@@ -20,8 +22,7 @@ class JsonSchema internal constructor(
     @JvmStatic
     fun fromDescription(schema: String): JsonSchema {
       val schemaElement: JsonElement = Json.parseToJsonElement(schema)
-      val schemaAssertion = SchemaLoader().load(schemaElement)
-      return JsonSchema(schemaAssertion)
+      return SchemaLoader().load(schemaElement)
     }
   }
 }

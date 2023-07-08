@@ -3,7 +3,7 @@ package smirnov.oleg.json.schema.internal
 import kotlinx.serialization.json.JsonElement
 import smirnov.oleg.json.schema.ErrorCollector
 
-class AssertionsCollection(
+internal class AssertionsCollection(
   private val assertions: Collection<JsonSchemaAssertion>,
 ) : JsonSchemaAssertion {
 
