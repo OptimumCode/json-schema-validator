@@ -11,7 +11,7 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.KEY
+import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
 
 @Suppress("unused")

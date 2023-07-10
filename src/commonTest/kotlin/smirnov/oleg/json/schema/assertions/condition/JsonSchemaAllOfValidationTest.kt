@@ -8,7 +8,7 @@ import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.JsonPrimitive
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.KEY
+import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
 
 @Suppress("unused")

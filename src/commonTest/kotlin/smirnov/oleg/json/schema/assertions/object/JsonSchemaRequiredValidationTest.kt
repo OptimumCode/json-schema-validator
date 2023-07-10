@@ -5,13 +5,11 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.KEY
+import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
 
 @Suppress("unused")

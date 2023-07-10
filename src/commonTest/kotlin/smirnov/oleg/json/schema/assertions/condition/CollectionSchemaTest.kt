@@ -4,7 +4,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.KEY
+import smirnov.oleg.json.schema.base.KEY
 
 fun FunSpec.testInvalidSchemaInArray(name: String) {
   test("reports empty array") {

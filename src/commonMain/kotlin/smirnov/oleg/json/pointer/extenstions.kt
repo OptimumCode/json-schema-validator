@@ -27,6 +27,36 @@ operator fun JsonPointer.div(property: String): JsonPointer = JsonPointer(
   }
 )
 
+operator fun JsonPointer.plus(otherPointer: JsonPointer): JsonPointer {
+  if (this is EmptyPointer) {
+    return otherPointer
+  }
+  if (otherPointer is EmptyPointer) {
+    return this
+  }
+  return JsonPointer(
+    buildString {
+      val pointer = this@plus.toString()
+      append(pointer)
+      if (pointer.endsWith(JsonPointer.SEPARATOR)) {
+        setLength(length - 1)
+      }
+      val other = otherPointer.toString()
+      append(other)
+    }
+  )
+}
+
+fun JsonPointer.relative(other: JsonPointer): JsonPointer {
+  if (this is EmptyPointer) {
+    return other
+  }
+  require(other !is EmptyPointer) { "empty pointer is not relative to any" }
+  val currentValue = this.toString()
+  val otherValue = other.toString()
+  return JsonPointer(otherValue.substringAfter(currentValue))
+}
+
 fun JsonElement.at(pointer: JsonPointer): JsonElement? {
   return when (pointer) {
     is EmptyPointer -> this

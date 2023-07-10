@@ -9,6 +9,7 @@ import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.pointer.div
 import smirnov.oleg.json.pointer.get
 import smirnov.oleg.json.schema.JsonSchema
+import smirnov.oleg.json.schema.internal.ReferenceValidator.ReferenceLocation
 import smirnov.oleg.json.schema.internal.factories.array.ContainsAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.array.ItemsAssertionFactory
 import smirnov.oleg.json.schema.internal.factories.array.MaxItemsAssertionFactory
@@ -67,8 +68,9 @@ private val factories: List<AssertionFactory> = listOf(
 
 private const val DEFINITIONS_PROPERTY: String = "definitions"
 private const val ID_PROPERTY: String = "\$id"
+private const val REF_PROPERTY: String = "\$ref"
 
-private const val rootReference = '#'
+internal const val rootReference = '#'
 
 class SchemaLoader {
   fun load(schemaDefinition: JsonElement): JsonSchema {
@@ -76,6 +78,7 @@ class SchemaLoader {
     val context = defaultLoadingContext(baseId)
     loadDefinitions(schemaDefinition, context)
     val schemaAssertion = loadSchema(schemaDefinition, context)
+    ReferenceValidator.validateReferences(context.references.keys, context.usedRef)
     return JsonSchema(baseId, schemaAssertion, context.references)
   }
 
@@ -118,17 +121,34 @@ private fun loadSchema(
       FalseSchemaAssertion(path = context.schemaPath)
     }
 
-    else -> factories.filter { it.isApplicable(schemaDefinition) }
-      .map {
-        it.create(schemaDefinition, context)
-      }.let(::AssertionsCollection)
+    is JsonObject -> {
+      if (schemaDefinition.containsKey(REF_PROPERTY)) {
+        loadRefAssertion(schemaDefinition, context)
+      } else {
+        factories.filter { it.isApplicable(schemaDefinition) }
+          .map {
+            it.create(schemaDefinition, context)
+          }.let(::AssertionsCollection)
+      }
+    }
+    // should never happen
+    else -> throw IllegalArgumentException("schema must be either a valid JSON object or boolean")
   }.apply(context::register)
+}
+
+private fun loadRefAssertion(definition: JsonObject, context: DefaultLoadingContext): JsonSchemaAssertion {
+  val refElement = requireNotNull(definition[REF_PROPERTY]) { "$REF_PROPERTY is not set" }
+  require(refElement is JsonPrimitive && refElement.isString) { "$REF_PROPERTY must be a string" }
+  val refValue = refElement.content
+  val refId: RefId = context.ref(refValue)
+  return RefSchemaAssertion(context.schemaPath / REF_PROPERTY, refId)
 }
 
 private data class DefaultLoadingContext(
   private val baseId: String,
   override val schemaPath: JsonPointer = JsonPointer.ROOT,
-  val references: MutableMap<String, JsonSchemaAssertion> = hashMapOf(),
+  val references: MutableMap<RefId, JsonSchemaAssertion> = hashMapOf(),
+  val usedRef: MutableSet<ReferenceLocation> = hashSetOf(),
 ) : LoadingContext {
   override fun at(property: String): DefaultLoadingContext {
     return copy(schemaPath = schemaPath / property)
@@ -143,11 +163,17 @@ private data class DefaultLoadingContext(
       || (element is JsonPrimitive && element.booleanOrNull != null))
 
   fun register(assertion: JsonSchemaAssertion) {
-    val referenceId = "$baseId$rootReference$schemaPath"
+    val referenceId = buildRefId("$rootReference$schemaPath")
     references.put(referenceId, assertion)?.apply {
       throw IllegalStateException("duplicated definition $referenceId")
     }
   }
+
+  fun ref(refId: String): RefId {
+    return buildRefId(refId).also { usedRef += ReferenceLocation(schemaPath, it) }
+  }
+
+  private fun buildRefId(path: String): RefId = RefId("$baseId$path")
 }
 
 private fun defaultLoadingContext(baseId: String): DefaultLoadingContext = DefaultLoadingContext(baseId)

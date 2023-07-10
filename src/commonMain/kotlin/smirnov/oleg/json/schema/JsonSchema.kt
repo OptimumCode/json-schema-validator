@@ -6,16 +6,18 @@ import kotlinx.serialization.json.JsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.internal.DefaultAssertionContext
 import smirnov.oleg.json.schema.internal.JsonSchemaAssertion
+import smirnov.oleg.json.schema.internal.RefId
 import smirnov.oleg.json.schema.internal.SchemaLoader
 import kotlin.jvm.JvmStatic
 
 class JsonSchema internal constructor(
   private val baseId: String,
   private val assertion: JsonSchemaAssertion,
-  private val references: Map<String, JsonSchemaAssertion>,
+  private val references: Map<RefId, JsonSchemaAssertion>,
 ) {
   fun validate(value: JsonElement, errorCollector: ErrorCollector): Boolean {
-    return assertion.validate(value, DefaultAssertionContext(JsonPointer.ROOT), errorCollector)
+    val context = DefaultAssertionContext(JsonPointer.ROOT, references)
+    return assertion.validate(value, context, errorCollector)
   }
 
   companion object {
