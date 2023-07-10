@@ -9,8 +9,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaAnyOfValidationTest : FunSpec() {
@@ -32,7 +32,7 @@ class JsonSchemaAnyOfValidationTest : FunSpec() {
           }
         ]
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       listOf(
         JsonPrimitive("str"),
@@ -41,7 +41,7 @@ class JsonSchemaAnyOfValidationTest : FunSpec() {
       ).forEach {
         test("element $it passes validation") {
           val errors = mutableListOf<ValidationError>()
-          val valid  = schema.validate(it, errors::add)
+          val valid = schema.validate(it, errors::add)
 
           valid shouldBe true
           errors shouldHaveSize 0
@@ -54,7 +54,7 @@ class JsonSchemaAnyOfValidationTest : FunSpec() {
         }
 
         val errors = mutableListOf<ValidationError>()
-        val valid  = schema.validate(jsonObject, errors::add)
+        val valid = schema.validate(jsonObject, errors::add)
 
         jsonObject.asClue {
           valid shouldBe false

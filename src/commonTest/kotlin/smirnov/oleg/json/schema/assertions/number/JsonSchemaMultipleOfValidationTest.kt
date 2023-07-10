@@ -9,8 +9,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaMultipleOfValidationTest : FunSpec() {
@@ -28,7 +28,7 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "multipleOf": 7
           }
-          """.trimIndent()
+        """.trimIndent(),
       )
       test("integer in multiple of: $it % 7") {
         val errors = mutableListOf<ValidationError>()
@@ -52,7 +52,7 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "multipleOf": 1.5
           }
-          """.trimIndent()
+        """.trimIndent(),
       )
       test("double in multiple of: $it % 1.5") {
         val errors = mutableListOf<ValidationError>()
@@ -78,7 +78,7 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",
               "multipleOf": $it
             }
-            """.trimIndent()
+            """.trimIndent(),
           )
         }.message shouldBe "multipleOf value $it must be greater than zero"
       }
@@ -90,7 +90,7 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
         "multipleOf": 5
       }
-      """.trimIndent()
+      """.trimIndent(),
     )
     listOf(
       JsonPrimitive(true),

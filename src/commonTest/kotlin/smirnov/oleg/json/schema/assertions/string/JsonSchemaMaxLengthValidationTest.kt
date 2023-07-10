@@ -10,8 +10,8 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaMaxLengthValidationTest : FunSpec() {
@@ -22,7 +22,7 @@ class JsonSchemaMaxLengthValidationTest : FunSpec() {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
         "maxLength": 20
       }
-      """.trimIndent()
+      """.trimIndent(),
     )
     val validStrings = listOf(
       "⩌⻏⊧➘⨜Ⅎ⮲➓⌸⨝❌Ⱞ₼⽩Ⅻⱄ⯐⡼℻⮟",
@@ -31,7 +31,7 @@ class JsonSchemaMaxLengthValidationTest : FunSpec() {
       "JpEblYiJE57H70qGNXs",
       "╒",
       "V",
-      ""
+      "",
     )
     for (str in validStrings) {
       test("'$str' passes validation") {
@@ -57,7 +57,7 @@ class JsonSchemaMaxLengthValidationTest : FunSpec() {
             schemaPath = JsonPointer("/maxLength"),
             objectPath = JsonPointer.ROOT,
             message = "string length (${str.length}) must be less or equal to 20",
-          )
+          ),
         )
       }
     }

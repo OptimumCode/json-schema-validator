@@ -12,8 +12,8 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaNotValidationTest : FunSpec() {
@@ -26,7 +26,7 @@ class JsonSchemaNotValidationTest : FunSpec() {
           "type": "object"
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       listOf(
         JsonPrimitive(42),
@@ -71,7 +71,7 @@ class JsonSchemaNotValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "not": 42
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "not must be a valid JSON schema"
     }

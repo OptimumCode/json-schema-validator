@@ -12,8 +12,8 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaMaxPropertiesValidationTest : FunSpec() {
@@ -24,7 +24,7 @@ class JsonSchemaMaxPropertiesValidationTest : FunSpec() {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
         "maxProperties": 2
       }
-      """.trimIndent()
+      """.trimIndent(),
     )
 
     listOf(
@@ -63,7 +63,7 @@ class JsonSchemaMaxPropertiesValidationTest : FunSpec() {
             schemaPath = JsonPointer("/maxProperties"),
             objectPath = JsonPointer.ROOT,
             message = "number of properties must be less or equal to 2",
-          )
+          ),
         )
       }
     }
@@ -78,7 +78,7 @@ class JsonSchemaMaxPropertiesValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "maxProperties": -1
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "maxProperties must be a non-negative integer"
     }
@@ -97,7 +97,7 @@ class JsonSchemaMaxPropertiesValidationTest : FunSpec() {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",
               "maxProperties": $it
             }
-            """.trimIndent()
+            """.trimIndent(),
           )
         }.message shouldBe "maxProperties must be a valid integer"
       }
@@ -116,7 +116,7 @@ class JsonSchemaMaxPropertiesValidationTest : FunSpec() {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",
               "maxProperties": $it
             }
-            """.trimIndent()
+            """.trimIndent(),
           )
         }.message shouldBe "maxProperties must be an integer"
       }

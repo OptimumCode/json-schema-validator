@@ -2,7 +2,6 @@ package smirnov.oleg.json.schema
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.internal.DefaultAssertionContext
 import smirnov.oleg.json.schema.internal.JsonSchemaAssertion
@@ -11,7 +10,6 @@ import smirnov.oleg.json.schema.internal.SchemaLoader
 import kotlin.jvm.JvmStatic
 
 class JsonSchema internal constructor(
-  private val baseId: String,
   private val assertion: JsonSchemaAssertion,
   private val references: Map<RefId, JsonSchemaAssertion>,
 ) {

@@ -6,7 +6,8 @@ import smirnov.oleg.json.schema.ErrorCollector
 internal interface JsonSchemaAssertion {
   /**
    * Validates passes [element].
-   * If [element] does not pass the assertion returns `false` and calls [ErrorCollector.onError] on passed [errorCollector].
+   * If [element] does not pass the assertion returns `false`
+   * and calls [ErrorCollector.onError] on passed [errorCollector].
    * Otherwise, returns `true`
    *
    * @param element JSON element to validate

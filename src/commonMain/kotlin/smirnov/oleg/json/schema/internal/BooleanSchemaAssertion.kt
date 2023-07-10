@@ -14,7 +14,7 @@ internal class FalseSchemaAssertion(
         schemaPath = path,
         objectPath = context.objectPath,
         message = "all values fail against the false schema",
-      )
+      ),
     )
     return false
   }

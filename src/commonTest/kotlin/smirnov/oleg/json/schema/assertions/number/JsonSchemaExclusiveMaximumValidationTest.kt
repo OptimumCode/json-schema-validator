@@ -12,8 +12,8 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @OptIn(ExperimentalSerializationApi::class)
 @Suppress("unused")
@@ -26,7 +26,7 @@ class JsonSchemaExclusiveMaximumValidationTest : FunSpec() {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
           "exclusiveMaximum": $number
         }
-        """.trimIndent()
+        """.trimIndent(),
       )
       listOf(
         JsonPrimitive(9),
@@ -58,7 +58,7 @@ class JsonSchemaExclusiveMaximumValidationTest : FunSpec() {
               schemaPath = JsonPointer("/exclusiveMaximum"),
               objectPath = JsonPointer.ROOT,
               message = "$it must be less than $number",
-            )
+            ),
           )
         }
       }
@@ -70,7 +70,7 @@ class JsonSchemaExclusiveMaximumValidationTest : FunSpec() {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
           "exclusiveMaximum": 10
         }
-        """.trimIndent()
+      """.trimIndent(),
     )
 
     listOf(

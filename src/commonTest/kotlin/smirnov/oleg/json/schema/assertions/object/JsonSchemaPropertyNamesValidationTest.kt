@@ -9,8 +9,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaPropertyNamesValidationTest : FunSpec() {
@@ -24,7 +24,7 @@ class JsonSchemaPropertyNamesValidationTest : FunSpec() {
           "maxLength": 5
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       test("object properties passes validation") {
         val jsonObject = buildJsonObject {
@@ -62,7 +62,7 @@ class JsonSchemaPropertyNamesValidationTest : FunSpec() {
               schemaPath = JsonPointer("/propertyNames/maxLength"),
               objectPath = JsonPointer("/abcdef"),
               message = "property abcdef: string length (6) must be less or equal to 5",
-            )
+            ),
           )
         }
       }

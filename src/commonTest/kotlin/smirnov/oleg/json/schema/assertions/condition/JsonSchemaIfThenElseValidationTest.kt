@@ -9,8 +9,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaIfThenElseValidationTest : FunSpec() {
@@ -29,7 +29,7 @@ class JsonSchemaIfThenElseValidationTest : FunSpec() {
           "type": "string"
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       test("when matches `if` passes `then` validation") {
         val jsonObject = buildJsonObject {
@@ -62,7 +62,7 @@ class JsonSchemaIfThenElseValidationTest : FunSpec() {
               schemaPath = JsonPointer("/then/required"),
               objectPath = JsonPointer.ROOT,
               message = "missing required properties: [f2]",
-            )
+            ),
           )
         }
       }
@@ -92,7 +92,7 @@ class JsonSchemaIfThenElseValidationTest : FunSpec() {
               schemaPath = JsonPointer("/else/type"),
               objectPath = JsonPointer.ROOT,
               message = "element is not a string",
-            )
+            ),
           )
         }
       }
@@ -109,7 +109,7 @@ class JsonSchemaIfThenElseValidationTest : FunSpec() {
           "required": ["f1","f2"]
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       test("when does not matches `if` and `else` is missing nothing is checked") {
         val element = JsonPrimitive("test")
@@ -135,7 +135,7 @@ class JsonSchemaIfThenElseValidationTest : FunSpec() {
           "type": "string"
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       test("when matches `if` and `then` is missing nothing is checked") {
         val element = buildJsonObject {

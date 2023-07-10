@@ -3,7 +3,6 @@ package smirnov.oleg.json.schema.internal.factories.condition
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import smirnov.oleg.json.schema.ErrorCollector
-import smirnov.oleg.json.schema.ErrorCollector.Companion
 import smirnov.oleg.json.schema.internal.AssertionContext
 import smirnov.oleg.json.schema.internal.AssertionFactory
 import smirnov.oleg.json.schema.internal.JsonSchemaAssertion
@@ -39,7 +38,7 @@ internal object IfThenElseAssertionFactory : AssertionFactory {
   private fun loadOptionalAssertion(
     jsonObject: JsonObject,
     property: String,
-    context: LoadingContext
+    context: LoadingContext,
   ): JsonSchemaAssertion? {
     val element = jsonObject[property] ?: return null
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }

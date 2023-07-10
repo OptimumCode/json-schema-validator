@@ -12,8 +12,8 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaMaxItemsValidationTest : FunSpec() {
@@ -24,7 +24,7 @@ class JsonSchemaMaxItemsValidationTest : FunSpec() {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
         "maxItems": 3
       }
-      """.trimIndent()
+      """.trimIndent(),
     )
 
     listOf(
@@ -68,7 +68,7 @@ class JsonSchemaMaxItemsValidationTest : FunSpec() {
             schemaPath = JsonPointer("/maxItems"),
             objectPath = JsonPointer.ROOT,
             message = "array length must be less or equal to 3",
-          )
+          ),
         )
       }
     }
@@ -98,7 +98,7 @@ class JsonSchemaMaxItemsValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "maxItems": -1
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "maxItems must be a non-negative integer"
     }
@@ -117,7 +117,7 @@ class JsonSchemaMaxItemsValidationTest : FunSpec() {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",
               "maxItems": $it
             }
-            """.trimIndent()
+            """.trimIndent(),
           )
         }.message shouldBe "maxItems must be a valid integer"
       }
@@ -136,7 +136,7 @@ class JsonSchemaMaxItemsValidationTest : FunSpec() {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",
               "maxItems": $it
             }
-            """.trimIndent()
+            """.trimIndent(),
           )
         }.message shouldBe "maxItems must be an integer"
       }

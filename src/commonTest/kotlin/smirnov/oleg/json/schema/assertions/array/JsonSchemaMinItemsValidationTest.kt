@@ -12,8 +12,8 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaMinItemsValidationTest : FunSpec() {
@@ -24,7 +24,7 @@ class JsonSchemaMinItemsValidationTest : FunSpec() {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
         "minItems": 2
       }
-      """.trimIndent()
+      """.trimIndent(),
     )
 
     listOf(
@@ -64,7 +64,7 @@ class JsonSchemaMinItemsValidationTest : FunSpec() {
               schemaPath = JsonPointer("/minItems"),
               objectPath = JsonPointer.ROOT,
               message = "array length must be greater or equal to 2",
-            )
+            ),
           )
         }
       }
@@ -95,7 +95,7 @@ class JsonSchemaMinItemsValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "minItems": -1
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "minItems must be a non-negative integer"
     }
@@ -114,7 +114,7 @@ class JsonSchemaMinItemsValidationTest : FunSpec() {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",
               "minItems": $it
             }
-            """.trimIndent()
+            """.trimIndent(),
           )
         }.message shouldBe "minItems must be a valid integer"
       }
@@ -133,7 +133,7 @@ class JsonSchemaMinItemsValidationTest : FunSpec() {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",
               "minItems": $it
             }
-            """.trimIndent()
+            """.trimIndent(),
           )
         }.message shouldBe "minItems must be an integer"
       }

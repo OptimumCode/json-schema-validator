@@ -10,8 +10,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaPropertiesValidationsTest : FunSpec() {
@@ -26,7 +26,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
           }
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       test("object passes properties validation") {
         val jsonObject = buildJsonObject {
@@ -54,7 +54,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
               schemaPath = JsonPointer("/properties/prop1/type"),
               objectPath = JsonPointer("/prop1"),
               message = "element is not a number",
-            )
+            ),
           )
         }
       }
@@ -70,7 +70,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
           }
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       test("object passes patternProperties validation") {
         val jsonObject = buildJsonObject {
@@ -99,7 +99,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
               schemaPath = JsonPointer("/patternProperties/^foo\\d\$/type"),
               objectPath = JsonPointer("/foo1"),
               message = "element is not a number",
-            )
+            ),
           )
         }
       }
@@ -113,7 +113,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
           "type": "number"
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       test("object passes additionalProperties validation") {
         val jsonObject = buildJsonObject {
@@ -141,7 +141,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
               schemaPath = JsonPointer("/additionalProperties/type"),
               objectPath = JsonPointer("/foo1"),
               message = "element is not a number",
-            )
+            ),
           )
         }
       }
@@ -163,7 +163,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
         },
         "additionalProperties": false
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       test("false additionalProperties reports all unknown properties") {
         val jsonObject = buildJsonObject {
@@ -181,7 +181,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
               schemaPath = JsonPointer("/additionalProperties"),
               objectPath = JsonPointer("/unknown"),
               message = "all values fail against the false schema",
-            )
+            ),
           )
         }
       }
@@ -196,7 +196,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
         "properties": {},
         "patternProperties": {}
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       test("object passes schema with empty properties and patternProperties") {
         val jsonObject = buildJsonObject {
@@ -225,7 +225,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
               }
             }
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "*^foo\\d\$ must be a valid regular expression"
     }

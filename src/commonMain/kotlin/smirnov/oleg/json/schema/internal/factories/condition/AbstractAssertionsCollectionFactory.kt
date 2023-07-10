@@ -19,5 +19,8 @@ internal abstract class AbstractAssertionsCollectionFactory(property: String) : 
     return createAssertion(context, assertions)
   }
 
-  protected abstract fun createAssertion(context: LoadingContext, assertions: List<JsonSchemaAssertion>): JsonSchemaAssertion
+  protected abstract fun createAssertion(
+    context: LoadingContext,
+    assertions: List<JsonSchemaAssertion>,
+  ): JsonSchemaAssertion
 }

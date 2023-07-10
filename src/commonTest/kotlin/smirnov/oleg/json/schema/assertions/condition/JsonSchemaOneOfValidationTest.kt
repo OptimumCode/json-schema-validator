@@ -31,7 +31,7 @@ class JsonSchemaOneOfValidationTest : FunSpec() {
           }
         ]
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).apply {
       listOf(
         JsonPrimitive("test"),
@@ -85,7 +85,7 @@ class JsonSchemaOneOfValidationTest : FunSpec() {
           }
         ]
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).apply {
       test("element matches more than one JSON schema and fails validation") {
         val errors = mutableListOf<ValidationError>()

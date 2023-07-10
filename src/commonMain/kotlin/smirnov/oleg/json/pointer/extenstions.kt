@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:filename")
+
 package smirnov.oleg.json.pointer
 
 import kotlinx.serialization.json.JsonArray
@@ -13,7 +15,7 @@ operator fun JsonPointer.get(index: Int): JsonPointer = JsonPointer(
       append(JsonPointer.SEPARATOR)
     }
     append(index)
-  }
+  },
 )
 
 operator fun JsonPointer.div(property: String): JsonPointer = JsonPointer(
@@ -24,7 +26,7 @@ operator fun JsonPointer.div(property: String): JsonPointer = JsonPointer(
       append(JsonPointer.SEPARATOR)
     }
     append(property)
-  }
+  },
 )
 
 operator fun JsonPointer.plus(otherPointer: JsonPointer): JsonPointer {
@@ -43,7 +45,7 @@ operator fun JsonPointer.plus(otherPointer: JsonPointer): JsonPointer {
       }
       val other = otherPointer.toString()
       append(other)
-    }
+    },
   )
 }
 

@@ -73,14 +73,16 @@ private class TypeAssertion(
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
     val match = validations.any { it.check(element) }
     if (!match) {
-      errorCollector.onError(ValidationError(
-        schemaPath = path,
-        objectPath = context.objectPath,
-        message = when (validations.size) {
-          1 -> "element is not a ${validations.first().name}"
-          else -> "element is none of ${validations.joinToString(prefix = "[", postfix = "]") { it.name }}"
-        },
-      ))
+      errorCollector.onError(
+        ValidationError(
+          schemaPath = path,
+          objectPath = context.objectPath,
+          message = when (validations.size) {
+            1 -> "element is not a ${validations.first().name}"
+            else -> "element is none of ${validations.joinToString(prefix = "[", postfix = "]") { it.name }}"
+          },
+        ),
+      )
     }
     return match
   }

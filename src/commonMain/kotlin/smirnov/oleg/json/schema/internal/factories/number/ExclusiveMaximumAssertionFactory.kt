@@ -11,7 +11,7 @@ import smirnov.oleg.json.schema.internal.factories.number.util.NumberComparisonA
 import smirnov.oleg.json.schema.internal.factories.number.util.compareTo
 
 @Suppress("unused")
-internal object MinimumAssertionFactory : AbstractAssertionFactory("minimum") {
+internal object ExclusiveMaximumAssertionFactory : AbstractAssertionFactory("exclusiveMaximum") {
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
     require(element is JsonPrimitive) { "$property must be a number" }
     val maximumValue: Number =
@@ -20,7 +20,7 @@ internal object MinimumAssertionFactory : AbstractAssertionFactory("minimum") {
       context.schemaPath,
       maximumValue,
       element.content,
-      errorMessage = "must be greater or equal to",
-      ) { a, b -> a >= b  }
+      errorMessage = "must be less than",
+    ) { a, b -> a < b }
   }
 }

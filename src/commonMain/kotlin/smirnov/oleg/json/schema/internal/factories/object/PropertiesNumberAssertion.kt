@@ -26,7 +26,7 @@ internal class PropertiesNumberAssertion(
         schemaPath = path,
         objectPath = context.objectPath,
         message = "number of properties $errorMessage $length",
-      )
+      ),
     )
     return false
   }

@@ -86,7 +86,7 @@ private class ConditionalRequiredPropertiesAssertion(
         schemaPath = path,
         objectPath = context.objectPath,
         message = "has '$property' property but missing required dependencies: $missingProperties",
-      )
+      ),
     )
     return false
   }

@@ -12,8 +12,8 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaContainsValidationTest : FunSpec() {
@@ -26,7 +26,7 @@ class JsonSchemaContainsValidationTest : FunSpec() {
           "type": "string"
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     )
 
     listOf(
@@ -91,7 +91,7 @@ class JsonSchemaContainsValidationTest : FunSpec() {
     listOf(
       JsonPrimitive(42),
       JsonPrimitive("test"),
-      buildJsonArray { }
+      buildJsonArray { },
     ).forEach {
       test("reports $it is invalid value") {
         shouldThrow<IllegalArgumentException> {
@@ -101,7 +101,7 @@ class JsonSchemaContainsValidationTest : FunSpec() {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",
               "contains": $it
             }
-            """.trimIndent()
+            """.trimIndent(),
           )
         }.message shouldBe "contains must be a valid JSON schema"
       }

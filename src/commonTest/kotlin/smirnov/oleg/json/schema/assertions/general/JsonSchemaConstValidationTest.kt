@@ -10,8 +10,8 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaConstValidationTest : FunSpec() {
@@ -38,7 +38,7 @@ class JsonSchemaConstValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "const": $it
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
 
         val errors = mutableListOf<ValidationError>()
@@ -55,7 +55,7 @@ class JsonSchemaConstValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "const": 42
           }
-          """.trimIndent()
+        """.trimIndent(),
       )
 
       val errors = mutableListOf<ValidationError>()
@@ -66,7 +66,7 @@ class JsonSchemaConstValidationTest : FunSpec() {
           schemaPath = JsonPointer("/const"),
           objectPath = JsonPointer.ROOT,
           message = "element does not match constant definition",
-        )
+        ),
       )
     }
   }

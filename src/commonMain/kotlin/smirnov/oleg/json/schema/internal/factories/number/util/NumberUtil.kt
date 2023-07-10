@@ -47,7 +47,7 @@ internal class NumberComparisonAssertion(
         schemaPath = path,
         objectPath = context.objectPath,
         message = "${element.content} $errorMessage $boundaryContent",
-      )
+      ),
     )
     return false
   }

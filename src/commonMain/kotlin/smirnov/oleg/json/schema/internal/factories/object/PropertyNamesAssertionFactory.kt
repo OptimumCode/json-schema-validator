@@ -37,5 +37,4 @@ private class PropertyNamesAssertion(
     }
     return valid
   }
-
 }

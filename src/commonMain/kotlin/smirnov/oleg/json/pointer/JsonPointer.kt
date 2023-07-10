@@ -34,11 +34,12 @@ sealed class JsonPointer(
     return result
   }
 
-
   companion object {
     const val SEPARATOR: Char = '/'
     const val QUOTATION: Char = '~'
     val ROOT: JsonPointer = EmptyPointer
+
+    private const val DEFAULT_BUFFER_CAPACITY = 32
 
     @JvmStatic
     fun compile(expr: String): JsonPointer {
@@ -83,7 +84,7 @@ sealed class JsonPointer(
         }
         offset++
         if (currentChar == QUOTATION && offset < end) {
-          val builder = StringBuilder(32)
+          val builder = StringBuilder(DEFAULT_BUFFER_CAPACITY)
           offset = builder.appendEscapedSegment(expr, start + 1, offset)
           val segment = builder.toString()
           if (offset < 0) {
@@ -151,6 +152,7 @@ internal class SegmentPointer(
 
   companion object {
     private const val NO_INDEX: Int = -1
+    private const val LONG_LENGTH_THRESHOLD = 10
 
     @JvmStatic
     private fun parseIndex(segment: String): Int {
@@ -160,9 +162,14 @@ internal class SegmentPointer(
       val len = segment.length
       // super long indexes are no good
       // let's assume we don't have any array over 2 billion entries
-      if (len > 10) {
+      if (len > LONG_LENGTH_THRESHOLD) {
         return NO_INDEX
       }
+      return parseIndexValue(segment)
+    }
+
+    private fun parseIndexValue(segment: String): Int {
+      val len = segment.length
       val ch = segment[0]
       if (ch <= '0') {
         return if (len == 1 && ch == '0') {
@@ -182,7 +189,7 @@ internal class SegmentPointer(
         }
       }
 
-      return if (len == 10) {
+      return if (len == LONG_LENGTH_THRESHOLD) {
         // check the index fits integer
         val index = segment.toLong()
         if (index > Int.MAX_VALUE) {

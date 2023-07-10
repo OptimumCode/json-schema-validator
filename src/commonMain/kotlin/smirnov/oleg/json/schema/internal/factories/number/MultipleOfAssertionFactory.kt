@@ -15,11 +15,13 @@ internal object MultipleOfAssertionFactory : AbstractAssertionFactory("multipleO
     require(element is JsonPrimitive) { "$property must be a number" }
     val multipleOfValue: Number =
       requireNotNull(element.longOrNull ?: element.doubleOrNull) { "$property must be a valid number" }
-    require(when (multipleOfValue) {
-      is Double -> multipleOfValue > 0.0
-      is Long -> multipleOfValue > 0
-      else -> error("unexpected value type ${multipleOfValue::class.simpleName}")
-    }) { "$property value ${element.content} must be greater than zero" }
+    require(
+      when (multipleOfValue) {
+        is Double -> multipleOfValue > 0.0
+        is Long -> multipleOfValue > 0
+        else -> error("unexpected value type ${multipleOfValue::class.simpleName}")
+      },
+    ) { "$property value ${element.content} must be greater than zero" }
     return NumberComparisonAssertion(
       context.schemaPath,
       multipleOfValue,

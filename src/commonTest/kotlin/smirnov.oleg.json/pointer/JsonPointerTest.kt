@@ -54,7 +54,6 @@ class JsonPointerTest : FunSpec() {
       }
     }
 
-
     listOf(
       '/' to "~1",
       '~' to "~0",

@@ -17,8 +17,8 @@ internal object PatternAssertionFactory : AbstractAssertionFactory("pattern") {
     require(element is JsonPrimitive && element.isString) { "$property must be a string" }
     val regex = try {
       element.content.toRegex()
-    } catch (ex: Throwable) { // we handle throwable because of JsError that does not extend Exception
-      throw IllegalArgumentException("$property is not a valid regular expression", ex)
+    } catch (exOrJsError: Throwable) { // we handle throwable because of JsError that does not extend Exception
+      throw IllegalArgumentException("$property is not a valid regular expression", exOrJsError)
     }
     return PatternAssertion(context.schemaPath, regex)
   }
@@ -42,7 +42,7 @@ private class PatternAssertion(
         schemaPath = path,
         objectPath = context.objectPath,
         message = "string does not match pattern '${regex.pattern}'",
-      )
+      ),
     )
     return false
   }

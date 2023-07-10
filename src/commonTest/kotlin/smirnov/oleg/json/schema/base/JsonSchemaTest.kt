@@ -19,7 +19,7 @@ class JsonSchemaTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "type": "string"
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }
     }
@@ -49,7 +49,7 @@ class JsonSchemaTest : FunSpec() {
               }
             }
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }
     }
@@ -64,7 +64,7 @@ class JsonSchemaTest : FunSpec() {
               "other": { "${KEY}ref": "#" }
             }
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }
     }
@@ -87,7 +87,7 @@ class JsonSchemaTest : FunSpec() {
               }
             }
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "cannot resolve references: {\"/definitions/positiveIntege\": [\"/properties/size\"]}"
     }
@@ -119,9 +119,10 @@ class JsonSchemaTest : FunSpec() {
               }
             }
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
-      }.message shouldBe "circled references: /definitions/alice/allOf/0 ref to /definitions/bob and /definitions/bob/allOf/0 ref to /definitions/alice"
+      }.message shouldBe "circled references: /definitions/alice/allOf/0 ref to /definitions/bob" +
+        " and /definitions/bob/allOf/0 ref to /definitions/alice"
     }
   }
 }

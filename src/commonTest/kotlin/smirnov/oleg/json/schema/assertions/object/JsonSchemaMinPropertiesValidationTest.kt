@@ -12,8 +12,8 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaMinPropertiesValidationTest : FunSpec() {
@@ -24,7 +24,7 @@ class JsonSchemaMinPropertiesValidationTest : FunSpec() {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
         "minProperties": 2
       }
-      """.trimIndent()
+      """.trimIndent(),
     )
 
     listOf(
@@ -65,7 +65,7 @@ class JsonSchemaMinPropertiesValidationTest : FunSpec() {
               schemaPath = JsonPointer("/minProperties"),
               objectPath = JsonPointer.ROOT,
               message = "number of properties must be greater or equal to 2",
-            )
+            ),
           )
         }
       }
@@ -81,7 +81,7 @@ class JsonSchemaMinPropertiesValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "minProperties": -1
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "minProperties must be a non-negative integer"
     }
@@ -100,7 +100,7 @@ class JsonSchemaMinPropertiesValidationTest : FunSpec() {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",
               "minProperties": $it
             }
-            """.trimIndent()
+            """.trimIndent(),
           )
         }.message shouldBe "minProperties must be a valid integer"
       }
@@ -119,7 +119,7 @@ class JsonSchemaMinPropertiesValidationTest : FunSpec() {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",
               "minProperties": $it
             }
-            """.trimIndent()
+            """.trimIndent(),
           )
         }.message shouldBe "minProperties must be an integer"
       }

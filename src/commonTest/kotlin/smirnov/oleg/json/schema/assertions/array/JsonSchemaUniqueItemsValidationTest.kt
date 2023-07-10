@@ -12,8 +12,8 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaUniqueItemsValidationTest : FunSpec() {
@@ -24,7 +24,7 @@ class JsonSchemaUniqueItemsValidationTest : FunSpec() {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
         "uniqueItems": true
       }
-      """.trimIndent()
+      """.trimIndent(),
     )
 
     val validationDisabled = JsonSchema.fromDescription(
@@ -33,7 +33,7 @@ class JsonSchemaUniqueItemsValidationTest : FunSpec() {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
         "uniqueItems": false
       }
-      """.trimIndent()
+      """.trimIndent(),
     )
 
     listOf(
@@ -48,19 +48,25 @@ class JsonSchemaUniqueItemsValidationTest : FunSpec() {
       buildJsonArray {
         add(JsonPrimitive("a"))
         add(JsonPrimitive("b"))
-        add(buildJsonArray {
-          add(JsonPrimitive("a"))
-        })
+        add(
+          buildJsonArray {
+            add(JsonPrimitive("a"))
+          },
+        )
       },
       buildJsonArray {
         add(JsonPrimitive("a"))
         add(JsonPrimitive("b"))
-        add(buildJsonArray {
-          add(JsonPrimitive("a"))
-        })
-        add(buildJsonObject {
-          put("test", JsonPrimitive("a"))
-        })
+        add(
+          buildJsonArray {
+            add(JsonPrimitive("a"))
+          },
+        )
+        add(
+          buildJsonObject {
+            put("test", JsonPrimitive("a"))
+          },
+        )
       },
     ).forEach {
       test("array with unique items passes enabled validation: $it") {
@@ -88,20 +94,28 @@ class JsonSchemaUniqueItemsValidationTest : FunSpec() {
         add(JsonPrimitive("a"))
       },
       buildJsonArray {
-        add(buildJsonArray {
-          add(JsonPrimitive("a"))
-        })
-        add(buildJsonArray {
-          add(JsonPrimitive("a"))
-        })
+        add(
+          buildJsonArray {
+            add(JsonPrimitive("a"))
+          },
+        )
+        add(
+          buildJsonArray {
+            add(JsonPrimitive("a"))
+          },
+        )
       },
       buildJsonArray {
-        add(buildJsonObject {
-          put("test", JsonPrimitive("a"))
-        })
-        add(buildJsonObject {
-          put("test", JsonPrimitive("a"))
-        })
+        add(
+          buildJsonObject {
+            put("test", JsonPrimitive("a"))
+          },
+        )
+        add(
+          buildJsonObject {
+            put("test", JsonPrimitive("a"))
+          },
+        )
       },
     ).forEach { array ->
       test("array with duplicate items fails enabled validation: $array") {
@@ -113,8 +127,8 @@ class JsonSchemaUniqueItemsValidationTest : FunSpec() {
             ValidationError(
               schemaPath = JsonPointer("/uniqueItems"),
               objectPath = JsonPointer.ROOT,
-              message = "array contains duplicate values: ${it.toSet()}"
-            )
+              message = "array contains duplicate values: ${it.toSet()}",
+            ),
           )
         }
       }
@@ -162,7 +176,7 @@ class JsonSchemaUniqueItemsValidationTest : FunSpec() {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",
               "uniqueItems": $it
             }
-            """.trimIndent()
+            """.trimIndent(),
           )
         }.message shouldBe "uniqueItems must be a boolean"
       }

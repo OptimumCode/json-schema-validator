@@ -14,22 +14,22 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonPointerWorkTest : FunSpec() {
   init {
-      listOf(
-        buildJsonObject {
-          put("test", JsonPrimitive("a"))
-        },
-        buildJsonArray {
-          add(JsonPrimitive("a"))
-        },
-        JsonPrimitive("a"),
-      ).forEach {
-        test("root pointer should match ${it::class.simpleName}") {
-          val element: JsonElement? = it.at(JsonPointer.ROOT)
-          withClue("is the same instance") {
-            element shouldBeSameInstanceAs it
-          }
+    listOf(
+      buildJsonObject {
+        put("test", JsonPrimitive("a"))
+      },
+      buildJsonArray {
+        add(JsonPrimitive("a"))
+      },
+      JsonPrimitive("a"),
+    ).forEach {
+      test("root pointer should match ${it::class.simpleName}") {
+        val element: JsonElement? = it.at(JsonPointer.ROOT)
+        withClue("is the same instance") {
+          element shouldBeSameInstanceAs it
         }
       }
+    }
 
     test("returns property from object") {
       val jsonObject = buildJsonObject {
@@ -48,13 +48,13 @@ class JsonPointerWorkTest : FunSpec() {
 
     listOf(
       '~' to "~0",
-      '/' to "~1"
+      '/' to "~1",
     ).forEach { (actual, escaped) ->
       test("handles escaped charter $escaped as $actual") {
         val jsonObject = buildJsonObject {
           put("name${actual}field", JsonPrimitive("a"))
           put("${actual}field", JsonPrimitive("b"))
-          put("name${actual}", JsonPrimitive("c"))
+          put("name$actual", JsonPrimitive("c"))
         }
 
         assertSoftly {
@@ -64,7 +64,7 @@ class JsonPointerWorkTest : FunSpec() {
           JsonPointer("/${escaped}field").asClue {
             jsonObject.at(it) shouldBe JsonPrimitive("b")
           }
-          JsonPointer("/name${escaped}").asClue {
+          JsonPointer("/name$escaped").asClue {
             jsonObject.at(it) shouldBe JsonPrimitive("c")
           }
         }

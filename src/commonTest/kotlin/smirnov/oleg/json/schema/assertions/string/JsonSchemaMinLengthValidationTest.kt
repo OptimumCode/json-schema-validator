@@ -10,8 +10,8 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaMinLengthValidationTest : FunSpec() {
@@ -22,7 +22,7 @@ class JsonSchemaMinLengthValidationTest : FunSpec() {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
         "minLength": 10
       }
-      """.trimIndent()
+      """.trimIndent(),
     )
     val validStrings = listOf(
       "⩌⻏⊧➘⨜Ⅎ⮲➓⌸⨝❌Ⱞ₼⽩Ⅻⱄ⯐⡼℻⮟",
@@ -58,7 +58,7 @@ class JsonSchemaMinLengthValidationTest : FunSpec() {
             schemaPath = JsonPointer("/minLength"),
             objectPath = JsonPointer.ROOT,
             message = "string length (${str.length}) must be greater or equal to 10",
-          )
+          ),
         )
       }
     }

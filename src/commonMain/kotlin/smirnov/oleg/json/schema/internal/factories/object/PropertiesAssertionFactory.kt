@@ -16,9 +16,9 @@ internal object PropertiesAssertionFactory : AssertionFactory {
 
   override fun isApplicable(element: JsonElement): Boolean {
     return element is JsonObject && element.run {
-      containsKey(propertiesProperty)
-          || containsKey(patternPropertiesProperty)
-          || containsKey(additionalPropertiesProperty)
+      containsKey(propertiesProperty) ||
+        containsKey(patternPropertiesProperty) ||
+        containsKey(additionalPropertiesProperty)
     }
   }
 
@@ -45,7 +45,7 @@ internal object PropertiesAssertionFactory : AssertionFactory {
 
   private fun extractPatternAssertions(
     jsonObject: JsonObject,
-    context: LoadingContext
+    context: LoadingContext,
   ): Map<Regex, JsonSchemaAssertion> {
     if (jsonObject.isEmpty()) {
       return emptyMap()
@@ -60,8 +60,8 @@ internal object PropertiesAssertionFactory : AssertionFactory {
       require(propContext.isJsonSchema(element)) { "$pattern must be a valid JSON schema" }
       val regex = try {
         pattern.toRegex()
-      } catch (ex: Throwable) { // because of JsError
-        throw IllegalArgumentException("$pattern must be a valid regular expression", ex)
+      } catch (exOrJsError: Throwable) { // because of JsError
+        throw IllegalArgumentException("$pattern must be a valid regular expression", exOrJsError)
       }
       regex to propContext.at(pattern).schemaFrom(element)
     }.toMap()
@@ -69,7 +69,7 @@ internal object PropertiesAssertionFactory : AssertionFactory {
 
   private fun extractPropertiesAssertions(
     jsonObject: JsonObject,
-    context: LoadingContext
+    context: LoadingContext,
   ): Map<String, JsonSchemaAssertion> {
     if (jsonObject.isEmpty()) {
       return emptyMap()
@@ -85,13 +85,12 @@ internal object PropertiesAssertionFactory : AssertionFactory {
       propertiesContext.at(prop).schemaFrom(element)
     }
   }
-
 }
 
 private class PropertiesAssertion(
   private val propertiesAssertions: Map<String, JsonSchemaAssertion>,
   private val patternAssertions: Map<Regex, JsonSchemaAssertion>,
-  private val additionalProperties: JsonSchemaAssertion?
+  private val additionalProperties: JsonSchemaAssertion?,
 ) : JsonSchemaAssertion {
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
     if (element !is JsonObject) {
@@ -130,5 +129,4 @@ private class PropertiesAssertion(
     }
     return valid
   }
-
 }

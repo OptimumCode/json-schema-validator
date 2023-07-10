@@ -25,8 +25,8 @@ internal class ArrayLengthAssertion(
       ValidationError(
         schemaPath = path,
         objectPath = context.objectPath,
-        message = "array length $errorMessage $length"
-      )
+        message = "array length $errorMessage $length",
+      ),
     )
     return false
   }

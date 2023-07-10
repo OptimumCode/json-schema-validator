@@ -21,6 +21,6 @@ internal object ExclusiveMinimumAssertionFactory : AbstractAssertionFactory("exc
       maximumValue,
       element.content,
       errorMessage = "must be greater than",
-      ) { a, b -> a > b  }
+    ) { a, b -> a > b }
   }
 }

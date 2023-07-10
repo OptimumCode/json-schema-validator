@@ -2,7 +2,6 @@ package smirnov.oleg.json.pointer
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import smirnov.oleg.json.pointer.JsonPointer.Companion
 
 @Suppress("unused")
 class JsonPointerExtensionsTest : FunSpec() {

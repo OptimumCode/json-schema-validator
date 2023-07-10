@@ -10,8 +10,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaDependenciesValidationTest : FunSpec() {
@@ -30,7 +30,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
           }
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       test("object without trigger JSON schema property passes validation") {
         val jsonObject = buildJsonObject {
@@ -77,7 +77,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
               schemaPath = JsonPointer("/dependencies/trigger/properties/depend/type"),
               objectPath = JsonPointer("/depend"),
               message = "element is not a number",
-            )
+            ),
           )
         }
       }
@@ -91,7 +91,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
           "trigger": ["depend"]
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       test("object without trigger array property passes validation") {
         val jsonObject = buildJsonObject {
@@ -138,7 +138,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
               schemaPath = JsonPointer("/dependencies/trigger"),
               objectPath = JsonPointer.ROOT,
               message = "has 'trigger' property but missing required dependencies: [depend]",
-            )
+            ),
           )
         }
       }
@@ -159,7 +159,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
           "trigger2": ["depend2"]
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       notAnObjectPasses(schema)
     }
@@ -170,7 +170,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
         "dependencies": {}
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       test("object passes empty dependencies") {
         val jsonObject = buildJsonObject {
@@ -196,7 +196,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
           "trigger": []
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       test("object passes empty dependencies array") {
         val jsonObject = buildJsonObject {
@@ -224,7 +224,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
               "trigger": 42
             }
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "trigger dependency must be either array of strings or valid JSON schema"
     }
@@ -237,7 +237,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "dependencies": 42
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "dependencies must be an object"
     }
@@ -252,7 +252,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
               "trigger": ["a","b","a"]
             }
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "trigger must consist of unique elements"
     }

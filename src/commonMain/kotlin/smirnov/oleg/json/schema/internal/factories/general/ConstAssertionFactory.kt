@@ -29,7 +29,7 @@ private class ConstAssertion(
         schemaPath = path,
         objectPath = context.objectPath,
         message = "element does not match constant definition",
-      )
+      ),
     )
     return false
   }

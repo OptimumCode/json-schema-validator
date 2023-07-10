@@ -72,7 +72,7 @@ private const val DEFINITIONS_PROPERTY: String = "definitions"
 private const val ID_PROPERTY: String = "\$id"
 private const val REF_PROPERTY: String = "\$ref"
 
-internal const val rootReference = '#'
+internal const val ROOT_REFERENCE = '#'
 
 class SchemaLoader {
   fun load(schemaDefinition: JsonElement): JsonSchema {
@@ -81,7 +81,7 @@ class SchemaLoader {
     loadDefinitions(schemaDefinition, context)
     val schemaAssertion = loadSchema(schemaDefinition, context)
     ReferenceValidator.validateReferences(context.references.keys, context.usedRef)
-    return JsonSchema(baseId, schemaAssertion, context.references)
+    return JsonSchema(schemaAssertion, context.references)
   }
 
   private fun loadDefinitions(schemaDefinition: JsonElement, context: DefaultLoadingContext) {
@@ -106,7 +106,7 @@ class SchemaLoader {
       }
 
       else -> ""
-    }.trimEnd(rootReference)
+    }.trimEnd(ROOT_REFERENCE)
 }
 
 private fun loadSchema(
@@ -161,11 +161,13 @@ private data class DefaultLoadingContext(
   }
 
   override fun schemaFrom(element: JsonElement): JsonSchemaAssertion = loadSchema(element, this)
-  override fun isJsonSchema(element: JsonElement): Boolean = (element is JsonObject
-      || (element is JsonPrimitive && element.booleanOrNull != null))
+  override fun isJsonSchema(element: JsonElement): Boolean = (
+    element is JsonObject ||
+      (element is JsonPrimitive && element.booleanOrNull != null)
+    )
 
   fun register(assertion: JsonSchemaAssertion) {
-    val referenceId = buildRefId("$rootReference$schemaPath")
+    val referenceId = buildRefId("$ROOT_REFERENCE$schemaPath")
     references.put(referenceId, assertion)?.apply {
       throw IllegalStateException("duplicated definition $referenceId")
     }

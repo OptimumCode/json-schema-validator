@@ -1,5 +1,6 @@
-package smirnov.oleg.json.schema.internal.factories.condition
+package smirnov.oleg.json.schema.internal.factories.general
 
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.ErrorCollector
@@ -9,29 +10,34 @@ import smirnov.oleg.json.schema.internal.JsonSchemaAssertion
 import smirnov.oleg.json.schema.internal.LoadingContext
 import smirnov.oleg.json.schema.internal.factories.AbstractAssertionFactory
 
-@Suppress("unused")
-internal object NotAssertionFactory : AbstractAssertionFactory("not") {
+internal object EnumAssertionFactory : AbstractAssertionFactory("enum") {
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
-    require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
-    val assertion = context.schemaFrom(element)
-    return NotAssertion(context.schemaPath, assertion)
+    require(element is JsonArray) { "$property must be an array" }
+    require(element.isNotEmpty()) { "$property must have at least one element" }
+    val uniqueElements = element.toSet()
+    require(uniqueElements.size == element.size) { "$property must consist of unique elements" }
+    return EnumAssertion(context.schemaPath, uniqueElements)
   }
 }
 
-private class NotAssertion(
+private class EnumAssertion(
   private val path: JsonPointer,
-  private val delegate: JsonSchemaAssertion,
+  private val possibleElements: Set<JsonElement>,
 ) : JsonSchemaAssertion {
+  init {
+    require(possibleElements.isNotEmpty()) { "at least one element must be set" }
+  }
+
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
-    if (!delegate.validate(element, context, ErrorCollector.EMPTY)) {
+    if (possibleElements.contains(element)) {
       return true
     }
     errorCollector.onError(
       ValidationError(
         schemaPath = path,
         objectPath = context.objectPath,
-        message = "element must not be valid against child JSON schema but was",
-      )
+        message = "element is not in enum",
+      ),
     )
     return false
   }

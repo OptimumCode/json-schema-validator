@@ -2,57 +2,46 @@ package smirnov.oleg.json.schema.internal.factories.array
 
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.booleanOrNull
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.ErrorCollector
 import smirnov.oleg.json.schema.ValidationError
 import smirnov.oleg.json.schema.internal.AssertionContext
 import smirnov.oleg.json.schema.internal.JsonSchemaAssertion
 import smirnov.oleg.json.schema.internal.LoadingContext
-import smirnov.oleg.json.schema.internal.TrueSchemaAssertion
 import smirnov.oleg.json.schema.internal.factories.AbstractAssertionFactory
 
 @Suppress("unused")
-internal object UniqueItemsAssertionFactory : AbstractAssertionFactory("uniqueItems") {
+internal object ContainsAssertionFactory : AbstractAssertionFactory("contains") {
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
-    require(element is JsonPrimitive && !element.isString) { "$property must be a boolean" }
-    val uniqueItemsValue = requireNotNull(element.booleanOrNull) { "$property must be a boolean" }
-    return if (uniqueItemsValue) {
-      UniqueItemsAssertion(context.schemaPath)
-    } else {
-      TrueSchemaAssertion
-    }
+    require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
+    val containsAssertion = context.schemaFrom(element)
+    return ContainsAssertion(context.schemaPath, containsAssertion)
   }
 }
 
-private class UniqueItemsAssertion(
+private class ContainsAssertion(
   private val path: JsonPointer,
+  private val containsAssertion: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
     if (element !is JsonArray) {
       return true
     }
-    if (element.size < 2) {
+    val contains = element.any {
+      containsAssertion.validate(it, context, ErrorCollector.EMPTY)
+    }
+    if (contains) {
       return true
     }
-    val uniqueItems = element.mapTo(linkedSetOf()) { it }
-    val uniqueItemsCount = uniqueItems.size
-    if (uniqueItemsCount == element.size) {
-      return true
-    }
-    uniqueItems.clear()
+
     errorCollector.onError(
       ValidationError(
         schemaPath = path,
         objectPath = context.objectPath,
-        message = "array contains duplicate values: ${element.asSequence().filter(uniqueItems::add).joinToString(
-          prefix = "[",
-          postfix = "]",
-          separator = ",",
-        )}",
-      )
+        message = "array does not contain expected element",
+      ),
     )
+
     return false
   }
 }

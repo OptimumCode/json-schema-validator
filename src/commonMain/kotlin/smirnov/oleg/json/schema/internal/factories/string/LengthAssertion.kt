@@ -28,7 +28,7 @@ internal class LengthAssertion(
         schemaPath = path,
         objectPath = context.objectPath,
         message = "string length (${content.length}) $errorMessage $lengthValue",
-      )
+      ),
     )
     return false
   }

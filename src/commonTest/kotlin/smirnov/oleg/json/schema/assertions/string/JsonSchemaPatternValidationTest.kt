@@ -9,8 +9,8 @@ import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.JsonPrimitive
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaPatternValidationTest : FunSpec() {
@@ -28,7 +28,7 @@ class JsonSchemaPatternValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "pattern": "$pattern"
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(JsonPrimitive(value), errors::add)
@@ -52,7 +52,7 @@ class JsonSchemaPatternValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "pattern": "$pattern"
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(JsonPrimitive(value), errors::add)
@@ -63,7 +63,7 @@ class JsonSchemaPatternValidationTest : FunSpec() {
               schemaPath = JsonPointer("/pattern"),
               objectPath = JsonPointer.ROOT,
               message = "string does not match pattern '$pattern'",
-            )
+            ),
           )
         }
       }
@@ -77,7 +77,7 @@ class JsonSchemaPatternValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "pattern": "*not.a.valid"
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "pattern is not a valid regular expression"
     }

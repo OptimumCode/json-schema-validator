@@ -1,8 +1,13 @@
+import io.gitlab.arturbosch.detekt.Detekt
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+
 plugins {
   alias(libs.plugins.kotlin.mutliplatform)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.kotest.multiplatform)
   alias(libs.plugins.kover)
+  alias(libs.plugins.detekt)
+  alias(libs.plugins.ktlint)
 }
 
 repositories {
@@ -33,7 +38,6 @@ kotlin {
     else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
   }
 
-
   sourceSets {
     val commonMain by getting {
       dependencies {
@@ -63,4 +67,15 @@ kotlin {
 
 tasks.named<Test>("jvmTest") {
   useJUnitPlatform()
+}
+
+ktlint {
+  version.set(libs.versions.ktlint)
+  reporters {
+    reporter(ReporterType.HTML)
+  }
+}
+
+tasks.register("detektAll") {
+  dependsOn(tasks.withType<Detekt>())
 }

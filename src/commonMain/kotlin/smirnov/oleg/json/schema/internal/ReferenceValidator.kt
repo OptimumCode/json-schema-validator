@@ -68,21 +68,25 @@ internal object ReferenceValidator {
 
       other as CircledReference
 
-      return (firstLocation == other.firstLocation
-          && firstRef == other.firstRef
-          && secondLocation == other.secondLocation
-          && secondRef == other.secondRef)
-          || (firstLocation == other.secondLocation
-          && firstRef == other.secondRef
-          && secondLocation == other.firstLocation
-          && secondRef == other.firstRef)
+      return (
+        firstLocation == other.firstLocation &&
+          firstRef == other.firstRef &&
+          secondLocation == other.secondLocation &&
+          secondRef == other.secondRef
+        ) ||
+        (
+          firstLocation == other.secondLocation &&
+            firstRef == other.secondRef &&
+            secondLocation == other.firstLocation &&
+            secondRef == other.firstRef
+          )
     }
 
     override fun hashCode(): Int {
       return firstLocation.hashCode() +
-          firstRef.hashCode() +
-          secondLocation.hashCode() +
-          secondRef.hashCode()
+        firstRef.hashCode() +
+        secondLocation.hashCode() +
+        secondRef.hashCode()
     }
   }
 }

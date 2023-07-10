@@ -47,7 +47,7 @@ private class RequiredAssertion(
         schemaPath = path,
         objectPath = context.objectPath,
         message = "missing required properties: $missingProperties",
-      )
+      ),
     )
     return false
   }

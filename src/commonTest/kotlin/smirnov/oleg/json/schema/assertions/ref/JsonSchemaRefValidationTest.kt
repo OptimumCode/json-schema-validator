@@ -9,8 +9,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaRefValidationTest : FunSpec() {
@@ -29,7 +29,7 @@ class JsonSchemaRefValidationTest : FunSpec() {
           "size": { "${KEY}ref": "#/definitions/positiveInteger" }
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).apply {
       test("object passes ref validation") {
         val jsonObject = buildJsonObject {
@@ -57,7 +57,7 @@ class JsonSchemaRefValidationTest : FunSpec() {
               objectPath = JsonPointer("/size"),
               message = "-1 must be greater or equal to 0",
               absoluteLocation = JsonPointer("/definitions/positiveInteger/minimum"),
-            )
+            ),
           )
         }
       }
@@ -78,13 +78,16 @@ class JsonSchemaRefValidationTest : FunSpec() {
           "other": { "${KEY}ref": "#" }
         }
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).apply {
       test("object self reference passes validation") {
         val jsonObject = buildJsonObject {
-          put("other", buildJsonObject {
-            put("size", JsonPrimitive(42))
-          })
+          put(
+            "other",
+            buildJsonObject {
+              put("size", JsonPrimitive(42))
+            },
+          )
         }
 
         val errors = mutableListOf<ValidationError>()
@@ -97,9 +100,12 @@ class JsonSchemaRefValidationTest : FunSpec() {
 
       test("object self reference fails validation") {
         val jsonObject = buildJsonObject {
-          put("other", buildJsonObject {
-            put("size", JsonPrimitive(-1))
-          })
+          put(
+            "other",
+            buildJsonObject {
+              put("size", JsonPrimitive(-1))
+            },
+          )
         }
 
         val errors = mutableListOf<ValidationError>()
@@ -112,7 +118,7 @@ class JsonSchemaRefValidationTest : FunSpec() {
               objectPath = JsonPointer("/other/size"),
               message = "-1 must be greater or equal to 0",
               absoluteLocation = JsonPointer("/definitions/positiveInteger/minimum"),
-            )
+            ),
           )
         }
       }

@@ -15,8 +15,8 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @OptIn(ExperimentalSerializationApi::class)
 @Suppress("unused")
@@ -45,7 +45,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "type": "$type"
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
         val errors = mutableListOf<ValidationError>()
         val valid: Boolean = schema.validate(value, errors::add)
@@ -65,7 +65,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "type": "$type"
           }
-          """.trimIndent()
+        """.trimIndent(),
       )
       possibleTypes.asSequence().filter { it.key != type && it.key != associatedTypes[type] }
         .forEach { (currentType, value) ->
@@ -79,7 +79,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
                   schemaPath = JsonPointer("/type"),
                   objectPath = JsonPointer.ROOT,
                   message = "element is not a $type",
-                )
+                ),
               )
             }
           }
@@ -92,7 +92,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "type": ["object","array"]
           }
-          """.trimIndent()
+      """.trimIndent(),
     )
     test("object is one of [object, array]") {
       val errors = mutableListOf<ValidationError>()
@@ -118,7 +118,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "type": "unknown"
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "unknown type 'unknown' (known: [null, string, boolean, number, integer, array, object])"
     }
@@ -130,7 +130,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "type": ["unknown","number"]
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "unknown types [unknown] (known: [null, string, boolean, number, integer, array, object])"
     }
@@ -142,7 +142,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "type": 42
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "type must be a string if it is not an array"
     }
@@ -155,7 +155,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "type": [42]
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "each type element must be a string"
     }
@@ -168,7 +168,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "type": ["number", "string", "number"]
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "array must consist of unique values"
     }
@@ -181,7 +181,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "type": {"type": "number"}
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "type must be either array or a string"
     }

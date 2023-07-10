@@ -8,8 +8,8 @@ import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.JsonPrimitive
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaAllOfValidationTest : FunSpec() {
@@ -31,7 +31,7 @@ class JsonSchemaAllOfValidationTest : FunSpec() {
           }
         ]
       }
-      """.trimIndent()
+      """.trimIndent(),
     ).also { schema ->
       test("passes all assertions") {
         val element = JsonPrimitive("test")
@@ -58,7 +58,7 @@ class JsonSchemaAllOfValidationTest : FunSpec() {
               schemaPath = JsonPointer("/allOf/0/type"),
               objectPath = JsonPointer.ROOT,
               message = "element is not a string",
-            )
+            ),
           )
         }
       }
@@ -76,7 +76,7 @@ class JsonSchemaAllOfValidationTest : FunSpec() {
               schemaPath = JsonPointer("/allOf/1/minLength"),
               objectPath = JsonPointer.ROOT,
               message = "string length (2) must be greater or equal to 3",
-            )
+            ),
           )
         }
       }
@@ -94,7 +94,7 @@ class JsonSchemaAllOfValidationTest : FunSpec() {
               schemaPath = JsonPointer("/allOf/2/maxLength"),
               objectPath = JsonPointer.ROOT,
               message = "string length (7) must be less or equal to 6",
-            )
+            ),
           )
         }
       }

@@ -15,8 +15,8 @@ internal object ItemsAssertionFactory : AssertionFactory {
   private const val additionalItemsProperty: String = "additionalItems"
 
   override fun isApplicable(element: JsonElement): Boolean {
-    return element is JsonObject
-        && element.run { contains(itemsProperty) }
+    return element is JsonObject &&
+      element.run { contains(itemsProperty) }
   }
 
   override fun create(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
@@ -66,9 +66,9 @@ private class ElementsAssertion(
   }
 
   private fun validateWithAdditionalItems(
-      element: JsonArray,
-      context: AssertionContext,
-      errorCollector: ErrorCollector,
+    element: JsonArray,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
   ): Boolean {
     var valid = true
     element.forEachIndexed { index, item ->
@@ -95,9 +95,9 @@ private class ElementsAssertion(
   }
 
   private fun validateEachItem(
-      element: JsonArray,
-      context: AssertionContext,
-      errorCollector: ErrorCollector
+    element: JsonArray,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
   ): Boolean {
     val itemAssertion = items.single()
     var valid = true

@@ -11,8 +11,8 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaItemsValidationTest : FunSpec() {
@@ -24,7 +24,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
           "items": true
         }
-        """.trimIndent()
+        """.trimIndent(),
       )
       val array = buildJsonArray {
         add(JsonPrimitive(42))
@@ -54,7 +54,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
             "type": "number"
           }
         }
-        """.trimIndent()
+        """.trimIndent(),
       )
       val array = buildJsonArray {
         add(JsonPrimitive(42))
@@ -84,7 +84,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
             }
           ]
         }
-        """.trimIndent()
+        """.trimIndent(),
       )
       val array = buildJsonArray {
         add(JsonPrimitive(42))
@@ -114,7 +114,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
             "type": "number"
           }
         }
-        """.trimIndent()
+        """.trimIndent(),
       )
       val array = buildJsonArray {
         add(JsonPrimitive("str"))
@@ -174,7 +174,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
             }
           ]
         }
-        """.trimIndent()
+        """.trimIndent(),
       )
 
       val array = buildJsonArray {
@@ -219,7 +219,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
             "type": "number"
           }
         }
-        """.trimIndent()
+        """.trimIndent(),
       )
 
       val array = buildJsonArray {
@@ -253,7 +253,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
             "type": "string"
           }
         }
-        """.trimIndent()
+        """.trimIndent(),
       )
 
       val array = buildJsonArray {
@@ -309,7 +309,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
           ],
           "additionalItems": false
         }
-        """.trimIndent()
+        """.trimIndent(),
       )
 
       val array = buildJsonArray {
@@ -327,7 +327,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
             schemaPath = JsonPointer("/additionalItems"),
             objectPath = JsonPointer("/1"),
             message = "all values fail against the false schema",
-          )
+          ),
         )
       }
     }
@@ -343,7 +343,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
             "type": "number"
           }
         }
-        """.trimIndent()
+      """.trimIndent(),
     )
     listOf(
       JsonPrimitive("test"),

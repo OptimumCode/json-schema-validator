@@ -15,7 +15,7 @@ fun FunSpec.testInvalidSchemaInArray(name: String) {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
           "$name": []
         }
-        """.trimIndent()
+        """.trimIndent(),
       )
     }.message shouldBe "$name must have at least one element"
   }
@@ -28,7 +28,7 @@ fun FunSpec.testInvalidSchemaInArray(name: String) {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
           "$name": {}
         }
-        """.trimIndent()
+        """.trimIndent(),
       )
     }.message shouldBe "$name must be an array"
   }
@@ -41,7 +41,7 @@ fun FunSpec.testInvalidSchemaInArray(name: String) {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
           "$name": [42]
         }
-        """.trimIndent()
+        """.trimIndent(),
       )
     }.message shouldBe "each element in $name must be a valid JSON schema"
   }

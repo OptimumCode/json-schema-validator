@@ -12,8 +12,8 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaEnumValidationTest : FunSpec() {
@@ -39,7 +39,7 @@ class JsonSchemaEnumValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "enum": ${JsonArray(enumElements)}
           }
-          """.trimIndent()
+      """.trimIndent(),
     )
     enumElements.forEach {
       test("element $it in enum") {
@@ -59,7 +59,7 @@ class JsonSchemaEnumValidationTest : FunSpec() {
           schemaPath = JsonPointer("/enum"),
           objectPath = JsonPointer.ROOT,
           message = "element is not in enum",
-        )
+        ),
       )
     }
 
@@ -71,7 +71,7 @@ class JsonSchemaEnumValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "enum": 42
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "enum must be an array"
     }
@@ -84,7 +84,7 @@ class JsonSchemaEnumValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "enum": ["A", "B", "A"]
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "enum must consist of unique elements"
     }
@@ -96,7 +96,7 @@ class JsonSchemaEnumValidationTest : FunSpec() {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "enum": []
           }
-          """.trimIndent()
+          """.trimIndent(),
         )
       }.message shouldBe "enum must have at least one element"
     }

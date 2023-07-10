@@ -28,14 +28,14 @@ private class OneOfAssertion(
     }
 
     when {
-        matched.size > 1 -> errorCollector.onError(
-          ValidationError(
-            schemaPath = path,
-            objectPath = context.objectPath,
-            message = "element matches more than one JSON schema at indexes: $matched"
-          )
-        )
-        matched.size == 0 -> suppressedErrors.forEach(errorCollector::onError)
+      matched.size > 1 -> errorCollector.onError(
+        ValidationError(
+          schemaPath = path,
+          objectPath = context.objectPath,
+          message = "element matches more than one JSON schema at indexes: $matched",
+        ),
+      )
+      matched.size == 0 -> suppressedErrors.forEach(errorCollector::onError)
     }
 
     return matched.size == 1

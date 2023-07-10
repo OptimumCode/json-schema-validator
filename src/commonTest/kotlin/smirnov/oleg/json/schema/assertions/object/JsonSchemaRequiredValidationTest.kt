@@ -9,8 +9,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import smirnov.oleg.json.pointer.JsonPointer
 import smirnov.oleg.json.schema.JsonSchema
-import smirnov.oleg.json.schema.base.KEY
 import smirnov.oleg.json.schema.ValidationError
+import smirnov.oleg.json.schema.base.KEY
 
 @Suppress("unused")
 class JsonSchemaRequiredValidationTest : FunSpec() {
@@ -21,7 +21,7 @@ class JsonSchemaRequiredValidationTest : FunSpec() {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
         "required": ["prop1", "prop2"]
       }
-      """.trimIndent()
+      """.trimIndent(),
     )
 
     listOf(
@@ -53,7 +53,7 @@ class JsonSchemaRequiredValidationTest : FunSpec() {
         put("prop2", JsonPrimitive("a"))
       } to listOf("prop1"),
       buildJsonObject {
-      } to listOf("prop1", "prop2")
+      } to listOf("prop1", "prop2"),
     ).forEach { (jsonObject, missingProps) ->
       test("object with props ${jsonObject.keys} fails validation") {
         val errors = mutableListOf<ValidationError>()
@@ -65,7 +65,7 @@ class JsonSchemaRequiredValidationTest : FunSpec() {
               schemaPath = JsonPointer("/required"),
               objectPath = JsonPointer.ROOT,
               message = "missing required properties: $missingProps",
-            )
+            ),
           )
         }
       }

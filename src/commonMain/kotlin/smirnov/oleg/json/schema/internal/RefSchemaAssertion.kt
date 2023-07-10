@@ -22,7 +22,7 @@ internal class RefSchemaAssertion(
         it.copy(
           schemaPath = basePath + refIdPath.relative(it.schemaPath),
           absoluteLocation = it.absoluteLocation ?: it.schemaPath,
-        )
+        ),
       )
     }
   }
