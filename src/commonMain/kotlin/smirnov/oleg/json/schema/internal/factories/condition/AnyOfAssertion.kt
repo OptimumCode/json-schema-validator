@@ -5,10 +5,12 @@ import smirnov.oleg.json.schema.ErrorCollector
 import smirnov.oleg.json.schema.ValidationError
 import smirnov.oleg.json.schema.internal.AssertionContext
 import smirnov.oleg.json.schema.internal.JsonSchemaAssertion
+import smirnov.oleg.json.schema.internal.LoadingContext
 
 @Suppress("unused")
 internal object AnyOfAssertionFactory : AbstractAssertionsCollectionFactory("anyOf") {
-  override fun createAssertion(assertions: List<JsonSchemaAssertion>): JsonSchemaAssertion = AnyOfAssertion(assertions)
+  override fun createAssertion(context: LoadingContext, assertions: List<JsonSchemaAssertion>): JsonSchemaAssertion =
+    AnyOfAssertion(assertions)
 }
 
 private class AnyOfAssertion(

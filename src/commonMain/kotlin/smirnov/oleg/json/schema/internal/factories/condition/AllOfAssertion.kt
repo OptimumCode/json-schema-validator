@@ -4,10 +4,12 @@ import kotlinx.serialization.json.JsonElement
 import smirnov.oleg.json.schema.ErrorCollector
 import smirnov.oleg.json.schema.internal.AssertionContext
 import smirnov.oleg.json.schema.internal.JsonSchemaAssertion
+import smirnov.oleg.json.schema.internal.LoadingContext
 
 @Suppress("unused")
 internal object AllOfAssertionFactory : AbstractAssertionsCollectionFactory("allOf") {
-  override fun createAssertion(assertions: List<JsonSchemaAssertion>): JsonSchemaAssertion = AllOfAssertion(assertions)
+  override fun createAssertion(context: LoadingContext, assertions: List<JsonSchemaAssertion>): JsonSchemaAssertion =
+    AllOfAssertion(assertions)
 }
 
 private class AllOfAssertion(
