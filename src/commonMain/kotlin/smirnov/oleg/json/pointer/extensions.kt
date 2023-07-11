@@ -9,7 +9,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlin.jvm.JvmName
 
-operator fun JsonPointer.get(index: Int): JsonPointer = JsonPointer(
+public operator fun JsonPointer.get(index: Int): JsonPointer = JsonPointer(
   buildString {
     val pointer = this@get.toString()
     append(pointer)
@@ -20,7 +20,7 @@ operator fun JsonPointer.get(index: Int): JsonPointer = JsonPointer(
   },
 )
 
-operator fun JsonPointer.div(property: String): JsonPointer = JsonPointer(
+public operator fun JsonPointer.div(property: String): JsonPointer = JsonPointer(
   buildString {
     val pointer = this@div.toString()
     append(pointer)
@@ -31,7 +31,7 @@ operator fun JsonPointer.div(property: String): JsonPointer = JsonPointer(
   },
 )
 
-operator fun JsonPointer.plus(otherPointer: JsonPointer): JsonPointer {
+public operator fun JsonPointer.plus(otherPointer: JsonPointer): JsonPointer {
   if (this is EmptyPointer) {
     return otherPointer
   }
@@ -51,7 +51,7 @@ operator fun JsonPointer.plus(otherPointer: JsonPointer): JsonPointer {
   )
 }
 
-fun JsonPointer.relative(other: JsonPointer): JsonPointer {
+public fun JsonPointer.relative(other: JsonPointer): JsonPointer {
   if (this is EmptyPointer) {
     return other
   }
@@ -61,7 +61,7 @@ fun JsonPointer.relative(other: JsonPointer): JsonPointer {
   return JsonPointer(otherValue.substringAfter(currentValue))
 }
 
-tailrec fun JsonElement.at(pointer: JsonPointer): JsonElement? {
+public tailrec fun JsonElement.at(pointer: JsonPointer): JsonElement? {
   return when (pointer) {
     is EmptyPointer -> this
     is SegmentPointer -> {

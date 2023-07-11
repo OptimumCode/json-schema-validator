@@ -9,18 +9,18 @@ import smirnov.oleg.json.schema.internal.RefId
 import smirnov.oleg.json.schema.internal.SchemaLoader
 import kotlin.jvm.JvmStatic
 
-class JsonSchema internal constructor(
+public class JsonSchema internal constructor(
   private val assertion: JsonSchemaAssertion,
   private val references: Map<RefId, JsonSchemaAssertion>,
 ) {
-  fun validate(value: JsonElement, errorCollector: ErrorCollector): Boolean {
+  public fun validate(value: JsonElement, errorCollector: ErrorCollector): Boolean {
     val context = DefaultAssertionContext(JsonPointer.ROOT, references)
     return assertion.validate(value, context, errorCollector)
   }
 
-  companion object {
+  public companion object {
     @JvmStatic
-    fun fromDescription(schema: String): JsonSchema {
+    public fun fromDescription(schema: String): JsonSchema {
       val schemaElement: JsonElement = Json.parseToJsonElement(schema)
       return SchemaLoader().load(schemaElement)
     }

@@ -64,12 +64,3 @@ public final class smirnov/oleg/json/schema/ValidationError {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class smirnov/oleg/json/schema/internal/KeyWords : java/lang/Enum {
-	public static final field ANCHOR Lsmirnov/oleg/json/schema/internal/KeyWords;
-	public static final field DEFINITIONS Lsmirnov/oleg/json/schema/internal/KeyWords;
-	public static final field ID Lsmirnov/oleg/json/schema/internal/KeyWords;
-	public static final field REF Lsmirnov/oleg/json/schema/internal/KeyWords;
-	public static fun valueOf (Ljava/lang/String;)Lsmirnov/oleg/json/schema/internal/KeyWords;
-	public static fun values ()[Lsmirnov/oleg/json/schema/internal/KeyWords;
-}
-

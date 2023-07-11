@@ -5,7 +5,7 @@ import smirnov.oleg.json.pointer.JsonPointer
 /**
  * [ValidationError] contains information about the assertion that failed during the validation
  */
-data class ValidationError(
+public data class ValidationError(
   /**
    * Path to the assertion definition in schema
    */

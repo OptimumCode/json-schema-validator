@@ -5,15 +5,15 @@ import kotlin.jvm.JvmField
 /**
  * Listener for validations error
  */
-fun interface ErrorCollector {
+public fun interface ErrorCollector {
   /**
    * Method is invoked on error during validation
    * @param error validation error
    */
-  fun onError(error: ValidationError)
+  public fun onError(error: ValidationError)
 
-  companion object {
+  public companion object {
     @JvmField
-    val EMPTY: ErrorCollector = ErrorCollector { }
+    public val EMPTY: ErrorCollector = ErrorCollector { }
   }
 }
