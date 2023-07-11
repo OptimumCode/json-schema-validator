@@ -9,6 +9,7 @@ plugins {
   alias(libs.plugins.detekt)
   alias(libs.plugins.ktlint)
   alias(libs.plugins.kotlin.binaryCompatibility)
+  `maven-publish`
 }
 
 repositories {
@@ -30,13 +31,34 @@ kotlin {
       }
     }
     generateTypeScriptDefinitions()
+    nodejs()
   }
+
   val hostOs = System.getProperty("os.name")
   val isMingwX64 = hostOs.startsWith("Windows")
-  val nativeTarget = when {
-    hostOs == "Mac OS X" -> macosX64("native")
-    hostOs == "Linux" -> linuxX64("native")
-    isMingwX64 -> mingwX64("native")
+  when {
+    hostOs == "Mac OS X" -> {
+      macosX64()
+      macosArm64()
+
+      ios()
+      iosArm64()
+      iosSimulatorArm64()
+
+      watchos()
+      watchosArm32()
+      watchosSimulatorArm64()
+
+      tvos()
+      tvosArm64()
+      tvosX64()
+    }
+
+    hostOs == "Linux" -> {
+      linuxX64()
+      linuxArm64()
+    }
+    isMingwX64 -> mingwX64()
     else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
   }
 
@@ -54,16 +76,24 @@ kotlin {
         implementation(kotlin("test-annotations-common"))
       }
     }
-    val jvmMain by getting
     val jvmTest by getting {
       dependencies {
         implementation(libs.kotest.runner.junit5)
       }
     }
-    val jsMain by getting
-    val jsTest by getting
-    val nativeMain by getting
-    val nativeTest by getting
+  }
+
+  val publicationsFromMainHost =
+    listOf(jvm(), js()).map { it.name } + "kotlinMultiplatform"
+  publishing {
+    publications {
+      matching { it.name in publicationsFromMainHost }.all {
+        val targetPublication = this@all
+        tasks.withType<AbstractPublishToMaven>()
+          .matching { it.publication == targetPublication }
+          .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
+      }
+    }
   }
 }
 
@@ -78,7 +108,7 @@ ktlint {
   }
 }
 
-private val detektAllTask = tasks.register("detektAll") {
+private val detektAllTask by tasks.register("detektAll") {
   dependsOn(tasks.withType<Detekt>())
 }
 
