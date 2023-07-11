@@ -13,6 +13,9 @@ public fun interface ErrorCollector {
   public fun onError(error: ValidationError)
 
   public companion object {
+    /**
+     * Empty [ErrorCollector] can be used if you need only a simple `true`/`false` as a result of the validation
+     */
     @JvmField
     public val EMPTY: ErrorCollector = ErrorCollector { }
   }

@@ -9,6 +9,15 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlin.jvm.JvmName
 
+/**
+ * Creates a new [JsonPointer] that points to an [index] in the array.
+ *
+ * Example:
+ * ```kotlin
+ * val pointer = JsonPointer("/test")
+ * val index = pointer[0] // "/test/0"
+ * ```
+ */
 public operator fun JsonPointer.get(index: Int): JsonPointer =
   JsonPointer(
     buildString {
@@ -21,6 +30,15 @@ public operator fun JsonPointer.get(index: Int): JsonPointer =
     },
   )
 
+/**
+ * Creates a new [JsonPointer] that points to a [property] passed as a parameter.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val pointer = JsonPointer.ROOT / "prop1" / "prop2"  // "/prop1/prop2"
+ * ```
+ */
 public operator fun JsonPointer.div(property: String): JsonPointer =
   JsonPointer(
     buildString {
@@ -33,6 +51,23 @@ public operator fun JsonPointer.div(property: String): JsonPointer =
     },
   )
 
+/**
+ * Appends [otherPointer] to the current [JsonPointer].
+ * If current or [otherPointer] JSON pointer is an empty JSON pointer. The first not-empty pointer will be returned.
+ * (or an empty pointer if both pointers are empty).
+ *
+ * If both are not-empty pointers the resulting JSON pointer will start from the current one
+ * and [otherPointer] appended at the end.
+ *
+ * Example:
+ * ```kotlin
+ * val pointer = JsonPointer.ROOT + JsonPointer.ROOT // ""
+ *
+ * val pointer = JsonPointer.ROOT + JsonPointer("/test") // "/test"
+ *
+ * val pointer = JsonPointer("/prop") + JsonPointer("/test") // "/prop/test"
+ * ```
+ */
 public operator fun JsonPointer.plus(otherPointer: JsonPointer): JsonPointer {
   if (this is EmptyPointer) {
     return otherPointer
@@ -53,6 +88,19 @@ public operator fun JsonPointer.plus(otherPointer: JsonPointer): JsonPointer {
   )
 }
 
+/**
+ * Returns a [JsonPointer] that is a relative pointer from current pointer to [other] pointer.
+ * If current pointer is an empty pointer the [other] pointer will be returned.
+ *
+ * If the [other] pointer is not starts from the current pointer the [other] pointer will be returned.
+ *
+ * Example:
+ * ```kotlin
+ * val pointer = JsonPointer("/test").relative(JsonPointer("/test/0/data") // "/0/data"
+ * ```
+ *
+ * @throws IllegalArgumentException when [other] is an empty pointer
+ */
 public fun JsonPointer.relative(other: JsonPointer): JsonPointer {
   if (this is EmptyPointer) {
     return other
@@ -60,9 +108,19 @@ public fun JsonPointer.relative(other: JsonPointer): JsonPointer {
   require(other !is EmptyPointer) { "empty pointer is not relative to any" }
   val currentValue = this.toString()
   val otherValue = other.toString()
-  return JsonPointer(otherValue.substringAfter(currentValue))
+  val relative = otherValue.substringAfter(currentValue)
+  return if (relative == otherValue) {
+    other
+  } else {
+    JsonPointer(relative)
+  }
 }
 
+/**
+ * Extracts [JsonElement] from the current JSON element that corresponds to the specified [JsonPointer].
+ *
+ * If [pointer] path does not exist in the current [JsonElement] the `null` will be returned.
+ */
 public tailrec fun JsonElement.at(pointer: JsonPointer): JsonElement? {
   return when (pointer) {
     is EmptyPointer -> this

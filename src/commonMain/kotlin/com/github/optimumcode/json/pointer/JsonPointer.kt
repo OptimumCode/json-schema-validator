@@ -3,9 +3,17 @@ package com.github.optimumcode.json.pointer
 import kotlin.jvm.JvmField
 import kotlin.jvm.JvmStatic
 
+/**
+ * Function to create [JsonPointer].
+ * It is a more convenient way to create a JSON pointer rather than using [JsonPointer.compile] function
+ */
 public fun JsonPointer(path: String): JsonPointer =
   JsonPointer.compile(path)
 
+/**
+ * Implementation of a JSON pointer described in the specification
+ * [RFC6901](https://datatracker.ietf.org/doc/html/rfc6901).
+ */
 public sealed class JsonPointer(
   private val fullPath: String,
   private val pathOffset: Int,
@@ -40,11 +48,22 @@ public sealed class JsonPointer(
     internal const val SEPARATOR: Char = '/'
     internal const val QUOTATION: Char = '~'
 
+    /**
+     * An empty [JsonPointer]. The empty JSON pointer corresponds to the current JSON element.s
+     */
     @JvmField
     public val ROOT: JsonPointer = EmptyPointer
 
     private const val DEFAULT_BUFFER_CAPACITY = 32
 
+    /**
+     * Returns instance of the [JsonPointer] class.
+     * If the [expr] is an empty string the [JsonPointer.ROOT] will be returned.
+     *
+     * If the [expr] is not an empty string it must start from the `/` character.
+     *
+     * @throws IllegalArgumentException the [expr] does not start from `/`
+     */
     @JvmStatic
     public fun compile(expr: String): JsonPointer {
       return if (expr.isEmpty()) {
