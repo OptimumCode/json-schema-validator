@@ -61,7 +61,7 @@ fun JsonPointer.relative(other: JsonPointer): JsonPointer {
   return JsonPointer(otherValue.substringAfter(currentValue))
 }
 
-fun JsonElement.at(pointer: JsonPointer): JsonElement? {
+tailrec fun JsonElement.at(pointer: JsonPointer): JsonElement? {
   return when (pointer) {
     is EmptyPointer -> this
     is SegmentPointer -> {
