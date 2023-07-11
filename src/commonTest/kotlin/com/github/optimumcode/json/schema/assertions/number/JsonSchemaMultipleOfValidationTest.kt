@@ -7,20 +7,24 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.JsonUnquotedLiteral
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 
+// JsonUnquotedLiteral is used to bypass the JS conversion to integer value
+@OptIn(ExperimentalSerializationApi::class)
 @Suppress("unused")
 class JsonSchemaMultipleOfValidationTest : FunSpec() {
   init {
     listOf(
       JsonPrimitive(7),
       JsonPrimitive(49),
-      JsonPrimitive(49.0),
+      JsonUnquotedLiteral("49.0"),
       JsonPrimitive(-49),
-      JsonPrimitive(-49.0),
+      JsonUnquotedLiteral("-49.0"),
     ).forEach {
       val schema = JsonSchema.fromDescription(
         """
@@ -40,10 +44,10 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
 
     listOf(
       JsonPrimitive(3),
-      JsonPrimitive(3.0),
+      JsonUnquotedLiteral("3.0"),
       JsonPrimitive(4.5),
       JsonPrimitive(-3),
-      JsonPrimitive(-3.0),
+      JsonUnquotedLiteral("-3.0"),
       JsonPrimitive(-4.5),
     ).forEach {
       val schema = JsonSchema.fromDescription(
@@ -64,9 +68,9 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
 
     listOf(
       JsonPrimitive(0),
-      JsonPrimitive(0.0),
+      JsonUnquotedLiteral("0.0"),
       JsonPrimitive(-1),
-      JsonPrimitive(-1.0),
+      JsonUnquotedLiteral("-1.0"),
       JsonPrimitive(-Double.MAX_VALUE),
       JsonPrimitive(Long.MIN_VALUE),
     ).forEach {
