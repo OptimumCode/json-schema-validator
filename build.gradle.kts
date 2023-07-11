@@ -9,6 +9,7 @@ plugins {
   alias(libs.plugins.detekt)
   alias(libs.plugins.ktlint)
   alias(libs.plugins.kotlin.binaryCompatibility)
+  alias(libs.plugins.kotlin.dokka)
   `maven-publish`
 }
 

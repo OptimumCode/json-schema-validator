@@ -7,6 +7,7 @@ ktlint = "0.50.0"
 [plugins]
 kotlin-mutliplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-dokka = { id = "org.jetbrains.dokka", version = "1.8.20" }
 kotest-multiplatform = { id = "io.kotest.multiplatform", version.ref = "kotest" }
 kover = { id = "org.jetbrains.kotlinx.kover", version = "0.7.1" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
