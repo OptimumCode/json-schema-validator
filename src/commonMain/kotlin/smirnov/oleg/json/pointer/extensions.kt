@@ -1,4 +1,5 @@
 @file:Suppress("ktlint:standard:filename")
+@file:JvmName("JsonPointerExtensions")
 
 package smirnov.oleg.json.pointer
 
@@ -6,6 +7,7 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
+import kotlin.jvm.JvmName
 
 operator fun JsonPointer.get(index: Int): JsonPointer = JsonPointer(
   buildString {

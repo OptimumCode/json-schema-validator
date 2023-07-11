@@ -74,7 +74,7 @@ private const val REF_PROPERTY: String = "\$ref"
 
 internal const val ROOT_REFERENCE = '#'
 
-class SchemaLoader {
+internal class SchemaLoader {
   fun load(schemaDefinition: JsonElement): JsonSchema {
     val baseId = extractBaseID(schemaDefinition)
     val context = defaultLoadingContext(baseId)

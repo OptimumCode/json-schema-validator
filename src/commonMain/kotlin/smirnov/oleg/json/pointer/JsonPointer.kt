@@ -1,5 +1,6 @@
 package smirnov.oleg.json.pointer
 
+import kotlin.jvm.JvmField
 import kotlin.jvm.JvmStatic
 
 fun JsonPointer(path: String): JsonPointer = JsonPointer.compile(path)
@@ -35,8 +36,10 @@ sealed class JsonPointer(
   }
 
   companion object {
-    const val SEPARATOR: Char = '/'
-    const val QUOTATION: Char = '~'
+    internal const val SEPARATOR: Char = '/'
+    internal const val QUOTATION: Char = '~'
+
+    @JvmField
     val ROOT: JsonPointer = EmptyPointer
 
     private const val DEFAULT_BUFFER_CAPACITY = 32

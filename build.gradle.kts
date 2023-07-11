@@ -8,6 +8,7 @@ plugins {
   alias(libs.plugins.kover)
   alias(libs.plugins.detekt)
   alias(libs.plugins.ktlint)
+  alias(libs.plugins.kotlin.binaryCompatibility)
 }
 
 repositories {
