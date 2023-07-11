@@ -76,6 +76,10 @@ ktlint {
   }
 }
 
-tasks.register("detektAll") {
+private val detektAllTask = tasks.register("detektAll") {
   dependsOn(tasks.withType<Detekt>())
+}
+
+tasks.named("check") {
+  dependsOn(detektAllTask)
 }
