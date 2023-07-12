@@ -16,7 +16,7 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaPropertiesValidationsTest : FunSpec() {
   init {
-    JsonSchema.fromDescription(
+    JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -60,7 +60,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
       }
     }
 
-    JsonSchema.fromDescription(
+    JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -105,7 +105,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
       }
     }
 
-    JsonSchema.fromDescription(
+    JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -147,7 +147,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
       }
     }
 
-    JsonSchema.fromDescription(
+    JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -189,7 +189,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
       notAnObjectPasses(schema)
     }
 
-    JsonSchema.fromDescription(
+    JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -215,7 +215,7 @@ class JsonSchemaPropertiesValidationsTest : FunSpec() {
 
     test("reports invalid regular expression") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",

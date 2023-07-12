@@ -15,7 +15,7 @@ import kotlinx.serialization.json.JsonPrimitive
 class JsonSchemaAllOfValidationTest : FunSpec() {
   init {
     testInvalidSchemaInArray("allOf")
-    JsonSchema.fromDescription(
+    JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",

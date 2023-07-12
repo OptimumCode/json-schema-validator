@@ -39,7 +39,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
 
     possibleTypes.forEach { (type, value) ->
       test("validates type $type") {
-        val schema = JsonSchema.fromDescription(
+        val schema = JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -59,7 +59,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
     }
 
     for (type in possibleTypes.keys) {
-      val schema = JsonSchema.fromDescription(
+      val schema = JsonSchema.fromDefinition(
         """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -86,7 +86,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
         }
     }
 
-    val schema = JsonSchema.fromDescription(
+    val schema = JsonSchema.fromDefinition(
       """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -112,7 +112,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
     }
     test("unknown type") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -124,7 +124,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
     }
     test("unknown type in array") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -136,7 +136,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
     }
     test("type not a string") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -149,7 +149,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
 
     test("type array not a string") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -162,7 +162,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
 
     test("duplicates in array") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -175,7 +175,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
 
     test("neither array or string") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",

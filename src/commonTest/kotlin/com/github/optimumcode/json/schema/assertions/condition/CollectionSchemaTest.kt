@@ -9,7 +9,7 @@ import io.kotest.matchers.shouldBe
 fun FunSpec.testInvalidSchemaInArray(name: String) {
   test("reports empty array") {
     shouldThrow<IllegalArgumentException> {
-      JsonSchema.fromDescription(
+      JsonSchema.fromDefinition(
         """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -22,7 +22,7 @@ fun FunSpec.testInvalidSchemaInArray(name: String) {
 
   test("reports not array") {
     shouldThrow<IllegalArgumentException> {
-      JsonSchema.fromDescription(
+      JsonSchema.fromDefinition(
         """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -35,7 +35,7 @@ fun FunSpec.testInvalidSchemaInArray(name: String) {
 
   test("reports element in array is not a valid JSON schema") {
     shouldThrow<IllegalArgumentException> {
-      JsonSchema.fromDescription(
+      JsonSchema.fromDefinition(
         """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",

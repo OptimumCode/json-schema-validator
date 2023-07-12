@@ -13,7 +13,7 @@ class JsonSchemaTest : FunSpec() {
   init {
     test("loads schema object from string description") {
       shouldNotThrowAny {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -26,19 +26,19 @@ class JsonSchemaTest : FunSpec() {
 
     test("loads true schema from string description") {
       shouldNotThrowAny {
-        JsonSchema.fromDescription("true")
+        JsonSchema.fromDefinition("true")
       }
     }
 
     test("loads false schema from string description") {
       shouldNotThrowAny {
-        JsonSchema.fromDescription("false")
+        JsonSchema.fromDefinition("false")
       }
     }
 
     test("loads schema with definitions") {
       shouldNotThrowAny {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -56,7 +56,7 @@ class JsonSchemaTest : FunSpec() {
 
     test("loads schema with self reference") {
       shouldNotThrowAny {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -71,7 +71,7 @@ class JsonSchemaTest : FunSpec() {
 
     test("reports missing reference") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -94,7 +94,7 @@ class JsonSchemaTest : FunSpec() {
 
     test("reports circled references") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",

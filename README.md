@@ -14,7 +14,7 @@ import com.github.optimumcode.json.schema.ValidationError
 import kotlinx.serialization.json.JsonElement
 
 val key = "\$" // to use $ in multiline string
-val schema = JsonSchema.fromDescription(
+val schema = JsonSchema.fromDefinition(
   """
   {
     "${key}schema": "http://json-schema.org/draft-07/schema#",

@@ -15,7 +15,7 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaPropertyNamesValidationTest : FunSpec() {
   init {
-    JsonSchema.fromDescription(
+    JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",

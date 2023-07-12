@@ -20,7 +20,7 @@ import kotlinx.serialization.json.buildJsonObject
 class JsonSchemaMinimumValidationTest : FunSpec() {
   init {
     listOf("10", "10.0").forEach { number ->
-      val schemaPositive = JsonSchema.fromDescription(
+      val schemaPositive = JsonSchema.fromDefinition(
         """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -62,7 +62,7 @@ class JsonSchemaMinimumValidationTest : FunSpec() {
       }
     }
 
-    val schema = JsonSchema.fromDescription(
+    val schema = JsonSchema.fromDefinition(
       """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",

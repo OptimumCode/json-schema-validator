@@ -16,7 +16,7 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaMinLengthValidationTest : FunSpec() {
   init {
-    val schema = JsonSchema.fromDescription(
+    val schema = JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",

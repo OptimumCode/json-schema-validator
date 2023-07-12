@@ -18,7 +18,7 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaContainsValidationTest : FunSpec() {
   init {
-    val schema = JsonSchema.fromDescription(
+    val schema = JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -95,7 +95,7 @@ class JsonSchemaContainsValidationTest : FunSpec() {
     ).forEach {
       test("reports $it is invalid value") {
         shouldThrow<IllegalArgumentException> {
-          JsonSchema.fromDescription(
+          JsonSchema.fromDefinition(
             """
             {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",

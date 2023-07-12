@@ -18,7 +18,7 @@ import kotlinx.serialization.json.buildJsonObject
 class JsonSchemaItemsValidationTest : FunSpec() {
   init {
     test("true schema accepts all items") {
-      val schema = JsonSchema.fromDescription(
+      val schema = JsonSchema.fromDefinition(
         """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -46,7 +46,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
     }
 
     test("items applied against all items") {
-      val schema = JsonSchema.fromDescription(
+      val schema = JsonSchema.fromDefinition(
         """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -71,7 +71,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
     }
 
     test("items array applied against items on corresponding indexes") {
-      val schema = JsonSchema.fromDescription(
+      val schema = JsonSchema.fromDefinition(
         """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -106,7 +106,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
     }
 
     test("single item reports error for all elements") {
-      val schema = JsonSchema.fromDescription(
+      val schema = JsonSchema.fromDefinition(
         """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -161,7 +161,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
     }
 
     test("collection items reports error for elements on corresponding indexes") {
-      val schema = JsonSchema.fromDescription(
+      val schema = JsonSchema.fromDefinition(
         """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -208,7 +208,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
     }
 
     test("additional items ignored when item is a JSON schema") {
-      val schema = JsonSchema.fromDescription(
+      val schema = JsonSchema.fromDefinition(
         """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -237,7 +237,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
     }
 
     test("additional items applied to all remaining elements") {
-      val schema = JsonSchema.fromDescription(
+      val schema = JsonSchema.fromDefinition(
         """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -298,7 +298,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
     }
 
     test("false additional items reports any additional element") {
-      val schema = JsonSchema.fromDescription(
+      val schema = JsonSchema.fromDefinition(
         """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -332,7 +332,7 @@ class JsonSchemaItemsValidationTest : FunSpec() {
       }
     }
 
-    val schema = JsonSchema.fromDescription(
+    val schema = JsonSchema.fromDefinition(
       """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",

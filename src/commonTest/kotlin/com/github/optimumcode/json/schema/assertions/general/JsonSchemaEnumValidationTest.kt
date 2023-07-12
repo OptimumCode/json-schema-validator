@@ -33,7 +33,7 @@ class JsonSchemaEnumValidationTest : FunSpec() {
       },
     )
 
-    val schema = JsonSchema.fromDescription(
+    val schema = JsonSchema.fromDefinition(
       """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -65,7 +65,7 @@ class JsonSchemaEnumValidationTest : FunSpec() {
 
     test("error when it is not enum") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -78,7 +78,7 @@ class JsonSchemaEnumValidationTest : FunSpec() {
 
     test("error when not unique elements is not enum") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -90,7 +90,7 @@ class JsonSchemaEnumValidationTest : FunSpec() {
     }
     test("empty array") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",

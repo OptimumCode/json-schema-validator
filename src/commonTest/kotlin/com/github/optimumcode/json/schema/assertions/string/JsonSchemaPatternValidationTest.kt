@@ -22,7 +22,7 @@ class JsonSchemaPatternValidationTest : FunSpec() {
       "^foo$" to "foo",
     ).forEach { (pattern, value) ->
       test("matches pattern '$pattern'") {
-        val schema = JsonSchema.fromDescription(
+        val schema = JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -46,7 +46,7 @@ class JsonSchemaPatternValidationTest : FunSpec() {
       "^foo$" to "for",
     ).forEach { (pattern, value) ->
       test("does not match pattern '$pattern'") {
-        val schema = JsonSchema.fromDescription(
+        val schema = JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -71,7 +71,7 @@ class JsonSchemaPatternValidationTest : FunSpec() {
 
     test("reports invalid patter") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",

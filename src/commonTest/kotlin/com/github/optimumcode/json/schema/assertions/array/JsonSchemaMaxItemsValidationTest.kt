@@ -18,7 +18,7 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaMaxItemsValidationTest : FunSpec() {
   init {
-    val schema = JsonSchema.fromDescription(
+    val schema = JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -92,7 +92,7 @@ class JsonSchemaMaxItemsValidationTest : FunSpec() {
 
     test("reports negative value") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -111,7 +111,7 @@ class JsonSchemaMaxItemsValidationTest : FunSpec() {
     ).forEach {
       test("reports not valid integer value $it") {
         shouldThrow<IllegalArgumentException> {
-          JsonSchema.fromDescription(
+          JsonSchema.fromDefinition(
             """
             {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -130,7 +130,7 @@ class JsonSchemaMaxItemsValidationTest : FunSpec() {
     ).forEach {
       test("reports not integer value $it") {
         shouldThrow<IllegalArgumentException> {
-          JsonSchema.fromDescription(
+          JsonSchema.fromDefinition(
             """
             {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",

@@ -16,7 +16,7 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaDependenciesValidationTest : FunSpec() {
   init {
-    JsonSchema.fromDescription(
+    JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -85,7 +85,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
       }
     }
 
-    JsonSchema.fromDescription(
+    JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -146,7 +146,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
       }
     }
 
-    JsonSchema.fromDescription(
+    JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -166,7 +166,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
       notAnObjectPasses(schema)
     }
 
-    JsonSchema.fromDescription(
+    JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -190,7 +190,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
       }
     }
 
-    JsonSchema.fromDescription(
+    JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -218,7 +218,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
 
     test("reports if dependency is neither array or object") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -233,7 +233,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
 
     test("reports if not an object") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -246,7 +246,7 @@ class JsonSchemaDependenciesValidationTest : FunSpec() {
 
     test("reports not unique elements") {
       shouldThrow<IllegalArgumentException> {
-        JsonSchema.fromDescription(
+        JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",

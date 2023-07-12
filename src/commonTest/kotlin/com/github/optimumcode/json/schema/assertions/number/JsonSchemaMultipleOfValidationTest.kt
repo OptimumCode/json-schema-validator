@@ -26,7 +26,7 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
       JsonPrimitive(-49),
       JsonUnquotedLiteral("-49.0"),
     ).forEach {
-      val schema = JsonSchema.fromDescription(
+      val schema = JsonSchema.fromDefinition(
         """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -50,7 +50,7 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
       JsonUnquotedLiteral("-3.0"),
       JsonPrimitive(-4.5),
     ).forEach {
-      val schema = JsonSchema.fromDescription(
+      val schema = JsonSchema.fromDefinition(
         """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -76,7 +76,7 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
     ).forEach {
       test("reports not positive value $it") {
         shouldThrow<IllegalArgumentException> {
-          JsonSchema.fromDescription(
+          JsonSchema.fromDefinition(
             """
             {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -88,7 +88,7 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
       }
     }
 
-    val numberSchema = JsonSchema.fromDescription(
+    val numberSchema = JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",

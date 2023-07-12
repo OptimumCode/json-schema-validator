@@ -18,7 +18,7 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaUniqueItemsValidationTest : FunSpec() {
   init {
-    val validationEnabled = JsonSchema.fromDescription(
+    val validationEnabled = JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -27,7 +27,7 @@ class JsonSchemaUniqueItemsValidationTest : FunSpec() {
       """.trimIndent(),
     )
 
-    val validationDisabled = JsonSchema.fromDescription(
+    val validationDisabled = JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -170,7 +170,7 @@ class JsonSchemaUniqueItemsValidationTest : FunSpec() {
     ).forEach {
       test("reports not valid boolean value $it") {
         shouldThrow<IllegalArgumentException> {
-          JsonSchema.fromDescription(
+          JsonSchema.fromDefinition(
             """
             {
               "${KEY}schema": "http://json-schema.org/draft-07/schema#",

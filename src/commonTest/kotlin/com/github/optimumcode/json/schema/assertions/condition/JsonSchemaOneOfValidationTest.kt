@@ -15,7 +15,7 @@ import kotlinx.serialization.json.buildJsonObject
 class JsonSchemaOneOfValidationTest : FunSpec() {
   init {
     testInvalidSchemaInArray("oneOf")
-    JsonSchema.fromDescription(
+    JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -72,7 +72,7 @@ class JsonSchemaOneOfValidationTest : FunSpec() {
       }
     }
 
-    JsonSchema.fromDescription(
+    JsonSchema.fromDefinition(
       """
       {
         "${KEY}schema": "http://json-schema.org/draft-07/schema#",

@@ -32,7 +32,7 @@ class JsonSchemaConstValidationTest : FunSpec() {
       },
     ).forEach {
       test("const match to $it") {
-        val schema = JsonSchema.fromDescription(
+        val schema = JsonSchema.fromDefinition(
           """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
@@ -49,7 +49,7 @@ class JsonSchemaConstValidationTest : FunSpec() {
     }
 
     test("does not match const") {
-      val schema = JsonSchema.fromDescription(
+      val schema = JsonSchema.fromDefinition(
         """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
