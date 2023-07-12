@@ -3,6 +3,8 @@ public abstract class com/github/optimumcode/json/pointer/JsonPointer {
 	public static final field ROOT Lcom/github/optimumcode/json/pointer/JsonPointer;
 	public synthetic fun <init> (Ljava/lang/String;ILcom/github/optimumcode/json/pointer/JsonPointer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (Ljava/lang/String;ILcom/github/optimumcode/json/pointer/JsonPointer;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun atIndex (I)Lcom/github/optimumcode/json/pointer/JsonPointer;
+	public final fun atProperty (Ljava/lang/String;)Lcom/github/optimumcode/json/pointer/JsonPointer;
 	public static final fun compile (Ljava/lang/String;)Lcom/github/optimumcode/json/pointer/JsonPointer;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
@@ -36,12 +38,12 @@ public final class com/github/optimumcode/json/schema/ErrorCollector$Companion {
 
 public final class com/github/optimumcode/json/schema/JsonSchema {
 	public static final field Companion Lcom/github/optimumcode/json/schema/JsonSchema$Companion;
-	public static final fun fromDescription (Ljava/lang/String;)Lcom/github/optimumcode/json/schema/JsonSchema;
+	public static final fun fromDefinition (Ljava/lang/String;)Lcom/github/optimumcode/json/schema/JsonSchema;
 	public final fun validate (Lkotlinx/serialization/json/JsonElement;Lcom/github/optimumcode/json/schema/ErrorCollector;)Z
 }
 
 public final class com/github/optimumcode/json/schema/JsonSchema$Companion {
-	public final fun fromDescription (Ljava/lang/String;)Lcom/github/optimumcode/json/schema/JsonSchema;
+	public final fun fromDefinition (Ljava/lang/String;)Lcom/github/optimumcode/json/schema/JsonSchema;
 }
 
 public final class com/github/optimumcode/json/schema/ValidationError {
