@@ -18,17 +18,7 @@ import kotlin.jvm.JvmName
  * val index = pointer[0] // "/test/0"
  * ```
  */
-public operator fun JsonPointer.get(index: Int): JsonPointer =
-  JsonPointer(
-    buildString {
-      val pointer = this@get.toString()
-      append(pointer)
-      if (!pointer.endsWith(JsonPointer.SEPARATOR)) {
-        append(JsonPointer.SEPARATOR)
-      }
-      append(index)
-    },
-  )
+public operator fun JsonPointer.get(index: Int): JsonPointer = atIndex(index)
 
 /**
  * Creates a new [JsonPointer] that points to a [property] passed as a parameter.
@@ -39,17 +29,7 @@ public operator fun JsonPointer.get(index: Int): JsonPointer =
  * val pointer = JsonPointer.ROOT / "prop1" / "prop2"  // "/prop1/prop2"
  * ```
  */
-public operator fun JsonPointer.div(property: String): JsonPointer =
-  JsonPointer(
-    buildString {
-      val pointer = this@div.toString()
-      append(pointer)
-      if (!pointer.endsWith(JsonPointer.SEPARATOR)) {
-        append(JsonPointer.SEPARATOR)
-      }
-      append(property)
-    },
-  )
+public operator fun JsonPointer.div(property: String): JsonPointer = atProperty(property)
 
 /**
  * Appends [otherPointer] to the current [JsonPointer].

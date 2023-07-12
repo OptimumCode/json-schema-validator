@@ -20,6 +20,46 @@ public sealed class JsonPointer(
   internal val next: JsonPointer? = null,
 ) {
 
+  /**
+   * Creates a new [JsonPointer] that points to an [index] in the array.
+   *
+   * Example:
+   * ```kotlin
+   * val pointer = JsonPointer("/test").atIndex(0) // "/test/0"
+   * ```
+   */
+  public fun atIndex(index: Int): JsonPointer =
+    JsonPointer(
+      buildString {
+        val pointer = this@JsonPointer.toString()
+        append(pointer)
+        if (!pointer.endsWith(SEPARATOR)) {
+          append(SEPARATOR)
+        }
+        append(index)
+      },
+    )
+
+  /**
+   * Creates a new [JsonPointer] that points to a [property] passed as a parameter.
+   *
+   * Example:
+   * ```kotlin
+   * val pointer = JsonPointer.ROOT.atProperty("prop1").atProperty("prop2")  // "/prop1/prop2"
+   * ```
+   */
+  public fun atProperty(property: String): JsonPointer =
+    JsonPointer(
+      buildString {
+        val pointer = this@JsonPointer.toString()
+        append(pointer)
+        if (!pointer.endsWith(SEPARATOR)) {
+          append(SEPARATOR)
+        }
+        append(property)
+      },
+    )
+
   override fun toString(): String {
     return if (pathOffset <= 0) {
       fullPath
