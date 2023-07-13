@@ -9,8 +9,8 @@ from [kotlinx.serialization-json](https://github.com/Kotlin/kotlinx.serializatio
 ## Usage
 
 ```kotlin
-import com.github.optimumcode.json.schema.JsonSchema
-import com.github.optimumcode.json.schema.ValidationError
+import io.github.optimumcode.json.schema.JsonSchema
+import io.github.optimumcode.json.schema.ValidationError
 import kotlinx.serialization.json.JsonElement
 
 val key = "\$" // to use $ in multiline string

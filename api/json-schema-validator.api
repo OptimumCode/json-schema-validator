@@ -1,73 +1,73 @@
-public abstract class com/github/optimumcode/json/pointer/JsonPointer {
-	public static final field Companion Lcom/github/optimumcode/json/pointer/JsonPointer$Companion;
-	public static final field ROOT Lcom/github/optimumcode/json/pointer/JsonPointer;
-	public synthetic fun <init> (Ljava/lang/String;ILcom/github/optimumcode/json/pointer/JsonPointer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/lang/String;ILcom/github/optimumcode/json/pointer/JsonPointer;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun atIndex (I)Lcom/github/optimumcode/json/pointer/JsonPointer;
-	public final fun atProperty (Ljava/lang/String;)Lcom/github/optimumcode/json/pointer/JsonPointer;
-	public static final fun compile (Ljava/lang/String;)Lcom/github/optimumcode/json/pointer/JsonPointer;
+public abstract class io/github/optimumcode/json/pointer/JsonPointer {
+	public static final field Companion Lio/github/optimumcode/json/pointer/JsonPointer$Companion;
+	public static final field ROOT Lio/github/optimumcode/json/pointer/JsonPointer;
+	public synthetic fun <init> (Ljava/lang/String;ILio/github/optimumcode/json/pointer/JsonPointer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;ILio/github/optimumcode/json/pointer/JsonPointer;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun atIndex (I)Lio/github/optimumcode/json/pointer/JsonPointer;
+	public final fun atProperty (Ljava/lang/String;)Lio/github/optimumcode/json/pointer/JsonPointer;
+	public static final fun compile (Ljava/lang/String;)Lio/github/optimumcode/json/pointer/JsonPointer;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/github/optimumcode/json/pointer/JsonPointer$Companion {
-	public final fun compile (Ljava/lang/String;)Lcom/github/optimumcode/json/pointer/JsonPointer;
+public final class io/github/optimumcode/json/pointer/JsonPointer$Companion {
+	public final fun compile (Ljava/lang/String;)Lio/github/optimumcode/json/pointer/JsonPointer;
 }
 
-public final class com/github/optimumcode/json/pointer/JsonPointerExtensions {
-	public static final fun at (Lkotlinx/serialization/json/JsonElement;Lcom/github/optimumcode/json/pointer/JsonPointer;)Lkotlinx/serialization/json/JsonElement;
-	public static final fun div (Lcom/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;)Lcom/github/optimumcode/json/pointer/JsonPointer;
-	public static final fun get (Lcom/github/optimumcode/json/pointer/JsonPointer;I)Lcom/github/optimumcode/json/pointer/JsonPointer;
-	public static final fun plus (Lcom/github/optimumcode/json/pointer/JsonPointer;Lcom/github/optimumcode/json/pointer/JsonPointer;)Lcom/github/optimumcode/json/pointer/JsonPointer;
-	public static final fun relative (Lcom/github/optimumcode/json/pointer/JsonPointer;Lcom/github/optimumcode/json/pointer/JsonPointer;)Lcom/github/optimumcode/json/pointer/JsonPointer;
+public final class io/github/optimumcode/json/pointer/JsonPointerExtensions {
+	public static final fun at (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/pointer/JsonPointer;)Lkotlinx/serialization/json/JsonElement;
+	public static final fun div (Lio/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;)Lio/github/optimumcode/json/pointer/JsonPointer;
+	public static final fun get (Lio/github/optimumcode/json/pointer/JsonPointer;I)Lio/github/optimumcode/json/pointer/JsonPointer;
+	public static final fun plus (Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;)Lio/github/optimumcode/json/pointer/JsonPointer;
+	public static final fun relative (Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;)Lio/github/optimumcode/json/pointer/JsonPointer;
 }
 
-public final class com/github/optimumcode/json/pointer/JsonPointerKt {
-	public static final fun JsonPointer (Ljava/lang/String;)Lcom/github/optimumcode/json/pointer/JsonPointer;
+public final class io/github/optimumcode/json/pointer/JsonPointerKt {
+	public static final fun JsonPointer (Ljava/lang/String;)Lio/github/optimumcode/json/pointer/JsonPointer;
 }
 
-public abstract interface class com/github/optimumcode/json/schema/ErrorCollector {
-	public static final field Companion Lcom/github/optimumcode/json/schema/ErrorCollector$Companion;
-	public static final field EMPTY Lcom/github/optimumcode/json/schema/ErrorCollector;
-	public abstract fun onError (Lcom/github/optimumcode/json/schema/ValidationError;)V
+public abstract interface class io/github/optimumcode/json/schema/ErrorCollector {
+	public static final field Companion Lio/github/optimumcode/json/schema/ErrorCollector$Companion;
+	public static final field EMPTY Lio/github/optimumcode/json/schema/ErrorCollector;
+	public abstract fun onError (Lio/github/optimumcode/json/schema/ValidationError;)V
 }
 
-public final class com/github/optimumcode/json/schema/ErrorCollector$Companion {
+public final class io/github/optimumcode/json/schema/ErrorCollector$Companion {
 }
 
-public final class com/github/optimumcode/json/schema/JsonSchema {
-	public static final field Companion Lcom/github/optimumcode/json/schema/JsonSchema$Companion;
-	public static final fun fromDefinition (Ljava/lang/String;)Lcom/github/optimumcode/json/schema/JsonSchema;
-	public static final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;)Lcom/github/optimumcode/json/schema/JsonSchema;
-	public final fun validate (Lkotlinx/serialization/json/JsonElement;Lcom/github/optimumcode/json/schema/ErrorCollector;)Z
+public final class io/github/optimumcode/json/schema/JsonSchema {
+	public static final field Companion Lio/github/optimumcode/json/schema/JsonSchema$Companion;
+	public static final fun fromDefinition (Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public static final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public final fun validate (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
 }
 
-public final class com/github/optimumcode/json/schema/JsonSchema$Companion {
-	public final fun fromDefinition (Ljava/lang/String;)Lcom/github/optimumcode/json/schema/JsonSchema;
-	public final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;)Lcom/github/optimumcode/json/schema/JsonSchema;
+public final class io/github/optimumcode/json/schema/JsonSchema$Companion {
+	public final fun fromDefinition (Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchema;
 }
 
-public final class com/github/optimumcode/json/schema/JsonSchemaStream {
-	public static final fun fromStream (Lcom/github/optimumcode/json/schema/JsonSchema$Companion;Ljava/io/InputStream;)Lcom/github/optimumcode/json/schema/JsonSchema;
+public final class io/github/optimumcode/json/schema/JsonSchemaStream {
+	public static final fun fromStream (Lio/github/optimumcode/json/schema/JsonSchema$Companion;Ljava/io/InputStream;)Lio/github/optimumcode/json/schema/JsonSchema;
 }
 
-public final class com/github/optimumcode/json/schema/ValidationError {
-	public fun <init> (Lcom/github/optimumcode/json/pointer/JsonPointer;Lcom/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;Ljava/util/Map;Lcom/github/optimumcode/json/pointer/JsonPointer;)V
-	public synthetic fun <init> (Lcom/github/optimumcode/json/pointer/JsonPointer;Lcom/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;Ljava/util/Map;Lcom/github/optimumcode/json/pointer/JsonPointer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lcom/github/optimumcode/json/pointer/JsonPointer;
-	public final fun component2 ()Lcom/github/optimumcode/json/pointer/JsonPointer;
+public final class io/github/optimumcode/json/schema/ValidationError {
+	public fun <init> (Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;Ljava/util/Map;Lio/github/optimumcode/json/pointer/JsonPointer;)V
+	public synthetic fun <init> (Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;Ljava/util/Map;Lio/github/optimumcode/json/pointer/JsonPointer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/optimumcode/json/pointer/JsonPointer;
+	public final fun component2 ()Lio/github/optimumcode/json/pointer/JsonPointer;
 	public final fun component3 ()Ljava/lang/String;
 	public final fun component4 ()Ljava/util/Map;
-	public final fun component5 ()Lcom/github/optimumcode/json/pointer/JsonPointer;
-	public final fun copy (Lcom/github/optimumcode/json/pointer/JsonPointer;Lcom/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;Ljava/util/Map;Lcom/github/optimumcode/json/pointer/JsonPointer;)Lcom/github/optimumcode/json/schema/ValidationError;
-	public static synthetic fun copy$default (Lcom/github/optimumcode/json/schema/ValidationError;Lcom/github/optimumcode/json/pointer/JsonPointer;Lcom/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;Ljava/util/Map;Lcom/github/optimumcode/json/pointer/JsonPointer;ILjava/lang/Object;)Lcom/github/optimumcode/json/schema/ValidationError;
+	public final fun component5 ()Lio/github/optimumcode/json/pointer/JsonPointer;
+	public final fun copy (Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;Ljava/util/Map;Lio/github/optimumcode/json/pointer/JsonPointer;)Lio/github/optimumcode/json/schema/ValidationError;
+	public static synthetic fun copy$default (Lio/github/optimumcode/json/schema/ValidationError;Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;Ljava/util/Map;Lio/github/optimumcode/json/pointer/JsonPointer;ILjava/lang/Object;)Lio/github/optimumcode/json/schema/ValidationError;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getAbsoluteLocation ()Lcom/github/optimumcode/json/pointer/JsonPointer;
+	public final fun getAbsoluteLocation ()Lio/github/optimumcode/json/pointer/JsonPointer;
 	public final fun getDetails ()Ljava/util/Map;
 	public final fun getMessage ()Ljava/lang/String;
-	public final fun getObjectPath ()Lcom/github/optimumcode/json/pointer/JsonPointer;
-	public final fun getSchemaPath ()Lcom/github/optimumcode/json/pointer/JsonPointer;
+	public final fun getObjectPath ()Lio/github/optimumcode/json/pointer/JsonPointer;
+	public final fun getSchemaPath ()Lio/github/optimumcode/json/pointer/JsonPointer;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
