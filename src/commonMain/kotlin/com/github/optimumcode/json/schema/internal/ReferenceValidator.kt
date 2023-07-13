@@ -33,8 +33,10 @@ internal object ReferenceValidator {
       return alwaysRunAssertions.any { path.contains(it) }
     }
     for ((location, refFragment) in locationToRef) {
-      val (otherLocation, otherRefFragment) = locationToRef.entries.find { it.key.startsWith(refFragment) }
-        ?: continue
+      val (otherLocation, otherRefFragment) = locationToRef.entries.find { (refKey) ->
+        val startsWith = refKey.startsWith(refFragment)
+        startsWith && (refKey[refFragment.length] == JsonPointer.SEPARATOR || refKey == refFragment)
+      } ?: continue
       if (!location.startsWith(otherRefFragment)) {
         continue
       }

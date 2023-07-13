@@ -124,5 +124,29 @@ class JsonSchemaTest : FunSpec() {
       }.message shouldBe "circled references: /definitions/alice/allOf/0 ref to /definitions/bob" +
         " and /definitions/bob/allOf/0 ref to /definitions/alice"
     }
+
+    test("does not report circled references if definitions have similar names") {
+      shouldNotThrowAny {
+        JsonSchema.fromDefinition(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "definitions": {
+              "nonNegativeInteger": {
+                  "type": "integer",
+                  "minimum": 0
+              },
+              "nonNegativeIntegerDefault0": {
+                  "allOf": [
+                      { "${KEY}ref": "#/definitions/nonNegativeInteger" },
+                      { "default": 0 }
+                  ]
+              }
+            }
+          }
+          """.trimIndent(),
+        )
+      }
+    }
   }
 }
