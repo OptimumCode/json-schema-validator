@@ -36,6 +36,14 @@ public class JsonSchema internal constructor(
     @JvmStatic
     public fun fromDefinition(schema: String): JsonSchema {
       val schemaElement: JsonElement = Json.parseToJsonElement(schema)
+      return fromJsonElement(schemaElement)
+    }
+
+    /**
+     * Loads JSON schema from the [schemaElement] JSON element
+     */
+    @JvmStatic
+    public fun fromJsonElement(schemaElement: JsonElement): JsonSchema {
       return SchemaLoader().load(schemaElement)
     }
   }

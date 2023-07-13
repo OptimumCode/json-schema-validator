@@ -39,11 +39,17 @@ public final class com/github/optimumcode/json/schema/ErrorCollector$Companion {
 public final class com/github/optimumcode/json/schema/JsonSchema {
 	public static final field Companion Lcom/github/optimumcode/json/schema/JsonSchema$Companion;
 	public static final fun fromDefinition (Ljava/lang/String;)Lcom/github/optimumcode/json/schema/JsonSchema;
+	public static final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;)Lcom/github/optimumcode/json/schema/JsonSchema;
 	public final fun validate (Lkotlinx/serialization/json/JsonElement;Lcom/github/optimumcode/json/schema/ErrorCollector;)Z
 }
 
 public final class com/github/optimumcode/json/schema/JsonSchema$Companion {
 	public final fun fromDefinition (Ljava/lang/String;)Lcom/github/optimumcode/json/schema/JsonSchema;
+	public final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;)Lcom/github/optimumcode/json/schema/JsonSchema;
+}
+
+public final class com/github/optimumcode/json/schema/JsonSchemaStream {
+	public static final fun fromStream (Lcom/github/optimumcode/json/schema/JsonSchema$Companion;Ljava/io/InputStream;)Lcom/github/optimumcode/json/schema/JsonSchema;
 }
 
 public final class com/github/optimumcode/json/schema/ValidationError {
