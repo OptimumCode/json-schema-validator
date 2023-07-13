@@ -2,8 +2,8 @@ name: "Gradle dependencies submission"
 
 on:
   push:
-#    branches:
-#      - main
+    branches:
+      - main
 
 jobs:
   build:
