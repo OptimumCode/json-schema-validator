@@ -1,0 +1,25 @@
+name: "Check the PR"
+
+on:
+  pull_request:
+
+jobs:
+  check:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version-file: .ci-java-version
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1.0.6
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2.6.0
+        with:
+          gradle-version: wrapper
+          arguments: check
