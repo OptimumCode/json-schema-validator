@@ -3,3 +3,6 @@ build/
 out/
 
 .gradle/
+
+# to keep the local secrets from been published
+local.properties
