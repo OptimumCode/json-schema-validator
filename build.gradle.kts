@@ -19,22 +19,26 @@ repositories {
   mavenCentral()
 }
 
+val mainHost: String by project
+
 kotlin {
   explicitApi()
-  jvm {
-    jvmToolchain(11)
-    withJava()
-  }
-  js(IR) {
-    browser {
-      commonWebpackConfig {
-        cssSupport {
-          enabled.set(true)
+  if (mainHost.toBoolean()) {
+    jvm {
+      jvmToolchain(11)
+      withJava()
+    }
+    js(IR) {
+      browser {
+        commonWebpackConfig {
+          cssSupport {
+            enabled.set(true)
+          }
         }
       }
+      generateTypeScriptDefinitions()
+      nodejs()
     }
-    generateTypeScriptDefinitions()
-    nodejs()
   }
 
   val hostOs = System.getProperty("os.name")
@@ -79,29 +83,20 @@ kotlin {
         implementation(kotlin("test-annotations-common"))
       }
     }
-    val jvmTest by getting {
-      dependencies {
-        implementation(libs.kotest.runner.junit5)
-      }
-    }
-  }
-
-  val publicationsFromMainHost =
-    listOf(jvm(), js()).map { it.name } + "kotlinMultiplatform"
-  publishing {
-    publications {
-      matching { it.name in publicationsFromMainHost }.all {
-        val targetPublication = this@all
-        tasks.withType<AbstractPublishToMaven>()
-          .matching { it.publication == targetPublication }
-          .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
+    if (mainHost.toBoolean()) {
+      val jvmTest by getting {
+        dependencies {
+          implementation(libs.kotest.runner.junit5)
+        }
       }
     }
   }
 }
 
-tasks.named<Test>("jvmTest") {
-  useJUnitPlatform()
+if (mainHost.toBoolean()) {
+  tasks.named<Test>("jvmTest") {
+    useJUnitPlatform()
+  }
 }
 
 ktlint {
