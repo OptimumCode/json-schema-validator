@@ -18,7 +18,14 @@ jobs:
           java-version-file: .ci-java-version
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.6
-      - name: Setup Gradle
+      - name: Cache konan
+        uses: actions/cache@v3.3.1
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Build with Gradle
         uses: gradle/gradle-build-action@v2.6.0
         with:
           gradle-version: wrapper
