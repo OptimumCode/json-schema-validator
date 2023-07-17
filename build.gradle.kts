@@ -27,6 +27,9 @@ kotlin {
     jvm {
       jvmToolchain(11)
       withJava()
+      testRuns["test"].executionTask.configure {
+        useJUnitPlatform()
+      }
     }
     js(IR) {
       browser {
@@ -90,12 +93,6 @@ kotlin {
         }
       }
     }
-  }
-}
-
-if (mainHost.toBoolean()) {
-  tasks.named<Test>("jvmTest") {
-    useJUnitPlatform()
   }
 }
 
