@@ -1,0 +1,67 @@
+name: "Create release"
+
+on:
+  push: # will be removed after test
+#  workflow_dispatch:
+
+env:
+  VERSION_FILE: gradle.properties
+  VERSION_PATTERN: '(?<=version=).+'
+
+jobs:
+  publish_artifacts:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version-file: .ci-java-version
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1.0.6
+      - name: Cache konan
+        uses: actions/cache@v3.3.1
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Get version
+        id: versions
+        uses: HardNorth/github- version-generate@v1.3.0
+        with:
+          version-source: file
+          version-file: ${{ env.VERSION_FILE }}
+          version-file-extraction-pattern: ${{ env.VERSION_PATTERN }}
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2.6.0
+        env:
+          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          SIGNING_SECRET_KEY: ${{ secrets.SIGNING_SECRET_KEY }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        with:
+          gradle-version: wrapper
+          arguments: |
+            build
+            publish
+            closeSonatypeStagingRepository
+            -PmainHost=${{ matrix.os == 'ubuntu-latest' }}
+            -Pversion=${{ steps.versions.outputs.RELEASE_VERSION }}
+      - name: Prepare next dev version
+        id: prepare_next_dev
+        run: |
+          sed -i -e 's/${{ steps.versions.outputs.CURRENT_VERSION }}/${{ steps.versions.outputs.NEXT_VERSION }}/g' gradle.properties && \
+            sed -i -E -e 's/json-schema-validator(:|\/)[0-9]+\.[0-9]+\.[0-9]+/json-schema-validator\1${{ steps.versions.outputs.RELEASE_VERSION }}/g' README.md
+      - name: Commit next dev version
+        id: commit_next_dev
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "['gradle.properties', 'README.md']"
+          default_author: github_actions
+          message: "Prepare next dev version"
