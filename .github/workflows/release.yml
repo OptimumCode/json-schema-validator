@@ -1,10 +1,7 @@
 name: "Create release"
 
 on:
-  push: # will be removed after test
-    branches:
-      - issue_#1
-#  workflow_dispatch:
+  workflow_dispatch:
 
 env:
   VERSION_FILE: gradle.properties
@@ -62,7 +59,7 @@ jobs:
             --no-daemon
             build
             publish
-            closeSonatypeStagingRepository
+            closeAndReleaseStagingRepository
             -Pversion=${{ needs.version.outputs.RELEASE_VERSION }}
   create_release:
     runs-on: ubuntu-latest
@@ -102,7 +99,6 @@ jobs:
         uses: ncipollo/release-action@v1.12.0
         with:
           body: ${{ steps.build_changelog.outputs.changelog }}
-          draft: true
           name: Release ${{ needs.version.outputs.RELEASE_VERSION }}
           tag: ${{ needs.version.outputs.RELEASE_VERSION }}
           token: ${{ secrets.PUSH_PAT }}
