@@ -57,6 +57,7 @@ jobs:
           gradle-version: wrapper
           # should close and release staging repository
           arguments: |
+            --no-daemon
             build
             publish
             closeSonatypeStagingRepository
