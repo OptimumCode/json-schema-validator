@@ -23,54 +23,46 @@ val mainHost: String by project
 
 kotlin {
   explicitApi()
-  if (mainHost.toBoolean()) {
-    jvm {
-      jvmToolchain(11)
-      withJava()
-      testRuns["test"].executionTask.configure {
-        useJUnitPlatform()
-      }
+  jvm {
+    jvmToolchain(11)
+    withJava()
+    testRuns["test"].executionTask.configure {
+      useJUnitPlatform()
     }
-    js(IR) {
-      browser {
-        commonWebpackConfig {
-          cssSupport {
-            enabled.set(true)
-          }
+  }
+  js(IR) {
+    browser {
+      commonWebpackConfig {
+        cssSupport {
+          enabled.set(true)
         }
       }
-      generateTypeScriptDefinitions()
-      nodejs()
     }
+    generateTypeScriptDefinitions()
+    nodejs()
   }
 
-  val hostOs = System.getProperty("os.name")
-  val isMingwX64 = hostOs.startsWith("Windows")
-  when {
-    hostOs == "Mac OS X" -> {
-      macosX64()
-      macosArm64()
+  val macOsTargets = listOf(
+    macosX64(),
+    macosArm64(),
+    ios(),
+    iosArm64(),
+    iosSimulatorArm64(),
+    watchos(),
+    watchosArm32(),
+    watchosSimulatorArm64(),
+    tvos(),
+    tvosArm64(),
+    tvosX64(),
+  )
+  val linuxTargets = listOf(
+    linuxX64(),
+    linuxArm64(),
+  )
 
-      ios()
-      iosArm64()
-      iosSimulatorArm64()
-
-      watchos()
-      watchosArm32()
-      watchosSimulatorArm64()
-
-      tvos()
-      tvosArm64()
-      tvosX64()
-    }
-
-    hostOs == "Linux" -> {
-      linuxX64()
-      linuxArm64()
-    }
-    isMingwX64 -> mingwX64()
-    else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-  }
+  val windowsTargets = listOf(
+    mingwX64(),
+  )
 
   sourceSets {
     val commonMain by getting {
@@ -86,11 +78,9 @@ kotlin {
         implementation(kotlin("test-annotations-common"))
       }
     }
-    if (mainHost.toBoolean()) {
-      val jvmTest by getting {
-        dependencies {
-          implementation(libs.kotest.runner.junit5)
-        }
+    val jvmTest by getting {
+      dependencies {
+        implementation(libs.kotest.runner.junit5)
       }
     }
   }

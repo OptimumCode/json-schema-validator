@@ -28,10 +28,7 @@ jobs:
   publish_artifacts:
     needs:
       - version
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-latest
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v3
@@ -63,7 +60,6 @@ jobs:
             build
             publish
             closeSonatypeStagingRepository
-            -PmainHost=${{ matrix.os == 'ubuntu-latest' }}
             -Pversion=${{ needs.version.outputs.RELEASE_VERSION }}
   create_release:
     runs-on: ubuntu-latest
@@ -71,6 +67,8 @@ jobs:
       - publish_artifacts
       - version
     steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v3
       - name: Store SHA of HEAD commit on ENV
         run: echo "GIT_HEAD=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
