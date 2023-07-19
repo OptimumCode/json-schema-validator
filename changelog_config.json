@@ -23,7 +23,7 @@
     "order": "ASC",
     "on_property": "mergedAt"
   },
-  "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n${{ '${{UNCATEGORIZED}}' }}\n</details>\n\n<details>\n<summary>Also merged but not included in notes</summary>\n\n#{{IGNORED}}\n</details>",
+  "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n#{{UNCATEGORIZED}}\n</details>\n\n<details>\n<summary>Also merged but not included in notes</summary>\n\n#{{IGNORED}}\n</details>",
   "pr_template": "- #{{TITLE}} (PR: ##{{NUMBER}})",
   "empty_template": "Nothing here today",
   "trim_values": true,
