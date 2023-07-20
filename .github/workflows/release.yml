@@ -54,7 +54,6 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         with:
           gradle-version: wrapper
-          # should close and release staging repository
           arguments: |
             --no-daemon
             build
