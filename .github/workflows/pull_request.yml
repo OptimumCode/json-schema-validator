@@ -1,0 +1,25 @@
+name: "Check the PR"
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  check-linux:
+    uses: ./.github/workflows/check.yml
+    with:
+      run-on: ubuntu-latest
+      task: linuxAllTest
+  check-macos:
+    uses: ./.github/workflows/check.yml
+    with:
+      run-on: macos-latest
+      task: macOsAllTest
+  check-windows:
+    uses: ./.github/workflows/check.yml
+    with:
+      run-on: windows-latest
+      task: windowsAllTest

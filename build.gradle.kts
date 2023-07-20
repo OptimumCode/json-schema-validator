@@ -1,4 +1,6 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
+import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: remove when migrate to Gradle 8
@@ -19,11 +21,16 @@ repositories {
   mavenCentral()
 }
 
+val mainHost: String by project
+
 kotlin {
   explicitApi()
   jvm {
     jvmToolchain(11)
     withJava()
+    testRuns["test"].executionTask.configure {
+      useJUnitPlatform()
+    }
   }
   js(IR) {
     browser {
@@ -36,34 +43,29 @@ kotlin {
     generateTypeScriptDefinitions()
     nodejs()
   }
+  ios()
+  tvos()
+  watchos()
 
-  val hostOs = System.getProperty("os.name")
-  val isMingwX64 = hostOs.startsWith("Windows")
-  when {
-    hostOs == "Mac OS X" -> {
-      macosX64()
-      macosArm64()
+  val macOsTargets = listOf<KotlinTarget>(
+    macosX64(),
+    macosArm64(),
+    iosArm64(),
+    iosSimulatorArm64(),
+    watchosArm32(),
+    watchosSimulatorArm64(),
+    tvosArm64(),
+    tvosX64(),
+  )
 
-      ios()
-      iosArm64()
-      iosSimulatorArm64()
+  val linuxTargets = listOf<KotlinTarget>(
+    linuxX64(),
+    linuxArm64(),
+  )
 
-      watchos()
-      watchosArm32()
-      watchosSimulatorArm64()
-
-      tvos()
-      tvosArm64()
-      tvosX64()
-    }
-
-    hostOs == "Linux" -> {
-      linuxX64()
-      linuxArm64()
-    }
-    isMingwX64 -> mingwX64()
-    else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-  }
+  val windowsTargets = listOf<KotlinTarget>(
+    mingwX64(),
+  )
 
   sourceSets {
     val commonMain by getting {
@@ -86,22 +88,32 @@ kotlin {
     }
   }
 
-  val publicationsFromMainHost =
-    listOf(jvm(), js()).map { it.name } + "kotlinMultiplatform"
-  publishing {
-    publications {
-      matching { it.name in publicationsFromMainHost }.all {
-        val targetPublication = this@all
-        tasks.withType<AbstractPublishToMaven>()
-          .matching { it.publication == targetPublication }
-          .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
+  afterEvaluate {
+    fun Task.dependsOnTargetTests(targets: List<KotlinTarget>) {
+      targets.forEach {
+        if (it is KotlinTargetWithTests<*, *>) {
+          dependsOn(tasks.getByName("${it.name}Test"))
+        }
       }
     }
+    tasks.register("macOsAllTest") {
+      group = "verification"
+      description = "runs all tests for MacOS and IOS targets"
+      dependsOnTargetTests(macOsTargets)
+    }
+    tasks.register("windowsAllTest") {
+      group = "verification"
+      description = "runs all tests for Windows targets"
+      dependsOnTargetTests(windowsTargets)
+    }
+    tasks.register("linuxAllTest") {
+      group = "verification"
+      description = "runs all tests for Linux targets"
+      dependsOnTargetTests(linuxTargets)
+      dependsOn(tasks.getByName("jvmTest"))
+      dependsOn(tasks.getByName("jsTest"))
+    }
   }
-}
-
-tasks.named<Test>("jvmTest") {
-  useJUnitPlatform()
 }
 
 ktlint {

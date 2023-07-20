@@ -1,0 +1,34 @@
+{
+  "categories": [
+    {
+      "title": "## 🚀 Features",
+      "labels": ["enhancement"],
+      "empty_content": "No new features today 😢"
+    },
+    {
+      "title": "## 🐛 Fixes",
+      "labels": ["fix"],
+      "empty_content": "🤔 No bugs at all?"
+    },
+    {
+      "title": "## 🧰 CI/CD",
+      "labels": ["ci/cd"]
+    }
+
+  ],
+  "ignore_labels": [
+    "ignore"
+  ],
+  "sort": {
+    "order": "ASC",
+    "on_property": "mergedAt"
+  },
+  "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n#{{UNCATEGORIZED}}\n</details>\n\n<details>\n<summary>Also merged but not included in notes</summary>\n\n#{{IGNORED}}\n</details>",
+  "pr_template": "- #{{TITLE}} (PR: ##{{NUMBER}})",
+  "empty_template": "Nothing here today",
+  "trim_values": true,
+  "max_tags_to_fetch": 200,
+  "max_pull_requests": 200,
+  "max_back_track_time_days": 365,
+  "base_branches": [ "main" ]
+}
