@@ -1,6 +1,7 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: remove when migrate to Gradle 8
@@ -114,6 +115,10 @@ kotlin {
       dependsOn(tasks.getByName("jsTest"))
     }
   }
+}
+
+extensions.configure<NodeJsRootExtension> {
+  versions.webpack.version = "5.76.0"
 }
 
 ktlint {
