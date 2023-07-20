@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - issue_#1 # test snapshots
 
 jobs:
   publish:
