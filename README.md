@@ -8,6 +8,77 @@ from [kotlinx.serialization-json](https://github.com/Kotlin/kotlinx.serializatio
 
 ## Usage
 
+### Dependencies
+
+#### Releases
+
+In order to use releases add Maven Central repository to the list of repositories.
+
+##### Kotlin
+
+```kotlin
+repositories {
+  mavenCentral()
+}
+
+implementation("io.github.optimumcode:json-schema-validator:0.0.1")
+```
+
+##### Groovy
+
+```groovy
+repositories {
+  mavenCentral()
+}
+
+implementation 'io.github.optimumcode:json-schema-validator:0.0.1'
+```
+
+_Release are published to Sonatype repository. The synchronization with Maven Central takes time._
+_If you want to use the release right after the publication you should add Sonatype Release repository to your build script._
+
+##### Kotlin
+
+```kotlin
+repositories {
+  maven(url = "https://s01.oss.sonatype.org/content/repositories/releases/")
+}
+```
+
+##### Groovy
+
+```groovy
+repositories {
+  maven { url 'https://s01.oss.sonatype.org/content/repositories/releases/' }
+}
+```
+
+#### Snapshots
+
+_If you want to use SNAPSHOT version you should add Sonatype Snapshot repository to your build script._
+
+##### Kotlin
+
+```kotlin
+repositories {
+  maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots")
+}
+
+implementation("io.github.optimumcode:json-schema-validator:0.0.1-SNAPSHOT")
+```
+
+##### Groovy
+
+```groovy
+repositories {
+  maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots' }
+}
+
+implementation 'io.github.optimumcode:json-schema-validator:0.0.1-SNAPSHOT'
+```
+
+### Example
+
 ```kotlin
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.ValidationError
