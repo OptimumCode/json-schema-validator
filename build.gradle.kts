@@ -1,4 +1,6 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
+import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: remove when migrate to Gradle 8
@@ -41,26 +43,27 @@ kotlin {
     generateTypeScriptDefinitions()
     nodejs()
   }
+  ios()
+  tvos()
+  watchos()
 
-  val macOsTargets = listOf(
+  val macOsTargets = listOf<KotlinTarget>(
     macosX64(),
     macosArm64(),
-    ios(),
     iosArm64(),
     iosSimulatorArm64(),
-    watchos(),
     watchosArm32(),
     watchosSimulatorArm64(),
-    tvos(),
     tvosArm64(),
     tvosX64(),
   )
-  val linuxTargets = listOf(
+
+  val linuxTargets = listOf<KotlinTarget>(
     linuxX64(),
     linuxArm64(),
   )
 
-  val windowsTargets = listOf(
+  val windowsTargets = listOf<KotlinTarget>(
     mingwX64(),
   )
 
@@ -82,6 +85,33 @@ kotlin {
       dependencies {
         implementation(libs.kotest.runner.junit5)
       }
+    }
+  }
+
+  afterEvaluate {
+    fun Task.dependsOnTargetTests(targets: List<KotlinTarget>) {
+      targets.forEach {
+        if (it is KotlinTargetWithTests<*, *>) {
+          dependsOn(tasks.getByName("${it.name}Test"))
+        }
+      }
+    }
+    tasks.register("macOsAllTest") {
+      group = "verification"
+      description = "runs all tests for MacOS and IOS targets"
+      dependsOnTargetTests(macOsTargets)
+    }
+    tasks.register("windowsAllTest") {
+      group = "verification"
+      description = "runs all tests for Windows targets"
+      dependsOnTargetTests(windowsTargets)
+    }
+    tasks.register("linuxAllTest") {
+      group = "verification"
+      description = "runs all tests for Linux targets"
+      dependsOnTargetTests(linuxTargets)
+      dependsOn(tasks.getByName("jvmTest"))
+      dependsOn(tasks.getByName("jsTest"))
     }
   }
 }
