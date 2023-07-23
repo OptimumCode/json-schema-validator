@@ -1,8 +1,11 @@
 package io.github.optimumcode.json.schema.internal
 
+import com.eygraber.uri.Builder
+import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.pointer.div
 import io.github.optimumcode.json.pointer.get
+import io.github.optimumcode.json.pointer.relative
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.ReferenceLocation
 import io.github.optimumcode.json.schema.internal.factories.array.ContainsAssertionFactory
@@ -73,17 +76,14 @@ private const val ID_PROPERTY: String = "\$id"
 private const val REF_PROPERTY: String = "\$ref"
 private const val SCHEMA_PROPERTY: String = "\$schema"
 
-internal const val ROOT_REFERENCE = '#'
-
 internal class SchemaLoader {
   fun load(schemaDefinition: JsonElement): JsonSchema {
     extractSchemaType(schemaDefinition)
-    val baseId = extractBaseID(schemaDefinition)
+    val baseId: Uri = extractID(schemaDefinition) ?: Uri.EMPTY
     val context = defaultLoadingContext(baseId)
-    loadDefinitions(schemaDefinition, context)
     val schemaAssertion = loadSchema(schemaDefinition, context)
     ReferenceValidator.validateReferences(context.references.keys, context.usedRef)
-    return JsonSchema(schemaAssertion, context.references)
+    return JsonSchema(baseId, schemaAssertion, context.references)
   }
 
   private fun extractSchemaType(schemaDefinition: JsonElement): SchemaType {
@@ -96,31 +96,31 @@ internal class SchemaLoader {
       SchemaType.values().last()
     }
   }
-
-  private fun loadDefinitions(schemaDefinition: JsonElement, context: DefaultLoadingContext) {
-    if (schemaDefinition !is JsonObject) {
-      return
-    }
-    val definitionsElement = schemaDefinition[DEFINITIONS_PROPERTY] ?: return
-    require(definitionsElement is JsonObject) { "$DEFINITIONS_PROPERTY must be an object" }
-    val definitionsContext = context.at(DEFINITIONS_PROPERTY)
-    for ((name, element) in definitionsElement) {
-      loadSchema(element, definitionsContext.at(name))
-    }
-  }
-
-  private fun extractBaseID(schemaDefinition: JsonElement): String =
-    when (schemaDefinition) {
-      is JsonObject -> {
-        schemaDefinition[ID_PROPERTY]?.let {
-          require(it is JsonPrimitive && it.isString) { "$ID_PROPERTY must be a string" }
-          it.content
-        } ?: ""
-      }
-
-      else -> ""
-    }.trimEnd(ROOT_REFERENCE)
 }
+
+private fun loadDefinitions(schemaDefinition: JsonElement, context: DefaultLoadingContext) {
+  if (schemaDefinition !is JsonObject) {
+    return
+  }
+  val definitionsElement = schemaDefinition[DEFINITIONS_PROPERTY] ?: return
+  require(definitionsElement is JsonObject) { "$DEFINITIONS_PROPERTY must be an object" }
+  val definitionsContext = context.at(DEFINITIONS_PROPERTY)
+  for ((name, element) in definitionsElement) {
+    loadSchema(element, definitionsContext.at(name))
+  }
+}
+
+private fun extractID(schemaDefinition: JsonElement): Uri? =
+  when (schemaDefinition) {
+    is JsonObject -> {
+      schemaDefinition[ID_PROPERTY]?.let {
+        require(it is JsonPrimitive && it.isString) { "$ID_PROPERTY must be a string" }
+        requireNotNull(Uri.parseOrNull(it.content)) { "invalid $ID_PROPERTY: ${it.content}" }
+      }
+    }
+
+    else -> null
+  }
 
 private fun loadSchema(
   schemaDefinition: JsonElement,
@@ -129,6 +129,7 @@ private fun loadSchema(
   require(context.isJsonSchema(schemaDefinition)) {
     "schema must be either a valid JSON object or boolean"
   }
+  val additionalId: Uri? = extractID(schemaDefinition)
   return when (schemaDefinition) {
     is JsonPrimitive -> if (schemaDefinition.boolean) {
       TrueSchemaAssertion
@@ -142,13 +143,20 @@ private fun loadSchema(
       } else {
         factories.filter { it.isApplicable(schemaDefinition) }
           .map {
-            it.create(schemaDefinition, context)
+            it.create(
+              schemaDefinition,
+              // we register id to be used for future schema registration
+              additionalId?.let(context::addId) ?: context,
+            )
           }.let(::AssertionsCollection)
       }
     }
     // should never happen
     else -> throw IllegalArgumentException("schema must be either a valid JSON object or boolean")
-  }.apply(context::register)
+  }.apply {
+    loadDefinitions(schemaDefinition, additionalId?.let(context::addId) ?: context)
+    context.register(additionalId, this)
+  }
 }
 
 private fun loadRefAssertion(definition: JsonObject, context: DefaultLoadingContext): JsonSchemaAssertion {
@@ -159,9 +167,18 @@ private fun loadRefAssertion(definition: JsonObject, context: DefaultLoadingCont
   return RefSchemaAssertion(context.schemaPath / REF_PROPERTY, refId)
 }
 
+/**
+ * Used to identify the [location] where this [id] was defined
+ */
+private data class IdWithLocation(
+  val id: Uri,
+  val location: JsonPointer,
+)
+
 private data class DefaultLoadingContext(
-  private val baseId: String,
+  private val baseId: Uri,
   override val schemaPath: JsonPointer = JsonPointer.ROOT,
+  private val additionalIDs: Set<IdWithLocation> = linkedSetOf(IdWithLocation(baseId, schemaPath)),
   val references: MutableMap<RefId, JsonSchemaAssertion> = hashMapOf(),
   val usedRef: MutableSet<ReferenceLocation> = hashSetOf(),
 ) : LoadingContext {
@@ -179,18 +196,90 @@ private data class DefaultLoadingContext(
       (element is JsonPrimitive && element.booleanOrNull != null)
     )
 
-  fun register(assertion: JsonSchemaAssertion) {
-    val referenceId = buildRefId("$ROOT_REFERENCE$schemaPath")
-    references.put(referenceId, assertion)?.apply {
-      throw IllegalStateException("duplicated definition $referenceId")
+  fun register(id: Uri?, assertion: JsonSchemaAssertion) {
+    if (id != null) {
+      registerById(id, assertion)
+    }
+    for ((baseId, location) in additionalIDs) {
+      val relativePointer = location.relative(schemaPath)
+      val referenceId: RefId = baseId.buildUpon()
+        .encodedFragment(relativePointer.toString())
+        .buildRefId()
+      if (referenceId.uri == id) {
+        // this happens when the root schema has ID,
+        // and we register it using Empty pointer
+        continue
+      }
+      register(referenceId, assertion)
+    }
+  }
+
+  fun addId(additionalId: Uri): DefaultLoadingContext {
+    return when {
+      additionalId.isAbsolute -> copy(additionalIDs = additionalIDs + IdWithLocation(additionalId, schemaPath))
+      additionalId.isRelative && !additionalId.path.isNullOrBlank() ->
+        copy(
+          additionalIDs = additionalIDs.run {
+            this + IdWithLocation(
+              baseId.buildUpon().encodedPath(additionalId.path).build(),
+              schemaPath,
+            )
+          },
+        )
+
+      else -> this
     }
   }
 
   fun ref(refId: String): RefId {
-    return buildRefId(refId).also { usedRef += ReferenceLocation(schemaPath, it) }
+    // library parsed fragment as empty if # is in the URI
+    // But when we build URI for definition we use [Uri.Builder]
+    // That builder does not set the fragment if it is empty
+    // Because of that inconsistency we use builder here as well
+    val refUri = Uri.parse(refId).buildUpon().build()
+    return when {
+      refUri.isAbsolute -> refUri.buildRefId()
+      !refUri.path.isNullOrBlank() -> baseId.buildUpon().encodedPath(refUri.path).buildRefId()
+      refUri.fragment != null -> additionalIDs.last().id.buildUpon().encodedFragment(refUri.fragment).buildRefId()
+      else -> throw IllegalArgumentException("invalid reference $refId")
+    }.also { usedRef += ReferenceLocation(schemaPath, it) }
   }
 
-  private fun buildRefId(path: String): RefId = RefId("$baseId$path")
+  private fun registerById(
+    id: Uri,
+    assertion: JsonSchemaAssertion,
+  ) {
+    when {
+      id.isAbsolute -> register(id.buildRefId(), assertion) // register JSON schema by absolute URI
+      id.isRelative ->
+        when {
+          !id.path.isNullOrBlank() -> register(
+            // register JSON schema by related path
+            baseId.buildUpon().encodedPath(id.path).buildRefId(),
+            assertion,
+          )
+
+          !id.fragment.isNullOrBlank() -> register(
+            // register JSON schema by fragment
+            additionalIDs.last().id.buildUpon().encodedFragment(id.fragment).buildRefId(),
+            assertion,
+          )
+        }
+    }
+  }
+
+  private fun register(
+    referenceId: RefId,
+    assertion: JsonSchemaAssertion,
+  ) {
+    references.put(referenceId, assertion)?.apply {
+      throw IllegalStateException("duplicated definition $referenceId")
+    }
+  }
 }
 
-private fun defaultLoadingContext(baseId: String): DefaultLoadingContext = DefaultLoadingContext(baseId)
+private fun Uri.buildRefId(): RefId = RefId(this)
+
+private fun Builder.buildRefId(): RefId = build().buildRefId()
+
+private fun defaultLoadingContext(baseId: Uri): DefaultLoadingContext = DefaultLoadingContext(baseId)

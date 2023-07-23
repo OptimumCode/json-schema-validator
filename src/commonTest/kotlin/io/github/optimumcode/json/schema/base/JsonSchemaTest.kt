@@ -1,5 +1,6 @@
 package io.github.optimumcode.json.schema.base
 
+import com.eygraber.uri.Uri
 import io.github.optimumcode.json.schema.JsonSchema
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
@@ -147,6 +148,76 @@ class JsonSchemaTest : FunSpec() {
           """.trimIndent(),
         )
       }
+    }
+
+    listOf(
+      "# (document root)" to listOf(
+        "http://example.com/root.json",
+        "http://example.com/root.json#",
+      ),
+      "#/definitions/A" to listOf(
+        "http://example.com/root.json#foo",
+        "http://example.com/root.json#/definitions/A",
+      ),
+      "#/definitions/B" to listOf(
+        "http://example.com/other.json",
+        "http://example.com/other.json#",
+        "http://example.com/root.json#/definitions/B",
+      ),
+      "#/definitions/B/definitions/X" to listOf(
+        "http://example.com/other.json#bar",
+        "http://example.com/other.json#/definitions/X",
+        "http://example.com/root.json#/definitions/B/definitions/X",
+      ),
+      "#/definitions/B/definitions/Y" to listOf(
+        "http://example.com/t/inner.json",
+        "http://example.com/t/inner.json#",
+        "http://example.com/other.json#/definitions/Y",
+        "http://example.com/root.json#/definitions/B/definitions/Y",
+      ),
+      "#/definitions/C" to listOf(
+        "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f",
+        "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f#",
+        "http://example.com/root.json#/definitions/C",
+      ),
+    ).forEach { (refDestination, possibleRefs) ->
+      possibleRefs.asSequence()
+        .flatMap {
+          val uri = Uri.parse(it)
+          if (uri.schemeSpecificPart == "//example.com/root.json" && uri.fragment != null) {
+            sequenceOf(it, "#${uri.fragment}")
+          } else {
+            sequenceOf(it)
+          }
+        }.forEach { ref ->
+          test("$refDestination can be accessed by $ref") {
+            shouldNotThrowAny {
+              JsonSchema.fromDefinition(
+                """
+                {
+                  "${KEY}id": "http://example.com/root.json",
+                  "definitions": {
+                    "A": { "${KEY}id": "#foo" },
+                    "B": {
+                      "${KEY}id": "other.json",
+                      "definitions": {
+                        "X": { "${KEY}id": "#bar" },
+                        "Y": { "${KEY}id": "t/inner.json" }
+                      }
+                    },
+                    "C": {
+                      "${KEY}id": "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f"
+                    }
+                  },
+                  "properties": {
+                    "test": { "${KEY}ref": "$ref" } 
+                  }
+                }
+                """.trimIndent(),
+              )
+            }
+          }
+        }
     }
 
     listOf(

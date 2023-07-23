@@ -12,6 +12,7 @@ internal enum class SchemaType(
   companion object {
     private const val HTTP_SCHEMA: String = "http"
     private const val HTTPS_SCHEMA: String = "https"
+
     @JvmStatic
     fun find(schemaId: String): SchemaType? {
       val uri = Uri.parse(schemaId)
@@ -22,10 +23,10 @@ internal enum class SchemaType(
       }
       return values().find {
         it.schemaId.run {
-          host == uri.host
-              && port == uri.port
-              && path == uri.path
-              && fragment == uri.fragment?.takeUnless(String::isEmpty)
+          host == uri.host &&
+            port == uri.port &&
+            path == uri.path &&
+            fragment == uri.fragment?.takeUnless(String::isEmpty)
         }
       }
     }
