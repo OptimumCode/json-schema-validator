@@ -148,5 +148,43 @@ class JsonSchemaTest : FunSpec() {
         )
       }
     }
+
+    listOf(
+      "http://json-schema.org/draft-07/schema#",
+      "http://json-schema.org/draft-07/schema",
+      "https://json-schema.org/draft-07/schema#",
+      "https://json-schema.org/draft-07/schema",
+    ).forEach {
+      test("loads schema with supported '$it' \$schema property") {
+        shouldNotThrowAny {
+          JsonSchema.fromDefinition(
+            """
+            {
+              "${KEY}schema": "$it",
+              "type": "string"
+            }
+            """.trimIndent(),
+          )
+        }
+      }
+    }
+
+    listOf(
+      "https://json-schema.org/draft/2020-12/schema",
+      "http://json-schema.org/draft-07/schema/",
+    ).forEach {
+      test("reports unsupported '$it' \$schema property") {
+        shouldThrow<IllegalArgumentException> {
+          JsonSchema.fromDefinition(
+            """
+            {
+              "${KEY}schema": "$it",
+              "type": "string"
+            }
+            """.trimIndent(),
+          )
+        }.message shouldBe "unsupported schema type $it"
+      }
+    }
   }
 }

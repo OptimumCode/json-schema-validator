@@ -71,17 +71,30 @@ private val factories: List<AssertionFactory> = listOf(
 private const val DEFINITIONS_PROPERTY: String = "definitions"
 private const val ID_PROPERTY: String = "\$id"
 private const val REF_PROPERTY: String = "\$ref"
+private const val SCHEMA_PROPERTY: String = "\$schema"
 
 internal const val ROOT_REFERENCE = '#'
 
 internal class SchemaLoader {
   fun load(schemaDefinition: JsonElement): JsonSchema {
+    extractSchemaType(schemaDefinition)
     val baseId = extractBaseID(schemaDefinition)
     val context = defaultLoadingContext(baseId)
     loadDefinitions(schemaDefinition, context)
     val schemaAssertion = loadSchema(schemaDefinition, context)
     ReferenceValidator.validateReferences(context.references.keys, context.usedRef)
     return JsonSchema(schemaAssertion, context.references)
+  }
+
+  private fun extractSchemaType(schemaDefinition: JsonElement): SchemaType {
+    return if (schemaDefinition is JsonObject) {
+      schemaDefinition[SCHEMA_PROPERTY]?.let {
+        require(it is JsonPrimitive && it.isString) { "$SCHEMA_PROPERTY must be a string" }
+        SchemaType.find(it.content) ?: throw IllegalArgumentException("unsupported schema type ${it.content}")
+      } ?: SchemaType.values().last()
+    } else {
+      SchemaType.values().last()
+    }
   }
 
   private fun loadDefinitions(schemaDefinition: JsonElement, context: DefaultLoadingContext) {
