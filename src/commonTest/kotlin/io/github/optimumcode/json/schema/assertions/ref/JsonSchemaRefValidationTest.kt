@@ -129,5 +129,46 @@ class JsonSchemaRefValidationTest : FunSpec() {
         }
       }
     }
+
+    JsonSchema.fromDefinition(
+      """
+      {
+        "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+        "definitions": {
+          "A": {
+            "definitions": {
+              "B": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "properties": {
+          "size": { "${KEY}ref": "#/definitions/A/definitions/B" }
+        }
+      }
+      """.trimIndent(),
+    ).apply {
+      test("correctly reports path for inner definitions") {
+        val jsonObject = buildJsonObject {
+          put("size", JsonPrimitive("42"))
+        }
+        val errors = mutableListOf<ValidationError>()
+        val valid = validate(jsonObject, errors::add)
+        jsonObject.asClue {
+          valid shouldBe false
+          errors.shouldContainExactly(
+            ValidationError(
+              schemaPath = JsonPointer("/properties/size/${KEY}ref/type"),
+              objectPath = JsonPointer("/size"),
+              message = "element is not a integer",
+              absoluteLocation = JsonPointer(
+                "/definitions/A/definitions/B/type",
+              ),
+            ),
+          )
+        }
+      }
+    }
   }
 }
