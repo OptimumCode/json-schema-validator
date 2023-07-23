@@ -20,3 +20,4 @@ kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-s
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
 kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+uri = { group = "com.eygraber", name = "uri-kmp", version = "0.0.12" }
