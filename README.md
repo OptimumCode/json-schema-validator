@@ -155,7 +155,7 @@ val valid = schema.validate(elementToValidate, errors::add)
 
 ## Future plans
 
-- [ ] Add `$schema` property validation (if not set the latest supported will be used)
+- [x] Add `$schema` property validation (if not set the latest supported will be used)
 - [ ] Add proper `$id` support (for nested schemas and for referencing)
 - [ ] Add support for newer drafts
   - [ ] [Draft 2019-09 (Draft 8)](https://json-schema.org/specification-links.html#draft-2019-09-formerly-known-as-draft-8)
