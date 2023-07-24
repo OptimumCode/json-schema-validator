@@ -126,12 +126,12 @@ val valid = schema.validate(elementToValidate, errors::add)
 - [Draft 7](https://json-schema.org/specification-links.html#draft-7)
   - Keywords
 
-  | Keyword     | Status                                                                                                                 |
-  |:------------|:-----------------------------------------------------------------------------------------------------------------------|
-  | $id         | Supported. $id in sub-schemas are collected as well and can be used in $ref                                            |
-  | $schema     | Supported. Validates if schema is one of the supported schemas. The last supported is used if empty                    |
-  | $ref        | Partially supported. Only references like _**#/path/in/schema**_ will work. The circled references validation is added |
-  | definitions | Supported. Definitions are loaded and can be referenced                                                                |
+  | Keyword     | Status                                                                                              |
+  |:------------|:----------------------------------------------------------------------------------------------------|
+  | $id         | Supported. $id in sub-schemas are collected as well and can be used in $ref                         |
+  | $schema     | Supported. Validates if schema is one of the supported schemas. The last supported is used if empty |
+  | $ref        | Supported (except references to schemas from another document)                                      |
+  | definitions | Supported. Definitions are loaded and can be referenced                                             |
 
   - Assertions
 
