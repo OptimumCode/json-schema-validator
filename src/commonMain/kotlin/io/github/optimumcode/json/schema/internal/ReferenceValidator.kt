@@ -1,6 +1,8 @@
 package io.github.optimumcode.json.schema.internal
 
 import io.github.optimumcode.json.pointer.JsonPointer
+import io.github.optimumcode.json.pointer.contains
+import io.github.optimumcode.json.pointer.startsWith
 
 internal object ReferenceValidator {
   data class ReferenceLocation(
@@ -10,7 +12,6 @@ internal object ReferenceValidator {
   fun validateReferences(
     referencesWithPath: Map<RefId, JsonPointer>,
     usedRef: Set<ReferenceLocation>,
-    idsWithLocation: Set<IdWithLocation>,
   ) {
     val missingRefs: Map<RefId, List<ReferenceLocation>> = usedRef.asSequence()
       .filter { it.refId !in referencesWithPath }
@@ -25,25 +26,24 @@ internal object ReferenceValidator {
     checkCircledReferences(usedRef, referencesWithPath)
   }
 
-  private val alwaysRunAssertions = hashSetOf("/allOf/", "/anyOf/", "/oneOf/")
+  private val alwaysRunAssertions = hashSetOf("allOf", "anyOf", "oneOf")
 
   private fun checkCircledReferences(usedRefs: Set<ReferenceLocation>, referencesWithPath: Map<RefId, JsonPointer>) {
-    val locationToRef: Map<String, RefId> = usedRefs.associate { (schemaPath, refId) ->
-      schemaPath.toString() to refId
+    val locationToRef: Map<JsonPointer, RefId> = usedRefs.associate { (schemaPath, refId) ->
+      schemaPath to refId
     }
 
     val circledReferences = hashSetOf<CircledReference>()
-    fun checkRunAlways(path: String): Boolean {
+    fun checkRunAlways(path: JsonPointer): Boolean {
       return alwaysRunAssertions.any { path.contains(it) }
     }
     for ((location, refId) in locationToRef) {
-      val schemaLocation: String = referencesWithPath.getValue(refId).toString()
+      val schemaLocation: JsonPointer = referencesWithPath.getValue(refId)
 
       val (otherLocation, otherRef) = locationToRef.entries.find { (refKey) ->
-        val startsWith = refKey.startsWith(schemaLocation)
-        startsWith && (refKey[schemaLocation.length] == JsonPointer.SEPARATOR || refKey == schemaLocation)
+        refKey.startsWith(schemaLocation)
       } ?: continue
-      val otherRefSchemaLocation: String = referencesWithPath.getValue(otherRef).toString()
+      val otherRefSchemaLocation: JsonPointer = referencesWithPath.getValue(otherRef)
       if (!location.startsWith(otherRefSchemaLocation)) {
         continue
       }
@@ -66,10 +66,10 @@ internal object ReferenceValidator {
   }
 
   private class CircledReference(
-    val firstLocation: String,
-    val firstRef: String,
-    val secondLocation: String,
-    val secondRef: String,
+    val firstLocation: JsonPointer,
+    val firstRef: JsonPointer,
+    val secondLocation: JsonPointer,
+    val secondRef: JsonPointer,
   ) {
     override fun equals(other: Any?): Boolean {
       if (this === other) return true

@@ -97,6 +97,73 @@ public fun JsonPointer.relative(other: JsonPointer): JsonPointer {
 }
 
 /**
+ * Checks whether the current [JsonPointer] starts with [other].
+ * Returns `true` if it is so, otherwise returns `false`.
+ *
+ * **Every [JsonPointer] starts with [JsonPointer.ROOT].**
+ *
+ * **[JsonPointer.ROOT] starts only with [JsonPointer.ROOT].**
+ *
+ * Example:
+ * ```kotlin
+ * JsonPointer.ROOT.startsWith(JsonPointer("/path")) // false
+ * JsonPointer.ROOT.startsWith(JsonPointer.ROOT) // true
+ * JsonPointer("/path").startsWith(JsonPointer.ROOT) // true
+ * JsonPointer("/path/to/node").startsWith(JsonPointer("/path")) // true
+ * ```
+ */
+public fun JsonPointer.startsWith(other: JsonPointer): Boolean {
+  if (this is EmptyPointer) {
+    return other is EmptyPointer
+  }
+  var primary: JsonPointer? = this
+  var secondary: JsonPointer? = other
+  while (primary != null && secondary != null) {
+    if (secondary is EmptyPointer) {
+      // secondary has finished. Means primary starts with secondary
+      return true
+    }
+    if (primary is EmptyPointer) {
+      // primary has finished but secondary is not
+      // means primary does not start with secondary
+      return false
+    }
+    primary as SegmentPointer
+    secondary as SegmentPointer
+    if (primary.propertyName != secondary.propertyName) {
+      return false
+    }
+    primary = primary.next
+    secondary = secondary.next
+  }
+  return secondary == null
+}
+
+/**
+ * Checks whether the [JsonPointer] contains specified [pathSegment]
+ *
+ * **[JsonPointer.ROOT] does not contain any path segments**
+ *
+ * Example:
+ *
+ * ```kotlin
+ * JsonPointer.ROOT.contains("path") // false
+ * JsonPointer("/test/path/to/node").contains("path") // true
+ * JsonPointer("/test/path/to/node").contains("anotherPath") // false
+ * ```
+ */
+public operator fun JsonPointer.contains(pathSegment: String): Boolean {
+  var segment: JsonPointer? = this
+  while (segment != null) {
+    if (segment is SegmentPointer && segment.propertyName == pathSegment) {
+      return true
+    }
+    segment = segment.next
+  }
+  return false
+}
+
+/**
  * Extracts [JsonElement] from the current JSON element that corresponds to the specified [JsonPointer].
  *
  * If [pointer] path does not exist in the current [JsonElement] the `null` will be returned.

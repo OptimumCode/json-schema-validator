@@ -85,7 +85,6 @@ internal class SchemaLoader {
     ReferenceValidator.validateReferences(
       context.references.mapValues { it.value.schemaPath },
       context.usedRef,
-      context.additionalIDs,
     )
     return JsonSchema(baseId, schemaAssertion, context.references.mapValues { it.value.assertion })
   }
