@@ -7,45 +7,52 @@ internal object ReferenceValidator {
     val schemaPath: JsonPointer,
     val refId: RefId,
   )
-  fun validateReferences(references: Set<RefId>, usedRef: Set<ReferenceLocation>) {
+  fun validateReferences(
+    referencesWithPath: Map<RefId, JsonPointer>,
+    usedRef: Set<ReferenceLocation>,
+    idsWithLocation: Set<IdWithLocation>,
+  ) {
     val missingRefs: Map<RefId, List<ReferenceLocation>> = usedRef.asSequence()
-      .filter { it.refId !in references }
+      .filter { it.refId !in referencesWithPath }
       .groupBy { it.refId }
     require(missingRefs.isEmpty()) {
       "cannot resolve references: ${
         missingRefs.entries.joinToString(prefix = "{", postfix = "}") { (ref, locations) ->
-          "\"${ref.fragment}\": ${locations.map { "\"${it.schemaPath}\"" }}"
+          "\"${ref.uri}\": ${locations.map { "\"${it.schemaPath}\"" }}"
         }
       }"
     }
-    checkCircledReferences(usedRef)
+    checkCircledReferences(usedRef, referencesWithPath)
   }
 
   private val alwaysRunAssertions = hashSetOf("/allOf/", "/anyOf/", "/oneOf/")
 
-  private fun checkCircledReferences(usedRefs: Set<ReferenceLocation>) {
-    val locationToRef: Map<String, String> = usedRefs.associate { (schemaPath, refId) ->
-      schemaPath.toString() to refId.fragment
+  private fun checkCircledReferences(usedRefs: Set<ReferenceLocation>, referencesWithPath: Map<RefId, JsonPointer>) {
+    val locationToRef: Map<String, RefId> = usedRefs.associate { (schemaPath, refId) ->
+      schemaPath.toString() to refId
     }
 
     val circledReferences = hashSetOf<CircledReference>()
     fun checkRunAlways(path: String): Boolean {
       return alwaysRunAssertions.any { path.contains(it) }
     }
-    for ((location, refFragment) in locationToRef) {
-      val (otherLocation, otherRefFragment) = locationToRef.entries.find { (refKey) ->
-        val startsWith = refKey.startsWith(refFragment)
-        startsWith && (refKey[refFragment.length] == JsonPointer.SEPARATOR || refKey == refFragment)
+    for ((location, refId) in locationToRef) {
+      val schemaLocation: String = referencesWithPath.getValue(refId).toString()
+
+      val (otherLocation, otherRef) = locationToRef.entries.find { (refKey) ->
+        val startsWith = refKey.startsWith(schemaLocation)
+        startsWith && (refKey[schemaLocation.length] == JsonPointer.SEPARATOR || refKey == schemaLocation)
       } ?: continue
-      if (!location.startsWith(otherRefFragment)) {
+      val otherRefSchemaLocation: String = referencesWithPath.getValue(otherRef).toString()
+      if (!location.startsWith(otherRefSchemaLocation)) {
         continue
       }
       if (checkRunAlways(location) && checkRunAlways(otherLocation)) {
         circledReferences += CircledReference(
           firstLocation = location,
-          firstRef = refFragment,
+          firstRef = schemaLocation,
           secondLocation = otherLocation,
-          secondRef = otherRefFragment,
+          secondRef = otherRefSchemaLocation,
         )
       }
     }

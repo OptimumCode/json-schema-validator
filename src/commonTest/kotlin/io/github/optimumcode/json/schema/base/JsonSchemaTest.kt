@@ -91,7 +91,7 @@ class JsonSchemaTest : FunSpec() {
           }
           """.trimIndent(),
         )
-      }.message shouldBe "cannot resolve references: {\"/definitions/positiveIntege\": [\"/properties/size\"]}"
+      }.message shouldBe "cannot resolve references: {\"#/definitions/positiveIntege\": [\"/properties/size\"]}"
     }
 
     test("reports circled references") {

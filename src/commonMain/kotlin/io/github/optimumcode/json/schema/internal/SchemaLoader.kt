@@ -82,8 +82,12 @@ internal class SchemaLoader {
     val baseId: Uri = extractID(schemaDefinition) ?: Uri.EMPTY
     val context = defaultLoadingContext(baseId)
     val schemaAssertion = loadSchema(schemaDefinition, context)
-    ReferenceValidator.validateReferences(context.references.keys, context.usedRef)
-    return JsonSchema(baseId, schemaAssertion, context.references)
+    ReferenceValidator.validateReferences(
+      context.references.mapValues { it.value.schemaPath },
+      context.usedRef,
+      context.additionalIDs,
+    )
+    return JsonSchema(baseId, schemaAssertion, context.references.mapValues { it.value.assertion })
   }
 
   private fun extractSchemaType(schemaDefinition: JsonElement): SchemaType {
@@ -170,16 +174,24 @@ private fun loadRefAssertion(definition: JsonObject, context: DefaultLoadingCont
 /**
  * Used to identify the [location] where this [id] was defined
  */
-private data class IdWithLocation(
+internal data class IdWithLocation(
   val id: Uri,
   val location: JsonPointer,
+)
+
+/**
+ * Used to map JSON schema [assertion] with its [schemaPath]
+ */
+internal data class AssertionWithPath(
+  val assertion: JsonSchemaAssertion,
+  val schemaPath: JsonPointer,
 )
 
 private data class DefaultLoadingContext(
   private val baseId: Uri,
   override val schemaPath: JsonPointer = JsonPointer.ROOT,
-  private val additionalIDs: Set<IdWithLocation> = linkedSetOf(IdWithLocation(baseId, schemaPath)),
-  val references: MutableMap<RefId, JsonSchemaAssertion> = hashMapOf(),
+  val additionalIDs: Set<IdWithLocation> = linkedSetOf(IdWithLocation(baseId, schemaPath)),
+  val references: MutableMap<RefId, AssertionWithPath> = hashMapOf(),
   val usedRef: MutableSet<ReferenceLocation> = hashSetOf(),
 ) : LoadingContext {
   override fun at(property: String): DefaultLoadingContext {
@@ -272,7 +284,7 @@ private data class DefaultLoadingContext(
     referenceId: RefId,
     assertion: JsonSchemaAssertion,
   ) {
-    references.put(referenceId, assertion)?.apply {
+    references.put(referenceId, AssertionWithPath(assertion, schemaPath))?.apply {
       throw IllegalStateException("duplicated definition $referenceId")
     }
   }
