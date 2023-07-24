@@ -151,31 +151,31 @@ class JsonSchemaTest : FunSpec() {
     }
 
     listOf(
-      "# (document root)" to listOf(
+      "document root" to listOf(
         "http://example.com/root.json",
         "http://example.com/root.json#",
       ),
-      "#/definitions/A" to listOf(
+      "definition A" to listOf(
         "http://example.com/root.json#foo",
         "http://example.com/root.json#/definitions/A",
       ),
-      "#/definitions/B" to listOf(
+      "definition B" to listOf(
         "http://example.com/other.json",
         "http://example.com/other.json#",
         "http://example.com/root.json#/definitions/B",
       ),
-      "#/definitions/B/definitions/X" to listOf(
+      "definition X" to listOf(
         "http://example.com/other.json#bar",
         "http://example.com/other.json#/definitions/X",
         "http://example.com/root.json#/definitions/B/definitions/X",
       ),
-      "#/definitions/B/definitions/Y" to listOf(
+      "definition Y" to listOf(
         "http://example.com/t/inner.json",
         "http://example.com/t/inner.json#",
         "http://example.com/other.json#/definitions/Y",
         "http://example.com/root.json#/definitions/B/definitions/Y",
       ),
-      "#/definitions/C" to listOf(
+      "definition C" to listOf(
         "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f",
         "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f#",
         "http://example.com/root.json#/definitions/C",
