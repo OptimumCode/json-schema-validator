@@ -191,7 +191,7 @@ class JsonSchemaTest : FunSpec() {
             sequenceOf(it)
           }
         }.forEach { ref ->
-          test("$refDestination can be accessed") {
+          test("$refDestination can be accessed by ref '$ref'") {
             withClue(ref) {
               shouldNotThrowAny {
                 JsonSchema.fromDefinition(
