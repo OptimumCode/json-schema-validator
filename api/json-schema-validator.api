@@ -17,10 +17,12 @@ public final class io/github/optimumcode/json/pointer/JsonPointer$Companion {
 
 public final class io/github/optimumcode/json/pointer/JsonPointerExtensions {
 	public static final fun at (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/pointer/JsonPointer;)Lkotlinx/serialization/json/JsonElement;
+	public static final fun contains (Lio/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;)Z
 	public static final fun div (Lio/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;)Lio/github/optimumcode/json/pointer/JsonPointer;
 	public static final fun get (Lio/github/optimumcode/json/pointer/JsonPointer;I)Lio/github/optimumcode/json/pointer/JsonPointer;
 	public static final fun plus (Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;)Lio/github/optimumcode/json/pointer/JsonPointer;
 	public static final fun relative (Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;)Lio/github/optimumcode/json/pointer/JsonPointer;
+	public static final fun startsWith (Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;)Z
 }
 
 public final class io/github/optimumcode/json/pointer/JsonPointerKt {
