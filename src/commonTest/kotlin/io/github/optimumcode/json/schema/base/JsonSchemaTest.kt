@@ -4,6 +4,7 @@ import com.eygraber.uri.Uri
 import io.github.optimumcode.json.schema.JsonSchema
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
@@ -190,31 +191,33 @@ class JsonSchemaTest : FunSpec() {
             sequenceOf(it)
           }
         }.forEach { ref ->
-          test("$refDestination can be accessed by $ref") {
-            shouldNotThrowAny {
-              JsonSchema.fromDefinition(
-                """
-                {
-                  "${KEY}id": "http://example.com/root.json",
-                  "definitions": {
-                    "A": { "${KEY}id": "#foo" },
-                    "B": {
-                      "${KEY}id": "other.json",
-                      "definitions": {
-                        "X": { "${KEY}id": "#bar" },
-                        "Y": { "${KEY}id": "t/inner.json" }
+          test("$refDestination can be accessed") {
+            withClue(ref) {
+              shouldNotThrowAny {
+                JsonSchema.fromDefinition(
+                  """
+                  {
+                    "${KEY}id": "http://example.com/root.json",
+                    "definitions": {
+                      "A": { "${KEY}id": "#foo" },
+                      "B": {
+                        "${KEY}id": "other.json",
+                        "definitions": {
+                          "X": { "${KEY}id": "#bar" },
+                          "Y": { "${KEY}id": "t/inner.json" }
+                        }
+                      },
+                      "C": {
+                        "${KEY}id": "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f"
                       }
                     },
-                    "C": {
-                      "${KEY}id": "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f"
+                    "properties": {
+                      "test": { "${KEY}ref": "$ref" } 
                     }
-                  },
-                  "properties": {
-                    "test": { "${KEY}ref": "$ref" } 
                   }
-                }
-                """.trimIndent(),
-              )
+                  """.trimIndent(),
+                )
+              }
             }
           }
         }
