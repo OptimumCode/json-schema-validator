@@ -8,6 +8,20 @@ from [kotlinx.serialization-json](https://github.com/Kotlin/kotlinx.serializatio
 
 ## Usage
 
+### Supported targets
+
+| Target            |
+|-------------------|
+| jvm               |
+| js                |
+| macosX64          |
+| macosArm64        |
+| iosArm64          |
+| iosSimulatorArm64 |
+| linuxX64          |
+| linuxArm64        |
+| mingwX64          |
+
 ### Dependencies
 
 #### Releases
