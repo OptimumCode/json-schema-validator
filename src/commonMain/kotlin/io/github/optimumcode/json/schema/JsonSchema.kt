@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema
 
-import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
+import io.github.optimumcode.json.schema.internal.AssertionWithPath
 import io.github.optimumcode.json.schema.internal.DefaultAssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.RefId
@@ -15,9 +15,8 @@ import kotlin.jvm.JvmStatic
  * and collect errors using [ErrorCollector]
  */
 public class JsonSchema internal constructor(
-  private val baseId: Uri,
   private val assertion: JsonSchemaAssertion,
-  private val references: Map<RefId, JsonSchemaAssertion>,
+  private val references: Map<RefId, AssertionWithPath>,
 ) {
   /**
    * Validates [value] against this [JsonSchema].
@@ -27,7 +26,7 @@ public class JsonSchema internal constructor(
    * All reported errors will be reported to [ErrorCollector.onError]
    */
   public fun validate(value: JsonElement, errorCollector: ErrorCollector): Boolean {
-    val context = DefaultAssertionContext(baseId, JsonPointer.ROOT, references)
+    val context = DefaultAssertionContext(JsonPointer.ROOT, references)
     return assertion.validate(value, context, errorCollector)
   }
 

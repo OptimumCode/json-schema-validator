@@ -86,7 +86,12 @@ internal class SchemaLoader {
       context.references.mapValues { it.value.schemaPath },
       context.usedRef,
     )
-    return JsonSchema(baseId, schemaAssertion, context.references.mapValues { it.value.assertion })
+    val usedRefs = context.usedRef.map { it.refId }.toSet()
+    // pre-filter references to get rid of unused references
+    val usedReferencesWithPath: Map<RefId, AssertionWithPath> = context.references.asSequence()
+      .filter { it.key in usedRefs }
+      .associate { it.key to it.value }
+    return JsonSchema(schemaAssertion, usedReferencesWithPath)
   }
 
   private fun extractSchemaType(schemaDefinition: JsonElement): SchemaType {
