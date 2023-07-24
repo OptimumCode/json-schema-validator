@@ -1,6 +1,5 @@
 package io.github.optimumcode.json.pointer
 
-import io.github.optimumcode.json.pointer.JsonPointer.Companion
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 

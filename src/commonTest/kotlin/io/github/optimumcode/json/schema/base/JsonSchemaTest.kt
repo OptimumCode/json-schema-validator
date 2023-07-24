@@ -183,15 +183,16 @@ class JsonSchemaTest : FunSpec() {
       ),
     ).forEach { (refDestination, possibleRefs) ->
       possibleRefs.asSequence()
-        .flatMap {
-          val uri = Uri.parse(it)
+        .flatMapIndexed { index, ref ->
+          val uri = Uri.parse(ref)
+          val caseNumber = index + 1
           if (uri.schemeSpecificPart == "//example.com/root.json" && uri.fragment != null) {
-            sequenceOf(it, "#${uri.fragment}")
+            sequenceOf("$caseNumber" to ref, "$caseNumber.1" to "#${uri.fragment}")
           } else {
-            sequenceOf(it)
+            sequenceOf("$caseNumber" to ref)
           }
-        }.forEach { ref ->
-          test("$refDestination can be accessed by ref '$ref'") {
+        }.forEach { (caseNumber, ref) ->
+          test("$refDestination can be accessed ($caseNumber)") {
             withClue(ref) {
               shouldNotThrowAny {
                 JsonSchema.fromDefinition(
