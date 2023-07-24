@@ -113,9 +113,6 @@ public fun JsonPointer.relative(other: JsonPointer): JsonPointer {
  * ```
  */
 public fun JsonPointer.startsWith(other: JsonPointer): Boolean {
-  if (this is EmptyPointer) {
-    return other is EmptyPointer
-  }
   var primary: JsonPointer? = this
   var secondary: JsonPointer? = other
   while (primary != null && secondary != null) {
