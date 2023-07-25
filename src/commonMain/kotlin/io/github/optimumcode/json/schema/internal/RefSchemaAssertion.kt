@@ -10,13 +10,14 @@ internal class RefSchemaAssertion(
   private val basePath: JsonPointer,
   private val refId: RefId,
 ) : JsonSchemaAssertion {
-  private val refIdPath: JsonPointer =
-    JsonPointer(refId.fragment)
+  private lateinit var refIdPath: JsonPointer
   private lateinit var refAssertion: JsonSchemaAssertion
 
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
     if (!::refAssertion.isInitialized) {
-      refAssertion = context.resolveRef(refId)
+      val resolved = context.resolveRef(refId)
+      refIdPath = resolved.first
+      refAssertion = resolved.second
     }
     return refAssertion.validate(element, context) {
       errorCollector.onError(

@@ -8,6 +8,20 @@ from [kotlinx.serialization-json](https://github.com/Kotlin/kotlinx.serializatio
 
 ## Usage
 
+### Supported targets
+
+| Target            |
+|-------------------|
+| jvm               |
+| js                |
+| macosX64          |
+| macosArm64        |
+| iosArm64          |
+| iosSimulatorArm64 |
+| linuxX64          |
+| linuxArm64        |
+| mingwX64          |
+
 ### Dependencies
 
 #### Releases
@@ -112,12 +126,12 @@ val valid = schema.validate(elementToValidate, errors::add)
 - [Draft 7](https://json-schema.org/specification-links.html#draft-7)
   - Keywords
 
-  | Keyword     | Status                                                                                                                 |
-  |:------------|:-----------------------------------------------------------------------------------------------------------------------|
-  | $id         | Basic support. Only in root schema. Currently, it is interpreted as a string. Validation is in the future plans        |
-  | $schema     | There is not validation of the $schema property at the moment                                                          |
-  | $ref        | Partially supported. Only references like _**#/path/in/schema**_ will work. The circled references validation is added |
-  | definitions | Supported. Definitions are loaded and can be referenced                                                                |
+  | Keyword     | Status                                                                                              |
+  |:------------|:----------------------------------------------------------------------------------------------------|
+  | $id         | Supported. $id in sub-schemas are collected as well and can be used in $ref                         |
+  | $schema     | Supported. Validates if schema is one of the supported schemas. The last supported is used if empty |
+  | $ref        | Supported (except references to schemas from another document)                                      |
+  | definitions | Supported. Definitions are loaded and can be referenced                                             |
 
   - Assertions
 
@@ -156,7 +170,7 @@ val valid = schema.validate(elementToValidate, errors::add)
 ## Future plans
 
 - [x] Add `$schema` property validation (if not set the latest supported will be used)
-- [ ] Add proper `$id` support (for nested schemas and for referencing)
+- [x] Add proper `$id` support (for nested schemas and for referencing)
 - [ ] Add support for newer drafts
   - [ ] [Draft 2019-09 (Draft 8)](https://json-schema.org/specification-links.html#draft-2019-09-formerly-known-as-draft-8)
   - [ ] [2020-12](https://json-schema.org/specification-links.html#2020-12)

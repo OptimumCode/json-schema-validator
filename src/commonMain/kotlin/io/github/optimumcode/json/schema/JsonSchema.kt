@@ -1,6 +1,7 @@
 package io.github.optimumcode.json.schema
 
 import io.github.optimumcode.json.pointer.JsonPointer
+import io.github.optimumcode.json.schema.internal.AssertionWithPath
 import io.github.optimumcode.json.schema.internal.DefaultAssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.RefId
@@ -15,7 +16,7 @@ import kotlin.jvm.JvmStatic
  */
 public class JsonSchema internal constructor(
   private val assertion: JsonSchemaAssertion,
-  private val references: Map<RefId, JsonSchemaAssertion>,
+  private val references: Map<RefId, AssertionWithPath>,
 ) {
   /**
    * Validates [value] against this [JsonSchema].

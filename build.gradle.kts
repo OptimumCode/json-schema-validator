@@ -45,18 +45,12 @@ kotlin {
     nodejs()
   }
   ios()
-  tvos()
-  watchos()
 
   val macOsTargets = listOf<KotlinTarget>(
     macosX64(),
     macosArm64(),
     iosArm64(),
     iosSimulatorArm64(),
-    watchosArm32(),
-    watchosSimulatorArm64(),
-    tvosArm64(),
-    tvosX64(),
   )
 
   val linuxTargets = listOf<KotlinTarget>(
@@ -72,6 +66,7 @@ kotlin {
     val commonMain by getting {
       dependencies {
         api(libs.kotlin.serialization.json)
+        implementation(libs.uri)
       }
     }
     val commonTest by getting {

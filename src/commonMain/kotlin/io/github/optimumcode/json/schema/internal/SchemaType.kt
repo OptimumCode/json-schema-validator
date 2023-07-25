@@ -1,19 +1,34 @@
 package io.github.optimumcode.json.schema.internal
 
+import com.eygraber.uri.Uri
 import kotlin.jvm.JvmStatic
 
 internal enum class SchemaType(
-  private val schemaId: String,
+  private val schemaId: Uri,
 ) {
-  DRAFT_7("json-schema.org/draft-07/schema"),
+  DRAFT_7(Uri.parse("http://json-schema.org/draft-07/schema")),
   ;
 
   companion object {
+    private const val HTTP_SCHEMA: String = "http"
+    private const val HTTPS_SCHEMA: String = "https"
+
     @JvmStatic
     fun find(schemaId: String): SchemaType? {
-      val id = schemaId.substringAfter("://")
-        .substringBeforeLast(ROOT_REFERENCE)
-      return values().find { it.schemaId == id }
+      val uri = Uri.parse(schemaId)
+      if (uri.scheme.let { it != HTTP_SCHEMA && it != HTTPS_SCHEMA }) {
+        // the schema in URI is unknown
+        // so, it definitely is not a supported schema ID
+        return null
+      }
+      return values().find {
+        it.schemaId.run {
+          host == uri.host &&
+            port == uri.port &&
+            path == uri.path &&
+            fragment == uri.fragment?.takeUnless(String::isEmpty)
+        }
+      }
     }
   }
 }
