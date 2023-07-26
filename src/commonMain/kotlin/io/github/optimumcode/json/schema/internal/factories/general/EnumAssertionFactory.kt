@@ -7,6 +7,7 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
+import io.github.optimumcode.json.schema.internal.util.areEqual
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 
@@ -29,7 +30,7 @@ private class EnumAssertion(
   }
 
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
-    if (possibleElements.contains(element)) {
+    if (possibleElements.any { areEqual(it, element) }) {
       return true
     }
     errorCollector.onError(
