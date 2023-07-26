@@ -45,41 +45,6 @@ private fun compareAsNumbers(first: JsonPrimitive, second: JsonPrimitive): Boole
   return firstInteger == secondInteger && firstFractional == secondFractional
 }
 
-internal data class NumberParts(
-  val integer: Long,
-  val fractional: Long,
-)
-
-internal fun parseNumberParts(element: JsonPrimitive): NumberParts? {
-  return if (element.isString || element is JsonNull || element.booleanOrNull != null) {
-    null
-  } else {
-    numberParts(element)
-  }
-}
-
-private const val E_SMALL_CHAR: Char = 'e'
-private const val E_BIG_CHAR: Char = 'E'
-private fun numberParts(element: JsonPrimitive): NumberParts {
-  if (element.content.run { contains(E_SMALL_CHAR) || contains(E_BIG_CHAR) }) {
-    return element.double.run {
-      NumberParts(toLong(), rem(1.0).toLong())
-    }
-  }
-  val integerPart = element.content.substringBefore('.')
-  return if (integerPart == element.content) {
-    NumberParts(
-      integerPart.toLong(),
-      0L,
-    )
-  } else {
-    NumberParts(
-      integerPart.toLong(),
-      element.content.substring(integerPart.length + 1).toLong(),
-    )
-  }
-}
-
 internal fun areEqualArrays(first: JsonArray, second: JsonArray): Boolean {
   if (first.size != second.size) {
     return false
