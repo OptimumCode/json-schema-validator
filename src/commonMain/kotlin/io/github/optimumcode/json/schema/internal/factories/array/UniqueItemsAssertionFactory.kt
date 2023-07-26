@@ -60,10 +60,10 @@ private class UniqueItemsAssertion(
         objectPath = context.objectPath,
         message = "array contains duplicate values: ${
           duplicates?.joinToString(
-              prefix = "[",
-              postfix = "]",
-              separator = ",",
-            )
+            prefix = "[",
+            postfix = "]",
+            separator = ",",
+          )
         }",
       ),
     )

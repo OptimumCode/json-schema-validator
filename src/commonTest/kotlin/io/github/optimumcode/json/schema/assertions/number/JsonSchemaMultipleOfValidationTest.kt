@@ -1,14 +1,11 @@
 package io.github.optimumcode.json.schema.assertions.number
 
 import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.schema.ErrorCollector
-import io.github.optimumcode.json.schema.ErrorCollector.Companion
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.base.KEY
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.core.test.TestScope
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -169,7 +166,7 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
               schemaPath = JsonPointer("/multipleOf"),
               objectPath = JsonPointer.ROOT,
               message = "$it is not a multiple of 0.0001",
-            )
+            ),
           )
         }
       }

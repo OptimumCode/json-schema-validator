@@ -22,6 +22,7 @@ internal fun parseNumberParts(element: JsonPrimitive): NumberParts? {
 
 private const val E_SMALL_CHAR: Char = 'e'
 private const val E_BIG_CHAR: Char = 'E'
+private const val TEN: Double = 10.0
 
 /**
  * This function should be used only if you are certain that the [element] is a number
@@ -32,7 +33,7 @@ internal fun numberParts(element: JsonPrimitive): NumberParts {
       var precision = 0
       var fractionalPart = rem(1.0).absoluteValue
       while (fractionalPart % 1.0 > 0) {
-        fractionalPart *= 10.0
+        fractionalPart *= TEN
         precision += 1
       }
       NumberParts(toLong(), fractionalPart.toLong(), precision)
