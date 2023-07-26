@@ -51,14 +51,16 @@ internal fun numberParts(element: JsonPrimitive): NumberParts {
     var lastNotZero = fractionalPart.length - 1
     for (i in (fractionalPart.length - 1) downTo 0) {
       if (fractionalPart[i] != '0') {
-        lastNotZero = i
         break
       }
+      lastNotZero -= 1
     }
     val fractionalSize = lastNotZero + 1
     NumberParts(
       integerPart.toLong(),
-      fractionalPart.substring(startIndex = 0, endIndex = fractionalSize).toLong(),
+      fractionalPart.substring(startIndex = 0, endIndex = fractionalSize)
+        .takeIf { it.isNotEmpty() }
+        ?.toLong() ?: 0L,
       fractionalSize,
     )
   }

@@ -45,5 +45,26 @@ class ElementEqualityUtilTest : FunSpec() {
         }
       }
     }
+
+    listOf(
+      "2" to "2.0",
+      "0.1" to "0.1",
+      "0.1" to "0.100",
+      "1e-1" to "0.1",
+    ).forEach { (first, second) ->
+      test("numbers $first and $second are equal") {
+        assertSoftly {
+          areEqualPrimitives(
+            JsonUnquotedLiteral(first),
+            JsonUnquotedLiteral(second),
+          ) shouldBe true
+
+          areEqualPrimitives(
+            JsonUnquotedLiteral(second),
+            JsonUnquotedLiteral(first),
+          ) shouldBe true
+        }
+      }
+    }
   }
 }
