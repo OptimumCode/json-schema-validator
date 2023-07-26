@@ -1,10 +1,15 @@
 package io.github.optimumcode.json.schema.assertions.number
 
+import io.github.optimumcode.json.pointer.JsonPointer
+import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.ErrorCollector.Companion
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.base.KEY
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.core.test.TestScope
+import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -108,6 +113,65 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
         val valid = numberSchema.validate(it, errors::add)
         valid shouldBe true
         errors shouldHaveSize 0
+      }
+    }
+
+    JsonSchema.fromDefinition(
+      """
+      {
+        "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+        "multipleOf": 0.0001
+      }
+      """.trimIndent(),
+    ).apply {
+      listOf(
+        JsonUnquotedLiteral("0.0075"),
+        JsonUnquotedLiteral("0.075"),
+        JsonUnquotedLiteral("0.75"),
+        JsonUnquotedLiteral("7.5"),
+        JsonUnquotedLiteral("75"),
+        JsonUnquotedLiteral("750"),
+        JsonUnquotedLiteral("12391239123"),
+        JsonUnquotedLiteral("-0.0075"),
+        JsonUnquotedLiteral("-0.075"),
+        JsonUnquotedLiteral("-0.75"),
+        JsonUnquotedLiteral("-7.5"),
+        JsonUnquotedLiteral("-75"),
+        JsonUnquotedLiteral("-750"),
+        JsonUnquotedLiteral("-12391239123"),
+      ).forEach {
+        test("small number $it is multiple of 0.0001") {
+          val errors = mutableListOf<ValidationError>()
+          validate(it, errors::add) shouldBe true
+          errors shouldHaveSize 0
+        }
+      }
+
+      listOf(
+        JsonUnquotedLiteral("0.00001"),
+        JsonUnquotedLiteral("0.00011"),
+        JsonUnquotedLiteral("0.00751"),
+        JsonUnquotedLiteral("0.01751"),
+        JsonUnquotedLiteral("0.71751"),
+        JsonUnquotedLiteral("1.71751"),
+        JsonUnquotedLiteral("-0.00001"),
+        JsonUnquotedLiteral("-0.00011"),
+        JsonUnquotedLiteral("-0.00751"),
+        JsonUnquotedLiteral("-0.01751"),
+        JsonUnquotedLiteral("-0.71751"),
+        JsonUnquotedLiteral("-1.71751"),
+      ).forEach {
+        test("small number $it is not a multiple of 0.0001") {
+          val errors = mutableListOf<ValidationError>()
+          validate(it, errors::add) shouldBe false
+          errors.shouldContainExactly(
+            ValidationError(
+              schemaPath = JsonPointer("/multipleOf"),
+              objectPath = JsonPointer.ROOT,
+              message = "$it is not a multiple of 0.0001",
+            )
+          )
+        }
       }
     }
   }
