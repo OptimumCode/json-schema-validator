@@ -1,7 +1,6 @@
 package io.github.optimumcode.json.schema.suite
 
 import io.github.optimumcode.json.schema.ErrorCollector
-import io.github.optimumcode.json.schema.ErrorCollector.Companion
 import io.github.optimumcode.json.schema.JsonSchema
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.withClue
@@ -66,7 +65,7 @@ private fun FunSpec.executeFromDirectory(
   fs: FileSystem,
   testSuiteDir: Path,
   excludeSuites: Map<String, Set<String>>,
-  excludeTests: Map<String, Set<String>>
+  excludeTests: Map<String, Set<String>>,
 ) {
   fs.list(testSuiteDir).forEach { testSuiteFile ->
     if (fs.metadata(testSuiteFile).isDirectory) {

@@ -6,6 +6,7 @@ import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.double
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -57,7 +58,14 @@ internal fun parseNumberParts(element: JsonPrimitive): NumberParts? {
   }
 }
 
+private const val E_SMALL_CHAR: Char = 'e'
+private const val E_BIG_CHAR: Char = 'E'
 private fun numberParts(element: JsonPrimitive): NumberParts {
+  if (element.content.run { contains(E_SMALL_CHAR) || contains(E_BIG_CHAR) }) {
+    return element.double.run {
+      NumberParts(toLong(), rem(1.0).toLong())
+    }
+  }
   val integerPart = element.content.substringBefore('.')
   return if (integerPart == element.content) {
     NumberParts(
