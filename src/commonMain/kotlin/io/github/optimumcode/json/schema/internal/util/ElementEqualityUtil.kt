@@ -5,7 +5,6 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
@@ -40,17 +39,36 @@ internal fun areEqualPrimitives(first: JsonPrimitive, second: JsonPrimitive): Bo
 }
 
 private fun compareAsNumbers(first: JsonPrimitive, second: JsonPrimitive): Boolean {
-  val (firstInteger, firstFractional) = number(first)
-  val (secondInteger, secondFractional) = number(second)
+  val (firstInteger, firstFractional) = numberParts(first)
+  val (secondInteger, secondFractional) = numberParts(second)
   return firstInteger == secondInteger && firstFractional == secondFractional
 }
 
-private fun number(element: JsonPrimitive): Pair<Long, Long> {
+internal data class NumberParts(
+  val integer: Long,
+  val fractional: Long,
+)
+
+internal fun parseNumberParts(element: JsonPrimitive): NumberParts? {
+  return if (element.isString || element is JsonNull || element.booleanOrNull != null) {
+    null
+  } else {
+    numberParts(element)
+  }
+}
+
+private fun numberParts(element: JsonPrimitive): NumberParts {
   val integerPart = element.content.substringBefore('.')
   return if (integerPart == element.content) {
-    integerPart.toLong() to 0L
+    NumberParts(
+      integerPart.toLong(),
+      0L,
+    )
   } else {
-    integerPart.toLong() to element.content.substring(integerPart.length + 1).toLong()
+    NumberParts(
+      integerPart.toLong(),
+      element.content.substring(integerPart.length + 1).toLong(),
+    )
   }
 }
 

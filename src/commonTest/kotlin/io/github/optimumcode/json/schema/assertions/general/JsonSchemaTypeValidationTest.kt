@@ -25,9 +25,7 @@ class JsonSchemaTypeValidationTest : FunSpec() {
     val possibleTypes = mapOf(
       "boolean" to JsonPrimitive(true),
       "string" to JsonPrimitive("true"),
-      // JsonUnquotedLiteral is used to bypass the JS conversion to integer value
-      // If we use JsonPrimitive(42.0) the 42.0 will be converted to 42
-      "number" to JsonUnquotedLiteral("42.0"),
+      "number" to JsonPrimitive(42.5),
       "integer" to JsonPrimitive(42),
       "null" to JsonNull,
       "array" to buildJsonArray {},
@@ -184,6 +182,21 @@ class JsonSchemaTypeValidationTest : FunSpec() {
           """.trimIndent(),
         )
       }.message shouldBe "type must be either array or a string"
+    }
+
+    test("number with zero fraction is integer") {
+      JsonSchema.fromDefinition(
+        """
+        {
+          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+          "type": "integer"
+        }
+        """.trimIndent(),
+      ).apply {
+        val errors = mutableListOf<ValidationError>()
+        validate(JsonUnquotedLiteral("42.0"), errors::add) shouldBe true
+        errors shouldHaveSize 0
+      }
     }
   }
 }
