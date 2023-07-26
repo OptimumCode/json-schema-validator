@@ -4,10 +4,12 @@ import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.double
+import kotlin.math.absoluteValue
 
 internal data class NumberParts(
   val integer: Long,
   val fractional: Long,
+  val precision: Int,
 )
 
 internal fun parseNumberParts(element: JsonPrimitive): NumberParts? {
@@ -27,7 +29,13 @@ private const val E_BIG_CHAR: Char = 'E'
 internal fun numberParts(element: JsonPrimitive): NumberParts {
   if (element.content.run { contains(E_SMALL_CHAR) || contains(E_BIG_CHAR) }) {
     return element.double.run {
-      NumberParts(toLong(), rem(1.0).toLong())
+      var precision = 0
+      var fractionalPart = rem(1.0).absoluteValue
+      while (fractionalPart % 1.0 > 0) {
+        fractionalPart *= 10.0
+        precision += 1
+      }
+      NumberParts(toLong(), fractionalPart.toLong(), precision)
     }
   }
   val integerPart = element.content.substringBefore('.')
@@ -35,11 +43,22 @@ internal fun numberParts(element: JsonPrimitive): NumberParts {
     NumberParts(
       integerPart.toLong(),
       0L,
+      0,
     )
   } else {
+    val fractionalPart = element.content.substring(integerPart.length + 1)
+    var lastNotZero = fractionalPart.length - 1
+    for (i in (fractionalPart.length - 1) downTo 0) {
+      if (fractionalPart[i] != '0') {
+        lastNotZero = i
+        break
+      }
+    }
+    val fractionalSize = lastNotZero + 1
     NumberParts(
       integerPart.toLong(),
-      element.content.substring(integerPart.length + 1).toLong(),
+      fractionalPart.substring(startIndex = 0, endIndex = fractionalSize).toLong(),
+      fractionalSize,
     )
   }
 }

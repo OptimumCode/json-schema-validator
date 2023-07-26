@@ -40,9 +40,7 @@ internal fun areEqualPrimitives(first: JsonPrimitive, second: JsonPrimitive): Bo
 }
 
 private fun compareAsNumbers(first: JsonPrimitive, second: JsonPrimitive): Boolean {
-  val (firstInteger, firstFractional) = numberParts(first)
-  val (secondInteger, secondFractional) = numberParts(second)
-  return firstInteger == secondInteger && firstFractional == secondFractional
+  return numberParts(first) == numberParts(second)
 }
 
 internal fun areEqualArrays(first: JsonArray, second: JsonArray): Boolean {
