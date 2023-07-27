@@ -5,34 +5,38 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.AssertionFactory
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
+import io.github.optimumcode.json.schema.internal.TrueSchemaAssertion
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 
+// TODO: all parts must be loaded separately
 internal object IfThenElseAssertionFactory : AssertionFactory {
-  private const val ifProperty: String = "if"
-  private const val thenProperty: String = "then"
-  private const val elseProperty: String = "else"
+  private const val IF_PROPERTY: String = "if"
+  private const val THEN_PROPERTY: String = "then"
+  private const val ELSE_PROPERTY: String = "else"
 
   override fun isApplicable(element: JsonElement): Boolean {
     return element is JsonObject && element.run {
-      // there is not point to extract the assertion when only `if` is present
-      containsKey(ifProperty) && (containsKey(thenProperty) || containsKey(elseProperty))
+      // we need to load all definitions because they can be referenced
+      containsKey(IF_PROPERTY) || containsKey(THEN_PROPERTY) || containsKey(ELSE_PROPERTY)
     }
   }
 
   override fun create(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
     require(element is JsonObject) { "cannot extract properties from ${element::class.simpleName}" }
-    val ifElement = requireNotNull(element[ifProperty]) { "no property $ifProperty found in element $element" }
-    require(context.isJsonSchema(ifElement)) { "$ifProperty must be a valid JSON schema" }
-    val ifAssertion: JsonSchemaAssertion = context.at(ifProperty).schemaFrom(ifElement)
-
-    val thenAssertion: JsonSchemaAssertion? = loadOptionalAssertion(element, thenProperty, context)
-    val elseAssertion: JsonSchemaAssertion? = loadOptionalAssertion(element, elseProperty, context)
-
-    require(thenAssertion != null || elseAssertion != null) {
-      "either $thenProperty or $elseProperty must be specified"
+    val ifElement: JsonElement? = element[IF_PROPERTY]?.apply {
+      require(context.isJsonSchema(this)) { "$IF_PROPERTY must be a valid JSON schema" }
     }
-    return IfThenElseAssertion(ifAssertion, thenAssertion, elseAssertion)
+    val ifAssertion: JsonSchemaAssertion? = ifElement?.let(context.at(IF_PROPERTY)::schemaFrom)
+
+    val thenAssertion: JsonSchemaAssertion? = loadOptionalAssertion(element, THEN_PROPERTY, context)
+    val elseAssertion: JsonSchemaAssertion? = loadOptionalAssertion(element, ELSE_PROPERTY, context)
+
+    return when {
+      ifAssertion == null -> TrueSchemaAssertion // no if -> no effect
+      thenAssertion == null && elseAssertion == null -> TrueSchemaAssertion // only if - no effect
+      else -> IfThenElseAssertion(ifAssertion, thenAssertion, elseAssertion)
+    }
   }
 
   private fun loadOptionalAssertion(
