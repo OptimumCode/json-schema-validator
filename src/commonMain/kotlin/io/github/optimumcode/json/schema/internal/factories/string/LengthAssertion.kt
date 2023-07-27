@@ -5,6 +5,7 @@ import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
+import io.github.optimumcode.json.schema.internal.factories.string.util.codePointCount
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
@@ -20,14 +21,15 @@ internal class LengthAssertion(
       return true
     }
     val content = element.contentOrNull ?: return true
-    if (check(content.length, lengthValue)) {
+    val codePointCount = content.codePointCount()
+    if (check(codePointCount, lengthValue)) {
       return true
     }
     errorCollector.onError(
       ValidationError(
         schemaPath = path,
         objectPath = context.objectPath,
-        message = "string length (${content.length}) $errorMessage $lengthValue",
+        message = "string length ($codePointCount) $errorMessage $lengthValue",
       ),
     )
     return false
