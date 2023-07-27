@@ -4,6 +4,7 @@ import io.kotest.assertions.asClue
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -76,6 +77,38 @@ class JsonPointerTest : FunSpec() {
     test("correctly reads ~ at the end") {
       val pointer = JsonPointer("/~")
       pointer.assertSegment(property = "~")
+    }
+
+    test("empty segment in the end") {
+      val pointer = JsonPointer("/test/")
+      assertSoftly {
+        pointer.assertSegment(property = "test")
+        pointer.next
+          .shouldNotBeNull()
+          .assertSegment(property = "")
+        pointer.toString() shouldBe "/test/"
+      }
+    }
+
+    test("empty segment in the beginning") {
+      val pointer = JsonPointer("/")
+      assertSoftly {
+        pointer.assertSegment(property = "")
+        pointer.next.shouldNotBeNull().shouldBe(EmptyPointer)
+        pointer.toString() shouldBe "/"
+      }
+    }
+
+    test("empty segment in the middle") {
+      val pointer = JsonPointer("/test1//test2")
+      assertSoftly {
+        pointer.assertSegment(property = "test1")
+        var next = pointer.next.shouldNotBeNull()
+        next.assertSegment(property = "")
+        next = next.next.shouldNotBeNull()
+        next.assertSegment(property = "test2")
+        pointer.toString() shouldBe "/test1//test2"
+      }
     }
   }
 

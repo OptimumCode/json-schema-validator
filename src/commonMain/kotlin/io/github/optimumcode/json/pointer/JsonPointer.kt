@@ -33,9 +33,7 @@ public sealed class JsonPointer(
       buildString {
         val pointer = this@JsonPointer.toString()
         append(pointer)
-        if (!pointer.endsWith(SEPARATOR)) {
-          append(SEPARATOR)
-        }
+        append(SEPARATOR)
         append(index)
       },
     )
@@ -53,9 +51,7 @@ public sealed class JsonPointer(
       buildString {
         val pointer = this@JsonPointer.toString()
         append(pointer)
-        if (!pointer.endsWith(SEPARATOR)) {
-          append(SEPARATOR)
-        }
+        append(SEPARATOR)
         append(property)
       },
     )
