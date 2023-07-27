@@ -195,8 +195,8 @@ private data class DefaultLoadingContext(
   private val baseId: Uri,
   override val schemaPath: JsonPointer = JsonPointer.ROOT,
   val additionalIDs: Set<IdWithLocation> = linkedSetOf(IdWithLocation(baseId, schemaPath)),
-  val references: MutableMap<RefId, AssertionWithPath> = hashMapOf(),
-  val usedRef: MutableSet<ReferenceLocation> = hashSetOf(),
+  val references: MutableMap<RefId, AssertionWithPath> = linkedMapOf(),
+  val usedRef: MutableSet<ReferenceLocation> = linkedSetOf(),
 ) : LoadingContext {
   override fun at(property: String): DefaultLoadingContext {
     return copy(schemaPath = schemaPath / property)
