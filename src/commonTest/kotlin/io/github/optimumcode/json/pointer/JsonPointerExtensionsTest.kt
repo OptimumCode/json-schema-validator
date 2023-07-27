@@ -33,6 +33,16 @@ class JsonPointerExtensionsTest : FunSpec() {
         "",
         JsonPointer("/test/"),
       ),
+      TestCase(
+        JsonPointer("/test"),
+        "tilde~field",
+        JsonPointer("/test/tilde~0field"),
+      ),
+      TestCase(
+        JsonPointer("/test"),
+        "slash/field",
+        JsonPointer("/test/slash~1field"),
+      ),
     ).forEach { (initial, prop, result) ->
       test("$initial / $prop => $result") {
         (initial / prop) shouldBe result

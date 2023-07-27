@@ -52,7 +52,13 @@ public sealed class JsonPointer(
         val pointer = this@JsonPointer.toString()
         append(pointer)
         append(SEPARATOR)
-        append(property)
+        for (ch in property) {
+          when (ch) {
+            QUOTATION -> append(QUOTATION).append("0")
+            SEPARATOR -> append(QUOTATION).append("1")
+            else -> append(ch)
+          }
+        }
       },
     )
 
