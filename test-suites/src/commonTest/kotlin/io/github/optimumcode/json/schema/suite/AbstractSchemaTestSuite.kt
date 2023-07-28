@@ -87,21 +87,27 @@ private fun FunSpec.executeFromDirectory(
     val testSuites: List<TestSuite> = fs.openReadOnly(testSuiteFile).use {
       Json.decodeFromBufferedSource(ListSerializer(TestSuite.serializer()), it.source().buffer())
     }
+    var testSuiteIndex = -1
     for (testSuite in testSuites) {
+      testSuiteIndex += 1
       if (excludeTestSuitesWithDescription != null && testSuite.description in excludeTestSuitesWithDescription) {
         continue
       }
       val excludeTestWithDescription: Set<String>? = excludeTests[testSuite.description]
+      var testIndex = -1
       for (test in testSuite.tests) {
+        testIndex += 1
         if (excludeTestWithDescription != null && test.description in excludeTestWithDescription) {
           continue
         }
-        test("$testSuiteID > ${testSuite.description} > ${test.description}") {
-          withClue(listOf(testSuite.schema, test.description, test.data)) {
+        test("$testSuiteID at index $testSuiteIndex test $testIndex") {
+          withClue(listOf(testSuite.description, testSuite.schema, test.description, test.data)) {
             val schema: JsonSchema = shouldNotThrowAny {
               JsonSchema.fromJsonElement(testSuite.schema)
             }
-            schema.validate(test.data, ErrorCollector.EMPTY) shouldBe test.valid
+            shouldNotThrowAny {
+              schema.validate(test.data, ErrorCollector.EMPTY)
+            } shouldBe test.valid
           }
         }
       }
