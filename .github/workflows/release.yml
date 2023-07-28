@@ -58,6 +58,7 @@ jobs:
           gradle-version: wrapper
           arguments: |
             --no-daemon
+            --info
             build
             publish
             closeAndReleaseStagingRepository

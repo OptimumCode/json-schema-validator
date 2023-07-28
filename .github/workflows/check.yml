@@ -38,6 +38,8 @@ jobs:
         with:
           gradle-version: wrapper
           arguments: |
+            --no-daemon
+            --info
             ${{ inputs.task }}
             detektAll
             ktlintCheck
