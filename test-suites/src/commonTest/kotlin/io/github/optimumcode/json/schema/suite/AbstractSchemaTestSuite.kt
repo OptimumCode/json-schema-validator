@@ -46,8 +46,13 @@ internal fun FunSpec.runTestSuites(
   excludeTests: Map<String, Set<String>> = emptyMap(),
 ) {
   require(draftName.isNotBlank()) { "draftName is blank" }
-  val testSuiteDir = TEST_SUITES_DIR / draftName
   val fs = fileSystem()
+  val testSuiteDir = when {
+    fs.exists(TEST_SUITES_DIR) -> TEST_SUITES_DIR
+    fs.exists(TEST_SUITES_DIR_FROM_ROOT) -> TEST_SUITES_DIR_FROM_ROOT
+    else -> fs.resolveRoot() ?: error("neither $TEST_SUITES_DIR or $TEST_SUITES_DIR_FROM_ROOT exist")
+  }.resolve(draftName)
+
   require(fs.exists(testSuiteDir)) { "folder $testSuiteDir does not exist" }
 
   executeFromDirectory(fs, testSuiteDir, excludeSuites, excludeTests)
@@ -120,5 +125,18 @@ private class SchemaTest(
 )
 
 private val TEST_SUITES_DIR: Path = "schema-test-suite/tests".toPath()
+private val TEST_SUITES_DIR_FROM_ROOT: Path = "test-suites".toPath() / TEST_SUITES_DIR
+
+/**
+ * This function tries to find the repo root using `build` folder as maker.
+ *
+ * This is done in order to execute NodeJS tests
+ */
+private fun FileSystem.resolveRoot(): Path? {
+  val absolutePath = canonicalize(".".toPath())
+  return generateSequence(absolutePath) {
+    it.parent
+  }.find { it.name == "build" }?.parent?.resolve(TEST_SUITES_DIR_FROM_ROOT)
+}
 
 expect fun fileSystem(): FileSystem
