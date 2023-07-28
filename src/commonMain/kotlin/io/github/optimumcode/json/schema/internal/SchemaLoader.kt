@@ -8,6 +8,7 @@ import io.github.optimumcode.json.pointer.get
 import io.github.optimumcode.json.pointer.relative
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.ReferenceLocation
+import io.github.optimumcode.json.schema.internal.factories.FactoryGroup
 import io.github.optimumcode.json.schema.internal.factories.array.ContainsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.ItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.MaxItemsAssertionFactory
@@ -15,9 +16,11 @@ import io.github.optimumcode.json.schema.internal.factories.array.MinItemsAssert
 import io.github.optimumcode.json.schema.internal.factories.array.UniqueItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.AllOfAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.AnyOfAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.condition.IfThenElseAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.condition.ElseAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.condition.IfAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.NotAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.OneOfAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.condition.ThenAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.ConstAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.EnumAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.TypeAssertionFactory
@@ -64,7 +67,11 @@ private val factories: List<AssertionFactory> = listOf(
   PropertiesAssertionFactory,
   PropertyNamesAssertionFactory,
   DependenciesAssertionFactory,
-  IfThenElseAssertionFactory,
+  FactoryGroup(
+    IfAssertionFactory,
+    ThenAssertionFactory,
+    ElseAssertionFactory,
+  ),
   AllOfAssertionFactory,
   AnyOfAssertionFactory,
   OneOfAssertionFactory,

@@ -13,6 +13,7 @@ internal class AssertionsCollection(
       val valid = it.validate(element, context, errorCollector)
       result = result and valid
     }
+    context.resetAnnotations()
     return result
   }
 }
