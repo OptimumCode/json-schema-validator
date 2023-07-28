@@ -237,7 +237,7 @@ private data class DefaultLoadingContext(
         copy(
           additionalIDs = additionalIDs.run {
             this + IdWithLocation(
-              baseId.buildUpon().encodedPath(additionalId.path).build(),
+              additionalIDs.resolvePath(additionalId.path),
               schemaPath,
             )
           },
@@ -255,7 +255,10 @@ private data class DefaultLoadingContext(
     val refUri = Uri.parse(refId).buildUpon().build()
     return when {
       refUri.isAbsolute -> refUri.buildRefId()
-      !refUri.path.isNullOrBlank() -> baseId.buildUpon().encodedPath(refUri.path).buildRefId()
+      // the ref is absolute and should be resolved from current base URI host:port part
+      refId.startsWith('/') -> additionalIDs.last().id.buildUpon().encodedPath(refUri.path).buildRefId()
+      // in this case the ref must be resolved from the current base ID
+      !refUri.path.isNullOrBlank() -> additionalIDs.resolvePath(refUri.path).buildRefId()
       refUri.fragment != null -> additionalIDs.last().id.buildUpon().encodedFragment(refUri.fragment).buildRefId()
       else -> throw IllegalArgumentException("invalid reference $refId")
     }.also { usedRef += ReferenceLocation(schemaPath, it) }
@@ -271,7 +274,7 @@ private data class DefaultLoadingContext(
         when {
           !id.path.isNullOrBlank() -> register(
             // register JSON schema by related path
-            baseId.buildUpon().encodedPath(id.path).buildRefId(),
+            additionalIDs.resolvePath(id.path).buildRefId(),
             assertion,
           )
 
@@ -294,6 +297,24 @@ private data class DefaultLoadingContext(
   }
 }
 
+private fun Set<IdWithLocation>.resolvePath(path: String?): Uri {
+  return last().id.appendPathToParent(requireNotNull(path) { "path is null" })
+}
+private fun Uri.appendPathToParent(path: String): Uri {
+  val hasLastEmptySegment = toString().endsWith('/')
+  return if (hasLastEmptySegment) {
+    buildUpon() // don't need to drop anything. just add the path because / in the end means empty segment
+  } else {
+    buildUpon()
+      .path(null) // reset path in builder
+      .apply {
+        pathSegments.asSequence()
+          .take(pathSegments.size - 1) // drop last path segment
+          .forEach(this::appendPath)
+      }
+  }.appendEncodedPath(path)
+    .build()
+}
 private fun Uri.buildRefId(): RefId = RefId(this)
 
 private fun Builder.buildRefId(): RefId = build().buildRefId()
