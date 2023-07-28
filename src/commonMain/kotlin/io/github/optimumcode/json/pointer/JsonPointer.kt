@@ -54,8 +54,8 @@ public sealed class JsonPointer(
         append(SEPARATOR)
         for (ch in property) {
           when (ch) {
-            QUOTATION -> append(QUOTATION).append("0")
-            SEPARATOR -> append(QUOTATION).append("1")
+            QUOTATION -> append(QUOTATION).append(QUOTATION_ESCAPE)
+            SEPARATOR -> append(QUOTATION).append(SEPARATOR_ESCAPE)
             else -> append(ch)
           }
         }
@@ -89,6 +89,8 @@ public sealed class JsonPointer(
   public companion object {
     internal const val SEPARATOR: Char = '/'
     internal const val QUOTATION: Char = '~'
+    internal const val QUOTATION_ESCAPE: Char = '0'
+    internal const val SEPARATOR_ESCAPE: Char = '1'
 
     /**
      * An empty [JsonPointer]. The empty JSON pointer corresponds to the current JSON element.s
@@ -207,8 +209,8 @@ private fun StringBuilder.appendEscapedSegment(expr: String, start: Int, offset:
 
 private fun StringBuilder.appendEscaped(ch: Char) {
   val result = when (ch) {
-    '0' -> JsonPointer.QUOTATION
-    '1' -> JsonPointer.SEPARATOR
+    JsonPointer.QUOTATION_ESCAPE -> JsonPointer.QUOTATION
+    JsonPointer.SEPARATOR_ESCAPE -> JsonPointer.SEPARATOR
     else -> {
       append(JsonPointer.QUOTATION)
       ch
