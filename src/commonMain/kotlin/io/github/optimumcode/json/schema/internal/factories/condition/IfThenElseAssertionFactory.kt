@@ -9,7 +9,6 @@ import io.github.optimumcode.json.schema.internal.TrueSchemaAssertion
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 
-// TODO: all parts must be loaded separately
 internal object IfThenElseAssertionFactory : AssertionFactory {
   private const val IF_PROPERTY: String = "if"
   private const val THEN_PROPERTY: String = "then"
