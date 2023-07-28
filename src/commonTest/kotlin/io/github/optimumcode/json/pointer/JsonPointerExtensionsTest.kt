@@ -19,9 +19,29 @@ class JsonPointerExtensionsTest : FunSpec() {
         JsonPointer("/prop"),
       ),
       TestCase(
+        JsonPointer.ROOT,
+        "",
+        JsonPointer("/"),
+      ),
+      TestCase(
         JsonPointer("/test"),
         "prop",
         JsonPointer("/test/prop"),
+      ),
+      TestCase(
+        JsonPointer("/test"),
+        "",
+        JsonPointer("/test/"),
+      ),
+      TestCase(
+        JsonPointer("/test"),
+        "tilde~field",
+        JsonPointer("/test/tilde~0field"),
+      ),
+      TestCase(
+        JsonPointer("/test"),
+        "slash/field",
+        JsonPointer("/test/slash~1field"),
       ),
     ).forEach { (initial, prop, result) ->
       test("$initial / $prop => $result") {
@@ -39,6 +59,11 @@ class JsonPointerExtensionsTest : FunSpec() {
         JsonPointer("/test"),
         0,
         JsonPointer("/test/0"),
+      ),
+      TestCase(
+        JsonPointer("/test/"),
+        0,
+        JsonPointer("/test//0"),
       ),
     ).forEach { (initial, prop, result) ->
       test("$initial [ $prop ] => $result") {
@@ -67,6 +92,11 @@ class JsonPointerExtensionsTest : FunSpec() {
         JsonPointer("/test2"),
         JsonPointer("/test1/test2"),
       ),
+      TestCase(
+        JsonPointer("/test1/"),
+        JsonPointer("/test2"),
+        JsonPointer("/test1//test2"),
+      ),
     ).forEach { (init, append, result) ->
       test("$init + $append => $result") {
         (init + append) shouldBe result
@@ -88,6 +118,11 @@ class JsonPointerExtensionsTest : FunSpec() {
         JsonPointer("/test"),
         JsonPointer("/test/data"),
         JsonPointer("/data"),
+      ),
+      TestCase(
+        JsonPointer("/test"),
+        JsonPointer("/test//data"),
+        JsonPointer("//data"),
       ),
     ).forEach { (base, relativeToBase, relativePath) ->
       test("relative path from '$base' to '$relativeToBase' is '$relativePath'") {

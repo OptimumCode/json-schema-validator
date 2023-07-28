@@ -7,6 +7,7 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
+import io.github.optimumcode.json.schema.internal.util.parseNumberParts
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
@@ -23,7 +24,7 @@ internal object TypeAssertionFactory : AbstractAssertionFactory("type") {
     "string" to { it is JsonPrimitive && it.isString },
     "boolean" to { it is JsonPrimitive && !it.isString && it.booleanOrNull != null },
     "number" to { it is JsonPrimitive && !it.isString && (it.doubleOrNull != null || it.longOrNull != null) },
-    "integer" to { it is JsonPrimitive && !it.isString && it.longOrNull != null },
+    "integer" to { it is JsonPrimitive && !it.isString && parseNumberParts(it)?.fractional == 0L },
     "array" to { it is JsonArray },
     "object" to { it is JsonObject },
   ).mapValues { Validation(it.key, it.value) }

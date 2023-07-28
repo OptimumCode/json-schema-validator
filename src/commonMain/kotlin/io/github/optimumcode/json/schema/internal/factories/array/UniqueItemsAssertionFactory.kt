@@ -8,6 +8,7 @@ import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.TrueSchemaAssertion
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
+import io.github.optimumcode.json.schema.internal.util.areEqual
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
@@ -36,21 +37,34 @@ private class UniqueItemsAssertion(
     if (element.size < 2) {
       return true
     }
-    val uniqueItems = element.mapTo(linkedSetOf()) { it }
+    var duplicates: MutableList<JsonElement>? = null
+    val uniqueItems = buildList {
+      element.forEach { el ->
+        if (none { areEqual(it, el) }) {
+          add(el)
+        } else {
+          if (duplicates == null) {
+            duplicates = mutableListOf()
+          }
+          duplicates?.add(el)
+        }
+      }
+    }
     val uniqueItemsCount = uniqueItems.size
     if (uniqueItemsCount == element.size) {
       return true
     }
-    uniqueItems.clear()
     errorCollector.onError(
       ValidationError(
         schemaPath = path,
         objectPath = context.objectPath,
-        message = "array contains duplicate values: ${element.asSequence().filter(uniqueItems::add).joinToString(
-          prefix = "[",
-          postfix = "]",
-          separator = ",",
-        )}",
+        message = "array contains duplicate values: ${
+          duplicates?.joinToString(
+            prefix = "[",
+            postfix = "]",
+            separator = ",",
+          )
+        }",
       ),
     )
     return false

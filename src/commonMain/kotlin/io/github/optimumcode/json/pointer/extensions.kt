@@ -57,13 +57,8 @@ public operator fun JsonPointer.plus(otherPointer: JsonPointer): JsonPointer {
   }
   return JsonPointer(
     buildString {
-      val pointer = this@plus.toString()
-      append(pointer)
-      if (pointer.endsWith(JsonPointer.SEPARATOR)) {
-        setLength(length - 1)
-      }
-      val other = otherPointer.toString()
-      append(other)
+      append(this@plus.toString())
+      append(otherPointer.toString())
     },
   )
 }

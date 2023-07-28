@@ -7,6 +7,7 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
+import io.github.optimumcode.json.schema.internal.util.areEqual
 import kotlinx.serialization.json.JsonElement
 
 @Suppress("unused")
@@ -21,7 +22,7 @@ private class ConstAssertion(
   private val constValue: JsonElement,
 ) : JsonSchemaAssertion {
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
-    if (element == constValue) {
+    if (areEqual(element, constValue)) {
       return true
     }
     errorCollector.onError(

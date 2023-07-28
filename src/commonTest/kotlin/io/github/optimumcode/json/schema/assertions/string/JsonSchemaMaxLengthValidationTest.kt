@@ -4,6 +4,7 @@ import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.base.KEY
+import io.github.optimumcode.json.schema.internal.factories.string.util.codePointCount
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
@@ -32,6 +33,8 @@ class JsonSchemaMaxLengthValidationTest : FunSpec() {
       "╒",
       "V",
       "",
+      "💩".repeat(20),
+      "💩",
     )
     for (str in validStrings) {
       test("'$str' passes validation") {
@@ -46,6 +49,7 @@ class JsonSchemaMaxLengthValidationTest : FunSpec() {
       "EFDzZMRawYGD9eNfknAUB",
       "⌻ⲝ⣞ℤ⸍⠗⠜ↈ✋☧⾛✩ⓥ⇩⡽⚘\u20FC◭┐⥸⒗",
       "⠺⪒⑸⋶⥠⇀⨑⨋ⅸ⥼\u245F⏇Ⓙⴷ⻘⢢≧\u20C8⬫⡜⸁",
+      "💩".repeat(21),
     )
     for (str in invalidStrings) {
       test("'$str' does not pass validation") {
@@ -56,7 +60,7 @@ class JsonSchemaMaxLengthValidationTest : FunSpec() {
           ValidationError(
             schemaPath = JsonPointer("/maxLength"),
             objectPath = JsonPointer.ROOT,
-            message = "string length (${str.length}) must be less or equal to 20",
+            message = "string length (${str.codePointCount()}) must be less or equal to 20",
           ),
         )
       }

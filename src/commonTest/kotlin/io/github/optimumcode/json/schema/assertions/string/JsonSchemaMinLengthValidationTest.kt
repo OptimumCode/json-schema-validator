@@ -4,6 +4,7 @@ import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.base.KEY
+import io.github.optimumcode.json.schema.internal.factories.string.util.codePointCount
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
@@ -31,6 +32,8 @@ class JsonSchemaMinLengthValidationTest : FunSpec() {
       "JpEblYiJE57H70qGNXs",
       "ⅵ┡\u243A⢻␀⁾⡪∛⫑⏽",
       "Si1kaAhdpS",
+      "💩".repeat(11),
+      "💩".repeat(10),
     )
     for (str in validStrings) {
       test("'$str' passes validation") {
@@ -47,6 +50,7 @@ class JsonSchemaMinLengthValidationTest : FunSpec() {
       " ⍘↽♔⚪➕ⷰ➖",
       "⧦",
       "",
+      "💩".repeat(9),
     )
     for (str in invalidStrings) {
       test("'$str' does not pass validation") {
@@ -57,7 +61,7 @@ class JsonSchemaMinLengthValidationTest : FunSpec() {
           ValidationError(
             schemaPath = JsonPointer("/minLength"),
             objectPath = JsonPointer.ROOT,
-            message = "string length (${str.length}) must be greater or equal to 10",
+            message = "string length (${str.codePointCount()}) must be greater or equal to 10",
           ),
         )
       }

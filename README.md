@@ -167,6 +167,13 @@ val valid = schema.validate(elementToValidate, errors::add)
   |               | oneOf                | Supported                                                                                                                                       |
   |               | not                  | Supported                                                                                                                                       |
 
+## Compliance to JSON schema test suites
+
+This library uses official [JSON schema test suites](https://github.com/json-schema-org/JSON-Schema-Test-Suite)
+as a part of the CI to make sure the validation meet the expected behavior.
+Not everything is supported right now but the missing functionality might be added in the future.
+The test are located [here](test-suites).
+
 ## Future plans
 
 - [x] Add `$schema` property validation (if not set the latest supported will be used)

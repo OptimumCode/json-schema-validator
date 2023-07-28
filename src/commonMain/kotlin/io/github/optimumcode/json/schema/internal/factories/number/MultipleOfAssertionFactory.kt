@@ -8,6 +8,10 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.longOrNull
+import kotlin.math.floor
+import kotlin.math.log10
+import kotlin.math.max
+import kotlin.math.pow
 
 @Suppress("unused")
 internal object MultipleOfAssertionFactory : AbstractAssertionFactory("multipleOf") {
@@ -39,13 +43,42 @@ private fun isMultipleOf(a: Number, b: Number): Boolean = when (a) {
 }
 
 private infix fun Double.isMultipleOf(number: Number): Boolean = when (number) {
-  is Double -> (this % number).let { it == 0.0 && it == -0.0 }
-  is Long -> (this % number).let { it == 0.0 && it == -0.0 }
+  is Double -> isZero(rem(this, number))
+  is Long -> isZero((this % number))
   else -> false
 }
 
 private infix fun Long.isMultipleOf(number: Number): Boolean = when (number) {
   is Long -> this % number == 0L
-  is Double -> (this % number).let { it == 0.0 && it == -0.0 }
+  is Double -> isZero(rem(this, number))
   else -> false
+}
+
+private fun isZero(first: Double): Boolean {
+  return first == -0.0 || first == 0.0
+}
+
+private tailrec fun rem(first: Double, second: Double): Double {
+  return if (second < 1 && second > -1) {
+    val degree = floor(log10(second))
+    if (first < 1 && first > -1) {
+      val newDegree = max(floor(log10(second)), degree)
+      val newPow = 10.0.pow(-newDegree)
+      rem((first * newPow), (second * newPow))
+    } else {
+      val pow = 10.0.pow(-degree)
+      (first * pow) % (second * pow)
+    }
+  } else {
+    first % second
+  }
+}
+
+private fun rem(first: Long, second: Double): Double {
+  return if (second < 1 && second > -1) {
+    val degree = floor(log10(second))
+    first % (second * 10.0.pow(-degree))
+  } else {
+    first % second
+  }
 }
