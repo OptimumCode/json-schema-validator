@@ -50,8 +50,10 @@ internal fun FunSpec.runTestSuites(
   val testSuiteDir = when {
     fs.exists(TEST_SUITES_DIR) -> TEST_SUITES_DIR
     fs.exists(TEST_SUITES_DIR_FROM_ROOT) -> TEST_SUITES_DIR_FROM_ROOT
-    else -> fs.resolveRoot() ?: error("neither $TEST_SUITES_DIR or $TEST_SUITES_DIR_FROM_ROOT exist")
-  }.resolve(draftName)
+    else -> fs.resolveRoot()
+  }?.resolve(draftName)
+    ?: error("neither $TEST_SUITES_DIR or $TEST_SUITES_DIR_FROM_ROOT exist " +
+            "(current dir: ${fs.canonicalize(".".toPath())})")
 
   require(fs.exists(testSuiteDir)) { "folder $testSuiteDir does not exist" }
 
