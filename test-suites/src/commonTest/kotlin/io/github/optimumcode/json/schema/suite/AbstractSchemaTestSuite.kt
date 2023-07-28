@@ -52,8 +52,10 @@ internal fun FunSpec.runTestSuites(
     fs.exists(TEST_SUITES_DIR_FROM_ROOT) -> TEST_SUITES_DIR_FROM_ROOT
     else -> fs.resolveRoot()
   }?.resolve(draftName)
-    ?: error("neither $TEST_SUITES_DIR or $TEST_SUITES_DIR_FROM_ROOT exist " +
-            "(current dir: ${fs.canonicalize(".".toPath())})")
+    ?: error(
+      "neither $TEST_SUITES_DIR or $TEST_SUITES_DIR_FROM_ROOT exist " +
+        "(current dir: ${fs.canonicalize(".".toPath())})",
+    )
 
   require(fs.exists(testSuiteDir)) { "folder $testSuiteDir does not exist" }
 
