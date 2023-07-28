@@ -1,6 +1,8 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
+import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
+import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: remove when migrate to Gradle 8
@@ -114,6 +116,14 @@ kotlin {
       dependsOn(tasks.getByName("jsTest"))
     }
   }
+}
+
+tasks.withType<KotlinJsTest> {
+  environment("TEST_SUITES_DIR", "$projectDir/schema-test-suite/tests")
+}
+
+tasks.withType<KotlinNativeTest> {
+  environment("TEST_SUITES_DIR", "$projectDir/schema-test-suite/tests")
 }
 
 ktlint {
