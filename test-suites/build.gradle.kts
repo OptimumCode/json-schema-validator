@@ -1,6 +1,8 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
+import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
+import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: remove when migrate to Gradle 8
@@ -34,6 +36,7 @@ kotlin {
   val macOsTargets = listOf<KotlinTarget>(
     macosX64(),
     macosArm64(),
+    iosX64(),
     iosArm64(),
     iosSimulatorArm64(),
   )
@@ -113,6 +116,16 @@ kotlin {
       dependsOn(tasks.getByName("jsTest"))
     }
   }
+}
+
+tasks.withType<KotlinJsTest> {
+  // This is used to pass the right location for Node.js test
+  environment("TEST_SUITES_DIR", "$projectDir/schema-test-suite/tests")
+}
+
+tasks.withType<KotlinNativeSimulatorTest> {
+  // prefix SIMCTL_CHILD_ is used to pass the env variable to the simulator
+  environment("SIMCTL_CHILD_TEST_SUITES_DIR", "$projectDir/schema-test-suite/tests")
 }
 
 ktlint {

@@ -6,6 +6,7 @@ import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.mpp.env
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
@@ -50,10 +51,12 @@ internal fun FunSpec.runTestSuites(
   val testSuiteDir = when {
     fs.exists(TEST_SUITES_DIR) -> TEST_SUITES_DIR
     fs.exists(TEST_SUITES_DIR_FROM_ROOT) -> TEST_SUITES_DIR_FROM_ROOT
-    else -> fs.resolveRoot()
+    else -> env(TEST_SUITES_DIR_ENV_VAR)?.toPath()
   }?.resolve(draftName)
-    ?: error("neither $TEST_SUITES_DIR or $TEST_SUITES_DIR_FROM_ROOT exist " +
-            "(current dir: ${fs.canonicalize(".".toPath())})")
+    ?: error(
+      "neither $TEST_SUITES_DIR or $TEST_SUITES_DIR_FROM_ROOT exist " +
+        "(current dir: ${fs.canonicalize(".".toPath())}, env: ${env(TEST_SUITES_DIR_ENV_VAR)})",
+    )
 
   require(fs.exists(testSuiteDir)) { "folder $testSuiteDir does not exist" }
 
@@ -134,17 +137,6 @@ private class SchemaTest(
 
 private val TEST_SUITES_DIR: Path = "schema-test-suite/tests".toPath()
 private val TEST_SUITES_DIR_FROM_ROOT: Path = "test-suites".toPath() / TEST_SUITES_DIR
-
-/**
- * This function tries to find the repo root using `build` folder as maker.
- *
- * This is done in order to execute NodeJS tests
- */
-private fun FileSystem.resolveRoot(): Path? {
-  val absolutePath = canonicalize(".".toPath())
-  return generateSequence(absolutePath) {
-    it.parent
-  }.find { it.name == "build" }?.parent?.resolve(TEST_SUITES_DIR_FROM_ROOT)
-}
+private const val TEST_SUITES_DIR_ENV_VAR: String = "TEST_SUITES_DIR"
 
 expect fun fileSystem(): FileSystem
