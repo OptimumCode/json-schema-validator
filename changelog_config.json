@@ -3,6 +3,7 @@
     {
       "title": "## 🚀 Features",
       "labels": ["enhancement"],
+      "exclude_labels": ["internal"],
       "empty_content": "No new features today 😢"
     },
     {

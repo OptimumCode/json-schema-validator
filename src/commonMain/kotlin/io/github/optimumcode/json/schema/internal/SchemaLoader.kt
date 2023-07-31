@@ -8,6 +8,7 @@ import io.github.optimumcode.json.pointer.get
 import io.github.optimumcode.json.pointer.relative
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.ReferenceLocation
+import io.github.optimumcode.json.schema.internal.factories.FactoryGroup
 import io.github.optimumcode.json.schema.internal.factories.array.ContainsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.ItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.MaxItemsAssertionFactory
@@ -15,9 +16,11 @@ import io.github.optimumcode.json.schema.internal.factories.array.MinItemsAssert
 import io.github.optimumcode.json.schema.internal.factories.array.UniqueItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.AllOfAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.AnyOfAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.condition.IfThenElseAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.condition.ElseAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.condition.IfAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.NotAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.OneOfAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.condition.ThenAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.ConstAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.EnumAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.TypeAssertionFactory
@@ -26,9 +29,11 @@ import io.github.optimumcode.json.schema.internal.factories.number.ExclusiveMini
 import io.github.optimumcode.json.schema.internal.factories.number.MaximumAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.MinimumAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.MultipleOfAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.`object`.AdditionalPropertiesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.DependenciesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.MaxPropertiesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.MinPropertiesAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.`object`.PatternPropertiesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.PropertiesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.PropertyNamesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.RequiredAssertionFactory
@@ -61,10 +66,18 @@ private val factories: List<AssertionFactory> = listOf(
   MaxPropertiesAssertionFactory,
   MinPropertiesAssertionFactory,
   RequiredAssertionFactory,
-  PropertiesAssertionFactory,
+  FactoryGroup(
+    PropertiesAssertionFactory,
+    PatternPropertiesAssertionFactory,
+    AdditionalPropertiesAssertionFactory,
+  ),
   PropertyNamesAssertionFactory,
   DependenciesAssertionFactory,
-  IfThenElseAssertionFactory,
+  FactoryGroup(
+    IfAssertionFactory,
+    ThenAssertionFactory,
+    ElseAssertionFactory,
+  ),
   AllOfAssertionFactory,
   AnyOfAssertionFactory,
   OneOfAssertionFactory,
@@ -300,6 +313,7 @@ private data class DefaultLoadingContext(
 private fun Set<IdWithLocation>.resolvePath(path: String?): Uri {
   return last().id.appendPathToParent(requireNotNull(path) { "path is null" })
 }
+
 private fun Uri.appendPathToParent(path: String): Uri {
   val hasLastEmptySegment = toString().endsWith('/')
   return if (hasLastEmptySegment) {
@@ -315,6 +329,7 @@ private fun Uri.appendPathToParent(path: String): Uri {
   }.appendEncodedPath(path)
     .build()
 }
+
 private fun Uri.buildRefId(): RefId = RefId(this)
 
 private fun Builder.buildRefId(): RefId = build().buildRefId()
