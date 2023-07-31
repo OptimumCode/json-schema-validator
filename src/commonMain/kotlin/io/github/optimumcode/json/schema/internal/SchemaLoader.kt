@@ -29,9 +29,11 @@ import io.github.optimumcode.json.schema.internal.factories.number.ExclusiveMini
 import io.github.optimumcode.json.schema.internal.factories.number.MaximumAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.MinimumAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.MultipleOfAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.`object`.AdditionalPropertiesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.DependenciesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.MaxPropertiesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.MinPropertiesAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.`object`.PatternPropertiesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.PropertiesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.PropertyNamesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.RequiredAssertionFactory
@@ -64,7 +66,11 @@ private val factories: List<AssertionFactory> = listOf(
   MaxPropertiesAssertionFactory,
   MinPropertiesAssertionFactory,
   RequiredAssertionFactory,
-  PropertiesAssertionFactory,
+  FactoryGroup(
+    PropertiesAssertionFactory,
+    PatternPropertiesAssertionFactory,
+    AdditionalPropertiesAssertionFactory,
+  ),
   PropertyNamesAssertionFactory,
   DependenciesAssertionFactory,
   FactoryGroup(
@@ -307,6 +313,7 @@ private data class DefaultLoadingContext(
 private fun Set<IdWithLocation>.resolvePath(path: String?): Uri {
   return last().id.appendPathToParent(requireNotNull(path) { "path is null" })
 }
+
 private fun Uri.appendPathToParent(path: String): Uri {
   val hasLastEmptySegment = toString().endsWith('/')
   return if (hasLastEmptySegment) {
@@ -322,6 +329,7 @@ private fun Uri.appendPathToParent(path: String): Uri {
   }.appendEncodedPath(path)
     .build()
 }
+
 private fun Uri.buildRefId(): RefId = RefId(this)
 
 private fun Builder.buildRefId(): RefId = build().buildRefId()
