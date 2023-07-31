@@ -9,7 +9,7 @@ import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFac
 import kotlinx.serialization.json.JsonElement
 
 internal object IfAssertionFactory : AbstractAssertionFactory("if") {
-  val ANNOTATION: AnnotationKey<Boolean> = AnnotationKey.create("if")
+  val ANNOTATION: AnnotationKey<Boolean> = AnnotationKey.create(property)
 
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
