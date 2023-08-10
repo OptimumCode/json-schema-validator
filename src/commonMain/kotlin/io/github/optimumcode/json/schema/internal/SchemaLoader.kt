@@ -53,10 +53,19 @@ private fun loadDefinitions(schemaDefinition: JsonElement, context: DefaultLoadi
   if (schemaDefinition !is JsonObject) {
     return
   }
-  val definitionsProperty: String = context.config.keywordResolver.run {
-    resolve(KeyWord.DEFINITIONS) ?: resolve(KeyWord.COMPATIBILITY_DEFINITIONS)
+  val (definitionsProperty, definitionsElement: JsonElement?) = context.config.keywordResolver.run {
+    resolve(KeyWord.DEFINITIONS)
+      ?.let {
+        it to schemaDefinition[it]
+      }?.takeIf { it.second != null }
+      ?: resolve(KeyWord.COMPATIBILITY_DEFINITIONS)
+        ?.let {
+          it to schemaDefinition[it]
+        }?.takeIf { it.second != null }
   } ?: return
-  val definitionsElement = schemaDefinition[definitionsProperty] ?: return
+  if (definitionsElement == null) {
+    return
+  }
   require(definitionsElement is JsonObject) { "$definitionsProperty must be an object" }
   val definitionsContext = context.at(definitionsProperty)
   for ((name, element) in definitionsElement) {

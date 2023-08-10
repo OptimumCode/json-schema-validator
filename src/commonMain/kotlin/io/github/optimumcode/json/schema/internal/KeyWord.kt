@@ -7,11 +7,6 @@ package io.github.optimumcode.json.schema.internal
 internal enum class KeyWord {
 
   /**
-   * Keyword that indicates a reference to another JSON schema
-   */
-  REF,
-
-  /**
    * Keyword that indicates the schema ID
    */
   ID,

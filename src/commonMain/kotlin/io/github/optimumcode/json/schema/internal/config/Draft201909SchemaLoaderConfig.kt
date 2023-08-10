@@ -11,7 +11,8 @@ import io.github.optimumcode.json.schema.internal.ReferenceFactory
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
 import io.github.optimumcode.json.schema.internal.SchemaLoaderContext
-import io.github.optimumcode.json.schema.internal.config.Draft7KeyWordResolver.REF_PROPERTY
+import io.github.optimumcode.json.schema.internal.config.Draft201909KeyWordResolver.REC_REF_PROPERTY
+import io.github.optimumcode.json.schema.internal.config.Draft201909KeyWordResolver.REF_PROPERTY
 import io.github.optimumcode.json.schema.internal.factories.FactoryGroup
 import io.github.optimumcode.json.schema.internal.factories.array.AdditionalItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.ContainsAssertionFactory
@@ -35,7 +36,6 @@ import io.github.optimumcode.json.schema.internal.factories.number.MaximumAssert
 import io.github.optimumcode.json.schema.internal.factories.number.MinimumAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.MultipleOfAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.AdditionalPropertiesAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.`object`.DependenciesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.MaxPropertiesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.MinPropertiesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.PatternPropertiesAssertionFactory
@@ -48,38 +48,27 @@ import io.github.optimumcode.json.schema.internal.factories.string.PatternAssert
 import io.github.optimumcode.json.schema.internal.util.getStringRequired
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.boolean
+import kotlinx.serialization.json.jsonPrimitive
 
-internal object Draft7SchemaLoaderConfig : SchemaLoaderConfig {
-  private val factories: List<AssertionFactory> = listOf(
-    TypeAssertionFactory,
-    EnumAssertionFactory,
-    ConstAssertionFactory,
-    MultipleOfAssertionFactory,
-    MaximumAssertionFactory,
-    ExclusiveMaximumAssertionFactory,
-    MinimumAssertionFactory,
-    ExclusiveMinimumAssertionFactory,
-    MaxLengthAssertionFactory,
-    MinLengthAssertionFactory,
-    PatternAssertionFactory,
+private const val APPLICATOR_VOCABULARY_URI = "https://json-schema.org/draft/2019-09/vocab/applicator"
+private const val VALIDATION_VOCABULARY_URI = "https://json-schema.org/draft/2019-09/vocab/validation"
+private const val VOCABULARY_PROPERTY = "\$vocabulary"
+
+internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
+  private val applicatorFactories: List<AssertionFactory> = listOf(
     FactoryGroup(
       ItemsAssertionFactory,
       AdditionalItemsAssertionFactory,
     ),
-    MaxItemsAssertionFactory,
-    MinItemsAssertionFactory,
-    UniqueItemsAssertionFactory,
     ContainsAssertionFactory,
-    MaxPropertiesAssertionFactory,
-    MinPropertiesAssertionFactory,
-    RequiredAssertionFactory,
+
     FactoryGroup(
       PropertiesAssertionFactory,
       PatternPropertiesAssertionFactory,
       AdditionalPropertiesAssertionFactory,
     ),
     PropertyNamesAssertionFactory,
-    DependenciesAssertionFactory,
     FactoryGroup(
       IfAssertionFactory,
       ThenAssertionFactory,
@@ -91,33 +80,83 @@ internal object Draft7SchemaLoaderConfig : SchemaLoaderConfig {
     NotAssertionFactory,
   )
 
-  override fun factories(schemaDefinition: JsonElement): List<AssertionFactory> = factories
+  private val validationFactories: List<AssertionFactory> = listOf(
+    MultipleOfAssertionFactory,
+    MaximumAssertionFactory,
+    ExclusiveMaximumAssertionFactory,
+    MinimumAssertionFactory,
+    ExclusiveMinimumAssertionFactory,
+    MaxLengthAssertionFactory,
+    MinLengthAssertionFactory,
+    PatternAssertionFactory,
+    MaxItemsAssertionFactory,
+    MinItemsAssertionFactory,
+    UniqueItemsAssertionFactory,
+    MaxPropertiesAssertionFactory,
+    MinPropertiesAssertionFactory,
+    RequiredAssertionFactory,
+    ConstAssertionFactory,
+    EnumAssertionFactory,
+    TypeAssertionFactory,
+  )
+
+  override fun factories(schemaDefinition: JsonElement): List<AssertionFactory> {
+    if (schemaDefinition !is JsonObject) {
+      // no point to return any factories here
+      return emptyList()
+    }
+    val vocabularyElement = schemaDefinition[VOCABULARY_PROPERTY] ?: return allFactories()
+    require(vocabularyElement is JsonObject) { "$VOCABULARY_PROPERTY must be a JSON object" }
+    val applicators = vocabularyElement[APPLICATOR_VOCABULARY_URI]?.jsonPrimitive?.boolean ?: true
+    val validations = vocabularyElement[VALIDATION_VOCABULARY_URI]?.jsonPrimitive?.boolean ?: true
+    return when {
+      applicators && validations -> allFactories()
+      applicators -> applicatorFactories
+      validations -> validationFactories
+      else -> emptyList() // no vocabulary enabled
+    }
+  }
 
   override val keywordResolver: KeyWordResolver
-    get() = Draft7KeyWordResolver
+    get() = Draft201909KeyWordResolver
   override val referenceFactory: ReferenceFactory
-    get() = Draft7ReferenceFactory
+    get() = Draft201909ReferenceFactory
+
+  private fun allFactories(): List<AssertionFactory> = applicatorFactories + validationFactories
 }
 
-private object Draft7KeyWordResolver : KeyWordResolver {
-  private const val DEFINITIONS_PROPERTY: String = "definitions"
-  private const val ID_PROPERTY: String = "\$id"
+private object Draft201909KeyWordResolver : KeyWordResolver {
+  private const val ANCHOR_PROPERTY = "\$anchor"
+  private const val ID_PROPERTY = "\$id"
+  private const val DEF_PROPERTY = "\$defs"
+  private const val OLD_DEF_PROPERTY = "definitions"
   const val REF_PROPERTY: String = "\$ref"
-
-  override fun resolve(keyword: KeyWord): String? = when (keyword) {
-    ID -> ID_PROPERTY
-    DEFINITIONS -> DEFINITIONS_PROPERTY
-    ANCHOR -> null
-    COMPATIBILITY_DEFINITIONS -> null
+  const val REC_REF_PROPERTY: String = "\$recursiveRef"
+  override fun resolve(keyword: KeyWord): String {
+    return when(keyword) {
+      ID -> ID_PROPERTY
+      ANCHOR -> ANCHOR_PROPERTY
+      DEFINITIONS -> DEF_PROPERTY
+      COMPATIBILITY_DEFINITIONS -> OLD_DEF_PROPERTY
+    }
   }
 }
 
-private object Draft7ReferenceFactory : ReferenceFactory {
+private object Draft201909ReferenceFactory : ReferenceFactory {
   override fun extractRef(schemaDefinition: JsonObject, context: SchemaLoaderContext): RefHolder? {
-    return if (REF_PROPERTY in schemaDefinition) {
-      RefHolder(REF_PROPERTY, schemaDefinition.getStringRequired(REF_PROPERTY).let(context::ref))
-    } else {
-      null
+    return when{
+      REF_PROPERTY in schemaDefinition ->
+        RefHolder(REF_PROPERTY, schemaDefinition.getStringRequired(REF_PROPERTY).let(context::ref))
+      REC_REF_PROPERTY in schemaDefinition -> {
+        val recRef = schemaDefinition.getStringRequired(REC_REF_PROPERTY)
+        require(recRef == "#") { "only ref to root is supported by $REC_REF_PROPERTY" }
+        if (context.recursiveResolution) {
+          RefHolder(REC_REF_PROPERTY, context.ref(recRef))
+        } else {
+          RefHolder(REC_REF_PROPERTY, context.ref(context.baseId.toString()))
+        }
+      }
+      else -> null
     }
   }
 }
