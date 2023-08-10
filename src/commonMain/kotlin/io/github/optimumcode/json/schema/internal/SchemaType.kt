@@ -1,12 +1,14 @@
 package io.github.optimumcode.json.schema.internal
 
 import com.eygraber.uri.Uri
+import io.github.optimumcode.json.schema.internal.config.Draft7SchemaLoaderConfig
 import kotlin.jvm.JvmStatic
 
 internal enum class SchemaType(
   private val schemaId: Uri,
+  val config: SchemaLoaderConfig,
 ) {
-  DRAFT_7(Uri.parse("http://json-schema.org/draft-07/schema")),
+  DRAFT_7(Uri.parse("http://json-schema.org/draft-07/schema"), Draft7SchemaLoaderConfig),
   ;
 
   companion object {
