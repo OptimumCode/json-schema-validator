@@ -47,10 +47,11 @@ import io.github.optimumcode.json.schema.internal.factories.string.MaxLengthAsse
 import io.github.optimumcode.json.schema.internal.factories.string.MinLengthAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.string.PatternAssertionFactory
 import io.github.optimumcode.json.schema.internal.util.getStringRequired
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 
 internal object Draft7SchemaLoaderConfig : SchemaLoaderConfig {
-  override val factories: List<AssertionFactory> = listOf(
+  private val factories: List<AssertionFactory> = listOf(
     TypeAssertionFactory,
     EnumAssertionFactory,
     ConstAssertionFactory,
@@ -90,6 +91,8 @@ internal object Draft7SchemaLoaderConfig : SchemaLoaderConfig {
     OneOfAssertionFactory,
     NotAssertionFactory,
   )
+
+  override fun factories(schemaDefinition: JsonElement): List<AssertionFactory> = factories
 
   override val keywordResolver: KeyWordResolver
     get() = Draft7KeyWordResolver

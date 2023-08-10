@@ -1,9 +1,10 @@
 package io.github.optimumcode.json.schema.internal
 
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 
 internal interface SchemaLoaderConfig {
-  val factories: List<AssertionFactory>
+  fun factories(schemaDefinition: JsonElement): List<AssertionFactory>
   val keywordResolver: KeyWordResolver
   val referenceFactory: ReferenceFactory
 }

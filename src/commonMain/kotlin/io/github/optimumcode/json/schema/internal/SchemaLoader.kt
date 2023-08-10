@@ -22,7 +22,8 @@ internal class SchemaLoader {
   fun load(schemaDefinition: JsonElement): JsonSchema {
     val schemaType = extractSchemaType(schemaDefinition)
     val baseId: Uri = extractID(schemaDefinition, schemaType.config) ?: Uri.EMPTY
-    val context = defaultLoadingContext(baseId, schemaType.config)
+    val assertionFactories = schemaType.config.factories(schemaDefinition)
+    val context = defaultLoadingContext(baseId, schemaType.config, assertionFactories)
     val schemaAssertion = loadSchema(schemaDefinition, context)
     ReferenceValidator.validateReferences(
       context.references.mapValues { it.value.schemaPath },
@@ -97,7 +98,7 @@ private fun loadSchema(
       if (extractedRef != null) {
         loadRefAssertion(extractedRef, context)
       } else {
-        context.config.factories.filter { it.isApplicable(schemaDefinition) }
+        context.assertionFactories.filter { it.isApplicable(schemaDefinition) }
           .map {
             it.create(
               schemaDefinition,
@@ -149,6 +150,7 @@ private data class DefaultLoadingContext(
   val references: MutableMap<RefId, AssertionWithPath> = linkedMapOf(),
   val usedRef: MutableSet<ReferenceLocation> = linkedSetOf(),
   val config: SchemaLoaderConfig,
+  val assertionFactories: List<AssertionFactory>,
 ) : LoadingContext, SchemaLoaderContext {
   override fun at(property: String): DefaultLoadingContext {
     return copy(schemaPath = schemaPath / property)
@@ -285,5 +287,9 @@ private fun Uri.buildRefId(): RefId = RefId(this)
 
 private fun Builder.buildRefId(): RefId = build().buildRefId()
 
-private fun defaultLoadingContext(baseId: Uri, config: SchemaLoaderConfig): DefaultLoadingContext =
-  DefaultLoadingContext(baseId, config = config)
+private fun defaultLoadingContext(
+  baseId: Uri,
+  config: SchemaLoaderConfig,
+  assertionFactories: List<AssertionFactory>,
+): DefaultLoadingContext =
+  DefaultLoadingContext(baseId, config = config, assertionFactories = assertionFactories)
