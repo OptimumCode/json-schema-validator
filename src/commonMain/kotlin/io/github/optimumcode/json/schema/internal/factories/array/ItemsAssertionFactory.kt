@@ -1,53 +1,42 @@
 package io.github.optimumcode.json.schema.internal.factories.array
 
 import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.internal.AnnotationKey
 import io.github.optimumcode.json.schema.internal.AssertionContext
-import io.github.optimumcode.json.schema.internal.AssertionFactory
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
+import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.array.ItemsAssertionFactory.Result
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
 
 @Suppress("unused")
-internal object ItemsAssertionFactory : AssertionFactory {
-  private const val itemsProperty: String = "items"
-  private const val additionalItemsProperty: String = "additionalItems"
-
-  override fun isApplicable(element: JsonElement): Boolean {
-    return element is JsonObject &&
-      element.run { contains(itemsProperty) }
+internal object ItemsAssertionFactory : AbstractAssertionFactory("items") {
+  sealed class Result {
+    object All : Result()
+    class Index(val value: Int) : Result()
   }
 
-  override fun create(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
-    require(element is JsonObject) { "cannot extract properties from ${element::class.simpleName}" }
-    val itemsElement: JsonElement = requireNotNull(element[itemsProperty]) {
-      "cannot extract $itemsProperty property from element"
-    }
-    val itemsContext = context.at(itemsProperty)
-    val itemsAssertions: List<JsonSchemaAssertion> = if (itemsElement is JsonArray) {
-      require(itemsElement.isNotEmpty()) { "$itemsProperty must have at least one element" }
-      require(itemsElement.all(context::isJsonSchema)) {
-        "all elements in $itemsProperty must be a valid JSON schema"
-      }
-      itemsElement.mapIndexed { index, item -> itemsContext.at(index).schemaFrom(item) }
-    } else {
-      require(context.isJsonSchema(itemsElement)) { "$itemsProperty must be a valid JSON schema" }
-      listOf(itemsContext.schemaFrom(itemsElement))
-    }
+  val ANNOTATION: AnnotationKey<Result> = AnnotationKey.create(property)
 
-    val additionalItemsAssertion: JsonSchemaAssertion? = element[additionalItemsProperty]?.let {
-      require(context.isJsonSchema(it)) { "$additionalItemsProperty must be a valid JSON schema" }
-      context.at(additionalItemsProperty).schemaFrom(it)
+  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+    val itemsAssertions: List<JsonSchemaAssertion> = if (element is JsonArray) {
+      require(element.isNotEmpty()) { "$property must have at least one element" }
+      require(element.all(context::isJsonSchema)) {
+        "all elements in $property must be a valid JSON schema"
+      }
+      element.mapIndexed { index, item -> context.at(index).schemaFrom(item) }
+    } else {
+      require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
+      listOf(context.schemaFrom(element))
     }
-    return ElementsAssertion(itemsAssertions, itemsElement !is JsonArray, additionalItemsAssertion)
+    return ItemsAssertion(itemsAssertions, element !is JsonArray)
   }
 }
 
-private class ElementsAssertion(
+private class ItemsAssertion(
   private val items: List<JsonSchemaAssertion>,
   private val allElements: Boolean,
-  private val additionalItems: JsonSchemaAssertion?,
 ) : JsonSchemaAssertion {
   init {
     if (allElements) {
@@ -61,36 +50,31 @@ private class ElementsAssertion(
     return if (allElements) {
       validateEachItem(element, context, errorCollector)
     } else {
-      validateWithAdditionalItems(element, context, errorCollector)
+      validateElementsAtIndexes(element, context, errorCollector)
     }
   }
 
-  private fun validateWithAdditionalItems(
+  private fun validateElementsAtIndexes(
     element: JsonArray,
     context: AssertionContext,
     errorCollector: ErrorCollector,
   ): Boolean {
     var valid = true
-    element.forEachIndexed { index, item ->
-      val result: Boolean
+    var lastProcessedIndex = 0
+    for ((index, item) in element.withIndex()) {
       if (index < items.size) {
-        result = items[index].validate(
+        val result: Boolean = items[index].validate(
           item,
           context.at(index),
           errorCollector,
         )
+        lastProcessedIndex = index
+        valid = valid && result
       } else {
-        if (additionalItems == null) {
-          return valid
-        }
-        result = additionalItems.validate(
-          item,
-          context.at(index),
-          errorCollector,
-        )
+        break
       }
-      valid = valid && result
     }
+    context.annotate(ItemsAssertionFactory.ANNOTATION, Result.Index(lastProcessedIndex))
     return valid
   }
 
@@ -109,6 +93,7 @@ private class ElementsAssertion(
       )
       valid = valid && result
     }
+    context.annotate(ItemsAssertionFactory.ANNOTATION, Result.All)
     return valid
   }
 }

@@ -9,6 +9,7 @@ import io.github.optimumcode.json.pointer.relative
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.ReferenceLocation
 import io.github.optimumcode.json.schema.internal.factories.FactoryGroup
+import io.github.optimumcode.json.schema.internal.factories.array.AdditionalItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.ContainsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.ItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.MaxItemsAssertionFactory
@@ -58,7 +59,10 @@ private val factories: List<AssertionFactory> = listOf(
   MaxLengthAssertionFactory,
   MinLengthAssertionFactory,
   PatternAssertionFactory,
-  ItemsAssertionFactory,
+  FactoryGroup(
+    ItemsAssertionFactory,
+    AdditionalItemsAssertionFactory,
+  ),
   MaxItemsAssertionFactory,
   MinItemsAssertionFactory,
   UniqueItemsAssertionFactory,
