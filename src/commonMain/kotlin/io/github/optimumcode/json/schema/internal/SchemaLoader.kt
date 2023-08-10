@@ -112,6 +112,12 @@ private fun loadSchema(
   }.apply {
     loadDefinitions(schemaDefinition, additionalId?.let(context::addId) ?: context)
     context.register(additionalId, this)
+    val anchorProperty: String? = context.config.keywordResolver.resolve(KeyWord.ANCHOR)
+    if (anchorProperty != null && schemaDefinition is JsonObject) {
+      schemaDefinition.getString(anchorProperty)?.also {
+        context.registerByAnchor(it, this)
+      }
+    }
   }
 }
 
@@ -174,6 +180,16 @@ private data class DefaultLoadingContext(
       }
       register(referenceId, assertion)
     }
+  }
+
+  /**
+   * [anchor] is a plain text that will be transformed into a URI fragment
+   * It must match [ANCHOR_REGEX] otherwise [IllegalArgumentException] will be thrown
+   */
+  fun registerByAnchor(anchor: String, assertion: JsonSchemaAssertion) {
+    require(ANCHOR_REGEX.matches(anchor)) { "$anchor must match the format ${ANCHOR_REGEX.pattern}" }
+    val refId = additionalIDs.last().id.buildUpon().fragment(anchor).buildRefId()
+    register(refId, assertion)
   }
 
   fun addId(additionalId: Uri): DefaultLoadingContext {
@@ -262,6 +278,8 @@ private fun Uri.appendPathToParent(path: String): Uri {
   }.appendEncodedPath(path)
     .build()
 }
+
+private val ANCHOR_REGEX: Regex = "^[A-Za-z][A-Za-z0-9-_:.]*$".toRegex()
 
 private fun Uri.buildRefId(): RefId = RefId(this)
 
