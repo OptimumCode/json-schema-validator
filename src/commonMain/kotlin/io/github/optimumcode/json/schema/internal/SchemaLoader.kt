@@ -7,6 +7,7 @@ import io.github.optimumcode.json.pointer.div
 import io.github.optimumcode.json.pointer.get
 import io.github.optimumcode.json.pointer.relative
 import io.github.optimumcode.json.schema.JsonSchema
+import io.github.optimumcode.json.schema.SchemaType
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.ReferenceLocation
 import io.github.optimumcode.json.schema.internal.util.getString
@@ -19,8 +20,8 @@ import kotlinx.serialization.json.booleanOrNull
 private const val SCHEMA_PROPERTY: String = "\$schema"
 
 internal class SchemaLoader {
-  fun load(schemaDefinition: JsonElement): JsonSchema {
-    val schemaType = extractSchemaType(schemaDefinition)
+  fun load(schemaDefinition: JsonElement, defaultType: SchemaType? = null): JsonSchema {
+    val schemaType = extractSchemaType(schemaDefinition, defaultType)
     val baseId: Uri = extractID(schemaDefinition, schemaType.config) ?: Uri.EMPTY
     val assertionFactories = schemaType.config.factories(schemaDefinition)
     val context = defaultLoadingContext(baseId, schemaType.config, assertionFactories)
@@ -37,15 +38,16 @@ internal class SchemaLoader {
     return JsonSchema(schemaAssertion, usedReferencesWithPath)
   }
 
-  private fun extractSchemaType(schemaDefinition: JsonElement): SchemaType {
-    return if (schemaDefinition is JsonObject) {
+  private fun extractSchemaType(schemaDefinition: JsonElement, defaultType: SchemaType?): SchemaType {
+    val schemaType: SchemaType? = if (schemaDefinition is JsonObject) {
       schemaDefinition[SCHEMA_PROPERTY]?.let {
         require(it is JsonPrimitive && it.isString) { "$SCHEMA_PROPERTY must be a string" }
         SchemaType.find(it.content) ?: throw IllegalArgumentException("unsupported schema type ${it.content}")
-      } ?: SchemaType.values().last()
+      }
     } else {
-      SchemaType.values().last()
+      null
     }
+    return schemaType ?: defaultType ?: SchemaType.values().last()
   }
 }
 

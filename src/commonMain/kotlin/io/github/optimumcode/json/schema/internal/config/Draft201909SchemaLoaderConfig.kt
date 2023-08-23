@@ -133,7 +133,7 @@ private object Draft201909KeyWordResolver : KeyWordResolver {
   const val REF_PROPERTY: String = "\$ref"
   const val REC_REF_PROPERTY: String = "\$recursiveRef"
   override fun resolve(keyword: KeyWord): String {
-    return when(keyword) {
+    return when (keyword) {
       ID -> ID_PROPERTY
       ANCHOR -> ANCHOR_PROPERTY
       DEFINITIONS -> DEF_PROPERTY
@@ -144,7 +144,7 @@ private object Draft201909KeyWordResolver : KeyWordResolver {
 
 private object Draft201909ReferenceFactory : ReferenceFactory {
   override fun extractRef(schemaDefinition: JsonObject, context: SchemaLoaderContext): RefHolder? {
-    return when{
+    return when {
       REF_PROPERTY in schemaDefinition ->
         RefHolder(REF_PROPERTY, schemaDefinition.getStringRequired(REF_PROPERTY).let(context::ref))
       REC_REF_PROPERTY in schemaDefinition -> {
