@@ -120,12 +120,13 @@ private fun loadSchema(
     // should never happen
     else -> throw IllegalArgumentException("schema must be either a valid JSON object or boolean")
   }.apply {
-    loadDefinitions(schemaDefinition, additionalId?.let(context::addId) ?: context)
+    val contextWithAdditionalID = additionalId?.let(context::addId) ?: context
+    loadDefinitions(schemaDefinition, contextWithAdditionalID)
     context.register(additionalId, this)
     val anchorProperty: String? = context.config.keywordResolver.resolve(KeyWord.ANCHOR)
     if (anchorProperty != null && schemaDefinition is JsonObject) {
       schemaDefinition.getString(anchorProperty)?.also {
-        context.registerByAnchor(it, this)
+        contextWithAdditionalID.registerByAnchor(it, this)
       }
     }
   }
@@ -231,7 +232,13 @@ private data class DefaultLoadingContext(
       // the ref is absolute and should be resolved from current base URI host:port part
       refId.startsWith('/') -> additionalIDs.last().id.buildUpon().encodedPath(refUri.path).buildRefId()
       // in this case the ref must be resolved from the current base ID
-      !refUri.path.isNullOrBlank() -> additionalIDs.resolvePath(refUri.path).buildRefId()
+      !refUri.path.isNullOrBlank() -> additionalIDs.resolvePath(refUri.path).run {
+        if (refUri.fragment.isNullOrBlank()) {
+          this
+        } else {
+          buildUpon().encodedFragment(refUri.fragment).build()
+        }
+      }.buildRefId()
       refUri.fragment != null -> additionalIDs.last().id.buildUpon().encodedFragment(refUri.fragment).buildRefId()
       else -> throw IllegalArgumentException("invalid reference $refId")
     }.also { usedRef += ReferenceLocation(schemaPath, it) }

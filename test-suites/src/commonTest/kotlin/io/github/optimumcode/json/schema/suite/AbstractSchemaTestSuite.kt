@@ -133,6 +133,7 @@ private class SchemaTest(
   val description: String,
   val data: JsonElement,
   val valid: Boolean,
+  val comment: String? = null,
 )
 
 private val TEST_SUITES_DIR: Path = "schema-test-suite/tests".toPath()
