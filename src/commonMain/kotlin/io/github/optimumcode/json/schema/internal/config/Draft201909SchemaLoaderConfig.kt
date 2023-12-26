@@ -17,7 +17,9 @@ import io.github.optimumcode.json.schema.internal.factories.FactoryGroup
 import io.github.optimumcode.json.schema.internal.factories.array.AdditionalItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.ContainsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.ItemsAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.array.MaxContainsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.MaxItemsAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.array.MinContainsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.MinItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.UniqueItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.AllOfAssertionFactory
@@ -94,6 +96,8 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
     PatternAssertionFactory,
     MaxItemsAssertionFactory,
     MinItemsAssertionFactory,
+    MinContainsAssertionFactory,
+    MaxContainsAssertionFactory,
     UniqueItemsAssertionFactory,
     MaxPropertiesAssertionFactory,
     MinPropertiesAssertionFactory,

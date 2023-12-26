@@ -7,7 +7,6 @@ import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFac
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
 
 @Suppress("unused")
 internal object DependenciesAssertionFactory : AbstractAssertionFactory("dependencies") {

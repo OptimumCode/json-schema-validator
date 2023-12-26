@@ -14,9 +14,9 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlin.jvm.JvmStatic
 
 internal class ConditionalRequiredPropertiesAssertion(
-    private val path: JsonPointer,
-    private val property: String,
-    private val dependencies: Set<String>,
+  private val path: JsonPointer,
+  private val property: String,
+  private val dependencies: Set<String>,
 ) : JsonSchemaAssertion {
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
     if (element !is JsonObject) {
@@ -29,11 +29,11 @@ internal class ConditionalRequiredPropertiesAssertion(
       return true
     }
     errorCollector.onError(
-        ValidationError(
-            schemaPath = path,
-            objectPath = context.objectPath,
-            message = "has '$property' property but missing required dependencies: $missingProperties",
-        ),
+      ValidationError(
+        schemaPath = path,
+        objectPath = context.objectPath,
+        message = "has '$property' property but missing required dependencies: $missingProperties",
+      ),
     )
     return false
   }
