@@ -20,6 +20,11 @@ internal interface ReferenceFactory {
    */
   fun extractRef(schemaDefinition: JsonObject, context: SchemaLoaderContext): RefHolder?
 
+  /**
+   * Defines whether the other schema properties should be loaded when reference is present
+   */
+  val allowOverriding: Boolean
+
   data class RefHolder(
     val property: String,
     val refId: RefId,

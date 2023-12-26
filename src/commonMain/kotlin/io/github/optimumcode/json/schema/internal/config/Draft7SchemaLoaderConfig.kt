@@ -119,4 +119,7 @@ private object Draft7ReferenceFactory : ReferenceFactory {
       null
     }
   }
+
+  override val allowOverriding: Boolean
+    get() = false
 }

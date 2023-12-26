@@ -159,11 +159,14 @@ private object Draft201909ReferenceFactory : ReferenceFactory {
         if (context.recursiveResolution) {
           RefHolder(REC_REF_PROPERTY, context.ref(recRef))
         } else {
-          RefHolder(REC_REF_PROPERTY, context.ref(context.baseId.toString()))
+          RefHolder(REC_REF_PROPERTY, context.ref("${context.baseId}#"))
         }
       }
 
       else -> null
     }
   }
+
+  override val allowOverriding: Boolean
+    get() = true
 }

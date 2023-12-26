@@ -106,17 +106,23 @@ private fun loadSchema(
 
     is JsonObject -> {
       val extractedRef: RefHolder? = context.config.referenceFactory.extractRef(schemaDefinition, context)
-      if (extractedRef != null) {
+      val refAssertion: JsonSchemaAssertion? = if (extractedRef != null) {
         loadRefAssertion(extractedRef, context)
       } else {
-        context.assertionFactories.filter { it.isApplicable(schemaDefinition) }
+        null
+      }
+      if (refAssertion != null && !context.config.referenceFactory.allowOverriding) {
+        refAssertion
+      } else {
+        val assertions = context.assertionFactories.filter { it.isApplicable(schemaDefinition) }
           .map {
             it.create(
               schemaDefinition,
               // we register id to be used for future schema registration
               additionalId?.let(context::addId) ?: context,
             )
-          }.let(::AssertionsCollection)
+          }
+        AssertionsCollection(refAssertion?.let { assertions + it } ?: assertions)
       }
     }
     // should never happen
@@ -241,8 +247,9 @@ private data class DefaultLoadingContext(
           buildUpon().encodedFragment(refUri.fragment).build()
         }
       }.buildRefId()
+
       refUri.fragment != null -> additionalIDs.last().id.buildUpon().encodedFragment(refUri.fragment).buildRefId()
-      else -> throw IllegalArgumentException("invalid reference $refId")
+      else -> throw IllegalArgumentException("invalid reference '$refId'")
     }.also { usedRef += ReferenceLocation(schemaPath, it) }
   }
 
