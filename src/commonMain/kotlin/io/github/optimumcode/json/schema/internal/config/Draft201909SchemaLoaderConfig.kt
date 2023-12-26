@@ -36,6 +36,8 @@ import io.github.optimumcode.json.schema.internal.factories.number.MaximumAssert
 import io.github.optimumcode.json.schema.internal.factories.number.MinimumAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.MultipleOfAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.AdditionalPropertiesAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.`object`.DependentRequiredAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.`object`.DependentSchemasAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.MaxPropertiesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.MinPropertiesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.PatternPropertiesAssertionFactory
@@ -69,6 +71,7 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
       AdditionalPropertiesAssertionFactory,
     ),
     PropertyNamesAssertionFactory,
+    DependentSchemasAssertionFactory,
     FactoryGroup(
       IfAssertionFactory,
       ThenAssertionFactory,
@@ -95,6 +98,7 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
     MaxPropertiesAssertionFactory,
     MinPropertiesAssertionFactory,
     RequiredAssertionFactory,
+    DependentRequiredAssertionFactory,
     ConstAssertionFactory,
     EnumAssertionFactory,
     TypeAssertionFactory,
