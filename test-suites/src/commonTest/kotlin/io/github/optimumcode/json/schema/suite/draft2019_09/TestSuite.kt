@@ -20,6 +20,9 @@ internal class TestSuite : FunSpec() {
         "minContains" to setOf(
           "minContains = 0 with no maxContains",
         ),
+        "ref" to setOf(
+          "remote ref, containing refs itself",
+        ),
       ),
       excludeTests = mapOf(
         // this is very questionable tests - the 'contains' should fail if there is no match to it according to spec

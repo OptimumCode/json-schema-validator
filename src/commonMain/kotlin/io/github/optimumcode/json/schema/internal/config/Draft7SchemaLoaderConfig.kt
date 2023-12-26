@@ -12,7 +12,6 @@ import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
 import io.github.optimumcode.json.schema.internal.SchemaLoaderContext
 import io.github.optimumcode.json.schema.internal.config.Draft7KeyWordResolver.REF_PROPERTY
-import io.github.optimumcode.json.schema.internal.factories.FactoryGroup
 import io.github.optimumcode.json.schema.internal.factories.array.AdditionalItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.ContainsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.ItemsAssertionFactory
@@ -62,10 +61,10 @@ internal object Draft7SchemaLoaderConfig : SchemaLoaderConfig {
     MaxLengthAssertionFactory,
     MinLengthAssertionFactory,
     PatternAssertionFactory,
-    FactoryGroup(
-      ItemsAssertionFactory,
-      AdditionalItemsAssertionFactory,
-    ),
+
+    ItemsAssertionFactory,
+    AdditionalItemsAssertionFactory,
+
     MaxItemsAssertionFactory,
     MinItemsAssertionFactory,
     UniqueItemsAssertionFactory,
@@ -73,18 +72,18 @@ internal object Draft7SchemaLoaderConfig : SchemaLoaderConfig {
     MaxPropertiesAssertionFactory,
     MinPropertiesAssertionFactory,
     RequiredAssertionFactory,
-    FactoryGroup(
-      PropertiesAssertionFactory,
-      PatternPropertiesAssertionFactory,
-      AdditionalPropertiesAssertionFactory,
-    ),
+
+    PropertiesAssertionFactory,
+    PatternPropertiesAssertionFactory,
+    AdditionalPropertiesAssertionFactory,
+
     PropertyNamesAssertionFactory,
     DependenciesAssertionFactory,
-    FactoryGroup(
-      IfAssertionFactory,
-      ThenAssertionFactory,
-      ElseAssertionFactory,
-    ),
+
+    IfAssertionFactory,
+    ThenAssertionFactory,
+    ElseAssertionFactory,
+
     AllOfAssertionFactory,
     AnyOfAssertionFactory,
     OneOfAssertionFactory,

@@ -13,7 +13,6 @@ import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
 import io.github.optimumcode.json.schema.internal.SchemaLoaderContext
 import io.github.optimumcode.json.schema.internal.config.Draft201909KeyWordResolver.REC_REF_PROPERTY
 import io.github.optimumcode.json.schema.internal.config.Draft201909KeyWordResolver.REF_PROPERTY
-import io.github.optimumcode.json.schema.internal.factories.FactoryGroup
 import io.github.optimumcode.json.schema.internal.factories.array.AdditionalItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.ContainsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.ItemsAssertionFactory
@@ -61,24 +60,22 @@ private const val VOCABULARY_PROPERTY = "\$vocabulary"
 
 internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
   private val applicatorFactories: List<AssertionFactory> = listOf(
-    FactoryGroup(
-      ItemsAssertionFactory,
-      AdditionalItemsAssertionFactory,
-    ),
+    ItemsAssertionFactory,
+    AdditionalItemsAssertionFactory,
+
     ContainsAssertionFactory,
 
-    FactoryGroup(
-      PropertiesAssertionFactory,
-      PatternPropertiesAssertionFactory,
-      AdditionalPropertiesAssertionFactory,
-    ),
+    PropertiesAssertionFactory,
+    PatternPropertiesAssertionFactory,
+    AdditionalPropertiesAssertionFactory,
+
     PropertyNamesAssertionFactory,
     DependentSchemasAssertionFactory,
-    FactoryGroup(
-      IfAssertionFactory,
-      ThenAssertionFactory,
-      ElseAssertionFactory,
-    ),
+
+    IfAssertionFactory,
+    ThenAssertionFactory,
+    ElseAssertionFactory,
+
     AllOfAssertionFactory,
     AnyOfAssertionFactory,
     OneOfAssertionFactory,
@@ -155,6 +152,7 @@ private object Draft201909ReferenceFactory : ReferenceFactory {
     return when {
       REF_PROPERTY in schemaDefinition ->
         RefHolder(REF_PROPERTY, schemaDefinition.getStringRequired(REF_PROPERTY).let(context::ref))
+
       REC_REF_PROPERTY in schemaDefinition -> {
         val recRef = schemaDefinition.getStringRequired(REC_REF_PROPERTY)
         require(recRef == "#") { "only ref to root is supported by $REC_REF_PROPERTY" }
@@ -164,6 +162,7 @@ private object Draft201909ReferenceFactory : ReferenceFactory {
           RefHolder(REC_REF_PROPERTY, context.ref(context.baseId.toString()))
         }
       }
+
       else -> null
     }
   }
