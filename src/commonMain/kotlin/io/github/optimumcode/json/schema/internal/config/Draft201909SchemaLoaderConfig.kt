@@ -169,4 +169,6 @@ private object Draft201909ReferenceFactory : ReferenceFactory {
 
   override val allowOverriding: Boolean
     get() = true
+  override val resolveRefPriorId: Boolean
+    get() = true
 }

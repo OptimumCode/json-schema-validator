@@ -97,6 +97,8 @@ private fun loadSchema(
     "schema must be either a valid JSON object or boolean"
   }
   val additionalId: Uri? = extractID(schemaDefinition, context.config)
+  val contextWithAdditionalID = additionalId?.let(context::addId) ?: context
+  val referenceFactory = context.config.referenceFactory
   return when (schemaDefinition) {
     is JsonPrimitive -> if (schemaDefinition.boolean) {
       TrueSchemaAssertion
@@ -105,13 +107,14 @@ private fun loadSchema(
     }
 
     is JsonObject -> {
-      val extractedRef: RefHolder? = context.config.referenceFactory.extractRef(schemaDefinition, context)
+      val refLoadingContext = if (referenceFactory.resolveRefPriorId) contextWithAdditionalID else context
+      val extractedRef: RefHolder? = referenceFactory.extractRef(schemaDefinition, refLoadingContext)
       val refAssertion: JsonSchemaAssertion? = if (extractedRef != null) {
-        loadRefAssertion(extractedRef, context)
+        loadRefAssertion(extractedRef, refLoadingContext)
       } else {
         null
       }
-      if (refAssertion != null && !context.config.referenceFactory.allowOverriding) {
+      if (refAssertion != null && !referenceFactory.allowOverriding) {
         refAssertion
       } else {
         val assertions = context.assertionFactories.filter { it.isApplicable(schemaDefinition) }
@@ -119,7 +122,7 @@ private fun loadSchema(
             it.create(
               schemaDefinition,
               // we register id to be used for future schema registration
-              additionalId?.let(context::addId) ?: context,
+              contextWithAdditionalID,
             )
           }
         AssertionsCollection(refAssertion?.let { assertions + it } ?: assertions)
@@ -128,7 +131,6 @@ private fun loadSchema(
     // should never happen
     else -> throw IllegalArgumentException("schema must be either a valid JSON object or boolean")
   }.apply {
-    val contextWithAdditionalID = additionalId?.let(context::addId) ?: context
     loadDefinitions(schemaDefinition, contextWithAdditionalID)
     context.register(additionalId, this)
     val anchorProperty: String? = context.config.keywordResolver.resolve(KeyWord.ANCHOR)

@@ -25,6 +25,15 @@ internal interface ReferenceFactory {
    */
   val allowOverriding: Boolean
 
+  /**
+   * Defines whether the $id should be processed before resolving any references.
+   * Depending on that the canonical URI might change.
+   * Please, see
+   * https://json-schema.org/draft-07/json-schema-core#rfc.section.8
+   * https://json-schema.org/draft/2019-09/json-schema-core#rfc.section.8.2
+   */
+  val resolveRefPriorId: Boolean
+
   data class RefHolder(
     val property: String,
     val refId: RefId,

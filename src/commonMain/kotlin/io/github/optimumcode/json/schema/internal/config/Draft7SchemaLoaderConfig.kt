@@ -122,4 +122,6 @@ private object Draft7ReferenceFactory : ReferenceFactory {
 
   override val allowOverriding: Boolean
     get() = false
+  override val resolveRefPriorId: Boolean
+    get() = false
 }

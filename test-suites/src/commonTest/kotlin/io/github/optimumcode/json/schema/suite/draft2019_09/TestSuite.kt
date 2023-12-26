@@ -22,6 +22,7 @@ internal class TestSuite : FunSpec() {
         ),
         "ref" to setOf(
           "remote ref, containing refs itself",
+          "URN base URI with f-component",
         ),
       ),
       excludeTests = mapOf(
