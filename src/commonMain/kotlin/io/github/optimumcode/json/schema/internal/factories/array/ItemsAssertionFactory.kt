@@ -60,7 +60,7 @@ private class ItemsAssertion(
     errorCollector: ErrorCollector,
   ): Boolean {
     var valid = true
-    var lastProcessedIndex = 0
+    var lastProcessedIndex = -1
     for ((index, item) in element.withIndex()) {
       if (index < items.size) {
         val result: Boolean = items[index].validate(
@@ -68,13 +68,15 @@ private class ItemsAssertion(
           context.at(index),
           errorCollector,
         )
-        lastProcessedIndex = index
         valid = valid && result
+        lastProcessedIndex = index
       } else {
         break
       }
     }
-    context.annotate(ItemsAssertionFactory.ANNOTATION, Result.Index(lastProcessedIndex))
+    if (valid) {
+      context.annotate(ItemsAssertionFactory.ANNOTATION, Result.Index(lastProcessedIndex))
+    }
     return valid
   }
 
@@ -93,7 +95,9 @@ private class ItemsAssertion(
       )
       valid = valid && result
     }
-    context.annotate(ItemsAssertionFactory.ANNOTATION, Result.All)
+    if (valid) {
+      context.annotate(ItemsAssertionFactory.ANNOTATION, Result.All)
+    }
     return valid
   }
 }

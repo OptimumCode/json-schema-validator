@@ -1,6 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.array
 
 import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.internal.AnnotationKey
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
@@ -12,6 +13,7 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 
 internal object AdditionalItemsAssertionFactory : AbstractAssertionFactory("additionalItems") {
+  val ANNOTATION: AnnotationKey<Boolean> = AnnotationKey.create("additionalItems")
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val assertion = context.schemaFrom(element)
@@ -46,6 +48,10 @@ private class AdditionalItemsAssertion(
         errorCollector,
       )
       valid = valid && res
+    }
+
+    if (valid) {
+      context.annotate(AdditionalItemsAssertionFactory.ANNOTATION, true)
     }
 
     return valid

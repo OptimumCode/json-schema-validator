@@ -11,6 +11,7 @@ internal interface AssertionContext {
   val objectPath: JsonPointer
   fun <T : Any> annotate(key: AnnotationKey<T>, value: T)
   fun <T : Any> annotated(key: AnnotationKey<T>): T?
+  fun <T : Any> annotatedAll(key: AnnotationKey<T>): List<T>
   fun at(index: Int): AssertionContext
   fun at(property: String): AssertionContext
   fun resolveRef(refId: RefId): Pair<JsonPointer, JsonSchemaAssertion>
@@ -56,6 +57,7 @@ internal data class DefaultAssertionContext(
   private val references: Map<RefId, AssertionWithPath>,
 ) : AssertionContext {
   private lateinit var _annotations: MutableMap<AnnotationKey<*>, Any>
+  private lateinit var _subAnnotations: MutableList<Map<AnnotationKey<*>, Any>>
   override fun <T : Any> annotate(key: AnnotationKey<T>, value: T) {
     annotations()[key] = value
   }
@@ -65,6 +67,10 @@ internal data class DefaultAssertionContext(
       return null
     }
     return _annotations[key]?.let { key.type.cast(it) }
+  }
+
+  override fun <T : Any> annotatedAll(key: AnnotationKey<T>): List<T> {
+    return lookInSubAnnotations(key, annotated(key))
   }
 
   override fun at(index: Int): AssertionContext = copy(objectPath = objectPath[index])
@@ -79,7 +85,24 @@ internal data class DefaultAssertionContext(
   }
 
   override fun resetAnnotations() {
-    annotations().clear()
+    if (::_annotations.isInitialized && _annotations.isNotEmpty()) {
+      subAnnotations() += _annotations.toMap()
+      _annotations.clear()
+    }
+  }
+
+  private fun <T : Any> lookInSubAnnotations(key: AnnotationKey<T>, annotated: T?): List<T> {
+    if (!::_subAnnotations.isInitialized) {
+      return annotated?.let { listOf(it) } ?: emptyList()
+    }
+    return buildList {
+      annotated?.also(this::add)
+      _subAnnotations.forEach { prevAnnotations ->
+        prevAnnotations[key]?.let {
+          add(key.type.cast(it))
+        }
+      }
+    }
   }
 
   private fun annotations(): MutableMap<AnnotationKey<*>, Any> {
@@ -87,5 +110,12 @@ internal data class DefaultAssertionContext(
       _annotations = hashMapOf()
     }
     return _annotations
+  }
+
+  private fun subAnnotations(): MutableList<Map<AnnotationKey<*>, Any>> {
+    if (!::_subAnnotations.isInitialized) {
+      _subAnnotations = arrayListOf()
+    }
+    return _subAnnotations
   }
 }

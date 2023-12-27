@@ -20,6 +20,7 @@ import io.github.optimumcode.json.schema.internal.factories.array.MaxContainsAss
 import io.github.optimumcode.json.schema.internal.factories.array.MaxItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.MinContainsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.MinItemsAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.array.UnevaluatedItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.UniqueItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.AllOfAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.AnyOfAssertionFactory
@@ -80,6 +81,9 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
     AnyOfAssertionFactory,
     OneOfAssertionFactory,
     NotAssertionFactory,
+
+    // MUST be applied last
+    UnevaluatedItemsAssertionFactory,
   )
 
   private val validationFactories: List<AssertionFactory> = listOf(

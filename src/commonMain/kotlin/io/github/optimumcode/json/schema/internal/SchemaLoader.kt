@@ -125,7 +125,11 @@ private fun loadSchema(
               contextWithAdditionalID,
             )
           }
-        AssertionsCollection(refAssertion?.let { assertions + it } ?: assertions)
+        val result = buildList(assertions.size + 1) {
+          refAssertion?.also(this::add)
+          addAll(assertions)
+        }
+        AssertionsCollection(result)
       }
     }
     // should never happen
