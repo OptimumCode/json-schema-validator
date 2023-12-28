@@ -18,7 +18,11 @@ internal class DependenciesAssertion(
       if (dependency !in element) {
         continue
       }
-      val res = assertion.validate(element, context, errorCollector)
+      val childContext = context.childContext()
+      val res = assertion.validate(element, childContext, errorCollector)
+      if (res) {
+        childContext.propagateToParent()
+      }
       valid = valid and res
     }
     return valid

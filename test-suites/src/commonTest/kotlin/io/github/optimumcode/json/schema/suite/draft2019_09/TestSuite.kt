@@ -18,6 +18,7 @@ internal class TestSuite : FunSpec() {
           "Unnormalized \$ids are allowed but discouraged",
         ), // impl does not support referencing external schemas
         "minContains" to setOf(
+          // this is very questionable tests - the 'contains' should fail if there is no match to it according to spec
           "minContains = 0 with no maxContains",
         ),
         "ref" to setOf(

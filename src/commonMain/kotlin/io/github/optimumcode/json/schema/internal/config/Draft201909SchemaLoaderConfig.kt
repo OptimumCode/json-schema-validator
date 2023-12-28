@@ -46,6 +46,7 @@ import io.github.optimumcode.json.schema.internal.factories.`object`.PatternProp
 import io.github.optimumcode.json.schema.internal.factories.`object`.PropertiesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.PropertyNamesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.`object`.RequiredAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.`object`.UnevaluatedPropertiesAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.string.MaxLengthAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.string.MinLengthAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.string.PatternAssertionFactory
@@ -84,6 +85,7 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
 
     // MUST be applied last
     UnevaluatedItemsAssertionFactory,
+    UnevaluatedPropertiesAssertionFactory,
   )
 
   private val validationFactories: List<AssertionFactory> = listOf(
