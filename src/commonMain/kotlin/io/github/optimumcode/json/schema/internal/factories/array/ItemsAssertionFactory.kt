@@ -15,9 +15,23 @@ internal object ItemsAssertionFactory : AbstractAssertionFactory("items") {
   sealed class Result {
     object All : Result()
     class Index(val value: Int) : Result()
+
+    fun reduce(other: Result): Result {
+      return when (this) {
+        All -> All
+        is Index -> when (other) {
+          All -> All
+          is Index -> if (this.value > other.value) {
+            this
+          } else {
+            other
+          }
+        }
+      }
+    }
   }
 
-  val ANNOTATION: AnnotationKey<Result> = AnnotationKey.create(property)
+  val ANNOTATION: AnnotationKey<Result> = AnnotationKey.createAggregatable(property, Result::reduce)
 
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
     val itemsAssertions: List<JsonSchemaAssertion> = if (element is JsonArray) {

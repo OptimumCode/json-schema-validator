@@ -20,7 +20,11 @@ private class AnyOfAssertion(
     var valid = false
     val tempHandler = mutableListOf<ValidationError>()
     assertions.forEach {
-      val res = it.validate(element, context, tempHandler::add)
+      val childContext = context.childContext()
+      val res = it.validate(element, childContext, tempHandler::add)
+      if (res) {
+        childContext.propagateToParent()
+      }
       valid = valid or res
     }
     if (!valid) {

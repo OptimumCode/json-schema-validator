@@ -19,7 +19,11 @@ private class AllOfAssertion(
     var valid = true
 
     assertions.forEach {
-      val res = it.validate(element, context, errorCollector)
+      val childContext = context.childContext()
+      val res = it.validate(element, childContext, errorCollector)
+      if (res) {
+        childContext.propagateToParent()
+      }
       valid = valid and res
     }
 

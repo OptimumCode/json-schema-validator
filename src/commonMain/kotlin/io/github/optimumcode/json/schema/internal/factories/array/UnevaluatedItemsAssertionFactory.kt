@@ -11,7 +11,7 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 
 internal object UnevaluatedItemsAssertionFactory : AbstractAssertionFactory("unevaluatedItems") {
-  val ANNOTATION: AnnotationKey<Boolean> = AnnotationKey.create("unevaluatedItems")
+  val ANNOTATION: AnnotationKey<Boolean> = AnnotationKey.createAggregatable("unevaluatedItems", Boolean::or)
 
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
@@ -29,17 +29,17 @@ private class UnevaluatedItemsAssertion(
     }
     val startIndex: Int = when (
       val itemsAnnotation: Result? =
-        findMaxResult(context.annotatedAll(ItemsAssertionFactory.ANNOTATION))
+        context.aggregatedAnnotation(ItemsAssertionFactory.ANNOTATION)
     ) {
       Result.All -> return true // all items are evaluated
       is Result.Index -> itemsAnnotation.value
       null -> -1
     }
-    if (context.annotatedAll(AdditionalItemsAssertionFactory.ANNOTATION).any { it }) {
+    if (context.aggregatedAnnotation(AdditionalItemsAssertionFactory.ANNOTATION) == true) {
       // all items evaluated by additional items
       return true
     }
-    if (context.annotatedAll(UnevaluatedItemsAssertionFactory.ANNOTATION).any { it }) {
+    if (context.aggregatedAnnotation(UnevaluatedItemsAssertionFactory.ANNOTATION) == true) {
       // another unevaluatedItems was applied
       return true
     }
@@ -53,18 +53,5 @@ private class UnevaluatedItemsAssertion(
     }
     context.annotate(UnevaluatedItemsAssertionFactory.ANNOTATION, true)
     return valid
-  }
-
-  private fun findMaxResult(input: List<Result>): Result? {
-    var last: Result.Index? = null
-    for (r in input) {
-      when (r) {
-        Result.All -> return r
-        is Result.Index -> if (last == null || last.value < r.value) {
-          last = r
-        }
-      }
-    }
-    return last
   }
 }

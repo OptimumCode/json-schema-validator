@@ -11,17 +11,43 @@ internal interface AssertionContext {
   val objectPath: JsonPointer
   fun <T : Any> annotate(key: AnnotationKey<T>, value: T)
   fun <T : Any> annotated(key: AnnotationKey<T>): T?
-  fun <T : Any> annotatedAll(key: AnnotationKey<T>): List<T>
+  fun <T : Any> aggregatedAnnotation(key: AnnotationKey<T>): T?
   fun at(index: Int): AssertionContext
   fun at(property: String): AssertionContext
   fun resolveRef(refId: RefId): Pair<JsonPointer, JsonSchemaAssertion>
 
+  /**
+   * Discards collected annotations
+   */
   fun resetAnnotations()
+
+  /**
+   * Applies collected annotations
+   */
+  fun applyAnnotations()
+
+  /**
+   * Propagates aggregated annotations to parent context if it has one.
+   * Otherwise, does nothing
+   */
+  fun propagateToParent()
+
+  /**
+   * Creates a child context with a new annotation scope.
+   * Current context will get the collected annotations only
+   * if [propagateToParent] method is called on the child context
+   */
+  fun childContext(): AssertionContext
+}
+
+internal fun interface Aggregator<T : Any> {
+  fun aggregate(a: T, b: T): T?
 }
 
 internal class AnnotationKey<T : Any> private constructor(
   private val name: String,
   internal val type: KClass<T>,
+  internal val aggregator: Aggregator<T>,
 ) {
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
@@ -44,20 +70,36 @@ internal class AnnotationKey<T : Any> private constructor(
   override fun toString(): String = "$name(${type.simpleName})"
 
   companion object {
+    internal val NOT_AGGREGATABLE: (Any, Any) -> Nothing? = { _, _ -> null }
+
+    private fun <T : Any> notAggragatable(): (T, T) -> T? = NOT_AGGREGATABLE
+
     @JvmStatic
     inline fun <reified T : Any> create(name: String): AnnotationKey<T> = create(name, T::class)
 
     @JvmStatic
-    fun <T : Any> create(name: String, type: KClass<T>): AnnotationKey<T> = AnnotationKey(name, type)
+    inline fun <reified T : Any> createAggregatable(name: String, noinline aggregator: (T, T) -> T): AnnotationKey<T> =
+      createAggregatable(name, T::class, aggregator)
+
+    @JvmStatic
+    fun <T : Any> create(name: String, type: KClass<T>): AnnotationKey<T> = AnnotationKey(name, type, notAggragatable())
+
+    @JvmStatic
+    fun <T : Any> createAggregatable(
+      name: String,
+      type: KClass<T>,
+      aggregator: (T, T) -> T,
+    ): AnnotationKey<T> = AnnotationKey(name, type, aggregator)
   }
 }
 
 internal data class DefaultAssertionContext(
   override val objectPath: JsonPointer,
   private val references: Map<RefId, AssertionWithPath>,
+  private val parent: DefaultAssertionContext? = null,
 ) : AssertionContext {
   private lateinit var _annotations: MutableMap<AnnotationKey<*>, Any>
-  private lateinit var _subAnnotations: MutableList<Map<AnnotationKey<*>, Any>>
+  private lateinit var _aggregatedAnnotations: MutableMap<AnnotationKey<*>, Any>
   override fun <T : Any> annotate(key: AnnotationKey<T>, value: T) {
     annotations()[key] = value
   }
@@ -69,8 +111,22 @@ internal data class DefaultAssertionContext(
     return _annotations[key]?.let { key.type.cast(it) }
   }
 
-  override fun <T : Any> annotatedAll(key: AnnotationKey<T>): List<T> {
-    return lookInSubAnnotations(key, annotated(key))
+  override fun <T : Any> aggregatedAnnotation(key: AnnotationKey<T>): T? {
+    if (!::_aggregatedAnnotations.isInitialized && !::_annotations.isInitialized) {
+      return null
+    }
+    val currentLevelAnnotation: T? = annotated(key)
+    if (!::_aggregatedAnnotations.isInitialized) {
+      return currentLevelAnnotation
+    }
+    return _aggregatedAnnotations[key]?.let {
+      val aggregatedAnnotation: T = key.type.cast(it)
+      if (currentLevelAnnotation == null) {
+        aggregatedAnnotation
+      } else {
+        key.aggregator.aggregate(currentLevelAnnotation, aggregatedAnnotation)
+      }
+    } ?: currentLevelAnnotation
   }
 
   override fun at(index: Int): AssertionContext = copy(objectPath = objectPath[index])
@@ -86,21 +142,52 @@ internal data class DefaultAssertionContext(
 
   override fun resetAnnotations() {
     if (::_annotations.isInitialized && _annotations.isNotEmpty()) {
-      subAnnotations() += _annotations.toMap()
       _annotations.clear()
     }
   }
 
-  private fun <T : Any> lookInSubAnnotations(key: AnnotationKey<T>, annotated: T?): List<T> {
-    if (!::_subAnnotations.isInitialized) {
-      return annotated?.let { listOf(it) } ?: emptyList()
+  override fun applyAnnotations() {
+    if (::_annotations.isInitialized && _annotations.isNotEmpty()) {
+      aggregateAnnotations(_annotations) { aggregatedAnnotations() }
+      _annotations.clear()
     }
-    return buildList {
-      annotated?.also(this::add)
-      _subAnnotations.forEach { prevAnnotations ->
-        prevAnnotations[key]?.let {
-          add(key.type.cast(it))
+  }
+
+  override fun propagateToParent() {
+    if (parent == null) {
+      return
+    }
+    if (!::_aggregatedAnnotations.isInitialized) {
+      return
+    }
+    aggregateAnnotations(_aggregatedAnnotations) { parent.aggregatedAnnotations() }
+  }
+
+  override fun childContext(): AssertionContext {
+    return copy(parent = this)
+  }
+
+  private inline fun aggregateAnnotations(
+    source: MutableMap<AnnotationKey<*>, Any>,
+    destination: () -> MutableMap<AnnotationKey<*>, Any>,
+  ) {
+    source.forEach { (key, value) ->
+      if (key.aggregator === AnnotationKey.NOT_AGGREGATABLE) {
+        return@forEach
+      }
+      val aggregatedAnnotations = destination()
+      val oldValue: Any? = aggregatedAnnotations[key]
+      if (oldValue != null) {
+        // Probably there is a mistake in the architecture
+        // Need to think on how to change that to avoid unchecked cast
+        @Suppress("UNCHECKED_CAST")
+        val aggregator: Aggregator<Any> = key.aggregator as Aggregator<Any>
+        val aggregated = aggregator.aggregate(key.type.cast(oldValue), key.type.cast(value))
+        if (aggregated != null) {
+          aggregatedAnnotations[key] = aggregated
         }
+      } else {
+        aggregatedAnnotations[key] = value
       }
     }
   }
@@ -112,10 +199,10 @@ internal data class DefaultAssertionContext(
     return _annotations
   }
 
-  private fun subAnnotations(): MutableList<Map<AnnotationKey<*>, Any>> {
-    if (!::_subAnnotations.isInitialized) {
-      _subAnnotations = arrayListOf()
+  private fun aggregatedAnnotations(): MutableMap<AnnotationKey<*>, Any> {
+    if (!::_aggregatedAnnotations.isInitialized) {
+      _aggregatedAnnotations = hashMapOf()
     }
-    return _subAnnotations
+    return _aggregatedAnnotations
   }
 }

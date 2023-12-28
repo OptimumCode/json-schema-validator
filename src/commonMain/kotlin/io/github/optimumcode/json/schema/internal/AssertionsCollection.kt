@@ -13,7 +13,12 @@ internal class AssertionsCollection(
       val valid = it.validate(element, context, errorCollector)
       result = result and valid
     }
-    context.resetAnnotations()
+    // According to spec the annotations should not be applied if element does not match the schema
+    if (result) {
+      context.applyAnnotations()
+    } else {
+      context.resetAnnotations()
+    }
     return result
   }
 }
