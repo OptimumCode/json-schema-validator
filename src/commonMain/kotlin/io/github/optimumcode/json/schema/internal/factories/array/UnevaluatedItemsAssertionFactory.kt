@@ -35,14 +35,14 @@ private class UnevaluatedItemsAssertion(
       is Result.Index -> itemsAnnotation.value
       null -> -1
     }
-    if (context.aggregatedAnnotation(AdditionalItemsAssertionFactory.ANNOTATION) == true) {
+    if (
+      context.aggregatedAnnotation(AdditionalItemsAssertionFactory.ANNOTATION) == true ||
+      context.aggregatedAnnotation(UnevaluatedItemsAssertionFactory.ANNOTATION) == true
+    ) {
       // all items evaluated by additional items
       return true
     }
-    if (context.aggregatedAnnotation(UnevaluatedItemsAssertionFactory.ANNOTATION) == true) {
-      // another unevaluatedItems was applied
-      return true
-    }
+
     var valid = true
     element.forEachIndexed { index, jsonElement ->
       if (index <= startIndex) {

@@ -123,22 +123,7 @@ private fun loadSchema(
       if (refAssertion != null && !referenceFactory.allowOverriding) {
         JsonSchemaRoot(listOf(refAssertion), contextWithAdditionalID.recursiveResolution)
       } else {
-        val assertions = context.assertionFactories.filter { it.isApplicable(schemaDefinition) }
-          .map {
-            it.create(
-              schemaDefinition,
-              // we register id to be used for future schema registration
-              contextWithAdditionalID,
-            )
-          }
-        val result = buildList(assertions.size + (refAssertion?.let { 1 } ?: 0)) {
-          refAssertion?.also(this::add)
-          addAll(assertions)
-        }
-        JsonSchemaRoot(
-          result,
-          contextWithAdditionalID.recursiveResolution,
-        )
+        loadJsonSchemaRoot(contextWithAdditionalID, schemaDefinition, refAssertion)
       }
     }
     // should never happen
@@ -155,13 +140,35 @@ private fun loadSchema(
   }
 }
 
+private fun loadJsonSchemaRoot(
+  context: DefaultLoadingContext,
+  schemaDefinition: JsonElement,
+  refAssertion: JsonSchemaAssertion?,
+): JsonSchemaRoot {
+  val assertions = context.assertionFactories.filter { it.isApplicable(schemaDefinition) }
+    .map {
+      it.create(
+        schemaDefinition,
+        // we register id to be used for future schema registration
+        context,
+      )
+    }
+  val result = buildList(assertions.size + (refAssertion?.let { 1 } ?: 0)) {
+    refAssertion?.also(this::add)
+    addAll(assertions)
+  }
+  return JsonSchemaRoot(
+    result,
+    context.recursiveResolution,
+  )
+}
+
 private fun loadRefAssertion(refHolder: RefHolder, context: DefaultLoadingContext): JsonSchemaAssertion {
   return when (refHolder) {
     is Simple -> RefSchemaAssertion(context.schemaPath / refHolder.property, refHolder.refId)
     is Recursive -> RecursiveRefSchemaAssertion(
       context.schemaPath / refHolder.property,
       refHolder.refId,
-      refHolder.relativePath,
     )
   }
 }

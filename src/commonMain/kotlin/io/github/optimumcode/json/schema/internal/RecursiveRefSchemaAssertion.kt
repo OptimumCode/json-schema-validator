@@ -9,7 +9,6 @@ import kotlinx.serialization.json.JsonElement
 internal class RecursiveRefSchemaAssertion(
   private val basePath: JsonPointer,
   private val refId: RefId,
-  relativePath: String,
 ) : JsonSchemaAssertion {
   private lateinit var refIdPath: JsonPointer
   private lateinit var refAssertion: JsonSchemaAssertion
