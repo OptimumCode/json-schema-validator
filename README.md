@@ -124,7 +124,10 @@ val valid = schema.validate(elementToValidate, errors::add)
 ## Supported JSON schema drafts:
 
 - [Draft 7](https://json-schema.org/specification-links.html#draft-7)
-  - Keywords
+  <details>
+  <summary>Supported keywords</summary>
+  
+  - Core
 
   | Keyword     | Status                                                                                              |
   |:------------|:----------------------------------------------------------------------------------------------------|
@@ -166,6 +169,60 @@ val valid = schema.validate(elementToValidate, errors::add)
   |               | anyOf                | Supported (all validation will be executed even if the element matches the first one)                                                           |
   |               | oneOf                | Supported                                                                                                                                       |
   |               | not                  | Supported                                                                                                                                       |
+  </details>
+- [Draft 2019-09](https://json-schema.org/specification-links#draft-2019-09-(formerly-known-as-draft-8))
+  <details>
+  <summary>Supported keywords</summary>
+
+  - Core
+
+  | Keyword           | Status                                                                                              |
+  |:------------------|:----------------------------------------------------------------------------------------------------|
+  | $id               | Supported. $id in sub-schemas are collected as well and can be used in $ref                         |
+  | $schema           | Supported. Validates if schema is one of the supported schemas. The last supported is used if empty |
+  | $ref              | Supported (except references to schemas from another document)                                      |
+  | $recursiveRef     | Supported (does not work yet to extend schemas from other documents)                                |
+  | $defs/definitions | Supported. Definitions are loaded and can be referenced                                             |
+
+  - Assertions
+
+  | Category      | Assertion             | Status                                                                                                                                          |
+  |:--------------|:----------------------|:------------------------------------------------------------------------------------------------------------------------------------------------|
+  | General       | type                  | Supported all type [defined in the specification](https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.1) |
+  |               | enum                  | Supported                                                                                                                                       |
+  |               | const                 | Supported                                                                                                                                       |
+  | Numbers       | multipleOf            | Supported                                                                                                                                       |
+  |               | maximum               | Supported                                                                                                                                       |
+  |               | exclusiveMaximum      | Supported                                                                                                                                       |
+  |               | minimum               | Supported                                                                                                                                       |
+  |               | exclusiveMinimum      | Supported                                                                                                                                       |
+  | Strings       | maxLength             | Supported                                                                                                                                       |
+  |               | minLength             | Supported                                                                                                                                       |
+  |               | pattern               | Supported (kotlin.text.Regex is used)                                                                                                           |
+  | Arrays        | items                 | Supported                                                                                                                                       |
+  |               | additionalItems       | Supported                                                                                                                                       |
+  |               | unevaluatedItems      | Supported                                                                                                                                       |
+  |               | maxItems              | Supported                                                                                                                                       |
+  |               | uniqueItems           | Supported                                                                                                                                       |
+  |               | contains              | Supported                                                                                                                                       |
+  |               | minContains           | Supported (does not affect the work of contains assertion anyhow even if minContains=0)                                                         |
+  |               | maxContains           | Supported                                                                                                                                       |
+  | Objects       | maxProperties         | Supported                                                                                                                                       |
+  |               | minProperties         | Supported                                                                                                                                       |
+  |               | required              | Supported                                                                                                                                       |
+  |               | properties            | Supported                                                                                                                                       |
+  |               | patternProperties     | Supported (kotlin.text.Regex is used)                                                                                                           |
+  |               | additionalProperties  | Supported                                                                                                                                       |
+  |               | unevaluatedProperties | Supported                                                                                                                                       |
+  |               | dependentRequired     | Supported                                                                                                                                       |
+  |               | dependentSchemas      | Supported                                                                                                                                       |
+  |               | propertyNames         | Supported                                                                                                                                       |
+  | Conditions    | if/then/else          | Supported                                                                                                                                       |
+  | Boolean logic | allOf                 | Supported                                                                                                                                       |
+  |               | anyOf                 | Supported (all validation will be executed even if the element matches the first one)                                                           |
+  |               | oneOf                 | Supported                                                                                                                                       |
+  |               | not                   | Supported                                                                                                                                       |
+  </details>
 
 ## Compliance to JSON schema test suites
 
@@ -179,6 +236,6 @@ The test are located [here](test-suites).
 - [x] Add `$schema` property validation (if not set the latest supported will be used)
 - [x] Add proper `$id` support (for nested schemas and for referencing)
 - [ ] Add support for newer drafts
-  - [ ] [Draft 2019-09 (Draft 8)](https://json-schema.org/specification-links.html#draft-2019-09-formerly-known-as-draft-8)
+  - [x] [Draft 2019-09 (Draft 8)](https://json-schema.org/specification-links.html#draft-2019-09-formerly-known-as-draft-8)
   - [ ] [2020-12](https://json-schema.org/specification-links.html#2020-12)
 - [ ] Formalize error output as it is defined in the latest drafts (have not fully decided if it should be done)
