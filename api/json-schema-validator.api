@@ -41,17 +41,31 @@ public final class io/github/optimumcode/json/schema/ErrorCollector$Companion {
 public final class io/github/optimumcode/json/schema/JsonSchema {
 	public static final field Companion Lio/github/optimumcode/json/schema/JsonSchema$Companion;
 	public static final fun fromDefinition (Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public static final fun fromDefinition (Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchema;
 	public static final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public static final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchema;
 	public final fun validate (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
 }
 
 public final class io/github/optimumcode/json/schema/JsonSchema$Companion {
 	public final fun fromDefinition (Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public final fun fromDefinition (Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public static synthetic fun fromDefinition$default (Lio/github/optimumcode/json/schema/JsonSchema$Companion;Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;ILjava/lang/Object;)Lio/github/optimumcode/json/schema/JsonSchema;
 	public final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public static synthetic fun fromJsonElement$default (Lio/github/optimumcode/json/schema/JsonSchema$Companion;Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/SchemaType;ILjava/lang/Object;)Lio/github/optimumcode/json/schema/JsonSchema;
 }
 
 public final class io/github/optimumcode/json/schema/JsonSchemaStream {
 	public static final fun fromStream (Lio/github/optimumcode/json/schema/JsonSchema$Companion;Ljava/io/InputStream;)Lio/github/optimumcode/json/schema/JsonSchema;
+}
+
+public final class io/github/optimumcode/json/schema/SchemaType : java/lang/Enum {
+	public static final field DRAFT_2019_09 Lio/github/optimumcode/json/schema/SchemaType;
+	public static final field DRAFT_7 Lio/github/optimumcode/json/schema/SchemaType;
+	public static final fun find (Ljava/lang/String;)Lio/github/optimumcode/json/schema/SchemaType;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/optimumcode/json/schema/SchemaType;
+	public static fun values ()[Lio/github/optimumcode/json/schema/SchemaType;
 }
 
 public final class io/github/optimumcode/json/schema/ValidationError {
