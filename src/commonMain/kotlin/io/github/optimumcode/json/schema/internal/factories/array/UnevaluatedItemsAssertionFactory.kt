@@ -11,7 +11,7 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 
 internal object UnevaluatedItemsAssertionFactory : AbstractAssertionFactory("unevaluatedItems") {
-  val ANNOTATION: AnnotationKey<Boolean> = AnnotationKey.createAggregatable("unevaluatedItems", Boolean::or)
+  val ANNOTATION: AnnotationKey<Boolean> = AnnotationKey.createAggregatable(property, Boolean::or)
 
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }

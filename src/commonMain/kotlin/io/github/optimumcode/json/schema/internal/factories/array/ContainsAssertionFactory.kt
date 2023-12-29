@@ -13,7 +13,7 @@ import kotlinx.serialization.json.JsonElement
 
 @Suppress("unused")
 internal object ContainsAssertionFactory : AbstractAssertionFactory("contains") {
-  val ANNOTATION: AnnotationKey<Int> = AnnotationKey.create("contains")
+  val ANNOTATION: AnnotationKey<Int> = AnnotationKey.create(property)
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val containsAssertion = context.schemaFrom(element)
