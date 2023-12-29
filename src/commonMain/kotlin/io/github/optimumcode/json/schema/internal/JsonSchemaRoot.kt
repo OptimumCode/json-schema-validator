@@ -3,11 +3,17 @@ package io.github.optimumcode.json.schema.internal
 import io.github.optimumcode.json.schema.ErrorCollector
 import kotlinx.serialization.json.JsonElement
 
-internal class AssertionsCollection(
+internal class JsonSchemaRoot(
   private val assertions: Collection<JsonSchemaAssertion>,
+  private val canBeReferencedRecursively: Boolean,
 ) : JsonSchemaAssertion {
 
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+    if (canBeReferencedRecursively) {
+      context.setRecursiveRootIfAbsent(this)
+    } else {
+      context.resetRecursiveRoot()
+    }
     var result = true
     assertions.forEach {
       val valid = it.validate(element, context, errorCollector)

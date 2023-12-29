@@ -9,6 +9,8 @@ import io.github.optimumcode.json.pointer.relative
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.SchemaType
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
+import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder.Recursive
+import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder.Simple
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.ReferenceLocation
 import io.github.optimumcode.json.schema.internal.util.getString
 import kotlinx.serialization.json.JsonElement
@@ -107,6 +109,10 @@ private fun loadSchema(
     }
 
     is JsonObject -> {
+      // If a new ID scope is introduced we must check whether we still should try to recursively resolve refs
+      if (additionalId != null) {
+        contextWithAdditionalID.updateRecursiveResolution(schemaDefinition)
+      }
       val refLoadingContext = if (referenceFactory.resolveRefPriorId) contextWithAdditionalID else context
       val extractedRef: RefHolder? = referenceFactory.extractRef(schemaDefinition, refLoadingContext)
       val refAssertion: JsonSchemaAssertion? = if (extractedRef != null) {
@@ -115,7 +121,7 @@ private fun loadSchema(
         null
       }
       if (refAssertion != null && !referenceFactory.allowOverriding) {
-        refAssertion
+        JsonSchemaRoot(listOf(refAssertion), contextWithAdditionalID.recursiveResolution)
       } else {
         val assertions = context.assertionFactories.filter { it.isApplicable(schemaDefinition) }
           .map {
@@ -125,11 +131,14 @@ private fun loadSchema(
               contextWithAdditionalID,
             )
           }
-        val result = buildList(assertions.size + 1) {
+        val result = buildList(assertions.size + (refAssertion?.let { 1 } ?: 0)) {
           refAssertion?.also(this::add)
           addAll(assertions)
         }
-        AssertionsCollection(result)
+        JsonSchemaRoot(
+          result,
+          contextWithAdditionalID.recursiveResolution,
+        )
       }
     }
     // should never happen
@@ -147,7 +156,14 @@ private fun loadSchema(
 }
 
 private fun loadRefAssertion(refHolder: RefHolder, context: DefaultLoadingContext): JsonSchemaAssertion {
-  return RefSchemaAssertion(context.schemaPath / refHolder.property, refHolder.refId)
+  return when (refHolder) {
+    is Simple -> RefSchemaAssertion(context.schemaPath / refHolder.property, refHolder.refId)
+    is Recursive -> RecursiveRefSchemaAssertion(
+      context.schemaPath / refHolder.property,
+      refHolder.refId,
+      refHolder.relativePath,
+    )
+  }
 }
 
 /**
@@ -168,7 +184,7 @@ internal data class AssertionWithPath(
 
 private data class DefaultLoadingContext(
   override val baseId: Uri,
-  override val recursiveResolution: Boolean = false,
+  var recursiveResolution: Boolean = false,
   override val schemaPath: JsonPointer = JsonPointer.ROOT,
   val additionalIDs: Set<IdWithLocation> = linkedSetOf(IdWithLocation(baseId, schemaPath)),
   val references: MutableMap<RefId, AssertionWithPath> = linkedMapOf(),
@@ -257,6 +273,10 @@ private data class DefaultLoadingContext(
       refUri.fragment != null -> additionalIDs.last().id.buildUpon().encodedFragment(refUri.fragment).buildRefId()
       else -> throw IllegalArgumentException("invalid reference '$refId'")
     }.also { usedRef += ReferenceLocation(schemaPath, it) }
+  }
+
+  fun updateRecursiveResolution(schemaDefinition: JsonObject) {
+    recursiveResolution = config.referenceFactory.recursiveResolutionEnabled(schemaDefinition)
   }
 
   private fun registerById(

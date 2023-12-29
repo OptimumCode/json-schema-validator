@@ -47,7 +47,7 @@ internal object ReferenceValidator {
       if (!location.startsWith(otherRefSchemaLocation)) {
         continue
       }
-      if (checkRunAlways(location) && checkRunAlways(otherLocation)) {
+      if (checkRunAlways(location) && checkRunAlways(otherLocation) && location != otherLocation) {
         circledReferences += CircledReference(
           firstLocation = location,
           firstRef = schemaLocation,

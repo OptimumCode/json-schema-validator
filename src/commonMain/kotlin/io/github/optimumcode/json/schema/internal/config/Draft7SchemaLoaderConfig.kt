@@ -114,7 +114,7 @@ private object Draft7KeyWordResolver : KeyWordResolver {
 private object Draft7ReferenceFactory : ReferenceFactory {
   override fun extractRef(schemaDefinition: JsonObject, context: SchemaLoaderContext): RefHolder? {
     return if (REF_PROPERTY in schemaDefinition) {
-      RefHolder(REF_PROPERTY, schemaDefinition.getStringRequired(REF_PROPERTY).let(context::ref))
+      RefHolder.Simple(REF_PROPERTY, schemaDefinition.getStringRequired(REF_PROPERTY).let(context::ref))
     } else {
       null
     }
@@ -124,4 +124,5 @@ private object Draft7ReferenceFactory : ReferenceFactory {
     get() = false
   override val resolveRefPriorId: Boolean
     get() = false
+  override fun recursiveResolutionEnabled(schemaDefinition: JsonObject): Boolean = false
 }

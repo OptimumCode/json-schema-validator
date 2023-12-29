@@ -157,16 +157,12 @@ private object Draft201909ReferenceFactory : ReferenceFactory {
   override fun extractRef(schemaDefinition: JsonObject, context: SchemaLoaderContext): RefHolder? {
     return when {
       REF_PROPERTY in schemaDefinition ->
-        RefHolder(REF_PROPERTY, schemaDefinition.getStringRequired(REF_PROPERTY).let(context::ref))
+        RefHolder.Simple(REF_PROPERTY, schemaDefinition.getStringRequired(REF_PROPERTY).let(context::ref))
 
       REC_REF_PROPERTY in schemaDefinition -> {
         val recRef = schemaDefinition.getStringRequired(REC_REF_PROPERTY)
         require(recRef == "#") { "only ref to root is supported by $REC_REF_PROPERTY" }
-        if (context.recursiveResolution) {
-          RefHolder(REC_REF_PROPERTY, context.ref(recRef))
-        } else {
-          RefHolder(REC_REF_PROPERTY, context.ref("${context.baseId}#"))
-        }
+        RefHolder.Recursive(REC_REF_PROPERTY, context.ref(recRef), recRef)
       }
 
       else -> null
@@ -177,4 +173,7 @@ private object Draft201909ReferenceFactory : ReferenceFactory {
     get() = true
   override val resolveRefPriorId: Boolean
     get() = true
+
+  override fun recursiveResolutionEnabled(schemaDefinition: JsonObject): Boolean =
+    schemaDefinition["\$recursiveAnchor"]?.jsonPrimitive?.boolean ?: false
 }

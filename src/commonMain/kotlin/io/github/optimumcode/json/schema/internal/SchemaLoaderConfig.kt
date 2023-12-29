@@ -34,10 +34,20 @@ internal interface ReferenceFactory {
    */
   val resolveRefPriorId: Boolean
 
-  data class RefHolder(
-    val property: String,
-    val refId: RefId,
-  )
+  fun recursiveResolutionEnabled(schemaDefinition: JsonObject): Boolean
+
+  sealed class RefHolder {
+    data class Simple(
+      val property: String,
+      val refId: RefId,
+    ) : RefHolder()
+
+    data class Recursive(
+      val property: String,
+      val refId: RefId,
+      val relativePath: String,
+    ) : RefHolder()
+  }
 }
 
 /**

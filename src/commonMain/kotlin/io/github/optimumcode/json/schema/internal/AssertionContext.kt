@@ -38,6 +38,21 @@ internal interface AssertionContext {
    * if [propagateToParent] method is called on the child context
    */
   fun childContext(): AssertionContext
+
+  /**
+   * Sets the recursive root to the [schema] if no recursive root was set before
+   */
+  fun setRecursiveRootIfAbsent(schema: JsonSchemaAssertion)
+
+  /**
+   * Resets recursive root
+   */
+  fun resetRecursiveRoot()
+
+  /**
+   * Returns recursive root for current state of the validation
+   */
+  fun getRecursiveRoot(): JsonSchemaAssertion?
 }
 
 internal fun interface Aggregator<T : Any> {
@@ -97,6 +112,7 @@ internal data class DefaultAssertionContext(
   override val objectPath: JsonPointer,
   private val references: Map<RefId, AssertionWithPath>,
   private val parent: DefaultAssertionContext? = null,
+  private var recursiveRoot: JsonSchemaAssertion? = null,
 ) : AssertionContext {
   private lateinit var _annotations: MutableMap<AnnotationKey<*>, Any>
   private lateinit var _aggregatedAnnotations: MutableMap<AnnotationKey<*>, Any>
@@ -165,6 +181,21 @@ internal data class DefaultAssertionContext(
 
   override fun childContext(): AssertionContext {
     return copy(parent = this)
+  }
+
+  override fun setRecursiveRootIfAbsent(schema: JsonSchemaAssertion) {
+    if (this.recursiveRoot != null) {
+      return
+    }
+    this.recursiveRoot = schema
+  }
+
+  override fun resetRecursiveRoot() {
+    this.recursiveRoot = null
+  }
+
+  override fun getRecursiveRoot(): JsonSchemaAssertion? {
+    return recursiveRoot
   }
 
   private inline fun aggregateAnnotations(
