@@ -21,8 +21,10 @@ private class OneOfAssertion(
     val suppressedErrors = mutableListOf<ValidationError>()
     val matched: MutableList<Int> = ArrayList(1)
     for ((index, assertion) in assertions.withIndex()) {
-      val res = assertion.validate(element, context, suppressedErrors::add)
+      val childContext = context.childContext()
+      val res = assertion.validate(element, childContext, suppressedErrors::add)
       if (res) {
+        childContext.propagateToParent()
         matched += index
       }
     }

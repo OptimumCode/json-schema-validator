@@ -2,6 +2,7 @@ package io.github.optimumcode.json.schema.suite
 
 import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.JsonSchema
+import io.github.optimumcode.json.schema.SchemaType
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
@@ -30,6 +31,10 @@ internal fun FunSpec.runTestSuites(
    * This will be used to pick the directory with test suites
    */
   draftName: String,
+  /**
+   * Explicit type to use when loading schema
+   */
+  schemaType: SchemaType? = null,
   /**
    * Defines whether the optional suites should be included into the run
    */
@@ -60,12 +65,12 @@ internal fun FunSpec.runTestSuites(
 
   require(fs.exists(testSuiteDir)) { "folder $testSuiteDir does not exist" }
 
-  executeFromDirectory(fs, testSuiteDir, excludeSuites, excludeTests)
+  executeFromDirectory(fs, testSuiteDir, excludeSuites, excludeTests, schemaType)
 
   if (includeOptional) {
     val optionalTestSuites = testSuiteDir / "optional"
     if (fs.exists(optionalTestSuites)) {
-      executeFromDirectory(fs, optionalTestSuites, excludeSuites, excludeTests)
+      executeFromDirectory(fs, optionalTestSuites, excludeSuites, excludeTests, schemaType)
     }
   }
 }
@@ -76,6 +81,7 @@ private fun FunSpec.executeFromDirectory(
   testSuiteDir: Path,
   excludeSuites: Map<String, Set<String>>,
   excludeTests: Map<String, Set<String>>,
+  schemaType: SchemaType?,
 ) {
   fs.list(testSuiteDir).forEach { testSuiteFile ->
     if (fs.metadata(testSuiteFile).isDirectory) {
@@ -108,7 +114,7 @@ private fun FunSpec.executeFromDirectory(
         test("$testSuiteID at index $testSuiteIndex test $testIndex") {
           withClue(listOf(testSuite.description, testSuite.schema, test.description, test.data)) {
             val schema: JsonSchema = shouldNotThrowAny {
-              JsonSchema.fromJsonElement(testSuite.schema)
+              JsonSchema.fromJsonElement(testSuite.schema, schemaType)
             }
             shouldNotThrowAny {
               schema.validate(test.data, ErrorCollector.EMPTY)
@@ -133,6 +139,7 @@ private class SchemaTest(
   val description: String,
   val data: JsonElement,
   val valid: Boolean,
+  val comment: String? = null,
 )
 
 private val TEST_SUITES_DIR: Path = "schema-test-suite/tests".toPath()

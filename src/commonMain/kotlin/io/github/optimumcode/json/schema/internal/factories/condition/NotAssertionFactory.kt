@@ -23,7 +23,9 @@ private class NotAssertion(
   private val delegate: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
-    if (!delegate.validate(element, context, ErrorCollector.EMPTY)) {
+    val childContext = context.childContext()
+    if (!delegate.validate(element, childContext, ErrorCollector.EMPTY)) {
+      childContext.propagateToParent()
       return true
     }
     errorCollector.onError(

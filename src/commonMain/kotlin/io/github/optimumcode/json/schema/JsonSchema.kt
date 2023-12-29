@@ -8,6 +8,7 @@ import io.github.optimumcode.json.schema.internal.RefId
 import io.github.optimumcode.json.schema.internal.SchemaLoader
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
+import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmStatic
 
 /**
@@ -33,19 +34,27 @@ public class JsonSchema internal constructor(
   public companion object {
     /**
      * Loads JSON schema from the [schema] definition
+     * @param defaultType expected schema draft to use when loading schema.
+     *             If `null` draft will be defined by schema definition
+     *             or the latest supported draft will be used
      */
     @JvmStatic
-    public fun fromDefinition(schema: String): JsonSchema {
+    @JvmOverloads
+    public fun fromDefinition(schema: String, defaultType: SchemaType? = null): JsonSchema {
       val schemaElement: JsonElement = Json.parseToJsonElement(schema)
-      return fromJsonElement(schemaElement)
+      return fromJsonElement(schemaElement, defaultType)
     }
 
     /**
      * Loads JSON schema from the [schemaElement] JSON element
+     * @param defaultType expected schema draft to use when loading schema.
+     *             If `null` draft will be defined by schema definition
+     *             or the latest supported draft will be used
      */
     @JvmStatic
-    public fun fromJsonElement(schemaElement: JsonElement): JsonSchema {
-      return SchemaLoader().load(schemaElement)
+    @JvmOverloads
+    public fun fromJsonElement(schemaElement: JsonElement, defaultType: SchemaType? = null): JsonSchema {
+      return SchemaLoader().load(schemaElement, defaultType)
     }
   }
 }

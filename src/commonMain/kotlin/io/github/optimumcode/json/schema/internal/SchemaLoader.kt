@@ -7,97 +7,26 @@ import io.github.optimumcode.json.pointer.div
 import io.github.optimumcode.json.pointer.get
 import io.github.optimumcode.json.pointer.relative
 import io.github.optimumcode.json.schema.JsonSchema
+import io.github.optimumcode.json.schema.SchemaType
+import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
+import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder.Recursive
+import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder.Simple
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.ReferenceLocation
-import io.github.optimumcode.json.schema.internal.factories.FactoryGroup
-import io.github.optimumcode.json.schema.internal.factories.array.AdditionalItemsAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.array.ContainsAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.array.ItemsAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.array.MaxItemsAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.array.MinItemsAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.array.UniqueItemsAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.condition.AllOfAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.condition.AnyOfAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.condition.ElseAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.condition.IfAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.condition.NotAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.condition.OneOfAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.condition.ThenAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.general.ConstAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.general.EnumAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.general.TypeAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.number.ExclusiveMaximumAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.number.ExclusiveMinimumAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.number.MaximumAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.number.MinimumAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.number.MultipleOfAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.`object`.AdditionalPropertiesAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.`object`.DependenciesAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.`object`.MaxPropertiesAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.`object`.MinPropertiesAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.`object`.PatternPropertiesAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.`object`.PropertiesAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.`object`.PropertyNamesAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.`object`.RequiredAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.string.MaxLengthAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.string.MinLengthAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.string.PatternAssertionFactory
+import io.github.optimumcode.json.schema.internal.util.getString
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.booleanOrNull
 
-private val factories: List<AssertionFactory> = listOf(
-  TypeAssertionFactory,
-  EnumAssertionFactory,
-  ConstAssertionFactory,
-  MultipleOfAssertionFactory,
-  MaximumAssertionFactory,
-  ExclusiveMaximumAssertionFactory,
-  MinimumAssertionFactory,
-  ExclusiveMinimumAssertionFactory,
-  MaxLengthAssertionFactory,
-  MinLengthAssertionFactory,
-  PatternAssertionFactory,
-  FactoryGroup(
-    ItemsAssertionFactory,
-    AdditionalItemsAssertionFactory,
-  ),
-  MaxItemsAssertionFactory,
-  MinItemsAssertionFactory,
-  UniqueItemsAssertionFactory,
-  ContainsAssertionFactory,
-  MaxPropertiesAssertionFactory,
-  MinPropertiesAssertionFactory,
-  RequiredAssertionFactory,
-  FactoryGroup(
-    PropertiesAssertionFactory,
-    PatternPropertiesAssertionFactory,
-    AdditionalPropertiesAssertionFactory,
-  ),
-  PropertyNamesAssertionFactory,
-  DependenciesAssertionFactory,
-  FactoryGroup(
-    IfAssertionFactory,
-    ThenAssertionFactory,
-    ElseAssertionFactory,
-  ),
-  AllOfAssertionFactory,
-  AnyOfAssertionFactory,
-  OneOfAssertionFactory,
-  NotAssertionFactory,
-)
-
-private const val DEFINITIONS_PROPERTY: String = "definitions"
-private const val ID_PROPERTY: String = "\$id"
-private const val REF_PROPERTY: String = "\$ref"
 private const val SCHEMA_PROPERTY: String = "\$schema"
 
 internal class SchemaLoader {
-  fun load(schemaDefinition: JsonElement): JsonSchema {
-    extractSchemaType(schemaDefinition)
-    val baseId: Uri = extractID(schemaDefinition) ?: Uri.EMPTY
-    val context = defaultLoadingContext(baseId)
+  fun load(schemaDefinition: JsonElement, defaultType: SchemaType? = null): JsonSchema {
+    val schemaType = extractSchemaType(schemaDefinition, defaultType)
+    val baseId: Uri = extractID(schemaDefinition, schemaType.config) ?: Uri.EMPTY
+    val assertionFactories = schemaType.config.factories(schemaDefinition)
+    val context = defaultLoadingContext(baseId, schemaType.config, assertionFactories)
     val schemaAssertion = loadSchema(schemaDefinition, context)
     ReferenceValidator.validateReferences(
       context.references.mapValues { it.value.schemaPath },
@@ -111,15 +40,16 @@ internal class SchemaLoader {
     return JsonSchema(schemaAssertion, usedReferencesWithPath)
   }
 
-  private fun extractSchemaType(schemaDefinition: JsonElement): SchemaType {
-    return if (schemaDefinition is JsonObject) {
+  private fun extractSchemaType(schemaDefinition: JsonElement, defaultType: SchemaType?): SchemaType {
+    val schemaType: SchemaType? = if (schemaDefinition is JsonObject) {
       schemaDefinition[SCHEMA_PROPERTY]?.let {
         require(it is JsonPrimitive && it.isString) { "$SCHEMA_PROPERTY must be a string" }
         SchemaType.find(it.content) ?: throw IllegalArgumentException("unsupported schema type ${it.content}")
-      } ?: SchemaType.values().last()
+      }
     } else {
-      SchemaType.values().last()
+      null
     }
+    return schemaType ?: defaultType ?: SchemaType.values().last()
   }
 }
 
@@ -127,21 +57,35 @@ private fun loadDefinitions(schemaDefinition: JsonElement, context: DefaultLoadi
   if (schemaDefinition !is JsonObject) {
     return
   }
-  val definitionsElement = schemaDefinition[DEFINITIONS_PROPERTY] ?: return
-  require(definitionsElement is JsonObject) { "$DEFINITIONS_PROPERTY must be an object" }
-  val definitionsContext = context.at(DEFINITIONS_PROPERTY)
+  val (definitionsProperty, definitionsElement: JsonElement?) = context.config.keywordResolver.run {
+    resolve(KeyWord.DEFINITIONS)
+      ?.let {
+        it to schemaDefinition[it]
+      }?.takeIf { it.second != null }
+      ?: resolve(KeyWord.COMPATIBILITY_DEFINITIONS)
+        ?.let {
+          it to schemaDefinition[it]
+        }?.takeIf { it.second != null }
+  } ?: return
+  if (definitionsElement == null) {
+    return
+  }
+  require(definitionsElement is JsonObject) { "$definitionsProperty must be an object" }
+  val definitionsContext = context.at(definitionsProperty)
   for ((name, element) in definitionsElement) {
     loadSchema(element, definitionsContext.at(name))
   }
 }
 
-private fun extractID(schemaDefinition: JsonElement): Uri? =
+private fun extractID(schemaDefinition: JsonElement, config: SchemaLoaderConfig): Uri? =
   when (schemaDefinition) {
     is JsonObject -> {
-      schemaDefinition[ID_PROPERTY]?.let {
-        require(it is JsonPrimitive && it.isString) { "$ID_PROPERTY must be a string" }
-        requireNotNull(Uri.parseOrNull(it.content)) { "invalid $ID_PROPERTY: ${it.content}" }
-      }
+      val idProperty = config.keywordResolver.resolve(KeyWord.ID)
+      idProperty
+        ?.let(schemaDefinition::getString)
+        ?.let {
+          requireNotNull(Uri.parseOrNull(it)) { "invalid $idProperty: $it" }
+        }
     }
 
     else -> null
@@ -154,7 +98,9 @@ private fun loadSchema(
   require(context.isJsonSchema(schemaDefinition)) {
     "schema must be either a valid JSON object or boolean"
   }
-  val additionalId: Uri? = extractID(schemaDefinition)
+  val additionalId: Uri? = extractID(schemaDefinition, context.config)
+  val contextWithAdditionalID = additionalId?.let(context::addId) ?: context
+  val referenceFactory = context.config.referenceFactory
   return when (schemaDefinition) {
     is JsonPrimitive -> if (schemaDefinition.boolean) {
       TrueSchemaAssertion
@@ -163,33 +109,68 @@ private fun loadSchema(
     }
 
     is JsonObject -> {
-      if (schemaDefinition.containsKey(REF_PROPERTY)) {
-        loadRefAssertion(schemaDefinition, context)
+      // If a new ID scope is introduced we must check whether we still should try to recursively resolve refs
+      if (additionalId != null) {
+        contextWithAdditionalID.updateRecursiveResolution(schemaDefinition)
+      }
+      val refLoadingContext = if (referenceFactory.resolveRefPriorId) contextWithAdditionalID else context
+      val extractedRef: RefHolder? = referenceFactory.extractRef(schemaDefinition, refLoadingContext)
+      val refAssertion: JsonSchemaAssertion? = if (extractedRef != null) {
+        loadRefAssertion(extractedRef, refLoadingContext)
       } else {
-        factories.filter { it.isApplicable(schemaDefinition) }
-          .map {
-            it.create(
-              schemaDefinition,
-              // we register id to be used for future schema registration
-              additionalId?.let(context::addId) ?: context,
-            )
-          }.let(::AssertionsCollection)
+        null
+      }
+      if (refAssertion != null && !referenceFactory.allowOverriding) {
+        JsonSchemaRoot(listOf(refAssertion), contextWithAdditionalID.recursiveResolution)
+      } else {
+        loadJsonSchemaRoot(contextWithAdditionalID, schemaDefinition, refAssertion)
       }
     }
     // should never happen
     else -> throw IllegalArgumentException("schema must be either a valid JSON object or boolean")
   }.apply {
-    loadDefinitions(schemaDefinition, additionalId?.let(context::addId) ?: context)
+    loadDefinitions(schemaDefinition, contextWithAdditionalID)
     context.register(additionalId, this)
+    val anchorProperty: String? = context.config.keywordResolver.resolve(KeyWord.ANCHOR)
+    if (anchorProperty != null && schemaDefinition is JsonObject) {
+      schemaDefinition.getString(anchorProperty)?.also {
+        contextWithAdditionalID.registerByAnchor(it, this)
+      }
+    }
   }
 }
 
-private fun loadRefAssertion(definition: JsonObject, context: DefaultLoadingContext): JsonSchemaAssertion {
-  val refElement = requireNotNull(definition[REF_PROPERTY]) { "$REF_PROPERTY is not set" }
-  require(refElement is JsonPrimitive && refElement.isString) { "$REF_PROPERTY must be a string" }
-  val refValue = refElement.content
-  val refId: RefId = context.ref(refValue)
-  return RefSchemaAssertion(context.schemaPath / REF_PROPERTY, refId)
+private fun loadJsonSchemaRoot(
+  context: DefaultLoadingContext,
+  schemaDefinition: JsonElement,
+  refAssertion: JsonSchemaAssertion?,
+): JsonSchemaRoot {
+  val assertions = context.assertionFactories.filter { it.isApplicable(schemaDefinition) }
+    .map {
+      it.create(
+        schemaDefinition,
+        // we register id to be used for future schema registration
+        context,
+      )
+    }
+  val result = buildList(assertions.size + (refAssertion?.let { 1 } ?: 0)) {
+    refAssertion?.also(this::add)
+    addAll(assertions)
+  }
+  return JsonSchemaRoot(
+    result,
+    context.recursiveResolution,
+  )
+}
+
+private fun loadRefAssertion(refHolder: RefHolder, context: DefaultLoadingContext): JsonSchemaAssertion {
+  return when (refHolder) {
+    is Simple -> RefSchemaAssertion(context.schemaPath / refHolder.property, refHolder.refId)
+    is Recursive -> RecursiveRefSchemaAssertion(
+      context.schemaPath / refHolder.property,
+      refHolder.refId,
+    )
+  }
 }
 
 /**
@@ -209,12 +190,15 @@ internal data class AssertionWithPath(
 )
 
 private data class DefaultLoadingContext(
-  private val baseId: Uri,
+  override val baseId: Uri,
+  var recursiveResolution: Boolean = false,
   override val schemaPath: JsonPointer = JsonPointer.ROOT,
   val additionalIDs: Set<IdWithLocation> = linkedSetOf(IdWithLocation(baseId, schemaPath)),
   val references: MutableMap<RefId, AssertionWithPath> = linkedMapOf(),
   val usedRef: MutableSet<ReferenceLocation> = linkedSetOf(),
-) : LoadingContext {
+  val config: SchemaLoaderConfig,
+  val assertionFactories: List<AssertionFactory>,
+) : LoadingContext, SchemaLoaderContext {
   override fun at(property: String): DefaultLoadingContext {
     return copy(schemaPath = schemaPath / property)
   }
@@ -247,6 +231,16 @@ private data class DefaultLoadingContext(
     }
   }
 
+  /**
+   * [anchor] is a plain text that will be transformed into a URI fragment
+   * It must match [ANCHOR_REGEX] otherwise [IllegalArgumentException] will be thrown
+   */
+  fun registerByAnchor(anchor: String, assertion: JsonSchemaAssertion) {
+    require(ANCHOR_REGEX.matches(anchor)) { "$anchor must match the format ${ANCHOR_REGEX.pattern}" }
+    val refId = additionalIDs.last().id.buildUpon().fragment(anchor).buildRefId()
+    register(refId, assertion)
+  }
+
   fun addId(additionalId: Uri): DefaultLoadingContext {
     return when {
       additionalId.isAbsolute -> copy(additionalIDs = additionalIDs + IdWithLocation(additionalId, schemaPath))
@@ -264,7 +258,7 @@ private data class DefaultLoadingContext(
     }
   }
 
-  fun ref(refId: String): RefId {
+  override fun ref(refId: String): RefId {
     // library parsed fragment as empty if # is in the URI
     // But when we build URI for definition we use [Uri.Builder]
     // That builder does not set the fragment if it is empty
@@ -275,10 +269,21 @@ private data class DefaultLoadingContext(
       // the ref is absolute and should be resolved from current base URI host:port part
       refId.startsWith('/') -> additionalIDs.last().id.buildUpon().encodedPath(refUri.path).buildRefId()
       // in this case the ref must be resolved from the current base ID
-      !refUri.path.isNullOrBlank() -> additionalIDs.resolvePath(refUri.path).buildRefId()
+      !refUri.path.isNullOrBlank() -> additionalIDs.resolvePath(refUri.path).run {
+        if (refUri.fragment.isNullOrBlank()) {
+          this
+        } else {
+          buildUpon().encodedFragment(refUri.fragment).build()
+        }
+      }.buildRefId()
+
       refUri.fragment != null -> additionalIDs.last().id.buildUpon().encodedFragment(refUri.fragment).buildRefId()
-      else -> throw IllegalArgumentException("invalid reference $refId")
+      else -> throw IllegalArgumentException("invalid reference '$refId'")
     }.also { usedRef += ReferenceLocation(schemaPath, it) }
+  }
+
+  fun updateRecursiveResolution(schemaDefinition: JsonObject) {
+    recursiveResolution = config.referenceFactory.recursiveResolutionEnabled(schemaDefinition)
   }
 
   private fun registerById(
@@ -334,8 +339,15 @@ private fun Uri.appendPathToParent(path: String): Uri {
     .build()
 }
 
+private val ANCHOR_REGEX: Regex = "^[A-Za-z][A-Za-z0-9-_:.]*$".toRegex()
+
 private fun Uri.buildRefId(): RefId = RefId(this)
 
 private fun Builder.buildRefId(): RefId = build().buildRefId()
 
-private fun defaultLoadingContext(baseId: Uri): DefaultLoadingContext = DefaultLoadingContext(baseId)
+private fun defaultLoadingContext(
+  baseId: Uri,
+  config: SchemaLoaderConfig,
+  assertionFactories: List<AssertionFactory>,
+): DefaultLoadingContext =
+  DefaultLoadingContext(baseId, config = config, assertionFactories = assertionFactories)

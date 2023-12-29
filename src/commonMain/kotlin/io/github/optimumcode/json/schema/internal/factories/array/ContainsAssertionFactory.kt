@@ -3,6 +3,7 @@ package io.github.optimumcode.json.schema.internal.factories.array
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.ValidationError
+import io.github.optimumcode.json.schema.internal.AnnotationKey
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
@@ -12,6 +13,7 @@ import kotlinx.serialization.json.JsonElement
 
 @Suppress("unused")
 internal object ContainsAssertionFactory : AbstractAssertionFactory("contains") {
+  val ANNOTATION: AnnotationKey<Int> = AnnotationKey.create(property)
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val containsAssertion = context.schemaFrom(element)
@@ -27,10 +29,11 @@ private class ContainsAssertion(
     if (element !is JsonArray) {
       return true
     }
-    val contains = element.any {
+    val foundElements = element.count {
       containsAssertion.validate(it, context, ErrorCollector.EMPTY)
     }
-    if (contains) {
+    context.annotate(ContainsAssertionFactory.ANNOTATION, foundElements)
+    if (foundElements != 0) {
       return true
     }
 

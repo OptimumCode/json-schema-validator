@@ -1,15 +1,20 @@
-package io.github.optimumcode.json.schema.internal
+package io.github.optimumcode.json.schema
 
 import com.eygraber.uri.Uri
+import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
+import io.github.optimumcode.json.schema.internal.config.Draft201909SchemaLoaderConfig
+import io.github.optimumcode.json.schema.internal.config.Draft7SchemaLoaderConfig
 import kotlin.jvm.JvmStatic
 
-internal enum class SchemaType(
+public enum class SchemaType(
   private val schemaId: Uri,
+  internal val config: SchemaLoaderConfig,
 ) {
-  DRAFT_7(Uri.parse("http://json-schema.org/draft-07/schema")),
+  DRAFT_7(Uri.parse("http://json-schema.org/draft-07/schema"), Draft7SchemaLoaderConfig),
+  DRAFT_2019_09(Uri.parse("https://json-schema.org/draft/2019-09/schema"), Draft201909SchemaLoaderConfig),
   ;
 
-  companion object {
+  internal companion object {
     private const val HTTP_SCHEMA: String = "http"
     private const val HTTPS_SCHEMA: String = "https"
 

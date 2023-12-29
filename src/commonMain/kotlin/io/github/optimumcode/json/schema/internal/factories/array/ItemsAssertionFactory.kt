@@ -15,9 +15,23 @@ internal object ItemsAssertionFactory : AbstractAssertionFactory("items") {
   sealed class Result {
     object All : Result()
     class Index(val value: Int) : Result()
+
+    fun reduce(other: Result): Result {
+      return when (this) {
+        All -> All
+        is Index -> when (other) {
+          All -> All
+          is Index -> if (this.value > other.value) {
+            this
+          } else {
+            other
+          }
+        }
+      }
+    }
   }
 
-  val ANNOTATION: AnnotationKey<Result> = AnnotationKey.create(property)
+  val ANNOTATION: AnnotationKey<Result> = AnnotationKey.createAggregatable(property, Result::reduce)
 
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
     val itemsAssertions: List<JsonSchemaAssertion> = if (element is JsonArray) {
@@ -60,7 +74,7 @@ private class ItemsAssertion(
     errorCollector: ErrorCollector,
   ): Boolean {
     var valid = true
-    var lastProcessedIndex = 0
+    var lastProcessedIndex = -1
     for ((index, item) in element.withIndex()) {
       if (index < items.size) {
         val result: Boolean = items[index].validate(
@@ -68,13 +82,15 @@ private class ItemsAssertion(
           context.at(index),
           errorCollector,
         )
-        lastProcessedIndex = index
         valid = valid && result
+        lastProcessedIndex = index
       } else {
         break
       }
     }
-    context.annotate(ItemsAssertionFactory.ANNOTATION, Result.Index(lastProcessedIndex))
+    if (valid) {
+      context.annotate(ItemsAssertionFactory.ANNOTATION, Result.Index(lastProcessedIndex))
+    }
     return valid
   }
 
@@ -93,7 +109,9 @@ private class ItemsAssertion(
       )
       valid = valid && result
     }
-    context.annotate(ItemsAssertionFactory.ANNOTATION, Result.All)
+    if (valid) {
+      context.annotate(ItemsAssertionFactory.ANNOTATION, Result.All)
+    }
     return valid
   }
 }

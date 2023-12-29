@@ -10,7 +10,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 
 internal object PatternPropertiesAssertionFactory : AbstractAssertionFactory("patternProperties") {
-  val ANNOTATION: AnnotationKey<Set<String>> = AnnotationKey.create(property)
+  val ANNOTATION: AnnotationKey<Set<String>> = AnnotationKey.createAggregatable(property) { a, b -> a + b }
 
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
     require(element is JsonObject) { "$property must be an object" }
