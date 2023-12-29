@@ -25,6 +25,7 @@ internal class TestSuite : FunSpec() {
           "remote ref, containing refs itself",
           "URN base URI with f-component",
         ),
+        "vocabulary" to emptySet(), // current version does not look in non-standard $schema values to gather vocabulary
       ),
       excludeTests = mapOf(
         // this is very questionable tests - the 'contains' should fail if there is no match to it according to spec
