@@ -13,14 +13,14 @@ import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
 import io.github.optimumcode.json.schema.internal.SchemaLoaderContext
 import io.github.optimumcode.json.schema.internal.config.Draft202012KeyWordResolver.REC_REF_PROPERTY
 import io.github.optimumcode.json.schema.internal.config.Draft202012KeyWordResolver.REF_PROPERTY
-import io.github.optimumcode.json.schema.internal.factories.array.AdditionalItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.ContainsAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.array.ItemsAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.array.ItemsAssertionFactoryDraft202012
 import io.github.optimumcode.json.schema.internal.factories.array.MaxContainsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.MaxItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.MinContainsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.array.MinItemsAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.array.UnevaluatedItemsAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.array.PrefixItemsAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.array.UnevaluatedItemsAssertionFactoryDraft202012
 import io.github.optimumcode.json.schema.internal.factories.array.UniqueItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.AllOfAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.AnyOfAssertionFactory
@@ -62,8 +62,8 @@ private const val VOCABULARY_PROPERTY = "\$vocabulary"
 
 internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
   private val applicatorFactories: List<AssertionFactory> = listOf(
-    ItemsAssertionFactory,
-    AdditionalItemsAssertionFactory,
+    PrefixItemsAssertionFactory,
+    ItemsAssertionFactoryDraft202012,
 
     ContainsAssertionFactory,
 
@@ -84,7 +84,7 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
     NotAssertionFactory,
 
     // MUST be applied last
-    UnevaluatedItemsAssertionFactory,
+    UnevaluatedItemsAssertionFactoryDraft202012,
     UnevaluatedPropertiesAssertionFactory,
   )
 

@@ -6,17 +6,16 @@ import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
 import kotlinx.serialization.json.JsonElement
 
-internal object UnevaluatedItemsAssertionFactory : AbstractAssertionFactory("unevaluatedItems") {
+internal object ItemsAssertionFactoryDraft202012 : AbstractAssertionFactory("items") {
   val ANNOTATION: AnnotationKey<Boolean> = AnnotationKey.createAggregatable(property, Boolean::or)
-
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val assertion = context.schemaFrom(element)
-    return UnevaluatedItemsAssertion(
+    return AdditionalItemsAssertion(
       assertion,
-      ItemsAssertionFactory.ANNOTATION,
-      AdditionalItemsAssertionFactory.ANNOTATION,
+      PrefixItemsAssertionFactory.ANNOTATION,
       ANNOTATION,
+      returnIfNoIndex = false,
     )
   }
 }
