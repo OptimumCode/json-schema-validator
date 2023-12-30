@@ -61,11 +61,16 @@ public final class io/github/optimumcode/json/schema/JsonSchemaStream {
 }
 
 public final class io/github/optimumcode/json/schema/SchemaType : java/lang/Enum {
+	public static final field Companion Lio/github/optimumcode/json/schema/SchemaType$Companion;
 	public static final field DRAFT_2019_09 Lio/github/optimumcode/json/schema/SchemaType;
 	public static final field DRAFT_7 Lio/github/optimumcode/json/schema/SchemaType;
 	public static final fun find (Ljava/lang/String;)Lio/github/optimumcode/json/schema/SchemaType;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/optimumcode/json/schema/SchemaType;
 	public static fun values ()[Lio/github/optimumcode/json/schema/SchemaType;
+}
+
+public final class io/github/optimumcode/json/schema/SchemaType$Companion {
+	public final fun find (Ljava/lang/String;)Lio/github/optimumcode/json/schema/SchemaType;
 }
 
 public final class io/github/optimumcode/json/schema/ValidationError {

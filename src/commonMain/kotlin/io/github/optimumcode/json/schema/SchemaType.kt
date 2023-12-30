@@ -14,12 +14,12 @@ public enum class SchemaType(
   DRAFT_2019_09(Uri.parse("https://json-schema.org/draft/2019-09/schema"), Draft201909SchemaLoaderConfig),
   ;
 
-  internal companion object {
+  public companion object {
     private const val HTTP_SCHEMA: String = "http"
     private const val HTTPS_SCHEMA: String = "https"
 
     @JvmStatic
-    fun find(schemaId: String): SchemaType? {
+    public fun find(schemaId: String): SchemaType? {
       val uri = Uri.parse(schemaId)
       if (uri.scheme.let { it != HTTP_SCHEMA && it != HTTPS_SCHEMA }) {
         // the schema in URI is unknown
