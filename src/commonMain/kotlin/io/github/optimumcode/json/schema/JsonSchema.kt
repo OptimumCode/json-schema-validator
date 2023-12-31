@@ -3,6 +3,7 @@ package io.github.optimumcode.json.schema
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.internal.AssertionWithPath
 import io.github.optimumcode.json.schema.internal.DefaultAssertionContext
+import io.github.optimumcode.json.schema.internal.DefaultReferenceResolver
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.RefId
 import io.github.optimumcode.json.schema.internal.SchemaLoader
@@ -27,7 +28,7 @@ public class JsonSchema internal constructor(
    * All reported errors will be reported to [ErrorCollector.onError]
    */
   public fun validate(value: JsonElement, errorCollector: ErrorCollector): Boolean {
-    val context = DefaultAssertionContext(JsonPointer.ROOT, references)
+    val context = DefaultAssertionContext(JsonPointer.ROOT, DefaultReferenceResolver(references))
     return assertion.validate(value, context, errorCollector)
   }
 
