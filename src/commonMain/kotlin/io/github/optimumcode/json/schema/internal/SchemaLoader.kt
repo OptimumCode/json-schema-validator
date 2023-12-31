@@ -33,9 +33,13 @@ internal class SchemaLoader {
       context.usedRef,
     )
     val usedRefs = context.usedRef.map { it.refId }.toSet()
+    val dynamicRefs = context.references.asSequence()
+      .filter { it.value.dynamic }
+      .map { it.key }
+      .toSet()
     // pre-filter references to get rid of unused references
     val usedReferencesWithPath: Map<RefId, AssertionWithPath> = context.references.asSequence()
-      .filter { it.key in usedRefs }
+      .filter { it.key in usedRefs || it.key in dynamicRefs }
       .associate { it.key to it.value }
     return JsonSchema(schemaAssertion, usedReferencesWithPath)
   }
@@ -121,7 +125,11 @@ private fun loadSchema(
         null
       }
       if (refAssertion != null && !referenceFactory.allowOverriding) {
-        JsonSchemaRoot(listOf(refAssertion), contextWithAdditionalID.recursiveResolution)
+        JsonSchemaRoot(
+          contextWithAdditionalID.schemaPath,
+          listOf(refAssertion),
+          contextWithAdditionalID.recursiveResolution,
+        )
       } else {
         loadJsonSchemaRoot(contextWithAdditionalID, schemaDefinition, refAssertion)
       }
@@ -131,11 +139,29 @@ private fun loadSchema(
   }.apply {
     loadDefinitions(schemaDefinition, contextWithAdditionalID)
     context.register(additionalId, this)
-    val anchorProperty: String? = context.config.keywordResolver.resolve(KeyWord.ANCHOR)
-    if (anchorProperty != null && schemaDefinition is JsonObject) {
-      schemaDefinition.getString(anchorProperty)?.also {
-        contextWithAdditionalID.registerByAnchor(it, this)
-      }
+    registerWithAnchor(
+      context.config.keywordResolver.resolve(KeyWord.ANCHOR),
+      schemaDefinition,
+      contextWithAdditionalID,
+    )
+    registerWithAnchor(
+      context.config.keywordResolver.resolve(KeyWord.DYNAMIC_ANCHOR),
+      schemaDefinition,
+      contextWithAdditionalID,
+      dynamic = true,
+    )
+  }
+}
+
+private fun JsonSchemaAssertion.registerWithAnchor(
+  anchorProperty: String?,
+  schemaDefinition: JsonElement,
+  contextWithAdditionalID: DefaultLoadingContext,
+  dynamic: Boolean = false,
+) {
+  if (anchorProperty != null && schemaDefinition is JsonObject) {
+    schemaDefinition.getString(anchorProperty)?.also {
+      contextWithAdditionalID.registerByAnchor(it, this, dynamic)
     }
   }
 }
@@ -158,6 +184,7 @@ private fun loadJsonSchemaRoot(
     addAll(assertions)
   }
   return JsonSchemaRoot(
+    context.schemaPath,
     result,
     context.recursiveResolution,
   )
@@ -187,6 +214,7 @@ internal data class IdWithLocation(
 internal data class AssertionWithPath(
   val assertion: JsonSchemaAssertion,
   val schemaPath: JsonPointer,
+  val dynamic: Boolean,
 )
 
 private data class DefaultLoadingContext(
@@ -213,9 +241,9 @@ private data class DefaultLoadingContext(
       (element is JsonPrimitive && element.booleanOrNull != null)
     )
 
-  fun register(id: Uri?, assertion: JsonSchemaAssertion) {
+  fun register(id: Uri?, assertion: JsonSchemaAssertion, dynamic: Boolean = false) {
     if (id != null) {
-      registerById(id, assertion)
+      registerById(id, assertion, dynamic)
     }
     for ((baseId, location) in additionalIDs) {
       val relativePointer = location.relative(schemaPath)
@@ -227,7 +255,7 @@ private data class DefaultLoadingContext(
         // and we register it using Empty pointer
         continue
       }
-      register(referenceId, assertion)
+      register(referenceId, assertion, dynamic = false)
     }
   }
 
@@ -235,10 +263,10 @@ private data class DefaultLoadingContext(
    * [anchor] is a plain text that will be transformed into a URI fragment
    * It must match [ANCHOR_REGEX] otherwise [IllegalArgumentException] will be thrown
    */
-  fun registerByAnchor(anchor: String, assertion: JsonSchemaAssertion) {
+  fun registerByAnchor(anchor: String, assertion: JsonSchemaAssertion, dynamic: Boolean) {
     require(ANCHOR_REGEX.matches(anchor)) { "$anchor must match the format ${ANCHOR_REGEX.pattern}" }
     val refId = additionalIDs.last().id.buildUpon().fragment(anchor).buildRefId()
-    register(refId, assertion)
+    register(refId, assertion, dynamic)
   }
 
   fun addId(additionalId: Uri): DefaultLoadingContext {
@@ -289,21 +317,24 @@ private data class DefaultLoadingContext(
   private fun registerById(
     id: Uri,
     assertion: JsonSchemaAssertion,
+    dynamic: Boolean,
   ) {
     when {
-      id.isAbsolute -> register(id.buildRefId(), assertion) // register JSON schema by absolute URI
+      id.isAbsolute -> register(id.buildRefId(), assertion, dynamic) // register JSON schema by absolute URI
       id.isRelative ->
         when {
           !id.path.isNullOrBlank() -> register(
             // register JSON schema by related path
             additionalIDs.resolvePath(id.path).buildRefId(),
             assertion,
+            dynamic,
           )
 
           !id.fragment.isNullOrBlank() -> register(
             // register JSON schema by fragment
             additionalIDs.last().id.buildUpon().encodedFragment(id.fragment).buildRefId(),
             assertion,
+            dynamic,
           )
         }
     }
@@ -312,8 +343,9 @@ private data class DefaultLoadingContext(
   private fun register(
     referenceId: RefId,
     assertion: JsonSchemaAssertion,
+    dynamic: Boolean,
   ) {
-    references.put(referenceId, AssertionWithPath(assertion, schemaPath))?.apply {
+    references.put(referenceId, AssertionWithPath(assertion, schemaPath, dynamic))?.apply {
       throw IllegalStateException("duplicated definition $referenceId")
     }
   }

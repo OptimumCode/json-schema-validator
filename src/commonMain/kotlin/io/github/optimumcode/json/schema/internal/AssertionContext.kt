@@ -3,10 +3,14 @@ package io.github.optimumcode.json.schema.internal
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.pointer.div
 import io.github.optimumcode.json.pointer.get
+import io.github.optimumcode.json.pointer.internal.dropLast
+import io.github.optimumcode.json.pointer.internal.length
+import io.github.optimumcode.json.pointer.startsWith
 import kotlin.jvm.JvmStatic
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
 
+@Suppress("detekt:TooManyFunctions")
 internal interface AssertionContext {
   val objectPath: JsonPointer
   fun <T : Any> annotate(key: AnnotationKey<T>, value: T)
@@ -15,6 +19,8 @@ internal interface AssertionContext {
   fun at(index: Int): AssertionContext
   fun at(property: String): AssertionContext
   fun resolveRef(refId: RefId): Pair<JsonPointer, JsonSchemaAssertion>
+
+  fun resolveDynamicRef(refId: RefId, refPath: JsonPointer): Pair<JsonPointer, JsonSchemaAssertion>
 
   /**
    * Discards collected annotations
@@ -53,6 +59,10 @@ internal interface AssertionContext {
    * Returns recursive root for current state of the validation
    */
   fun getRecursiveRoot(): JsonSchemaAssertion?
+
+  fun pushSchemaPath(path: JsonPointer)
+
+  fun popSchemaPath()
 }
 
 internal fun interface Aggregator<T : Any> {
@@ -108,11 +118,13 @@ internal class AnnotationKey<T : Any> private constructor(
   }
 }
 
+@Suppress("detekt:TooManyFunctions")
 internal data class DefaultAssertionContext(
   override val objectPath: JsonPointer,
   private val references: Map<RefId, AssertionWithPath>,
   private val parent: DefaultAssertionContext? = null,
   private var recursiveRoot: JsonSchemaAssertion? = null,
+  private val schemaPathsStack: ArrayDeque<JsonPointer> = ArrayDeque(),
 ) : AssertionContext {
   private lateinit var _annotations: MutableMap<AnnotationKey<*>, Any>
   private lateinit var _aggregatedAnnotations: MutableMap<AnnotationKey<*>, Any>
@@ -156,6 +168,44 @@ internal data class DefaultAssertionContext(
     return resolvedRef.schemaPath to resolvedRef.assertion
   }
 
+  override fun resolveDynamicRef(refId: RefId, refPath: JsonPointer): Pair<JsonPointer, JsonSchemaAssertion> {
+    val originalRef = requireNotNull(references[refId]) { "$refId is not found" }
+    if (!originalRef.dynamic) {
+      return originalRef.schemaPath to originalRef.assertion
+    }
+    val fragment = refId.fragment
+    val possibleDynamicRefs: MutableList<AssertionWithPath> = references.asSequence()
+      .filter { (id, link) ->
+        link.dynamic && id.fragment == fragment && id != refId
+      }.map { it.value }.toMutableList()
+    possibleDynamicRefs.sortBy { it.schemaPath.length }
+
+    val resolvedDynamicRef = findMostOuterRef(possibleDynamicRefs)
+      // If no outer anchor found use the original ref
+      ?: possibleDynamicRefs.firstOrNull()
+      ?: originalRef
+    return resolvedDynamicRef.schemaPath to resolvedDynamicRef.assertion
+  }
+
+  @Suppress("detekt:NestedBlockDepth")
+  private fun findMostOuterRef(possibleRefs: List<AssertionWithPath>): AssertionWithPath? {
+    // Try to find the most outer anchor to use
+    // Check every schema in the current chain
+    // If not matches - take the most outer by location
+    for (schemaPath in schemaPathsStack) {
+      var currPath: JsonPointer = schemaPath
+      while (currPath != JsonPointer.ROOT) {
+        for (dynamicRef in possibleRefs) {
+          if (dynamicRef.schemaPath.startsWith(currPath)) {
+            return dynamicRef
+          }
+        }
+        currPath = currPath.dropLast() ?: break
+      }
+    }
+    return null
+  }
+
   override fun resetAnnotations() {
     if (::_annotations.isInitialized && _annotations.isNotEmpty()) {
       _annotations.clear()
@@ -196,6 +246,14 @@ internal data class DefaultAssertionContext(
 
   override fun getRecursiveRoot(): JsonSchemaAssertion? {
     return recursiveRoot
+  }
+
+  override fun pushSchemaPath(path: JsonPointer) {
+    schemaPathsStack.addLast(path)
+  }
+
+  override fun popSchemaPath() {
+    schemaPathsStack.removeLast()
   }
 
   private inline fun aggregateAnnotations(

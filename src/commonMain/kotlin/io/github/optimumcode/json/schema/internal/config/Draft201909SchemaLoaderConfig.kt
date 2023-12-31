@@ -5,12 +5,14 @@ import io.github.optimumcode.json.schema.internal.KeyWord
 import io.github.optimumcode.json.schema.internal.KeyWord.ANCHOR
 import io.github.optimumcode.json.schema.internal.KeyWord.COMPATIBILITY_DEFINITIONS
 import io.github.optimumcode.json.schema.internal.KeyWord.DEFINITIONS
+import io.github.optimumcode.json.schema.internal.KeyWord.DYNAMIC_ANCHOR
 import io.github.optimumcode.json.schema.internal.KeyWord.ID
 import io.github.optimumcode.json.schema.internal.KeyWordResolver
 import io.github.optimumcode.json.schema.internal.ReferenceFactory
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
 import io.github.optimumcode.json.schema.internal.SchemaLoaderContext
+import io.github.optimumcode.json.schema.internal.config.Draft201909KeyWordResolver.REC_ANCHOR_PROPERTY
 import io.github.optimumcode.json.schema.internal.config.Draft201909KeyWordResolver.REC_REF_PROPERTY
 import io.github.optimumcode.json.schema.internal.config.Draft201909KeyWordResolver.REF_PROPERTY
 import io.github.optimumcode.json.schema.internal.factories.array.AdditionalItemsAssertionFactory
@@ -143,12 +145,14 @@ private object Draft201909KeyWordResolver : KeyWordResolver {
   private const val OLD_DEF_PROPERTY = "definitions"
   const val REF_PROPERTY: String = "\$ref"
   const val REC_REF_PROPERTY: String = "\$recursiveRef"
-  override fun resolve(keyword: KeyWord): String {
+  const val REC_ANCHOR_PROPERTY: String = "\$recursiveAnchor"
+  override fun resolve(keyword: KeyWord): String? {
     return when (keyword) {
       ID -> ID_PROPERTY
       ANCHOR -> ANCHOR_PROPERTY
       DEFINITIONS -> DEF_PROPERTY
       COMPATIBILITY_DEFINITIONS -> OLD_DEF_PROPERTY
+      DYNAMIC_ANCHOR -> null
     }
   }
 }
@@ -162,7 +166,7 @@ private object Draft201909ReferenceFactory : ReferenceFactory {
       REC_REF_PROPERTY in schemaDefinition -> {
         val recRef = schemaDefinition.getStringRequired(REC_REF_PROPERTY)
         require(recRef == "#") { "only ref to root is supported by $REC_REF_PROPERTY" }
-        RefHolder.Recursive(REC_REF_PROPERTY, context.ref(recRef), recRef)
+        RefHolder.Recursive(REC_REF_PROPERTY, context.ref(recRef))
       }
 
       else -> null
@@ -175,5 +179,5 @@ private object Draft201909ReferenceFactory : ReferenceFactory {
     get() = true
 
   override fun recursiveResolutionEnabled(schemaDefinition: JsonObject): Boolean =
-    schemaDefinition["\$recursiveAnchor"]?.jsonPrimitive?.boolean ?: false
+    schemaDefinition[REC_ANCHOR_PROPERTY]?.jsonPrimitive?.boolean ?: false
 }

@@ -5,13 +5,15 @@ import io.github.optimumcode.json.schema.internal.KeyWord
 import io.github.optimumcode.json.schema.internal.KeyWord.ANCHOR
 import io.github.optimumcode.json.schema.internal.KeyWord.COMPATIBILITY_DEFINITIONS
 import io.github.optimumcode.json.schema.internal.KeyWord.DEFINITIONS
+import io.github.optimumcode.json.schema.internal.KeyWord.DYNAMIC_ANCHOR
 import io.github.optimumcode.json.schema.internal.KeyWord.ID
 import io.github.optimumcode.json.schema.internal.KeyWordResolver
 import io.github.optimumcode.json.schema.internal.ReferenceFactory
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
 import io.github.optimumcode.json.schema.internal.SchemaLoaderContext
-import io.github.optimumcode.json.schema.internal.config.Draft202012KeyWordResolver.REC_REF_PROPERTY
+import io.github.optimumcode.json.schema.internal.config.Draft202012KeyWordResolver.DYNAMIC_ANCHOR_PROPERTY
+import io.github.optimumcode.json.schema.internal.config.Draft202012KeyWordResolver.DYNAMIC_REF_PROPERTY
 import io.github.optimumcode.json.schema.internal.config.Draft202012KeyWordResolver.REF_PROPERTY
 import io.github.optimumcode.json.schema.internal.factories.array.ContainsAssertionFactoryDraft202012
 import io.github.optimumcode.json.schema.internal.factories.array.ItemsAssertionFactoryDraft202012
@@ -142,13 +144,15 @@ private object Draft202012KeyWordResolver : KeyWordResolver {
   private const val DEF_PROPERTY = "\$defs"
   private const val OLD_DEF_PROPERTY = "definitions"
   const val REF_PROPERTY: String = "\$ref"
-  const val REC_REF_PROPERTY: String = "\$dynamicRef"
+  const val DYNAMIC_REF_PROPERTY: String = "\$dynamicRef"
+  const val DYNAMIC_ANCHOR_PROPERTY: String = "\$dynamicAnchor"
   override fun resolve(keyword: KeyWord): String {
     return when (keyword) {
       ID -> ID_PROPERTY
       ANCHOR -> ANCHOR_PROPERTY
       DEFINITIONS -> DEF_PROPERTY
       COMPATIBILITY_DEFINITIONS -> OLD_DEF_PROPERTY
+      DYNAMIC_ANCHOR -> DYNAMIC_ANCHOR_PROPERTY
     }
   }
 }
@@ -159,10 +163,9 @@ private object Draft202012ReferenceFactory : ReferenceFactory {
       REF_PROPERTY in schemaDefinition ->
         RefHolder.Simple(REF_PROPERTY, schemaDefinition.getStringRequired(REF_PROPERTY).let(context::ref))
 
-      REC_REF_PROPERTY in schemaDefinition -> {
-        val recRef = schemaDefinition.getStringRequired(REC_REF_PROPERTY)
-        require(recRef == "#") { "only ref to root is supported by $REC_REF_PROPERTY" }
-        RefHolder.Recursive(REC_REF_PROPERTY, context.ref(recRef), recRef)
+      DYNAMIC_REF_PROPERTY in schemaDefinition -> {
+        val recRef = schemaDefinition.getStringRequired(DYNAMIC_REF_PROPERTY)
+        RefHolder.Recursive(DYNAMIC_REF_PROPERTY, context.ref(recRef))
       }
 
       else -> null
@@ -174,7 +177,5 @@ private object Draft202012ReferenceFactory : ReferenceFactory {
   override val resolveRefPriorId: Boolean
     get() = true
 
-  override fun recursiveResolutionEnabled(schemaDefinition: JsonObject): Boolean =
-    // TODO: should be corrected according to the new spec
-    schemaDefinition["\$dynamicAnchor"] != null
+  override fun recursiveResolutionEnabled(schemaDefinition: JsonObject): Boolean = false
 }

@@ -15,10 +15,8 @@ internal class RecursiveRefSchemaAssertion(
 
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
     return context.getRecursiveRoot()?.validate(element, context, errorCollector) ?: run {
-      // This part is pretty similar to RefSchemaAssertion,
-      // but I am not sure if it should be extracted into a base class for now
       if (!::refAssertion.isInitialized) {
-        val resolved = context.resolveRef(refId)
+        val resolved = context.resolveDynamicRef(refId, basePath)
         refIdPath = resolved.first
         refAssertion = resolved.second
       }

@@ -22,6 +22,13 @@ internal class TestSuite : FunSpec() {
           "URN base URI with f-component",
         ),
         "vocabulary" to emptySet(), // current version does not look in non-standard $schema values to gather vocabulary
+        "dynamicRef" to setOf(
+          "strict-tree schema, guards against misspelled properties",
+          "tests for implementation dynamic anchor and reference link",
+          "\$ref and \$dynamicAnchor are independent of order - \$defs first",
+          "\$ref and \$dynamicAnchor are independent of order - \$ref first",
+          "\$ref to \$dynamicRef finds detached \$dynamicAnchor",
+        ), // remote refs are not supported
       ),
     )
   }
