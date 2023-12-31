@@ -1,6 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.`object`
 
 import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.internal.AnnotationCollector
 import io.github.optimumcode.json.schema.internal.AnnotationKey
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -25,18 +26,19 @@ private class UnevaluatedPropertiesAssertion(
     if (element !is JsonObject) {
       return true
     }
-    if (context.aggregatedAnnotation(AdditionalPropertiesAssertionFactory.ANNOTATION) == true) {
+    val annotationCollector: AnnotationCollector = context.annotationCollector
+    if (annotationCollector.aggregatedAnnotation(AdditionalPropertiesAssertionFactory.ANNOTATION) == true) {
       // all properties are evaluated
       return true
     }
-    if (context.aggregatedAnnotation(UnevaluatedPropertiesAssertionFactory.ANNOTATION) == true) {
+    if (annotationCollector.aggregatedAnnotation(UnevaluatedPropertiesAssertionFactory.ANNOTATION) == true) {
       // all properties are evaluated by another unevaluatedProperties assertion
       return true
     }
     val evaluatedByProperties: Set<String>? =
-      context.aggregatedAnnotation(PropertiesAssertionFactory.ANNOTATION)
+      annotationCollector.aggregatedAnnotation(PropertiesAssertionFactory.ANNOTATION)
     val evaluatedByPatternProps: Set<String>? =
-      context.aggregatedAnnotation(PatternPropertiesAssertionFactory.ANNOTATION)
+      annotationCollector.aggregatedAnnotation(PatternPropertiesAssertionFactory.ANNOTATION)
     var valid = true
     for ((prop, el) in element) {
       if (evaluatedByProperties?.contains(prop) == true) {
@@ -49,7 +51,7 @@ private class UnevaluatedPropertiesAssertion(
       valid = valid and result
     }
     if (valid) {
-      context.annotate(UnevaluatedPropertiesAssertionFactory.ANNOTATION, true)
+      annotationCollector.annotate(UnevaluatedPropertiesAssertionFactory.ANNOTATION, true)
     }
     return valid
   }

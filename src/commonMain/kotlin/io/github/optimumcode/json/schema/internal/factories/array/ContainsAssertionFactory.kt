@@ -32,7 +32,7 @@ private class ContainsAssertion(
     val foundElements = element.count {
       containsAssertion.validate(it, context, ErrorCollector.EMPTY)
     }
-    context.annotate(ContainsAssertionFactory.ANNOTATION, foundElements)
+    context.annotationCollector.annotate(ContainsAssertionFactory.ANNOTATION, foundElements)
     if (foundElements != 0) {
       return true
     }

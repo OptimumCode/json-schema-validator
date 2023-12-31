@@ -22,7 +22,7 @@ private class IfAssertion(
   private val condition: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
-    context.annotate(
+    context.annotationCollector.annotate(
       IfAssertionFactory.ANNOTATION,
       condition.validate(element, context, ErrorCollector.EMPTY),
     )

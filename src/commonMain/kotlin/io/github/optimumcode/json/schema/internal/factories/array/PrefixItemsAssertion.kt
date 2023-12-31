@@ -31,7 +31,7 @@ internal class PrefixItemsAssertion(
       }
     }
     if (valid) {
-      context.annotate(annotationKey, lastProcessedIndex)
+      context.annotationCollector.annotate(annotationKey, lastProcessedIndex)
     }
     return valid
   }
