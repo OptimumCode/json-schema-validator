@@ -44,7 +44,7 @@ private class PropertiesAssertion(
       result = result && valid
     }
 
-    context.annotate(PropertiesAssertionFactory.ANNOTATION, assertionsByProperty.keys)
+    context.annotationCollector.annotate(PropertiesAssertionFactory.ANNOTATION, assertionsByProperty.keys)
 
     return result
   }

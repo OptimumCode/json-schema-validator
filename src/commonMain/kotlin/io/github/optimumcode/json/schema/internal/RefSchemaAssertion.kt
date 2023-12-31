@@ -15,7 +15,7 @@ internal class RefSchemaAssertion(
 
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
     if (!::refAssertion.isInitialized) {
-      val resolved = context.resolveRef(refId)
+      val resolved = context.referenceResolver.ref(refId)
       refIdPath = resolved.first
       refAssertion = resolved.second
     }

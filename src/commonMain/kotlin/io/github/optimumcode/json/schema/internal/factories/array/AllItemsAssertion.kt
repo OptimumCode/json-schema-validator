@@ -25,7 +25,7 @@ internal class AllItemsAssertion(
       valid = valid && result
     }
     if (valid) {
-      context.annotate(annotationKey, element.lastIndex)
+      context.annotationCollector.annotate(annotationKey, element.lastIndex)
     }
     return valid
   }

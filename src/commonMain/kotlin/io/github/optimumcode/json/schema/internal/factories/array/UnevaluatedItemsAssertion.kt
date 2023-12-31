@@ -1,6 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.array
 
 import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.internal.AnnotationCollector
 import io.github.optimumcode.json.schema.internal.AnnotationKey
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -18,20 +19,21 @@ internal class UnevaluatedItemsAssertion(
     if (element !is JsonArray) {
       return true
     }
-    val startIndex: Int = context.aggregatedAnnotation(indexAnnotationKey) ?: -1
+    val annotationCollector: AnnotationCollector = context.annotationCollector
+    val startIndex: Int = annotationCollector.aggregatedAnnotation(indexAnnotationKey) ?: -1
     if (startIndex == element.lastIndex) {
       // all items were evaluated
       return true
     }
     if (
-      context.aggregatedAnnotation(itemsAnnotationKey) == true ||
-      context.aggregatedAnnotation(selfAnnotationKey) == true
+      annotationCollector.aggregatedAnnotation(itemsAnnotationKey) == true ||
+      annotationCollector.aggregatedAnnotation(selfAnnotationKey) == true
     ) {
       // all items evaluated by additional items
       return true
     }
 
-    val processedIndexes: Set<Int> = processedIndexesKey?.let(context::aggregatedAnnotation) ?: emptySet()
+    val processedIndexes: Set<Int> = processedIndexesKey?.let(annotationCollector::aggregatedAnnotation) ?: emptySet()
 
     var valid = true
     element.forEachIndexed { index, jsonElement ->
@@ -44,7 +46,7 @@ internal class UnevaluatedItemsAssertion(
       val result = assertion.validate(jsonElement, context.at(index), errorCollector)
       valid = valid and result
     }
-    context.annotate(selfAnnotationKey, true)
+    annotationCollector.annotate(selfAnnotationKey, true)
     return valid
   }
 }

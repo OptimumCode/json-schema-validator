@@ -65,7 +65,7 @@ private class PatternAssertion(
     }
 
     if (checkedProps != null) {
-      context.annotate(PatternPropertiesAssertionFactory.ANNOTATION, checkedProps)
+      context.annotationCollector.annotate(PatternPropertiesAssertionFactory.ANNOTATION, checkedProps)
     }
 
     return result

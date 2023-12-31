@@ -17,7 +17,7 @@ internal class AdditionalItemsAssertion(
     if (element !is JsonArray) {
       return true
     }
-    val lastProcessedIndex: Int = context.annotated(indexAnnotationKey)
+    val lastProcessedIndex: Int = context.annotationCollector.annotated(indexAnnotationKey)
       ?: if (returnIfNoIndex) {
         return true // items assertion is not used so this one should be ignored
       } else {
@@ -42,7 +42,7 @@ internal class AdditionalItemsAssertion(
     }
 
     if (valid) {
-      context.annotate(annotationKey, true)
+      context.annotationCollector.annotate(annotationKey, true)
     }
 
     return valid

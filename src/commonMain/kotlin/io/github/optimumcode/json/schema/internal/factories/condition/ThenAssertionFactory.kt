@@ -19,7 +19,7 @@ private class ThenAssertion(
   private val assertion: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
-    return if (context.annotated(IfAssertionFactory.ANNOTATION) == true) {
+    return if (context.annotationCollector.annotated(IfAssertionFactory.ANNOTATION) == true) {
       assertion.validate(element, context, errorCollector)
     } else {
       true

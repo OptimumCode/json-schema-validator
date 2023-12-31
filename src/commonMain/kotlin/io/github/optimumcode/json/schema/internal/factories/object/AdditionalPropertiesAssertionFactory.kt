@@ -1,6 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.`object`
 
 import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.internal.AnnotationCollector
 import io.github.optimumcode.json.schema.internal.AnnotationKey
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -25,8 +26,9 @@ private class AdditionalPropertiesAssertion(
     if (element !is JsonObject) {
       return true
     }
-    val propertiesAnnotation: Set<String>? = context.annotated(PropertiesAssertionFactory.ANNOTATION)
-    val patternAnnotation: Set<String>? = context.annotated(PatternPropertiesAssertionFactory.ANNOTATION)
+    val annotationCollector: AnnotationCollector = context.annotationCollector
+    val propertiesAnnotation: Set<String>? = annotationCollector.annotated(PropertiesAssertionFactory.ANNOTATION)
+    val patternAnnotation: Set<String>? = annotationCollector.annotated(PatternPropertiesAssertionFactory.ANNOTATION)
     var result = true
     for ((prop, value) in element) {
       if (propertiesAnnotation?.contains(prop) == true) {
@@ -43,7 +45,7 @@ private class AdditionalPropertiesAssertion(
       result = result && valid
     }
     if (result) {
-      context.annotate(AdditionalPropertiesAssertionFactory.ANNOTATION, true)
+      annotationCollector.annotate(AdditionalPropertiesAssertionFactory.ANNOTATION, true)
     }
     return result
   }

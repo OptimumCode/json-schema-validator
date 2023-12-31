@@ -17,7 +17,7 @@ internal object MinContainsAssertionFactory : AbstractAssertionFactory("minConta
       path = context.schemaPath,
       expected = maxItemsValue,
       operationName = "at least",
-      actualCount = { it.annotated(ContainsAssertionFactory.ANNOTATION) },
+      actualCount = { it.annotationCollector.annotated(ContainsAssertionFactory.ANNOTATION) },
     ) { expected, actual -> actual >= expected }
   }
 }

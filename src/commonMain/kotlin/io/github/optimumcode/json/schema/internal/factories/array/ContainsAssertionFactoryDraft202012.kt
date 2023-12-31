@@ -62,7 +62,7 @@ private class ContainsAssertionDraft202012(
         }
       }
     }.mapTo(hashSetOf(), IndexedValue<*>::index)
-    context.annotate(ContainsAssertionFactoryDraft202012.ANNOTATION, foundElements)
+    context.annotationCollector.annotate(ContainsAssertionFactoryDraft202012.ANNOTATION, foundElements)
     if (foundElements.isNotEmpty() || allowNoMatch) {
       return true
     }
