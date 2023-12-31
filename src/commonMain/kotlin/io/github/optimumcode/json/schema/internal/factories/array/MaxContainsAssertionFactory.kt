@@ -3,6 +3,7 @@ package io.github.optimumcode.json.schema.internal.factories.array
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.number.util.compareTo
 import io.github.optimumcode.json.schema.internal.util.integerOrNull
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
@@ -16,6 +17,7 @@ internal object MaxContainsAssertionFactory : AbstractAssertionFactory("maxConta
       path = context.schemaPath,
       expected = maxItemsValue,
       operationName = "at most",
+      actualCount = { it.annotated(ContainsAssertionFactory.ANNOTATION) },
     ) { expected, actual -> actual <= expected }
   }
 }

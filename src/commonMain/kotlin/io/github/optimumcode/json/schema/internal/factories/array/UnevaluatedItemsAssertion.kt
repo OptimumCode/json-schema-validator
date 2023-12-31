@@ -12,6 +12,7 @@ internal class UnevaluatedItemsAssertion(
   private val indexAnnotationKey: AnnotationKey<Int>,
   private val itemsAnnotationKey: AnnotationKey<Boolean>,
   private val selfAnnotationKey: AnnotationKey<Boolean>,
+  private val processedIndexesKey: AnnotationKey<Set<Int>>? = null,
 ) : JsonSchemaAssertion {
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
     if (element !is JsonArray) {
@@ -30,9 +31,14 @@ internal class UnevaluatedItemsAssertion(
       return true
     }
 
+    val processedIndexes: Set<Int> = processedIndexesKey?.let(context::aggregatedAnnotation) ?: emptySet()
+
     var valid = true
     element.forEachIndexed { index, jsonElement ->
       if (index <= startIndex) {
+        return@forEachIndexed
+      }
+      if (processedIndexes.contains(index)) {
         return@forEachIndexed
       }
       val result = assertion.validate(jsonElement, context.at(index), errorCollector)

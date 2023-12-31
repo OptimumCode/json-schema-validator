@@ -10,17 +10,28 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.longOrNull
 
+internal val JsonPrimitive.number: Number?
+  get() = longOrNull ?: doubleOrNull
+
 internal operator fun Number.compareTo(maxValue: Number): Int {
   return when (this) {
     is Double -> when (maxValue) {
       is Double -> compareTo(maxValue)
       is Long -> compareTo(maxValue)
+      is Int -> compareTo(maxValue)
       else -> error("unexpected other value type: ${maxValue::class.simpleName}")
     }
 
     is Long -> when (maxValue) {
       is Double -> compareTo(maxValue)
       is Long -> compareTo(maxValue)
+      is Int -> compareTo(maxValue)
+      else -> error("unexpected other value type: ${maxValue::class.simpleName}")
+    }
+    is Int -> when (maxValue) {
+      is Double -> compareTo(maxValue)
+      is Long -> compareTo(maxValue)
+      is Int -> compareTo(maxValue)
       else -> error("unexpected other value type: ${maxValue::class.simpleName}")
     }
     else -> error("unexpected value type: ${this::class.simpleName}")

@@ -17,6 +17,7 @@ internal object UnevaluatedItemsAssertionFactoryDraft202012 : AbstractAssertionF
       PrefixItemsAssertionFactory.ANNOTATION,
       ItemsAssertionFactoryDraft202012.ANNOTATION,
       ANNOTATION,
+      ContainsAssertionFactoryDraft202012.ANNOTATION,
     )
   }
 }
