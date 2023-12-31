@@ -12,17 +12,17 @@ import io.github.optimumcode.json.schema.internal.ReferenceFactory
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
 import io.github.optimumcode.json.schema.internal.SchemaLoaderContext
-import io.github.optimumcode.json.schema.internal.config.Draft201909KeyWordResolver.REC_ANCHOR_PROPERTY
-import io.github.optimumcode.json.schema.internal.config.Draft201909KeyWordResolver.REC_REF_PROPERTY
-import io.github.optimumcode.json.schema.internal.config.Draft201909KeyWordResolver.REF_PROPERTY
-import io.github.optimumcode.json.schema.internal.factories.array.AdditionalItemsAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.array.ContainsAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.array.ItemsAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.array.MaxContainsAssertionFactory
+import io.github.optimumcode.json.schema.internal.config.Draft202012KeyWordResolver.DYNAMIC_ANCHOR_PROPERTY
+import io.github.optimumcode.json.schema.internal.config.Draft202012KeyWordResolver.DYNAMIC_REF_PROPERTY
+import io.github.optimumcode.json.schema.internal.config.Draft202012KeyWordResolver.REF_PROPERTY
+import io.github.optimumcode.json.schema.internal.factories.array.ContainsAssertionFactoryDraft202012
+import io.github.optimumcode.json.schema.internal.factories.array.ItemsAssertionFactoryDraft202012
+import io.github.optimumcode.json.schema.internal.factories.array.MaxContainsAssertionFactoryDraft202012
 import io.github.optimumcode.json.schema.internal.factories.array.MaxItemsAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.array.MinContainsAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.array.MinContainsAssertionFactoryDraft202012
 import io.github.optimumcode.json.schema.internal.factories.array.MinItemsAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.array.UnevaluatedItemsAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.array.PrefixItemsAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.array.UnevaluatedItemsAssertionFactoryDraft202012
 import io.github.optimumcode.json.schema.internal.factories.array.UniqueItemsAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.AllOfAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.condition.AnyOfAssertionFactory
@@ -58,16 +58,16 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonPrimitive
 
-private const val APPLICATOR_VOCABULARY_URI = "https://json-schema.org/draft/2019-09/vocab/applicator"
-private const val VALIDATION_VOCABULARY_URI = "https://json-schema.org/draft/2019-09/vocab/validation"
+private const val APPLICATOR_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/applicator"
+private const val VALIDATION_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/validation"
 private const val VOCABULARY_PROPERTY = "\$vocabulary"
 
-internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
+internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
   private val applicatorFactories: List<AssertionFactory> = listOf(
-    ItemsAssertionFactory,
-    AdditionalItemsAssertionFactory,
+    PrefixItemsAssertionFactory,
+    ItemsAssertionFactoryDraft202012,
 
-    ContainsAssertionFactory,
+    ContainsAssertionFactoryDraft202012,
 
     PropertiesAssertionFactory,
     PatternPropertiesAssertionFactory,
@@ -86,7 +86,7 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
     NotAssertionFactory,
 
     // MUST be applied last
-    UnevaluatedItemsAssertionFactory,
+    UnevaluatedItemsAssertionFactoryDraft202012,
     UnevaluatedPropertiesAssertionFactory,
   )
 
@@ -101,8 +101,8 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
     PatternAssertionFactory,
     MaxItemsAssertionFactory,
     MinItemsAssertionFactory,
-    MinContainsAssertionFactory,
-    MaxContainsAssertionFactory,
+    MinContainsAssertionFactoryDraft202012,
+    MaxContainsAssertionFactoryDraft202012,
     UniqueItemsAssertionFactory,
     MaxPropertiesAssertionFactory,
     MinPropertiesAssertionFactory,
@@ -131,42 +131,41 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
   }
 
   override val keywordResolver: KeyWordResolver
-    get() = Draft201909KeyWordResolver
+    get() = Draft202012KeyWordResolver
   override val referenceFactory: ReferenceFactory
-    get() = Draft201909ReferenceFactory
+    get() = Draft202012ReferenceFactory
 
   private fun allFactories(): List<AssertionFactory> = applicatorFactories + validationFactories
 }
 
-private object Draft201909KeyWordResolver : KeyWordResolver {
+private object Draft202012KeyWordResolver : KeyWordResolver {
   private const val ANCHOR_PROPERTY = "\$anchor"
   private const val ID_PROPERTY = "\$id"
   private const val DEF_PROPERTY = "\$defs"
   private const val OLD_DEF_PROPERTY = "definitions"
   const val REF_PROPERTY: String = "\$ref"
-  const val REC_REF_PROPERTY: String = "\$recursiveRef"
-  const val REC_ANCHOR_PROPERTY: String = "\$recursiveAnchor"
-  override fun resolve(keyword: KeyWord): String? {
+  const val DYNAMIC_REF_PROPERTY: String = "\$dynamicRef"
+  const val DYNAMIC_ANCHOR_PROPERTY: String = "\$dynamicAnchor"
+  override fun resolve(keyword: KeyWord): String {
     return when (keyword) {
       ID -> ID_PROPERTY
       ANCHOR -> ANCHOR_PROPERTY
       DEFINITIONS -> DEF_PROPERTY
       COMPATIBILITY_DEFINITIONS -> OLD_DEF_PROPERTY
-      DYNAMIC_ANCHOR -> null
+      DYNAMIC_ANCHOR -> DYNAMIC_ANCHOR_PROPERTY
     }
   }
 }
 
-private object Draft201909ReferenceFactory : ReferenceFactory {
+private object Draft202012ReferenceFactory : ReferenceFactory {
   override fun extractRef(schemaDefinition: JsonObject, context: SchemaLoaderContext): RefHolder? {
     return when {
       REF_PROPERTY in schemaDefinition ->
         RefHolder.Simple(REF_PROPERTY, schemaDefinition.getStringRequired(REF_PROPERTY).let(context::ref))
 
-      REC_REF_PROPERTY in schemaDefinition -> {
-        val recRef = schemaDefinition.getStringRequired(REC_REF_PROPERTY)
-        require(recRef == "#") { "only ref to root is supported by $REC_REF_PROPERTY" }
-        RefHolder.Recursive(REC_REF_PROPERTY, context.ref(recRef))
+      DYNAMIC_REF_PROPERTY in schemaDefinition -> {
+        val recRef = schemaDefinition.getStringRequired(DYNAMIC_REF_PROPERTY)
+        RefHolder.Recursive(DYNAMIC_REF_PROPERTY, context.ref(recRef))
       }
 
       else -> null
@@ -178,6 +177,5 @@ private object Draft201909ReferenceFactory : ReferenceFactory {
   override val resolveRefPriorId: Boolean
     get() = true
 
-  override fun recursiveResolutionEnabled(schemaDefinition: JsonObject): Boolean =
-    schemaDefinition[REC_ANCHOR_PROPERTY]?.jsonPrimitive?.boolean ?: false
+  override fun recursiveResolutionEnabled(schemaDefinition: JsonObject): Boolean = false
 }

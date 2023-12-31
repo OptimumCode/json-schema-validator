@@ -1,6 +1,5 @@
-package io.github.optimumcode.json.schema.suite.draft2019_09
+package io.github.optimumcode.json.schema.suite.draft2020_12
 
-import io.github.optimumcode.json.schema.SchemaType.DRAFT_2019_09
 import io.github.optimumcode.json.schema.suite.runTestSuites
 import io.kotest.core.spec.style.FunSpec
 
@@ -8,8 +7,7 @@ import io.kotest.core.spec.style.FunSpec
 internal class TestSuite : FunSpec() {
   init {
     runTestSuites(
-      draftName = "draft2019-09",
-      schemaType = DRAFT_2019_09,
+      draftName = "draft2020-12",
       excludeSuites = mapOf(
         "refRemote" to emptySet(), // remote refs are not supported
         "anchor" to setOf("invalid anchors"), // impl does not support referencing external schemas
@@ -19,21 +17,18 @@ internal class TestSuite : FunSpec() {
           "Valid use of empty fragments in location-independent \$id",
           "Unnormalized \$ids are allowed but discouraged",
         ), // impl does not support referencing external schemas
-        "minContains" to setOf(
-          // this is very questionable tests - the 'contains' should fail if there is no match to it according to spec
-          "minContains = 0 with no maxContains",
-        ),
         "ref" to setOf(
           "remote ref, containing refs itself",
           "URN base URI with f-component",
         ),
         "vocabulary" to emptySet(), // current version does not look in non-standard $schema values to gather vocabulary
-      ),
-      excludeTests = mapOf(
-        // this is very questionable tests - the 'contains' should fail if there is no match to it according to spec
-        "minContains = 0 with maxContains" to setOf(
-          "empty data",
-        ),
+        "dynamicRef" to setOf(
+          "strict-tree schema, guards against misspelled properties",
+          "tests for implementation dynamic anchor and reference link",
+          "\$ref and \$dynamicAnchor are independent of order - \$defs first",
+          "\$ref and \$dynamicAnchor are independent of order - \$ref first",
+          "\$ref to \$dynamicRef finds detached \$dynamicAnchor",
+        ), // remote refs are not supported
       ),
     )
   }

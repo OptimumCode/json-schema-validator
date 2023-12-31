@@ -17,6 +17,11 @@ internal enum class KeyWord {
   ANCHOR,
 
   /**
+   * Keyword that is used to define dynamic anchor to be referenced by dynamic refs
+   */
+  DYNAMIC_ANCHOR,
+
+  /**
    * Keyword for definitions in current JSON schema
    */
   DEFINITIONS,

@@ -5,6 +5,7 @@ import io.github.optimumcode.json.schema.internal.KeyWord
 import io.github.optimumcode.json.schema.internal.KeyWord.ANCHOR
 import io.github.optimumcode.json.schema.internal.KeyWord.COMPATIBILITY_DEFINITIONS
 import io.github.optimumcode.json.schema.internal.KeyWord.DEFINITIONS
+import io.github.optimumcode.json.schema.internal.KeyWord.DYNAMIC_ANCHOR
 import io.github.optimumcode.json.schema.internal.KeyWord.ID
 import io.github.optimumcode.json.schema.internal.KeyWordResolver
 import io.github.optimumcode.json.schema.internal.ReferenceFactory
@@ -106,8 +107,7 @@ private object Draft7KeyWordResolver : KeyWordResolver {
   override fun resolve(keyword: KeyWord): String? = when (keyword) {
     ID -> ID_PROPERTY
     DEFINITIONS -> DEFINITIONS_PROPERTY
-    ANCHOR -> null
-    COMPATIBILITY_DEFINITIONS -> null
+    ANCHOR, COMPATIBILITY_DEFINITIONS, DYNAMIC_ANCHOR -> null
   }
 }
 
@@ -124,5 +124,5 @@ private object Draft7ReferenceFactory : ReferenceFactory {
     get() = false
   override val resolveRefPriorId: Boolean
     get() = false
-  override fun recursiveResolutionEnabled(schemaDefinition: JsonObject): Boolean = false
+  override fun recursiveResolutionEnabled(schemaDefinition: JsonObject): Boolean = true
 }

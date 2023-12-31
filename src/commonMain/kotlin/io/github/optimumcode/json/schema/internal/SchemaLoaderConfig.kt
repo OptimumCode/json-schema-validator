@@ -45,7 +45,6 @@ internal interface ReferenceFactory {
     data class Recursive(
       val property: String,
       val refId: RefId,
-      val relativePath: String,
     ) : RefHolder()
   }
 }

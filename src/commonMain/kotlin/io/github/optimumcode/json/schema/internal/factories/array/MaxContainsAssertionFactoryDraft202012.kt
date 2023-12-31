@@ -8,7 +8,7 @@ import io.github.optimumcode.json.schema.internal.util.integerOrNull
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 
-internal object MinContainsAssertionFactory : AbstractAssertionFactory("minContains") {
+internal object MaxContainsAssertionFactoryDraft202012 : AbstractAssertionFactory("maxContains") {
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
     require(element is JsonPrimitive && !element.isString) { "$property must be an integer" }
     val maxItemsValue = requireNotNull(element.integerOrNull) { "$property must be a valid integer" }
@@ -16,8 +16,8 @@ internal object MinContainsAssertionFactory : AbstractAssertionFactory("minConta
     return CountContainsAssertion(
       path = context.schemaPath,
       expected = maxItemsValue,
-      operationName = "at least",
-      actualCount = { it.annotated(ContainsAssertionFactory.ANNOTATION) },
-    ) { expected, actual -> actual >= expected }
+      operationName = "at most",
+      actualCount = { it.annotated(ContainsAssertionFactoryDraft202012.ANNOTATION)?.size },
+    ) { expected, actual -> actual <= expected }
   }
 }

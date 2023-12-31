@@ -9,12 +9,13 @@ import kotlinx.serialization.json.JsonElement
 
 internal class CountContainsAssertion(
   private val path: JsonPointer,
-  private val expected: Int,
+  private val expected: Number,
   private val operationName: String,
-  private val operation: (expected: Int, actual: Int) -> Boolean,
+  private val actualCount: (AssertionContext) -> Int?,
+  private val operation: (expected: Number, actual: Number) -> Boolean,
 ) : JsonSchemaAssertion {
   override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
-    val matchedElements = context.annotated(ContainsAssertionFactory.ANNOTATION) ?: return true
+    val matchedElements = actualCount(context) ?: return true
     if (operation.invoke(expected, matchedElements)) {
       return true
     }

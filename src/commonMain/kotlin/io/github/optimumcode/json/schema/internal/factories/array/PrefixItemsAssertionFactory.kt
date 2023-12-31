@@ -8,22 +8,16 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlin.math.max
 
-@Suppress("unused")
-internal object ItemsAssertionFactory : AbstractAssertionFactory("items") {
-
+internal object PrefixItemsAssertionFactory : AbstractAssertionFactory("prefixItems") {
   val ANNOTATION: AnnotationKey<Int> = AnnotationKey.createAggregatable(property) { a, b -> max(a, b) }
 
   override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
-    return if (element is JsonArray) {
-      require(element.isNotEmpty()) { "$property must have at least one element" }
-      require(element.all(context::isJsonSchema)) {
-        "all elements in $property must be a valid JSON schema"
-      }
-      val assertions = element.mapIndexed { index, item -> context.at(index).schemaFrom(item) }
-      PrefixItemsAssertion(assertions, ANNOTATION)
-    } else {
-      require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
-      AllItemsAssertion(context.schemaFrom(element), ANNOTATION)
+    require(element is JsonArray) { "$property must be an array" }
+    require(element.isNotEmpty()) { "$property must have at least one element" }
+    require(element.all(context::isJsonSchema)) {
+      "all elements in $property must be a valid JSON schema"
     }
+    val assertions = element.mapIndexed { index, item -> context.at(index).schemaFrom(item) }
+    return PrefixItemsAssertion(assertions, ANNOTATION)
   }
 }

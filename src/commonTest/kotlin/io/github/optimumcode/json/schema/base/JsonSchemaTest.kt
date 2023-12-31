@@ -245,7 +245,7 @@ class JsonSchemaTest : FunSpec() {
     }
 
     listOf(
-      "https://json-schema.org/draft/2020-12/schema",
+      "https://json-schema.org/draft/2021-12/schema",
       "http://json-schema.org/draft-07/schema/",
     ).forEach {
       test("reports unsupported '$it' \$schema property") {
