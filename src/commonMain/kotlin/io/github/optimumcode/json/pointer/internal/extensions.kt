@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:filename")
+
 package io.github.optimumcode.json.pointer.internal
 
 import io.github.optimumcode.json.pointer.EmptyPointer
