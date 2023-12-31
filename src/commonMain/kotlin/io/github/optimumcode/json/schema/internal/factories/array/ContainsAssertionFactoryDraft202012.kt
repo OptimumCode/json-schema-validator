@@ -15,8 +15,8 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
 /**
- * This factory is unusual exception when one factory had to know about another keywords.
- * In normal keys the annotation should be used to pass information between keywords.
+ * This factory is unusual exception when one factory had to know about another keyword.
+ * In normal case the annotation should be used to pass information between keywords.
  * However, in this case we need to know about another keyword before we create the assertion.
  */
 internal object ContainsAssertionFactoryDraft202012 : AssertionFactory {
