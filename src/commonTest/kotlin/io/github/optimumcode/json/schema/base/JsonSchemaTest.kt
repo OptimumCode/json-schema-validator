@@ -1,12 +1,17 @@
 package io.github.optimumcode.json.schema.base
 
 import com.eygraber.uri.Uri
+import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.JsonSchema
+import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.buildJsonObject
 
 internal const val KEY = "\$"
 
@@ -259,6 +264,89 @@ class JsonSchemaTest : FunSpec() {
             """.trimIndent(),
           )
         }.message shouldBe "unsupported schema type $it"
+      }
+    }
+
+    test("\$dynamicRef is resolved every time") {
+      val schema = JsonSchema.fromDefinition(
+        """
+        {
+          "${KEY}schema": "https://json-schema.org/draft/2020-12/schema",
+          "${KEY}id": "https://test.json-schema.org/dynamic-ref-with-multiple-paths/main",
+          "if": {
+              "properties": {
+                  "kindOfList": { "const": "numbers" }
+              },
+              "required": ["kindOfList"]
+          },
+          "then": { "${KEY}ref": "numberList" },
+          "else": { "${KEY}ref": "stringList" },
+  
+          "${KEY}defs": {
+              "genericList": {
+                  "${KEY}id": "genericList",
+                  "properties": {
+                      "list": {
+                          "items": { "${KEY}dynamicRef": "#itemType" }
+                      }
+                  },
+                  "${KEY}defs": {
+                      "defaultItemType": {
+                          "${KEY}comment": "Only needed to satisfy bookending requirement",
+                          "${KEY}dynamicAnchor": "itemType"
+                      }
+                  }
+              },
+              "numberList": {
+                  "${KEY}id": "numberList",
+                  "${KEY}defs": {
+                      "itemType": {
+                          "${KEY}dynamicAnchor": "itemType",
+                          "type": "number"
+                      }
+                  },
+                  "${KEY}ref": "genericList"
+              },
+              "stringList": {
+                  "${KEY}id": "stringList",
+                  "${KEY}defs": {
+                      "itemType": {
+                          "${KEY}dynamicAnchor": "itemType",
+                          "type": "string"
+                      }
+                  },
+                  "${KEY}ref": "genericList"
+              }
+          }
+        }
+        """.trimIndent(),
+      )
+      val numberList = buildJsonObject {
+        put("kindOfList", JsonPrimitive("numbers"))
+        put(
+          "list",
+          buildJsonArray {
+            add(JsonPrimitive(42))
+          },
+        )
+      }
+      val stringsList = buildJsonObject {
+        put("kindOfList", JsonPrimitive("strings"))
+        put(
+          "list",
+          buildJsonArray {
+            add(JsonPrimitive("test"))
+          },
+        )
+      }
+
+      assertSoftly {
+        withClue("resolves into list of numbers") {
+          schema.validate(numberList, ErrorCollector.EMPTY) shouldBe true
+        }
+        withClue("resolves into list of strings") {
+          schema.validate(stringsList, ErrorCollector.EMPTY) shouldBe true
+        }
       }
     }
   }
