@@ -66,6 +66,7 @@ public final class io/github/optimumcode/json/schema/SchemaType : java/lang/Enum
 	public static final field DRAFT_2020_12 Lio/github/optimumcode/json/schema/SchemaType;
 	public static final field DRAFT_7 Lio/github/optimumcode/json/schema/SchemaType;
 	public static final fun find (Ljava/lang/String;)Lio/github/optimumcode/json/schema/SchemaType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/optimumcode/json/schema/SchemaType;
 	public static fun values ()[Lio/github/optimumcode/json/schema/SchemaType;
 }
