@@ -71,6 +71,18 @@ afterEvaluate {
   tasks.withType<AbstractPublishToMaven> {
     mustRunAfter(signTasks)
   }
+
+  // Call toList to prevent concurrent modification exception
+  signTasks.toList().forEach {
+    val platform = it.name.substring(
+      "sign".length,
+      it.name.length - "Publication".length
+    )
+    tasks.findByName("linkDebugTest$platform")
+      ?.mustRunAfter(it)
+    tasks.findByName("compileTestKotlin$platform")
+      ?.mustRunAfter(it)
+  }
 }
 
 signing {
