@@ -16,7 +16,10 @@ internal abstract class AbstractAssertionFactory(
     return element is JsonObject && element.contains(property)
   }
 
-  override fun create(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun create(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonObject) { "cannot extract $property property from ${element::class.simpleName}" }
     val typeElement = requireNotNull(element[property]) { "no property $property found in element $element" }
     return createFromProperty(typeElement, context.at(property))
@@ -26,5 +29,8 @@ internal abstract class AbstractAssertionFactory(
    * @param element JSON element associated with [property]
    * @param context updated context with [LoadingContext.schemaPath] matches the [element] location
    */
-  protected abstract fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion
+  protected abstract fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion
 }

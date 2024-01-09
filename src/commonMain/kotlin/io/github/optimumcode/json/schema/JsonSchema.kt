@@ -27,7 +27,10 @@ public class JsonSchema internal constructor(
    *
    * All reported errors will be reported to [ErrorCollector.onError]
    */
-  public fun validate(value: JsonElement, errorCollector: ErrorCollector): Boolean {
+  public fun validate(
+    value: JsonElement,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     val context = DefaultAssertionContext(JsonPointer.ROOT, DefaultReferenceResolver(references))
     return assertion.validate(value, context, errorCollector)
   }
@@ -41,7 +44,10 @@ public class JsonSchema internal constructor(
      */
     @JvmStatic
     @JvmOverloads
-    public fun fromDefinition(schema: String, defaultType: SchemaType? = null): JsonSchema {
+    public fun fromDefinition(
+      schema: String,
+      defaultType: SchemaType? = null,
+    ): JsonSchema {
       val schemaElement: JsonElement = Json.parseToJsonElement(schema)
       return fromJsonElement(schemaElement, defaultType)
     }
@@ -54,7 +60,10 @@ public class JsonSchema internal constructor(
      */
     @JvmStatic
     @JvmOverloads
-    public fun fromJsonElement(schemaElement: JsonElement, defaultType: SchemaType? = null): JsonSchema {
+    public fun fromJsonElement(
+      schemaElement: JsonElement,
+      defaultType: SchemaType? = null,
+    ): JsonSchema {
       return SchemaLoader().load(schemaElement, defaultType)
     }
   }

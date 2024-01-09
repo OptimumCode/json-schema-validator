@@ -18,29 +18,31 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaEnumValidationTest : FunSpec() {
   init {
-    val enumElements = listOf(
-      JsonPrimitive(1),
-      JsonPrimitive(1.5),
-      JsonPrimitive("a"),
-      JsonPrimitive(true),
+    val enumElements =
+      listOf(
+        JsonPrimitive(1),
+        JsonPrimitive(1.5),
+        JsonPrimitive("a"),
+        JsonPrimitive(true),
 //      JsonPrimitive(Long.MAX_VALUE - 1),
-      JsonNull,
-      buildJsonObject {
-        put("test", JsonPrimitive("a"))
-      },
-      buildJsonArray {
-        add(JsonPrimitive("a"))
-      },
-    )
+        JsonNull,
+        buildJsonObject {
+          put("test", JsonPrimitive("a"))
+        },
+        buildJsonArray {
+          add(JsonPrimitive("a"))
+        },
+      )
 
-    val schema = JsonSchema.fromDefinition(
-      """
-          {
-            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-            "enum": ${JsonArray(enumElements)}
-          }
-      """.trimIndent(),
-    )
+    val schema =
+      JsonSchema.fromDefinition(
+        """
+        {
+          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+          "enum": ${JsonArray(enumElements)}
+        }
+        """.trimIndent(),
+      )
     enumElements.forEach {
       test("element $it in enum") {
         val errors = mutableListOf<ValidationError>()

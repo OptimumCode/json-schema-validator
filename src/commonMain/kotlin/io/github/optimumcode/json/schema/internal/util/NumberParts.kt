@@ -67,6 +67,7 @@ internal fun numberParts(element: JsonPrimitive): NumberParts {
 }
 
 internal val JsonPrimitive.integerOrNull: Int?
-  get() = parseNumberParts(this)?.takeIf {
-    it.fractional == 0L && it.integer <= Int.MAX_VALUE
-  }?.integer?.toInt()
+  get() =
+    parseNumberParts(this)?.takeIf {
+      it.fractional == 0L && it.integer <= Int.MAX_VALUE
+    }?.integer?.toInt()

@@ -12,7 +12,10 @@ import kotlinx.serialization.json.JsonElement
 
 @Suppress("unused")
 internal object ConstAssertionFactory : AbstractAssertionFactory("const") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     return ConstAssertion(context.schemaPath, element)
   }
 }
@@ -21,7 +24,11 @@ private class ConstAssertion(
   private val path: JsonPointer,
   private val constValue: JsonElement,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (areEqual(element, constValue)) {
       return true
     }

@@ -9,15 +9,21 @@ import io.github.optimumcode.json.schema.internal.LoadingContext
 import kotlinx.serialization.json.JsonElement
 
 internal object OneOfAssertionFactory : AbstractAssertionsCollectionFactory("oneOf") {
-  override fun createAssertion(context: LoadingContext, assertions: List<JsonSchemaAssertion>): JsonSchemaAssertion =
-    OneOfAssertion(context.schemaPath, assertions)
+  override fun createAssertion(
+    context: LoadingContext,
+    assertions: List<JsonSchemaAssertion>,
+  ): JsonSchemaAssertion = OneOfAssertion(context.schemaPath, assertions)
 }
 
 private class OneOfAssertion(
   private val path: JsonPointer,
   private val assertions: List<JsonSchemaAssertion>,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     val suppressedErrors = mutableListOf<ValidationError>()
     val matched: MutableList<Int> = ArrayList(1)
     for ((index, assertion) in assertions.withIndex()) {
@@ -30,13 +36,14 @@ private class OneOfAssertion(
     }
 
     when {
-      matched.size > 1 -> errorCollector.onError(
-        ValidationError(
-          schemaPath = path,
-          objectPath = context.objectPath,
-          message = "element matches more than one JSON schema at indexes: $matched",
-        ),
-      )
+      matched.size > 1 ->
+        errorCollector.onError(
+          ValidationError(
+            schemaPath = path,
+            objectPath = context.objectPath,
+            message = "element matches more than one JSON schema at indexes: $matched",
+          ),
+        )
       matched.size == 0 -> suppressedErrors.forEach(errorCollector::onError)
     }
 

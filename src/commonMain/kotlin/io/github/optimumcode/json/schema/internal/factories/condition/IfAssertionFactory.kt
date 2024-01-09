@@ -11,7 +11,10 @@ import kotlinx.serialization.json.JsonElement
 internal object IfAssertionFactory : AbstractAssertionFactory("if") {
   val ANNOTATION: AnnotationKey<Boolean> = AnnotationKey.create(property)
 
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val ifAssertion = context.schemaFrom(element)
     return IfAssertion(ifAssertion)
@@ -21,7 +24,11 @@ internal object IfAssertionFactory : AbstractAssertionFactory("if") {
 private class IfAssertion(
   private val condition: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     context.annotationCollector.annotate(
       IfAssertionFactory.ANNOTATION,
       condition.validate(element, context, ErrorCollector.EMPTY),

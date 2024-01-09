@@ -12,7 +12,10 @@ import kotlinx.serialization.json.longOrNull
 
 @Suppress("unused")
 internal object MaximumAssertionFactory : AbstractAssertionFactory("maximum") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonPrimitive) { "$property must be a number" }
     val maximumValue: Number =
       requireNotNull(element.longOrNull ?: element.doubleOrNull) { "$property must be a valid number" }

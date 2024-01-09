@@ -28,30 +28,33 @@ class JsonSchemaMaxContainsValidationTest : FunSpec() {
     ).also { schema ->
       test("validation passes when contains less items") {
         val errors = mutableListOf<ValidationError>()
-        val array = buildJsonArray {
-          add(JsonPrimitive("a"))
-        }
+        val array =
+          buildJsonArray {
+            add(JsonPrimitive("a"))
+          }
         val valid = schema.validate(array, errors::add)
         valid shouldBe true
         errors shouldHaveSize 0
       }
       test("validation passes when contains exact items") {
         val errors = mutableListOf<ValidationError>()
-        val array = buildJsonArray {
-          add(JsonPrimitive("a"))
-          add(JsonPrimitive("b"))
-        }
+        val array =
+          buildJsonArray {
+            add(JsonPrimitive("a"))
+            add(JsonPrimitive("b"))
+          }
         val valid = schema.validate(array, errors::add)
         valid shouldBe true
         errors shouldHaveSize 0
       }
       test("validation fails when contains less items") {
         val errors = mutableListOf<ValidationError>()
-        val array = buildJsonArray {
-          add(JsonPrimitive("a"))
-          add(JsonPrimitive("b"))
-          add(JsonPrimitive("c"))
-        }
+        val array =
+          buildJsonArray {
+            add(JsonPrimitive("a"))
+            add(JsonPrimitive("b"))
+            add(JsonPrimitive("c"))
+          }
         val valid = schema.validate(array, errors::add)
         valid shouldBe false
         errors.shouldContainExactly(

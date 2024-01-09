@@ -15,25 +15,28 @@ internal val JsonPrimitive.number: Number?
 
 internal operator fun Number.compareTo(maxValue: Number): Int {
   return when (this) {
-    is Double -> when (maxValue) {
-      is Double -> compareTo(maxValue)
-      is Long -> compareTo(maxValue)
-      is Int -> compareTo(maxValue)
-      else -> error("unexpected other value type: ${maxValue::class.simpleName}")
-    }
+    is Double ->
+      when (maxValue) {
+        is Double -> compareTo(maxValue)
+        is Long -> compareTo(maxValue)
+        is Int -> compareTo(maxValue)
+        else -> error("unexpected other value type: ${maxValue::class.simpleName}")
+      }
 
-    is Long -> when (maxValue) {
-      is Double -> compareTo(maxValue)
-      is Long -> compareTo(maxValue)
-      is Int -> compareTo(maxValue)
-      else -> error("unexpected other value type: ${maxValue::class.simpleName}")
-    }
-    is Int -> when (maxValue) {
-      is Double -> compareTo(maxValue)
-      is Long -> compareTo(maxValue)
-      is Int -> compareTo(maxValue)
-      else -> error("unexpected other value type: ${maxValue::class.simpleName}")
-    }
+    is Long ->
+      when (maxValue) {
+        is Double -> compareTo(maxValue)
+        is Long -> compareTo(maxValue)
+        is Int -> compareTo(maxValue)
+        else -> error("unexpected other value type: ${maxValue::class.simpleName}")
+      }
+    is Int ->
+      when (maxValue) {
+        is Double -> compareTo(maxValue)
+        is Long -> compareTo(maxValue)
+        is Int -> compareTo(maxValue)
+        else -> error("unexpected other value type: ${maxValue::class.simpleName}")
+      }
     else -> error("unexpected value type: ${this::class.simpleName}")
   }
 }
@@ -45,7 +48,11 @@ internal class NumberComparisonAssertion(
   private val errorMessage: String,
   private val check: (Number, Number) -> Boolean,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonPrimitive || element.isString) {
       return true
     }

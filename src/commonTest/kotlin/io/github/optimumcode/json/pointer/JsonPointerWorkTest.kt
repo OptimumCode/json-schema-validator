@@ -32,17 +32,19 @@ class JsonPointerWorkTest : FunSpec() {
     }
 
     test("returns property from object") {
-      val jsonObject = buildJsonObject {
-        put("test", JsonPrimitive("a"))
-      }
+      val jsonObject =
+        buildJsonObject {
+          put("test", JsonPrimitive("a"))
+        }
 
       jsonObject.at(JsonPointer("/test")) shouldBe JsonPrimitive("a")
     }
 
     test("returns array element") {
-      val array = buildJsonArray {
-        add(JsonPrimitive("a"))
-      }
+      val array =
+        buildJsonArray {
+          add(JsonPrimitive("a"))
+        }
       array.at(JsonPointer("/0")) shouldBe JsonPrimitive("a")
     }
 
@@ -51,11 +53,12 @@ class JsonPointerWorkTest : FunSpec() {
       '/' to "~1",
     ).forEach { (actual, escaped) ->
       test("handles escaped charter $escaped as $actual") {
-        val jsonObject = buildJsonObject {
-          put("name${actual}field", JsonPrimitive("a"))
-          put("${actual}field", JsonPrimitive("b"))
-          put("name$actual", JsonPrimitive("c"))
-        }
+        val jsonObject =
+          buildJsonObject {
+            put("name${actual}field", JsonPrimitive("a"))
+            put("${actual}field", JsonPrimitive("b"))
+            put("name$actual", JsonPrimitive("c"))
+          }
 
         assertSoftly {
           JsonPointer("/name${escaped}field").asClue {

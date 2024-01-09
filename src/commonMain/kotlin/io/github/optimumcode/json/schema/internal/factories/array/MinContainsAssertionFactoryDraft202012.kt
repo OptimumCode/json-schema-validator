@@ -9,7 +9,10 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 
 internal object MinContainsAssertionFactoryDraft202012 : AbstractAssertionFactory("minContains") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonPrimitive && !element.isString) { "$property must be an integer" }
     val maxItemsValue = requireNotNull(element.integerOrNull) { "$property must be a valid integer" }
     require(maxItemsValue >= 0) { "$property must be a non-negative integer" }

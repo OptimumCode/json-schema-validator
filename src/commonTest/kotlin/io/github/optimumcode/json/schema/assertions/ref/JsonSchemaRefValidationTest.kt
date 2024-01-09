@@ -32,9 +32,10 @@ class JsonSchemaRefValidationTest : FunSpec() {
       """.trimIndent(),
     ).apply {
       test("object passes ref validation") {
-        val jsonObject = buildJsonObject {
-          put("size", JsonPrimitive(42))
-        }
+        val jsonObject =
+          buildJsonObject {
+            put("size", JsonPrimitive(42))
+          }
         val errors = mutableListOf<ValidationError>()
         val valid = validate(jsonObject, errors::add)
         jsonObject.asClue {
@@ -44,9 +45,10 @@ class JsonSchemaRefValidationTest : FunSpec() {
       }
 
       test("object fails ref validation") {
-        val jsonObject = buildJsonObject {
-          put("size", JsonPrimitive(-1))
-        }
+        val jsonObject =
+          buildJsonObject {
+            put("size", JsonPrimitive(-1))
+          }
         val errors = mutableListOf<ValidationError>()
         val valid = validate(jsonObject, errors::add)
         jsonObject.asClue {
@@ -56,9 +58,10 @@ class JsonSchemaRefValidationTest : FunSpec() {
               schemaPath = JsonPointer("/properties/size/${KEY}ref/minimum"),
               objectPath = JsonPointer("/size"),
               message = "-1 must be greater or equal to 0",
-              absoluteLocation = JsonPointer(
-                "/definitions/positiveInteger/minimum",
-              ),
+              absoluteLocation =
+                JsonPointer(
+                  "/definitions/positiveInteger/minimum",
+                ),
             ),
           )
         }
@@ -83,14 +86,15 @@ class JsonSchemaRefValidationTest : FunSpec() {
       """.trimIndent(),
     ).apply {
       test("object self reference passes validation") {
-        val jsonObject = buildJsonObject {
-          put(
-            "other",
-            buildJsonObject {
-              put("size", JsonPrimitive(42))
-            },
-          )
-        }
+        val jsonObject =
+          buildJsonObject {
+            put(
+              "other",
+              buildJsonObject {
+                put("size", JsonPrimitive(42))
+              },
+            )
+          }
 
         val errors = mutableListOf<ValidationError>()
         val valid = validate(jsonObject, errors::add)
@@ -101,14 +105,15 @@ class JsonSchemaRefValidationTest : FunSpec() {
       }
 
       test("object self reference fails validation") {
-        val jsonObject = buildJsonObject {
-          put(
-            "other",
-            buildJsonObject {
-              put("size", JsonPrimitive(-1))
-            },
-          )
-        }
+        val jsonObject =
+          buildJsonObject {
+            put(
+              "other",
+              buildJsonObject {
+                put("size", JsonPrimitive(-1))
+              },
+            )
+          }
 
         val errors = mutableListOf<ValidationError>()
         val valid = validate(jsonObject, errors::add)
@@ -116,14 +121,16 @@ class JsonSchemaRefValidationTest : FunSpec() {
           valid shouldBe false
           errors.shouldContainExactly(
             ValidationError(
-              schemaPath = JsonPointer(
-                "/properties/other/${KEY}ref/properties/size/${KEY}ref/minimum",
-              ),
+              schemaPath =
+                JsonPointer(
+                  "/properties/other/${KEY}ref/properties/size/${KEY}ref/minimum",
+                ),
               objectPath = JsonPointer("/other/size"),
               message = "-1 must be greater or equal to 0",
-              absoluteLocation = JsonPointer(
-                "/definitions/positiveInteger/minimum",
-              ),
+              absoluteLocation =
+                JsonPointer(
+                  "/definitions/positiveInteger/minimum",
+                ),
             ),
           )
         }
@@ -150,9 +157,10 @@ class JsonSchemaRefValidationTest : FunSpec() {
       """.trimIndent(),
     ).apply {
       test("correctly reports path for inner definitions") {
-        val jsonObject = buildJsonObject {
-          put("size", JsonPrimitive("42"))
-        }
+        val jsonObject =
+          buildJsonObject {
+            put("size", JsonPrimitive("42"))
+          }
         val errors = mutableListOf<ValidationError>()
         val valid = validate(jsonObject, errors::add)
         jsonObject.asClue {
@@ -162,9 +170,10 @@ class JsonSchemaRefValidationTest : FunSpec() {
               schemaPath = JsonPointer("/properties/size/${KEY}ref/type"),
               objectPath = JsonPointer("/size"),
               message = "element is not a integer",
-              absoluteLocation = JsonPointer(
-                "/definitions/A/definitions/B/type",
-              ),
+              absoluteLocation =
+                JsonPointer(
+                  "/definitions/A/definitions/B/type",
+                ),
             ),
           )
         }

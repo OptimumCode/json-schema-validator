@@ -27,7 +27,8 @@ class JsonPointerTest : FunSpec() {
       "01",
       "10000000000",
       "0a",
-      "2147483648", // more than Int.MAX
+      // more than Int.MAX
+      "2147483648",
     ).forEach {
       test("$it is not an index") {
         JsonPointer("/$it").assertSegment(property = it, index = -1)
@@ -112,7 +113,10 @@ class JsonPointerTest : FunSpec() {
     }
   }
 
-  private fun JsonPointer.assertSegment(property: String, index: Int = -1) {
+  private fun JsonPointer.assertSegment(
+    property: String,
+    index: Int = -1,
+  ) {
     asClue {
       this should beOfType<SegmentPointer>()
       this as SegmentPointer

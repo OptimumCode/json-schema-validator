@@ -8,15 +8,19 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 
 internal object DependentSchemasAssertionFactory : AbstractAssertionFactory("dependentSchemas") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonObject) { "$property must be an object" }
     if (element.isEmpty()) {
       return TrueSchemaAssertion
     }
-    val dependentSchemas = element.mapValues { (prop, el) ->
-      require(context.isJsonSchema(el)) { "$prop dependency must be a valid JSON schema" }
-      context.at(prop).schemaFrom(el)
-    }
+    val dependentSchemas =
+      element.mapValues { (prop, el) ->
+        require(context.isJsonSchema(el)) { "$prop dependency must be a valid JSON schema" }
+        context.at(prop).schemaFrom(el)
+      }
     return DependenciesAssertion(dependentSchemas)
   }
 }

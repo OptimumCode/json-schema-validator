@@ -18,23 +18,25 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaUniqueItemsValidationTest : FunSpec() {
   init {
-    val validationEnabled = JsonSchema.fromDefinition(
-      """
-      {
-        "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-        "uniqueItems": true
-      }
-      """.trimIndent(),
-    )
+    val validationEnabled =
+      JsonSchema.fromDefinition(
+        """
+        {
+          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+          "uniqueItems": true
+        }
+        """.trimIndent(),
+      )
 
-    val validationDisabled = JsonSchema.fromDefinition(
-      """
-      {
-        "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-        "uniqueItems": false
-      }
-      """.trimIndent(),
-    )
+    val validationDisabled =
+      JsonSchema.fromDefinition(
+        """
+        {
+          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+          "uniqueItems": false
+        }
+        """.trimIndent(),
+      )
 
     listOf(
       buildJsonArray { },

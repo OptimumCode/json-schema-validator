@@ -9,7 +9,10 @@ import kotlinx.serialization.json.JsonPrimitive
 
 @Suppress("unused")
 internal object MaxLengthAssertionFactory : AbstractAssertionFactory("maxLength") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonPrimitive && !element.isString) { "$property must be an integer" }
     val maxLength = requireNotNull(element.integerOrNull) { "$property must be a valid integer" }
     require(maxLength >= 0) { "$property must be a non-negative integer" }

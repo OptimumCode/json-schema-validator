@@ -11,7 +11,10 @@ import kotlinx.serialization.json.JsonElement
 
 @Suppress("unused")
 internal object NotAssertionFactory : AbstractAssertionFactory("not") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val assertion = context.schemaFrom(element)
     return NotAssertion(context.schemaPath, assertion)
@@ -22,7 +25,11 @@ private class NotAssertion(
   private val path: JsonPointer,
   private val delegate: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     val childContext = context.childContext()
     if (!delegate.validate(element, childContext, ErrorCollector.EMPTY)) {
       childContext.propagateToParent()

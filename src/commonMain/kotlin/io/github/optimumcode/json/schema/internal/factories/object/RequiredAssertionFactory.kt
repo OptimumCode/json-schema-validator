@@ -15,7 +15,10 @@ import kotlinx.serialization.json.JsonPrimitive
 
 @Suppress("unused")
 internal object RequiredAssertionFactory : AbstractAssertionFactory("required") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonArray) { "$property must be an array" }
     require(element.all { it is JsonPrimitive && it.isString }) { "$property must contain only strings" }
     val uniqueRequiredProperties = element.mapTo(linkedSetOf()) { (it as JsonPrimitive).content }
@@ -32,13 +35,18 @@ private class RequiredAssertion(
   private val path: JsonPointer,
   private val requiredProperties: Set<String>,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonObject) {
       return true
     }
-    val missingProperties = requiredProperties.asSequence()
-      .filter { !element.containsKey(it) }
-      .toSet()
+    val missingProperties =
+      requiredProperties.asSequence()
+        .filter { !element.containsKey(it) }
+        .toSet()
     if (missingProperties.isEmpty()) {
       return true
     }

@@ -29,7 +29,10 @@ internal object ContainsAssertionFactoryDraft202012 : AssertionFactory {
     return element is JsonObject && element.containsKey(PROPERTY)
   }
 
-  override fun create(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun create(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonObject) { "cannot extract $PROPERTY property from ${element::class.simpleName}" }
     val typeElement = requireNotNull(element[PROPERTY]) { "no property $PROPERTY found in element $element" }
     require(context.isJsonSchema(typeElement)) { "$PROPERTY must be a valid JSON schema" }
@@ -50,18 +53,23 @@ private class ContainsAssertionDraft202012(
   private val containsAssertion: JsonSchemaAssertion,
   private val allowNoMatch: Boolean,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonArray) {
       return true
     }
-    val foundElements = element.asSequence().withIndex().filter { (_, el) ->
-      val childContext = context.childContext()
-      containsAssertion.validate(el, childContext, ErrorCollector.EMPTY).also { valid ->
-        if (valid) {
-          childContext.propagateToParent()
+    val foundElements =
+      element.asSequence().withIndex().filter { (_, el) ->
+        val childContext = context.childContext()
+        containsAssertion.validate(el, childContext, ErrorCollector.EMPTY).also { valid ->
+          if (valid) {
+            childContext.propagateToParent()
+          }
         }
-      }
-    }.mapTo(hashSetOf(), IndexedValue<*>::index)
+      }.mapTo(hashSetOf(), IndexedValue<*>::index)
     context.annotationCollector.annotate(ContainsAssertionFactoryDraft202012.ANNOTATION, foundElements)
     if (foundElements.isNotEmpty() || allowNoMatch) {
       return true

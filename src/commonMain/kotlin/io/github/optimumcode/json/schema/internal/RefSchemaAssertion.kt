@@ -13,7 +13,11 @@ internal class RefSchemaAssertion(
   private lateinit var refIdPath: JsonPointer
   private lateinit var refAssertion: JsonSchemaAssertion
 
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (!::refAssertion.isInitialized) {
       val resolved = context.referenceResolver.ref(refId)
       refIdPath = resolved.first

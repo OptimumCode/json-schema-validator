@@ -27,9 +27,10 @@ class JsonSchemaDependentRequiredValidationTest : FunSpec() {
       """.trimIndent(),
     ).also { schema ->
       test("object without trigger array property passes validation") {
-        val jsonObject = buildJsonObject {
-          put("depend", JsonPrimitive("test"))
-        }
+        val jsonObject =
+          buildJsonObject {
+            put("depend", JsonPrimitive("test"))
+          }
 
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(jsonObject, errors::add)
@@ -41,10 +42,11 @@ class JsonSchemaDependentRequiredValidationTest : FunSpec() {
       }
 
       test("object with trigger array property passes validation") {
-        val jsonObject = buildJsonObject {
-          put("trigger", JsonPrimitive(42))
-          put("depend", JsonPrimitive(42.5))
-        }
+        val jsonObject =
+          buildJsonObject {
+            put("trigger", JsonPrimitive(42))
+            put("depend", JsonPrimitive(42.5))
+          }
 
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(jsonObject, errors::add)
@@ -56,10 +58,11 @@ class JsonSchemaDependentRequiredValidationTest : FunSpec() {
       }
 
       test("object with trigger array property fails validation") {
-        val jsonObject = buildJsonObject {
-          put("trigger", JsonPrimitive(42))
-          put("depend2", JsonPrimitive("test"))
-        }
+        val jsonObject =
+          buildJsonObject {
+            put("trigger", JsonPrimitive(42))
+            put("depend2", JsonPrimitive("test"))
+          }
 
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(jsonObject, errors::add)
@@ -99,10 +102,11 @@ class JsonSchemaDependentRequiredValidationTest : FunSpec() {
       """.trimIndent(),
     ).also { schema ->
       test("object passes empty dependencies") {
-        val jsonObject = buildJsonObject {
-          put("trigger", JsonPrimitive(42))
-          put("depend", JsonPrimitive(42.5))
-        }
+        val jsonObject =
+          buildJsonObject {
+            put("trigger", JsonPrimitive(42))
+            put("depend", JsonPrimitive(42.5))
+          }
 
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(jsonObject, errors::add)
@@ -125,10 +129,11 @@ class JsonSchemaDependentRequiredValidationTest : FunSpec() {
       """.trimIndent(),
     ).also { schema ->
       test("object passes empty dependencies array") {
-        val jsonObject = buildJsonObject {
-          put("trigger", JsonPrimitive(42))
-          put("depend", JsonPrimitive(42.5))
-        }
+        val jsonObject =
+          buildJsonObject {
+            put("trigger", JsonPrimitive(42))
+            put("depend", JsonPrimitive(42.5))
+          }
 
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(jsonObject, errors::add)

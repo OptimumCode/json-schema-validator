@@ -16,7 +16,10 @@ import kotlinx.serialization.json.booleanOrNull
 
 @Suppress("unused")
 internal object UniqueItemsAssertionFactory : AbstractAssertionFactory("uniqueItems") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonPrimitive && !element.isString) { "$property must be a boolean" }
     val uniqueItemsValue = requireNotNull(element.booleanOrNull) { "$property must be a boolean" }
     return if (uniqueItemsValue) {
@@ -30,7 +33,11 @@ internal object UniqueItemsAssertionFactory : AbstractAssertionFactory("uniqueIt
 private class UniqueItemsAssertion(
   private val path: JsonPointer,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonArray) {
       return true
     }
@@ -38,18 +45,19 @@ private class UniqueItemsAssertion(
       return true
     }
     var duplicates: MutableList<JsonElement>? = null
-    val uniqueItems = buildList {
-      element.forEach { el ->
-        if (none { areEqual(it, el) }) {
-          add(el)
-        } else {
-          if (duplicates == null) {
-            duplicates = mutableListOf()
+    val uniqueItems =
+      buildList {
+        element.forEach { el ->
+          if (none { areEqual(it, el) }) {
+            add(el)
+          } else {
+            if (duplicates == null) {
+              duplicates = mutableListOf()
+            }
+            duplicates?.add(el)
           }
-          duplicates?.add(el)
         }
       }
-    }
     val uniqueItemsCount = uniqueItems.size
     if (uniqueItemsCount == element.size) {
       return true

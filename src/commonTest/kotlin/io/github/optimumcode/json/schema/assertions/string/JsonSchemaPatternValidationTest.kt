@@ -22,14 +22,15 @@ class JsonSchemaPatternValidationTest : FunSpec() {
       "^foo$" to "foo",
     ).forEach { (pattern, value) ->
       test("matches pattern '$pattern'") {
-        val schema = JsonSchema.fromDefinition(
-          """
-          {
-            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-            "pattern": "$pattern"
-          }
-          """.trimIndent(),
-        )
+        val schema =
+          JsonSchema.fromDefinition(
+            """
+            {
+              "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+              "pattern": "$pattern"
+            }
+            """.trimIndent(),
+          )
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(JsonPrimitive(value), errors::add)
         value.asClue {
@@ -46,14 +47,15 @@ class JsonSchemaPatternValidationTest : FunSpec() {
       "^foo$" to "for",
     ).forEach { (pattern, value) ->
       test("does not match pattern '$pattern'") {
-        val schema = JsonSchema.fromDefinition(
-          """
-          {
-            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-            "pattern": "$pattern"
-          }
-          """.trimIndent(),
-        )
+        val schema =
+          JsonSchema.fromDefinition(
+            """
+            {
+              "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+              "pattern": "$pattern"
+            }
+            """.trimIndent(),
+          )
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(JsonPrimitive(value), errors::add)
         value.asClue {

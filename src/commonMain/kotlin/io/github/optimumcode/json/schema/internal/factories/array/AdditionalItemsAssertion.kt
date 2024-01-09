@@ -13,16 +13,21 @@ internal class AdditionalItemsAssertion(
   private val annotationKey: AnnotationKey<Boolean>,
   private val returnIfNoIndex: Boolean,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonArray) {
       return true
     }
-    val lastProcessedIndex: Int = context.annotationCollector.annotated(indexAnnotationKey)
-      ?: if (returnIfNoIndex) {
-        return true // items assertion is not used so this one should be ignored
-      } else {
-        -1
-      }
+    val lastProcessedIndex: Int =
+      context.annotationCollector.annotated(indexAnnotationKey)
+        ?: if (returnIfNoIndex) {
+          return true // items assertion is not used so this one should be ignored
+        } else {
+          -1
+        }
 
     if (lastProcessedIndex == element.lastIndex) {
       // we have nothing to process here
@@ -33,11 +38,12 @@ internal class AdditionalItemsAssertion(
       if (index <= lastProcessedIndex) {
         continue
       }
-      val res = assertion.validate(
-        el,
-        context.at(index),
-        errorCollector,
-      )
+      val res =
+        assertion.validate(
+          el,
+          context.at(index),
+          errorCollector,
+        )
       valid = valid && res
     }
 

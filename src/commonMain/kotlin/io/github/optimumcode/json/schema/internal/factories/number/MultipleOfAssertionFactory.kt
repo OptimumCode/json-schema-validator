@@ -15,7 +15,10 @@ import kotlin.math.pow
 
 @Suppress("unused")
 internal object MultipleOfAssertionFactory : AbstractAssertionFactory("multipleOf") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonPrimitive) { "$property must be a number" }
     val multipleOfValue: Number =
       requireNotNull(element.longOrNull ?: element.doubleOrNull) { "$property must be a valid number" }
@@ -36,29 +39,38 @@ internal object MultipleOfAssertionFactory : AbstractAssertionFactory("multipleO
   }
 }
 
-private fun isMultipleOf(a: Number, b: Number): Boolean = when (a) {
-  is Double -> a isMultipleOf b
-  is Long -> a isMultipleOf b
-  else -> false
-}
+private fun isMultipleOf(
+  a: Number,
+  b: Number,
+): Boolean =
+  when (a) {
+    is Double -> a isMultipleOf b
+    is Long -> a isMultipleOf b
+    else -> false
+  }
 
-private infix fun Double.isMultipleOf(number: Number): Boolean = when (number) {
-  is Double -> isZero(rem(this, number))
-  is Long -> isZero((this % number))
-  else -> false
-}
+private infix fun Double.isMultipleOf(number: Number): Boolean =
+  when (number) {
+    is Double -> isZero(rem(this, number))
+    is Long -> isZero((this % number))
+    else -> false
+  }
 
-private infix fun Long.isMultipleOf(number: Number): Boolean = when (number) {
-  is Long -> this % number == 0L
-  is Double -> isZero(rem(this, number))
-  else -> false
-}
+private infix fun Long.isMultipleOf(number: Number): Boolean =
+  when (number) {
+    is Long -> this % number == 0L
+    is Double -> isZero(rem(this, number))
+    else -> false
+  }
 
 private fun isZero(first: Double): Boolean {
   return first == -0.0 || first == 0.0
 }
 
-private tailrec fun rem(first: Double, second: Double): Double {
+private tailrec fun rem(
+  first: Double,
+  second: Double,
+): Double {
   return if (second < 1 && second > -1) {
     val degree = floor(log10(second))
     if (first < 1 && first > -1) {
@@ -74,7 +86,10 @@ private tailrec fun rem(first: Double, second: Double): Double {
   }
 }
 
-private fun rem(first: Long, second: Double): Double {
+private fun rem(
+  first: Long,
+  second: Double,
+): Double {
   return if (second < 1 && second > -1) {
     val degree = floor(log10(second))
     first % (second * 10.0.pow(-degree))

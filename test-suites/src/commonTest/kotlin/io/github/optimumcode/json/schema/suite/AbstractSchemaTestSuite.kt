@@ -53,15 +53,16 @@ internal fun FunSpec.runTestSuites(
 ) {
   require(draftName.isNotBlank()) { "draftName is blank" }
   val fs = fileSystem()
-  val testSuiteDir = when {
-    fs.exists(TEST_SUITES_DIR) -> TEST_SUITES_DIR
-    fs.exists(TEST_SUITES_DIR_FROM_ROOT) -> TEST_SUITES_DIR_FROM_ROOT
-    else -> env(TEST_SUITES_DIR_ENV_VAR)?.toPath()
-  }?.resolve(draftName)
-    ?: error(
-      "neither $TEST_SUITES_DIR or $TEST_SUITES_DIR_FROM_ROOT exist " +
-        "(current dir: ${fs.canonicalize(".".toPath())}, env: ${env(TEST_SUITES_DIR_ENV_VAR)})",
-    )
+  val testSuiteDir =
+    when {
+      fs.exists(TEST_SUITES_DIR) -> TEST_SUITES_DIR
+      fs.exists(TEST_SUITES_DIR_FROM_ROOT) -> TEST_SUITES_DIR_FROM_ROOT
+      else -> env(TEST_SUITES_DIR_ENV_VAR)?.toPath()
+    }?.resolve(draftName)
+      ?: error(
+        "neither $TEST_SUITES_DIR or $TEST_SUITES_DIR_FROM_ROOT exist " +
+          "(current dir: ${fs.canonicalize(".".toPath())}, env: ${env(TEST_SUITES_DIR_ENV_VAR)})",
+      )
 
   require(fs.exists(testSuiteDir)) { "folder $testSuiteDir does not exist" }
 
@@ -95,9 +96,10 @@ private fun FunSpec.executeFromDirectory(
       return@forEach
     }
 
-    val testSuites: List<TestSuite> = fs.openReadOnly(testSuiteFile).use {
-      Json.decodeFromBufferedSource(ListSerializer(TestSuite.serializer()), it.source().buffer())
-    }
+    val testSuites: List<TestSuite> =
+      fs.openReadOnly(testSuiteFile).use {
+        Json.decodeFromBufferedSource(ListSerializer(TestSuite.serializer()), it.source().buffer())
+      }
     var testSuiteIndex = -1
     for (testSuite in testSuites) {
       testSuiteIndex += 1
@@ -113,9 +115,10 @@ private fun FunSpec.executeFromDirectory(
         }
         test("$testSuiteID at index $testSuiteIndex test $testIndex") {
           withClue(listOf(testSuite.description, testSuite.schema, test.description, test.data)) {
-            val schema: JsonSchema = shouldNotThrowAny {
-              JsonSchema.fromJsonElement(testSuite.schema, schemaType)
-            }
+            val schema: JsonSchema =
+              shouldNotThrowAny {
+                JsonSchema.fromJsonElement(testSuite.schema, schemaType)
+              }
             shouldNotThrowAny {
               schema.validate(test.data, ErrorCollector.EMPTY)
             } shouldBe test.valid

@@ -15,5 +15,9 @@ internal interface JsonSchemaAssertion {
    * @param errorCollector handler for [io.github.optimumcode.json.schema.ValidationError] produced by assertion
    * @return `true` if element is valid against assertion. Otherwise, returns `false`
    */
-  fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean
+  fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean
 }

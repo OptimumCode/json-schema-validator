@@ -14,7 +14,11 @@ internal class CountContainsAssertion(
   private val actualCount: (AssertionContext) -> Int?,
   private val operation: (expected: Number, actual: Number) -> Boolean,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     val matchedElements = actualCount(context) ?: return true
     if (operation.invoke(expected, matchedElements)) {
       return true
@@ -23,8 +27,9 @@ internal class CountContainsAssertion(
       ValidationError(
         schemaPath = path,
         objectPath = context.objectPath,
-        message = "array must contain $operationName $expected element(s) match the 'contains' schema" +
-          " but has $matchedElements",
+        message =
+          "array must contain $operationName $expected element(s) match the 'contains' schema" +
+            " but has $matchedElements",
       ),
     )
     return false

@@ -12,7 +12,11 @@ import kotlinx.serialization.json.JsonObject
 
 internal object AdditionalPropertiesAssertionFactory : AbstractAssertionFactory("additionalProperties") {
   val ANNOTATION: AnnotationKey<Boolean> = AnnotationKey.createAggregatable(property, Boolean::or)
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val schemaAssertion = context.schemaFrom(element)
     return AdditionalPropertiesAssertion(schemaAssertion)
@@ -22,7 +26,11 @@ internal object AdditionalPropertiesAssertionFactory : AbstractAssertionFactory(
 private class AdditionalPropertiesAssertion(
   private val assertion: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonObject) {
       return true
     }
@@ -37,11 +45,12 @@ private class AdditionalPropertiesAssertion(
       if (patternAnnotation?.contains(prop) == true) {
         continue
       }
-      val valid = assertion.validate(
-        value,
-        context.at(prop),
-        errorCollector,
-      )
+      val valid =
+        assertion.validate(
+          value,
+          context.at(prop),
+          errorCollector,
+        )
       result = result && valid
     }
     if (result) {

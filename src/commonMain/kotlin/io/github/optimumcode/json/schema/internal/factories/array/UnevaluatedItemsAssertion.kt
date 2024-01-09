@@ -15,7 +15,11 @@ internal class UnevaluatedItemsAssertion(
   private val selfAnnotationKey: AnnotationKey<Boolean>,
   private val processedIndexesKey: AnnotationKey<Set<Int>>? = null,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonArray) {
       return true
     }

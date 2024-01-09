@@ -16,7 +16,11 @@ internal class LengthAssertion(
   private val errorMessage: String,
   private val check: (Int, Int) -> Boolean,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonPrimitive || !element.isString) {
       return true
     }

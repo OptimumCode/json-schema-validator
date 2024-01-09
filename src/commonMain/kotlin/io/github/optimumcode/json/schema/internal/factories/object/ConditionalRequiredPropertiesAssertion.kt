@@ -18,13 +18,18 @@ internal class ConditionalRequiredPropertiesAssertion(
   private val property: String,
   private val dependencies: Set<String>,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonObject) {
       return true
     }
-    val missingProperties = dependencies.asSequence()
-      .filter { !element.containsKey(it) }
-      .toSet()
+    val missingProperties =
+      dependencies.asSequence()
+        .filter { !element.containsKey(it) }
+        .toSet()
     if (missingProperties.isEmpty()) {
       return true
     }
@@ -40,7 +45,11 @@ internal class ConditionalRequiredPropertiesAssertion(
 
   companion object {
     @JvmStatic
-    fun createFromArray(property: String, array: JsonArray, context: LoadingContext): JsonSchemaAssertion {
+    fun createFromArray(
+      property: String,
+      array: JsonArray,
+      context: LoadingContext,
+    ): JsonSchemaAssertion {
       require(array.all { it is JsonPrimitive && it.isString }) { "$property must contain only strings" }
       val uniqueRequiredProperties = array.mapTo(linkedSetOf()) { (it as JsonPrimitive).content }
       require(uniqueRequiredProperties.size == array.size) { "$property must consist of unique elements" }

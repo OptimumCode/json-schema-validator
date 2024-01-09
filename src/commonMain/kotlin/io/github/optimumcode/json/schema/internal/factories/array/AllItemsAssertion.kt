@@ -11,17 +11,22 @@ internal class AllItemsAssertion(
   private val itemAssertion: JsonSchemaAssertion,
   private val annotationKey: AnnotationKey<Int>,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonArray) {
       return true
     }
     var valid = true
     element.forEachIndexed { index, item ->
-      val result = itemAssertion.validate(
-        item,
-        context.at(index),
-        errorCollector,
-      )
+      val result =
+        itemAssertion.validate(
+          item,
+          context.at(index),
+          errorCollector,
+        )
       valid = valid && result
     }
     if (valid) {

@@ -10,7 +10,10 @@ import kotlinx.serialization.json.JsonObject
 
 @Suppress("unused")
 internal object DependenciesAssertionFactory : AbstractAssertionFactory("dependencies") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonObject) { "$property must be an object" }
     if (element.isEmpty()) {
       return TrueSchemaAssertion
@@ -19,7 +22,10 @@ internal object DependenciesAssertionFactory : AbstractAssertionFactory("depende
     return DependenciesAssertion(assertions)
   }
 
-  private fun loadAssertions(jsonObject: JsonObject, context: LoadingContext): Map<String, JsonSchemaAssertion> {
+  private fun loadAssertions(
+    jsonObject: JsonObject,
+    context: LoadingContext,
+  ): Map<String, JsonSchemaAssertion> {
     return jsonObject.mapValues { (prop, element) ->
       val propContext = context.at(prop)
       when {

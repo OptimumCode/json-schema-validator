@@ -10,15 +10,21 @@ internal class TestSuite : FunSpec() {
     runTestSuites(
       draftName = "draft7",
       schemaType = DRAFT_7,
-      excludeSuites = mapOf(
-        "refRemote" to emptySet(), // remote refs are not supported
-        "definitions" to hashSetOf(
-          "validate definition against metaschema", // we don't have support for remote ref (metaschema is a remote ref)
+      excludeSuites =
+        mapOf(
+          // remote refs are not supported
+          "refRemote" to emptySet(),
+          "definitions" to
+            // we don't have support for remote ref (metaschema is a remote ref)
+            hashSetOf(
+              "validate definition against metaschema",
+            ),
+          "ref" to
+            hashSetOf(
+              // we don't have support for remote ref
+              "remote ref, containing refs itself",
+            ),
         ),
-        "ref" to hashSetOf(
-          "remote ref, containing refs itself", // we don't have support for remote ref
-        ),
-      ),
     )
   }
 }

@@ -32,10 +32,11 @@ class JsonSchemaIfThenElseValidationTest : FunSpec() {
       """.trimIndent(),
     ).also { schema ->
       test("when matches `if` passes `then` validation") {
-        val jsonObject = buildJsonObject {
-          put("f1", JsonPrimitive(42))
-          put("f2", JsonPrimitive(43))
-        }
+        val jsonObject =
+          buildJsonObject {
+            put("f1", JsonPrimitive(42))
+            put("f2", JsonPrimitive(43))
+          }
 
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(jsonObject, errors::add)
@@ -47,10 +48,11 @@ class JsonSchemaIfThenElseValidationTest : FunSpec() {
       }
 
       test("when matches `if` fails `then` validation") {
-        val jsonObject = buildJsonObject {
-          put("f1", JsonPrimitive(42))
-          put("f3", JsonPrimitive(43))
-        }
+        val jsonObject =
+          buildJsonObject {
+            put("f1", JsonPrimitive(42))
+            put("f3", JsonPrimitive(43))
+          }
 
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(jsonObject, errors::add)
@@ -138,9 +140,10 @@ class JsonSchemaIfThenElseValidationTest : FunSpec() {
       """.trimIndent(),
     ).also { schema ->
       test("when matches `if` and `then` is missing nothing is checked") {
-        val element = buildJsonObject {
-          put("f1", JsonPrimitive(42))
-        }
+        val element =
+          buildJsonObject {
+            put("f1", JsonPrimitive(42))
+          }
 
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(element, errors::add)

@@ -63,55 +63,51 @@ private const val VALIDATION_VOCABULARY_URI = "https://json-schema.org/draft/201
 private const val VOCABULARY_PROPERTY = "\$vocabulary"
 
 internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
-  private val applicatorFactories: List<AssertionFactory> = listOf(
-    ItemsAssertionFactory,
-    AdditionalItemsAssertionFactory,
+  private val applicatorFactories: List<AssertionFactory> =
+    listOf(
+      ItemsAssertionFactory,
+      AdditionalItemsAssertionFactory,
+      ContainsAssertionFactory,
+      PropertiesAssertionFactory,
+      PatternPropertiesAssertionFactory,
+      AdditionalPropertiesAssertionFactory,
+      PropertyNamesAssertionFactory,
+      DependentSchemasAssertionFactory,
+      IfAssertionFactory,
+      ThenAssertionFactory,
+      ElseAssertionFactory,
+      AllOfAssertionFactory,
+      AnyOfAssertionFactory,
+      OneOfAssertionFactory,
+      NotAssertionFactory,
+      // MUST be applied last
+      UnevaluatedItemsAssertionFactory,
+      UnevaluatedPropertiesAssertionFactory,
+    )
 
-    ContainsAssertionFactory,
-
-    PropertiesAssertionFactory,
-    PatternPropertiesAssertionFactory,
-    AdditionalPropertiesAssertionFactory,
-
-    PropertyNamesAssertionFactory,
-    DependentSchemasAssertionFactory,
-
-    IfAssertionFactory,
-    ThenAssertionFactory,
-    ElseAssertionFactory,
-
-    AllOfAssertionFactory,
-    AnyOfAssertionFactory,
-    OneOfAssertionFactory,
-    NotAssertionFactory,
-
-    // MUST be applied last
-    UnevaluatedItemsAssertionFactory,
-    UnevaluatedPropertiesAssertionFactory,
-  )
-
-  private val validationFactories: List<AssertionFactory> = listOf(
-    MultipleOfAssertionFactory,
-    MaximumAssertionFactory,
-    ExclusiveMaximumAssertionFactory,
-    MinimumAssertionFactory,
-    ExclusiveMinimumAssertionFactory,
-    MaxLengthAssertionFactory,
-    MinLengthAssertionFactory,
-    PatternAssertionFactory,
-    MaxItemsAssertionFactory,
-    MinItemsAssertionFactory,
-    MinContainsAssertionFactory,
-    MaxContainsAssertionFactory,
-    UniqueItemsAssertionFactory,
-    MaxPropertiesAssertionFactory,
-    MinPropertiesAssertionFactory,
-    RequiredAssertionFactory,
-    DependentRequiredAssertionFactory,
-    ConstAssertionFactory,
-    EnumAssertionFactory,
-    TypeAssertionFactory,
-  )
+  private val validationFactories: List<AssertionFactory> =
+    listOf(
+      MultipleOfAssertionFactory,
+      MaximumAssertionFactory,
+      ExclusiveMaximumAssertionFactory,
+      MinimumAssertionFactory,
+      ExclusiveMinimumAssertionFactory,
+      MaxLengthAssertionFactory,
+      MinLengthAssertionFactory,
+      PatternAssertionFactory,
+      MaxItemsAssertionFactory,
+      MinItemsAssertionFactory,
+      MinContainsAssertionFactory,
+      MaxContainsAssertionFactory,
+      UniqueItemsAssertionFactory,
+      MaxPropertiesAssertionFactory,
+      MinPropertiesAssertionFactory,
+      RequiredAssertionFactory,
+      DependentRequiredAssertionFactory,
+      ConstAssertionFactory,
+      EnumAssertionFactory,
+      TypeAssertionFactory,
+    )
 
   override fun factories(schemaDefinition: JsonElement): List<AssertionFactory> {
     if (schemaDefinition !is JsonObject) {
@@ -146,6 +142,7 @@ private object Draft201909KeyWordResolver : KeyWordResolver {
   const val REF_PROPERTY: String = "\$ref"
   const val REC_REF_PROPERTY: String = "\$recursiveRef"
   const val REC_ANCHOR_PROPERTY: String = "\$recursiveAnchor"
+
   override fun resolve(keyword: KeyWord): String? {
     return when (keyword) {
       ID -> ID_PROPERTY
@@ -158,7 +155,10 @@ private object Draft201909KeyWordResolver : KeyWordResolver {
 }
 
 private object Draft201909ReferenceFactory : ReferenceFactory {
-  override fun extractRef(schemaDefinition: JsonObject, context: SchemaLoaderContext): RefHolder? {
+  override fun extractRef(
+    schemaDefinition: JsonObject,
+    context: SchemaLoaderContext,
+  ): RefHolder? {
     return when {
       REF_PROPERTY in schemaDefinition ->
         RefHolder.Simple(REF_PROPERTY, schemaDefinition.getStringRequired(REF_PROPERTY).let(context::ref))

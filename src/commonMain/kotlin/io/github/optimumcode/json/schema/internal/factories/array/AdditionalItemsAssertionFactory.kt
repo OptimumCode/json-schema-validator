@@ -8,7 +8,11 @@ import kotlinx.serialization.json.JsonElement
 
 internal object AdditionalItemsAssertionFactory : AbstractAssertionFactory("additionalItems") {
   val ANNOTATION: AnnotationKey<Boolean> = AnnotationKey.createAggregatable(property, Boolean::or)
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val assertion = context.schemaFrom(element)
     return AdditionalItemsAssertion(assertion, ItemsAssertionFactory.ANNOTATION, ANNOTATION, returnIfNoIndex = true)

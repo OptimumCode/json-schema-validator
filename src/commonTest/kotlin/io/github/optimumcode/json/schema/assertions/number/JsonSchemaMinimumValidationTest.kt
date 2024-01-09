@@ -20,14 +20,15 @@ import kotlinx.serialization.json.buildJsonObject
 class JsonSchemaMinimumValidationTest : FunSpec() {
   init {
     listOf("10", "10.0").forEach { number ->
-      val schemaPositive = JsonSchema.fromDefinition(
-        """
-        {
-          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-          "minimum": $number
-        }
-        """.trimIndent(),
-      )
+      val schemaPositive =
+        JsonSchema.fromDefinition(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "minimum": $number
+          }
+          """.trimIndent(),
+        )
       listOf(
         JsonPrimitive(10),
         // Because 10.0 in JS is 10
@@ -62,14 +63,15 @@ class JsonSchemaMinimumValidationTest : FunSpec() {
       }
     }
 
-    val schema = JsonSchema.fromDefinition(
-      """
+    val schema =
+      JsonSchema.fromDefinition(
+        """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
           "minimum": 10
         }
-      """.trimIndent(),
-    )
+        """.trimIndent(),
+      )
 
     listOf(
       JsonPrimitive(true),

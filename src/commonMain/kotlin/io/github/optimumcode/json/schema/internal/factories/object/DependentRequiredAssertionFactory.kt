@@ -9,15 +9,19 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 
 internal object DependentRequiredAssertionFactory : AbstractAssertionFactory("dependentRequired") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonObject) { "$property must be an object" }
     if (element.isEmpty()) {
       return TrueSchemaAssertion
     }
-    val assertionsByProp = element.mapValues { (prop, el) ->
-      require(el is JsonArray) { "$prop dependency must be an array" }
-      ConditionalRequiredPropertiesAssertion.createFromArray(prop, el, context.at(prop))
-    }
+    val assertionsByProp =
+      element.mapValues { (prop, el) ->
+        require(el is JsonArray) { "$prop dependency must be an array" }
+        ConditionalRequiredPropertiesAssertion.createFromArray(prop, el, context.at(prop))
+      }
     return DependenciesAssertion(assertionsByProp)
   }
 }

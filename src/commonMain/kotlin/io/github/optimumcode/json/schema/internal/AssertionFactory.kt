@@ -18,5 +18,8 @@ internal interface AssertionFactory {
    * @return [JsonSchemaAssertion] that correspond to the passed [element]
    * @throws IllegalArgumentException if [isApplicable] method call returns `false` for the [element]
    */
-  fun create(element: JsonElement, context: LoadingContext): JsonSchemaAssertion
+  fun create(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion
 }
