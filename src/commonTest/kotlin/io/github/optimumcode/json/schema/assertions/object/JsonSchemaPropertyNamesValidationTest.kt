@@ -27,11 +27,12 @@ class JsonSchemaPropertyNamesValidationTest : FunSpec() {
       """.trimIndent(),
     ).also { schema ->
       test("object properties passes validation") {
-        val jsonObject = buildJsonObject {
-          put("abc", JsonPrimitive(42))
-          put("abcd", JsonPrimitive(42))
-          put("abcde", JsonPrimitive(42))
-        }
+        val jsonObject =
+          buildJsonObject {
+            put("abc", JsonPrimitive(42))
+            put("abcd", JsonPrimitive(42))
+            put("abcde", JsonPrimitive(42))
+          }
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(jsonObject, errors::add)
         jsonObject.asClue {
@@ -41,13 +42,14 @@ class JsonSchemaPropertyNamesValidationTest : FunSpec() {
       }
 
       test("object properties fails validation") {
-        val jsonObject = buildJsonObject {
-          put("ab", JsonPrimitive("42"))
-          put("abc", JsonPrimitive(42))
-          put("abcd", JsonPrimitive(42.0))
-          put("abcde", JsonPrimitive(42))
-          put("abcdef", JsonPrimitive(42))
-        }
+        val jsonObject =
+          buildJsonObject {
+            put("ab", JsonPrimitive("42"))
+            put("abc", JsonPrimitive(42))
+            put("abcd", JsonPrimitive(42.0))
+            put("abcde", JsonPrimitive(42))
+            put("abcdef", JsonPrimitive(42))
+          }
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(jsonObject, errors::add)
         jsonObject.asClue {

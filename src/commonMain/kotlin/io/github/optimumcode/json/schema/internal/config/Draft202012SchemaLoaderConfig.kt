@@ -63,55 +63,51 @@ private const val VALIDATION_VOCABULARY_URI = "https://json-schema.org/draft/202
 private const val VOCABULARY_PROPERTY = "\$vocabulary"
 
 internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
-  private val applicatorFactories: List<AssertionFactory> = listOf(
-    PrefixItemsAssertionFactory,
-    ItemsAssertionFactoryDraft202012,
+  private val applicatorFactories: List<AssertionFactory> =
+    listOf(
+      PrefixItemsAssertionFactory,
+      ItemsAssertionFactoryDraft202012,
+      ContainsAssertionFactoryDraft202012,
+      PropertiesAssertionFactory,
+      PatternPropertiesAssertionFactory,
+      AdditionalPropertiesAssertionFactory,
+      PropertyNamesAssertionFactory,
+      DependentSchemasAssertionFactory,
+      IfAssertionFactory,
+      ThenAssertionFactory,
+      ElseAssertionFactory,
+      AllOfAssertionFactory,
+      AnyOfAssertionFactory,
+      OneOfAssertionFactory,
+      NotAssertionFactory,
+      // MUST be applied last
+      UnevaluatedItemsAssertionFactoryDraft202012,
+      UnevaluatedPropertiesAssertionFactory,
+    )
 
-    ContainsAssertionFactoryDraft202012,
-
-    PropertiesAssertionFactory,
-    PatternPropertiesAssertionFactory,
-    AdditionalPropertiesAssertionFactory,
-
-    PropertyNamesAssertionFactory,
-    DependentSchemasAssertionFactory,
-
-    IfAssertionFactory,
-    ThenAssertionFactory,
-    ElseAssertionFactory,
-
-    AllOfAssertionFactory,
-    AnyOfAssertionFactory,
-    OneOfAssertionFactory,
-    NotAssertionFactory,
-
-    // MUST be applied last
-    UnevaluatedItemsAssertionFactoryDraft202012,
-    UnevaluatedPropertiesAssertionFactory,
-  )
-
-  private val validationFactories: List<AssertionFactory> = listOf(
-    MultipleOfAssertionFactory,
-    MaximumAssertionFactory,
-    ExclusiveMaximumAssertionFactory,
-    MinimumAssertionFactory,
-    ExclusiveMinimumAssertionFactory,
-    MaxLengthAssertionFactory,
-    MinLengthAssertionFactory,
-    PatternAssertionFactory,
-    MaxItemsAssertionFactory,
-    MinItemsAssertionFactory,
-    MinContainsAssertionFactoryDraft202012,
-    MaxContainsAssertionFactoryDraft202012,
-    UniqueItemsAssertionFactory,
-    MaxPropertiesAssertionFactory,
-    MinPropertiesAssertionFactory,
-    RequiredAssertionFactory,
-    DependentRequiredAssertionFactory,
-    ConstAssertionFactory,
-    EnumAssertionFactory,
-    TypeAssertionFactory,
-  )
+  private val validationFactories: List<AssertionFactory> =
+    listOf(
+      MultipleOfAssertionFactory,
+      MaximumAssertionFactory,
+      ExclusiveMaximumAssertionFactory,
+      MinimumAssertionFactory,
+      ExclusiveMinimumAssertionFactory,
+      MaxLengthAssertionFactory,
+      MinLengthAssertionFactory,
+      PatternAssertionFactory,
+      MaxItemsAssertionFactory,
+      MinItemsAssertionFactory,
+      MinContainsAssertionFactoryDraft202012,
+      MaxContainsAssertionFactoryDraft202012,
+      UniqueItemsAssertionFactory,
+      MaxPropertiesAssertionFactory,
+      MinPropertiesAssertionFactory,
+      RequiredAssertionFactory,
+      DependentRequiredAssertionFactory,
+      ConstAssertionFactory,
+      EnumAssertionFactory,
+      TypeAssertionFactory,
+    )
 
   override fun factories(schemaDefinition: JsonElement): List<AssertionFactory> {
     if (schemaDefinition !is JsonObject) {
@@ -146,6 +142,7 @@ private object Draft202012KeyWordResolver : KeyWordResolver {
   const val REF_PROPERTY: String = "\$ref"
   const val DYNAMIC_REF_PROPERTY: String = "\$dynamicRef"
   const val DYNAMIC_ANCHOR_PROPERTY: String = "\$dynamicAnchor"
+
   override fun resolve(keyword: KeyWord): String {
     return when (keyword) {
       ID -> ID_PROPERTY
@@ -158,7 +155,10 @@ private object Draft202012KeyWordResolver : KeyWordResolver {
 }
 
 private object Draft202012ReferenceFactory : ReferenceFactory {
-  override fun extractRef(schemaDefinition: JsonObject, context: SchemaLoaderContext): RefHolder? {
+  override fun extractRef(
+    schemaDefinition: JsonObject,
+    context: SchemaLoaderContext,
+  ): RefHolder? {
     return when {
       REF_PROPERTY in schemaDefinition ->
         RefHolder.Simple(REF_PROPERTY, schemaDefinition.getStringRequired(REF_PROPERTY).let(context::ref))

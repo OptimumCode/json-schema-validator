@@ -11,7 +11,10 @@ import kotlinx.serialization.json.JsonPrimitive
 
 @Suppress("unused")
 internal object PropertyNamesAssertionFactory : AbstractAssertionFactory("propertyNames") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val propertyNamesAssertion = context.schemaFrom(element)
     return PropertyNamesAssertion(propertyNamesAssertion)
@@ -21,18 +24,23 @@ internal object PropertyNamesAssertionFactory : AbstractAssertionFactory("proper
 private class PropertyNamesAssertion(
   private val namesAssertion: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonObject) {
       return true
     }
     var valid = true
     element.keys.forEach { property ->
-      val res = namesAssertion.validate(
-        JsonPrimitive(property),
-        context.at(property),
-      ) {
-        errorCollector.onError(it.copy(message = "property $property: ${it.message}"))
-      }
+      val res =
+        namesAssertion.validate(
+          JsonPrimitive(property),
+          context.at(property),
+        ) {
+          errorCollector.onError(it.copy(message = "property $property: ${it.message}"))
+        }
       valid = valid and res
     }
     return valid

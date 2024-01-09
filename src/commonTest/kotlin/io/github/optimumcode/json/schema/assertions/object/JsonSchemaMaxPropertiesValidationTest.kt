@@ -18,14 +18,15 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaMaxPropertiesValidationTest : FunSpec() {
   init {
-    val schema = JsonSchema.fromDefinition(
-      """
-      {
-        "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-        "maxProperties": 2
-      }
-      """.trimIndent(),
-    )
+    val schema =
+      JsonSchema.fromDefinition(
+        """
+        {
+          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+          "maxProperties": 2
+        }
+        """.trimIndent(),
+      )
 
     listOf(
       buildJsonObject { },
@@ -48,11 +49,12 @@ class JsonSchemaMaxPropertiesValidationTest : FunSpec() {
     }
 
     test("object with 3 properties fails validation") {
-      val jsonObject = buildJsonObject {
-        put("test1", JsonPrimitive("a"))
-        put("test2", JsonPrimitive("b"))
-        put("test3", JsonPrimitive("c"))
-      }
+      val jsonObject =
+        buildJsonObject {
+          put("test1", JsonPrimitive("a"))
+          put("test2", JsonPrimitive("b"))
+          put("test3", JsonPrimitive("c"))
+        }
 
       val errors = mutableListOf<ValidationError>()
       val valid = schema.validate(jsonObject, errors::add)

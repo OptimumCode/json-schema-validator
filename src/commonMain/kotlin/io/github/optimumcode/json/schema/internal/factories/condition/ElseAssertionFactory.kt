@@ -8,7 +8,10 @@ import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFac
 import kotlinx.serialization.json.JsonElement
 
 internal object ElseAssertionFactory : AbstractAssertionFactory("else") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val elseAssertion = context.schemaFrom(element)
     return ElseAssertion(elseAssertion)
@@ -18,7 +21,11 @@ internal object ElseAssertionFactory : AbstractAssertionFactory("else") {
 private class ElseAssertion(
   private val assertion: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     return if (context.annotationCollector.annotated(IfAssertionFactory.ANNOTATION) == false) {
       assertion.validate(element, context, errorCollector)
     } else {

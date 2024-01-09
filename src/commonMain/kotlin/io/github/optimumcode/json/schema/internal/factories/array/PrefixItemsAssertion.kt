@@ -11,7 +11,11 @@ internal class PrefixItemsAssertion(
   private val prefixAssertions: List<JsonSchemaAssertion>,
   private val annotationKey: AnnotationKey<Int>,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonArray) {
       return true
     }
@@ -19,11 +23,12 @@ internal class PrefixItemsAssertion(
     var lastProcessedIndex = -1
     for ((index, item) in element.withIndex()) {
       if (index < prefixAssertions.size) {
-        val result: Boolean = prefixAssertions[index].validate(
-          item,
-          context.at(index),
-          errorCollector,
-        )
+        val result: Boolean =
+          prefixAssertions[index].validate(
+            item,
+            context.at(index),
+            errorCollector,
+          )
         valid = valid && result
         lastProcessedIndex = index
       } else {

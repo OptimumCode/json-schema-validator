@@ -5,7 +5,6 @@ package io.github.optimumcode.json.schema.internal
  * Depending on the schema version the corresponding JSON property will be extracted from Schema definition.
  */
 internal enum class KeyWord {
-
   /**
    * Keyword that indicates the schema ID
    */

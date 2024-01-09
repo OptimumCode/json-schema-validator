@@ -10,8 +10,11 @@ internal class RecursiveRefSchemaAssertion(
   private val basePath: JsonPointer,
   private val refId: RefId,
 ) : JsonSchemaAssertion {
-
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     return context.getRecursiveRoot()?.validate(element, context, errorCollector) ?: run {
       val (refIdPath, refAssertion) = context.referenceResolver.dynamicRef(refId)
       refAssertion.validate(element, context) {

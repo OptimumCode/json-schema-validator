@@ -18,16 +18,17 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaContainsValidationTest : FunSpec() {
   init {
-    val schema = JsonSchema.fromDefinition(
-      """
-      {
-        "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-        "contains": {
-          "type": "string"
+    val schema =
+      JsonSchema.fromDefinition(
+        """
+        {
+          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+          "contains": {
+            "type": "string"
+          }
         }
-      }
-      """.trimIndent(),
-    )
+        """.trimIndent(),
+      )
 
     listOf(
       JsonPrimitive("test"),
@@ -47,13 +48,14 @@ class JsonSchemaContainsValidationTest : FunSpec() {
     }
 
     test("array with expected element passes validation") {
-      val array = buildJsonArray {
-        add(JsonPrimitive(42))
-        add(JsonPrimitive(true))
-        add(JsonPrimitive("test"))
-        add(buildJsonObject { })
-        add(buildJsonArray { })
-      }
+      val array =
+        buildJsonArray {
+          add(JsonPrimitive(42))
+          add(JsonPrimitive(true))
+          add(JsonPrimitive("test"))
+          add(buildJsonObject { })
+          add(buildJsonArray { })
+        }
 
       val errors = mutableListOf<ValidationError>()
       val valid = schema.validate(array, errors::add)

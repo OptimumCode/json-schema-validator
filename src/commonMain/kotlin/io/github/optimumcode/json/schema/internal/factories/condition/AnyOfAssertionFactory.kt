@@ -9,14 +9,20 @@ import kotlinx.serialization.json.JsonElement
 
 @Suppress("unused")
 internal object AnyOfAssertionFactory : AbstractAssertionsCollectionFactory("anyOf") {
-  override fun createAssertion(context: LoadingContext, assertions: List<JsonSchemaAssertion>): JsonSchemaAssertion =
-    AnyOfAssertion(assertions)
+  override fun createAssertion(
+    context: LoadingContext,
+    assertions: List<JsonSchemaAssertion>,
+  ): JsonSchemaAssertion = AnyOfAssertion(assertions)
 }
 
 private class AnyOfAssertion(
   private val assertions: List<JsonSchemaAssertion>,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     var valid = false
     val tempHandler = mutableListOf<ValidationError>()
     assertions.forEach {

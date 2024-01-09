@@ -7,8 +7,7 @@ import kotlin.jvm.JvmStatic
  * Function to create [JsonPointer].
  * It is a more convenient way to create a JSON pointer rather than using [JsonPointer.compile] function
  */
-public fun JsonPointer(path: String): JsonPointer =
-  JsonPointer.compile(path)
+public fun JsonPointer(path: String): JsonPointer = JsonPointer.compile(path)
 
 /**
  * Implementation of a JSON pointer described in the specification
@@ -19,7 +18,6 @@ public sealed class JsonPointer(
   private val pathOffset: Int,
   internal val next: JsonPointer? = null,
 ) {
-
   /**
    * Creates a new [JsonPointer] that points to an [index] in the array.
    *
@@ -128,23 +126,29 @@ public sealed class JsonPointer(
         val segment: String,
       )
 
-      fun buildPath(start: Int, lastSegment: String, parent: PointerParent?): JsonPointer {
-        var curr = SegmentPointer(
-          expr,
-          start,
-          lastSegment,
-          EmptyPointer,
-        )
+      fun buildPath(
+        start: Int,
+        lastSegment: String,
+        parent: PointerParent?,
+      ): JsonPointer {
+        var curr =
+          SegmentPointer(
+            expr,
+            start,
+            lastSegment,
+            EmptyPointer,
+          )
         var parentValue = parent
         while (parentValue != null) {
-          curr = parentValue.run {
-            SegmentPointer(
-              expr,
-              startOffset,
-              segment,
-              curr,
-            )
-          }
+          curr =
+            parentValue.run {
+              SegmentPointer(
+                expr,
+                startOffset,
+                segment,
+                curr,
+              )
+            }
           parentValue = parentValue.parent
         }
         return curr
@@ -182,7 +186,11 @@ public sealed class JsonPointer(
   }
 }
 
-private fun StringBuilder.appendEscapedSegment(expr: String, start: Int, offset: Int): Int {
+private fun StringBuilder.appendEscapedSegment(
+  expr: String,
+  start: Int,
+  offset: Int,
+): Int {
   var pos: Int = offset
   val end = expr.length
   val needCopy = pos - 1 - start > 0
@@ -208,14 +216,15 @@ private fun StringBuilder.appendEscapedSegment(expr: String, start: Int, offset:
 }
 
 private fun StringBuilder.appendEscaped(ch: Char) {
-  val result = when (ch) {
-    JsonPointer.QUOTATION_ESCAPE -> JsonPointer.QUOTATION
-    JsonPointer.SEPARATOR_ESCAPE -> JsonPointer.SEPARATOR
-    else -> {
-      append(JsonPointer.QUOTATION)
-      ch
+  val result =
+    when (ch) {
+      JsonPointer.QUOTATION_ESCAPE -> JsonPointer.QUOTATION
+      JsonPointer.SEPARATOR_ESCAPE -> JsonPointer.SEPARATOR
+      else -> {
+        append(JsonPointer.QUOTATION)
+        ch
+      }
     }
-  }
 
   append(result)
 }

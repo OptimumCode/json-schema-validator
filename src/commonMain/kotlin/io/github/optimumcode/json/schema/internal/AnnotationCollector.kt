@@ -5,13 +5,21 @@ import kotlin.reflect.KClass
 import kotlin.reflect.cast
 
 internal interface AnnotationCollector {
-  fun <T : Any> annotate(key: AnnotationKey<T>, value: T)
+  fun <T : Any> annotate(
+    key: AnnotationKey<T>,
+    value: T,
+  )
+
   fun <T : Any> annotated(key: AnnotationKey<T>): T?
+
   fun <T : Any> aggregatedAnnotation(key: AnnotationKey<T>): T?
 }
 
 internal fun interface Aggregator<T : Any> {
-  fun aggregate(a: T, b: T): T?
+  fun aggregate(
+    a: T,
+    b: T,
+  ): T?
 }
 
 internal class AnnotationKey<T : Any> private constructor(
@@ -48,11 +56,16 @@ internal class AnnotationKey<T : Any> private constructor(
     inline fun <reified T : Any> create(name: String): AnnotationKey<T> = create(name, T::class)
 
     @JvmStatic
-    inline fun <reified T : Any> createAggregatable(name: String, noinline aggregator: (T, T) -> T): AnnotationKey<T> =
-      createAggregatable(name, T::class, aggregator)
+    inline fun <reified T : Any> createAggregatable(
+      name: String,
+      noinline aggregator: (T, T) -> T,
+    ): AnnotationKey<T> = createAggregatable(name, T::class, aggregator)
 
     @JvmStatic
-    fun <T : Any> create(name: String, type: KClass<T>): AnnotationKey<T> = AnnotationKey(name, type, notAggragatable())
+    fun <T : Any> create(
+      name: String,
+      type: KClass<T>,
+    ): AnnotationKey<T> = AnnotationKey(name, type, notAggragatable())
 
     @JvmStatic
     fun <T : Any> createAggregatable(
@@ -67,7 +80,10 @@ internal class DefaultAnnotationCollector : AnnotationCollector {
   private lateinit var _annotations: MutableMap<AnnotationKey<*>, Any>
   private lateinit var _aggregatedAnnotations: MutableMap<AnnotationKey<*>, Any>
 
-  override fun <T : Any> annotate(key: AnnotationKey<T>, value: T) {
+  override fun <T : Any> annotate(
+    key: AnnotationKey<T>,
+    value: T,
+  ) {
     annotations()[key] = value
   }
 

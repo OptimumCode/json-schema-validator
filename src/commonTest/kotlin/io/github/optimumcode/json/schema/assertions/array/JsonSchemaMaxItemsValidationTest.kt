@@ -18,14 +18,15 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaMaxItemsValidationTest : FunSpec() {
   init {
-    val schema = JsonSchema.fromDefinition(
-      """
-      {
-        "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-        "maxItems": 3
-      }
-      """.trimIndent(),
-    )
+    val schema =
+      JsonSchema.fromDefinition(
+        """
+        {
+          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+          "maxItems": 3
+        }
+        """.trimIndent(),
+      )
 
     listOf(
       buildJsonArray { },
@@ -54,12 +55,13 @@ class JsonSchemaMaxItemsValidationTest : FunSpec() {
 
     test("array with size 4 fails validation") {
       val errors = mutableListOf<ValidationError>()
-      val array = buildJsonArray {
-        add(JsonPrimitive("a"))
-        add(JsonPrimitive("b"))
-        add(JsonPrimitive("c"))
-        add(JsonPrimitive("d"))
-      }
+      val array =
+        buildJsonArray {
+          add(JsonPrimitive("a"))
+          add(JsonPrimitive("b"))
+          add(JsonPrimitive("c"))
+          add(JsonPrimitive("d"))
+        }
       val valid = schema.validate(array, errors::add)
       array.asClue {
         valid shouldBe false

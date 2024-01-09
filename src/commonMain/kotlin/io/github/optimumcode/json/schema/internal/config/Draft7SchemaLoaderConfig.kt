@@ -50,46 +50,41 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 
 internal object Draft7SchemaLoaderConfig : SchemaLoaderConfig {
-  private val factories: List<AssertionFactory> = listOf(
-    TypeAssertionFactory,
-    EnumAssertionFactory,
-    ConstAssertionFactory,
-    MultipleOfAssertionFactory,
-    MaximumAssertionFactory,
-    ExclusiveMaximumAssertionFactory,
-    MinimumAssertionFactory,
-    ExclusiveMinimumAssertionFactory,
-    MaxLengthAssertionFactory,
-    MinLengthAssertionFactory,
-    PatternAssertionFactory,
-
-    ItemsAssertionFactory,
-    AdditionalItemsAssertionFactory,
-
-    MaxItemsAssertionFactory,
-    MinItemsAssertionFactory,
-    UniqueItemsAssertionFactory,
-    ContainsAssertionFactory,
-    MaxPropertiesAssertionFactory,
-    MinPropertiesAssertionFactory,
-    RequiredAssertionFactory,
-
-    PropertiesAssertionFactory,
-    PatternPropertiesAssertionFactory,
-    AdditionalPropertiesAssertionFactory,
-
-    PropertyNamesAssertionFactory,
-    DependenciesAssertionFactory,
-
-    IfAssertionFactory,
-    ThenAssertionFactory,
-    ElseAssertionFactory,
-
-    AllOfAssertionFactory,
-    AnyOfAssertionFactory,
-    OneOfAssertionFactory,
-    NotAssertionFactory,
-  )
+  private val factories: List<AssertionFactory> =
+    listOf(
+      TypeAssertionFactory,
+      EnumAssertionFactory,
+      ConstAssertionFactory,
+      MultipleOfAssertionFactory,
+      MaximumAssertionFactory,
+      ExclusiveMaximumAssertionFactory,
+      MinimumAssertionFactory,
+      ExclusiveMinimumAssertionFactory,
+      MaxLengthAssertionFactory,
+      MinLengthAssertionFactory,
+      PatternAssertionFactory,
+      ItemsAssertionFactory,
+      AdditionalItemsAssertionFactory,
+      MaxItemsAssertionFactory,
+      MinItemsAssertionFactory,
+      UniqueItemsAssertionFactory,
+      ContainsAssertionFactory,
+      MaxPropertiesAssertionFactory,
+      MinPropertiesAssertionFactory,
+      RequiredAssertionFactory,
+      PropertiesAssertionFactory,
+      PatternPropertiesAssertionFactory,
+      AdditionalPropertiesAssertionFactory,
+      PropertyNamesAssertionFactory,
+      DependenciesAssertionFactory,
+      IfAssertionFactory,
+      ThenAssertionFactory,
+      ElseAssertionFactory,
+      AllOfAssertionFactory,
+      AnyOfAssertionFactory,
+      OneOfAssertionFactory,
+      NotAssertionFactory,
+    )
 
   override fun factories(schemaDefinition: JsonElement): List<AssertionFactory> = factories
 
@@ -104,15 +99,19 @@ private object Draft7KeyWordResolver : KeyWordResolver {
   private const val ID_PROPERTY: String = "\$id"
   const val REF_PROPERTY: String = "\$ref"
 
-  override fun resolve(keyword: KeyWord): String? = when (keyword) {
-    ID -> ID_PROPERTY
-    DEFINITIONS -> DEFINITIONS_PROPERTY
-    ANCHOR, COMPATIBILITY_DEFINITIONS, DYNAMIC_ANCHOR -> null
-  }
+  override fun resolve(keyword: KeyWord): String? =
+    when (keyword) {
+      ID -> ID_PROPERTY
+      DEFINITIONS -> DEFINITIONS_PROPERTY
+      ANCHOR, COMPATIBILITY_DEFINITIONS, DYNAMIC_ANCHOR -> null
+    }
 }
 
 private object Draft7ReferenceFactory : ReferenceFactory {
-  override fun extractRef(schemaDefinition: JsonObject, context: SchemaLoaderContext): RefHolder? {
+  override fun extractRef(
+    schemaDefinition: JsonObject,
+    context: SchemaLoaderContext,
+  ): RefHolder? {
     return if (REF_PROPERTY in schemaDefinition) {
       RefHolder.Simple(REF_PROPERTY, schemaDefinition.getStringRequired(REF_PROPERTY).let(context::ref))
     } else {
@@ -124,5 +123,6 @@ private object Draft7ReferenceFactory : ReferenceFactory {
     get() = false
   override val resolveRefPriorId: Boolean
     get() = false
+
   override fun recursiveResolutionEnabled(schemaDefinition: JsonObject): Boolean = true
 }

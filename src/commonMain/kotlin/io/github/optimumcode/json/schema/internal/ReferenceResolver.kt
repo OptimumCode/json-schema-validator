@@ -26,16 +26,18 @@ internal class DefaultReferenceResolver(
       return originalRef.schemaPath to originalRef.assertion
     }
     val fragment = refId.fragment
-    val possibleDynamicRefs: MutableList<AssertionWithPath> = references.asSequence()
-      .filter { (id, link) ->
-        link.dynamic && id.fragment == fragment && id != refId
-      }.map { it.value }.toMutableList()
+    val possibleDynamicRefs: MutableList<AssertionWithPath> =
+      references.asSequence()
+        .filter { (id, link) ->
+          link.dynamic && id.fragment == fragment && id != refId
+        }.map { it.value }.toMutableList()
     possibleDynamicRefs.sortBy { it.schemaPath.length }
 
-    val resolvedDynamicRef = findMostOuterRef(possibleDynamicRefs)
-      // If no outer anchor found use the original ref
-      ?: possibleDynamicRefs.firstOrNull()
-      ?: originalRef
+    val resolvedDynamicRef =
+      findMostOuterRef(possibleDynamicRefs)
+        // If no outer anchor found use the original ref
+        ?: possibleDynamicRefs.firstOrNull()
+        ?: originalRef
     return resolvedDynamicRef.schemaPath to resolvedDynamicRef.assertion
   }
 

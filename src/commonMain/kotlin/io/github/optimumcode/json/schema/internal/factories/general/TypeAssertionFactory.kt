@@ -18,18 +18,21 @@ import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.longOrNull
 
 internal object TypeAssertionFactory : AbstractAssertionFactory("type") {
+  private val typeValidations: Map<String, Validation> =
+    linkedMapOf<String, (JsonElement) -> Boolean>(
+      "null" to { it is JsonNull },
+      "string" to { it is JsonPrimitive && it.isString },
+      "boolean" to { it is JsonPrimitive && !it.isString && it.booleanOrNull != null },
+      "number" to { it is JsonPrimitive && !it.isString && (it.doubleOrNull != null || it.longOrNull != null) },
+      "integer" to { it is JsonPrimitive && !it.isString && parseNumberParts(it)?.fractional == 0L },
+      "array" to { it is JsonArray },
+      "object" to { it is JsonObject },
+    ).mapValues { Validation(it.key, it.value) }
 
-  private val typeValidations: Map<String, Validation> = linkedMapOf<String, (JsonElement) -> Boolean>(
-    "null" to { it is JsonNull },
-    "string" to { it is JsonPrimitive && it.isString },
-    "boolean" to { it is JsonPrimitive && !it.isString && it.booleanOrNull != null },
-    "number" to { it is JsonPrimitive && !it.isString && (it.doubleOrNull != null || it.longOrNull != null) },
-    "integer" to { it is JsonPrimitive && !it.isString && parseNumberParts(it)?.fractional == 0L },
-    "array" to { it is JsonArray },
-    "object" to { it is JsonObject },
-  ).mapValues { Validation(it.key, it.value) }
-
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     return when (element) {
       is JsonPrimitive -> createFromPrimitive(element, context)
       is JsonArray -> createFromArray(element, context)
@@ -37,7 +40,10 @@ internal object TypeAssertionFactory : AbstractAssertionFactory("type") {
     }
   }
 
-  private fun createFromArray(typeElement: JsonArray, context: LoadingContext): JsonSchemaAssertion {
+  private fun createFromArray(
+    typeElement: JsonArray,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(typeElement.isNotEmpty()) { "$property must be a non empty array if it is not a string" }
     require(typeElement.all { it is JsonPrimitive && it.isString }) {
       "each $property element must be a string"
@@ -49,7 +55,10 @@ internal object TypeAssertionFactory : AbstractAssertionFactory("type") {
     return TypeAssertion(context.schemaPath, types.map { requireNotNull(typeValidations[it]) { "unknown type $it" } })
   }
 
-  private fun createFromPrimitive(typeElement: JsonPrimitive, context: LoadingContext): JsonSchemaAssertion {
+  private fun createFromPrimitive(
+    typeElement: JsonPrimitive,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(typeElement.isString) { "$property must be a string if it is not an array" }
     val type = typeElement.content
     val validation: Validation =
@@ -71,17 +80,22 @@ private class TypeAssertion(
     require(validations.isNotEmpty()) { "empty validations" }
   }
 
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     val match = validations.any { it.check(element) }
     if (!match) {
       errorCollector.onError(
         ValidationError(
           schemaPath = path,
           objectPath = context.objectPath,
-          message = when (validations.size) {
-            1 -> "element is not a ${validations.first().name}"
-            else -> "element is none of ${validations.joinToString(prefix = "[", postfix = "]") { it.name }}"
-          },
+          message =
+            when (validations.size) {
+              1 -> "element is not a ${validations.first().name}"
+              else -> "element is none of ${validations.joinToString(prefix = "[", postfix = "]") { it.name }}"
+            },
         ),
       )
     }

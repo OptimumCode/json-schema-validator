@@ -1,10 +1,8 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: remove when migrate to Gradle 8
 plugins {
   alias(libs.plugins.kotlin.mutliplatform)
   alias(libs.plugins.kotlin.serialization)
@@ -21,8 +19,6 @@ plugins {
 repositories {
   mavenCentral()
 }
-
-val mainHost: String by project
 
 kotlin {
   explicitApi()
@@ -44,33 +40,36 @@ kotlin {
     generateTypeScriptDefinitions()
     nodejs()
   }
-  ios()
+  applyDefaultHierarchyTemplate()
 
-  val macOsTargets = listOf<KotlinTarget>(
-    macosX64(),
-    macosArm64(),
-    iosX64(),
-    iosArm64(),
-    iosSimulatorArm64(),
-  )
+  val macOsTargets =
+    listOf<KotlinTarget>(
+      macosX64(),
+      macosArm64(),
+      iosX64(),
+      iosArm64(),
+      iosSimulatorArm64(),
+    )
 
-  val linuxTargets = listOf<KotlinTarget>(
-    linuxX64(),
-    linuxArm64(),
-  )
+  val linuxTargets =
+    listOf<KotlinTarget>(
+      linuxX64(),
+      linuxArm64(),
+    )
 
-  val windowsTargets = listOf<KotlinTarget>(
-    mingwX64(),
-  )
+  val windowsTargets =
+    listOf<KotlinTarget>(
+      mingwX64(),
+    )
 
   sourceSets {
-    val commonMain by getting {
+    commonMain {
       dependencies {
         api(libs.kotlin.serialization.json)
         implementation(libs.uri)
       }
     }
-    val commonTest by getting {
+    commonTest {
       dependencies {
         implementation(libs.kotest.assertions.core)
         implementation(libs.kotest.framework.engine)
@@ -78,7 +77,7 @@ kotlin {
         implementation(kotlin("test-annotations-common"))
       }
     }
-    val jvmTest by getting {
+    jvmTest {
       dependencies {
         implementation(libs.kotest.runner.junit5)
       }
@@ -111,10 +110,6 @@ kotlin {
       dependsOn(tasks.getByName("jsTest"))
     }
   }
-}
-
-extensions.configure<NodeJsRootExtension> {
-  versions.webpack.version = "5.76.0"
 }
 
 ktlint {

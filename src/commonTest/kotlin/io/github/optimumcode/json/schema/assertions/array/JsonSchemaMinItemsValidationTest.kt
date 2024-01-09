@@ -18,14 +18,15 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaMinItemsValidationTest : FunSpec() {
   init {
-    val schema = JsonSchema.fromDefinition(
-      """
-      {
-        "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-        "minItems": 2
-      }
-      """.trimIndent(),
-    )
+    val schema =
+      JsonSchema.fromDefinition(
+        """
+        {
+          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+          "minItems": 2
+        }
+        """.trimIndent(),
+      )
 
     listOf(
       buildJsonArray {

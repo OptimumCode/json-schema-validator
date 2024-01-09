@@ -9,13 +9,15 @@ internal object ReferenceValidator {
     val schemaPath: JsonPointer,
     val refId: RefId,
   )
+
   fun validateReferences(
     referencesWithPath: Map<RefId, JsonPointer>,
     usedRef: Set<ReferenceLocation>,
   ) {
-    val missingRefs: Map<RefId, List<ReferenceLocation>> = usedRef.asSequence()
-      .filter { it.refId !in referencesWithPath }
-      .groupBy { it.refId }
+    val missingRefs: Map<RefId, List<ReferenceLocation>> =
+      usedRef.asSequence()
+        .filter { it.refId !in referencesWithPath }
+        .groupBy { it.refId }
     require(missingRefs.isEmpty()) {
       "cannot resolve references: ${
         missingRefs.entries.joinToString(prefix = "{", postfix = "}") { (ref, locations) ->
@@ -28,32 +30,39 @@ internal object ReferenceValidator {
 
   private val alwaysRunAssertions = hashSetOf("allOf", "anyOf", "oneOf")
 
-  private fun checkCircledReferences(usedRefs: Set<ReferenceLocation>, referencesWithPath: Map<RefId, JsonPointer>) {
-    val locationToRef: Map<JsonPointer, RefId> = usedRefs.associate { (schemaPath, refId) ->
-      schemaPath to refId
-    }
+  private fun checkCircledReferences(
+    usedRefs: Set<ReferenceLocation>,
+    referencesWithPath: Map<RefId, JsonPointer>,
+  ) {
+    val locationToRef: Map<JsonPointer, RefId> =
+      usedRefs.associate { (schemaPath, refId) ->
+        schemaPath to refId
+      }
 
     val circledReferences = hashSetOf<CircledReference>()
+
     fun checkRunAlways(path: JsonPointer): Boolean {
       return alwaysRunAssertions.any { path.contains(it) }
     }
     for ((location, refId) in locationToRef) {
       val schemaLocation: JsonPointer = referencesWithPath.getValue(refId)
 
-      val (otherLocation, otherRef) = locationToRef.entries.find { (refKey) ->
-        refKey.startsWith(schemaLocation)
-      } ?: continue
+      val (otherLocation, otherRef) =
+        locationToRef.entries.find { (refKey) ->
+          refKey.startsWith(schemaLocation)
+        } ?: continue
       val otherRefSchemaLocation: JsonPointer = referencesWithPath.getValue(otherRef)
       if (!location.startsWith(otherRefSchemaLocation)) {
         continue
       }
       if (checkRunAlways(location) && checkRunAlways(otherLocation) && location != otherLocation) {
-        circledReferences += CircledReference(
-          firstLocation = location,
-          firstRef = schemaLocation,
-          secondLocation = otherLocation,
-          secondRef = otherRefSchemaLocation,
-        )
+        circledReferences +=
+          CircledReference(
+            firstLocation = location,
+            firstRef = schemaLocation,
+            secondLocation = otherLocation,
+            secondRef = otherRefSchemaLocation,
+          )
       }
     }
     require(circledReferences.isEmpty()) {
@@ -82,13 +91,13 @@ internal object ReferenceValidator {
           firstRef == other.firstRef &&
           secondLocation == other.secondLocation &&
           secondRef == other.secondRef
-        ) ||
+      ) ||
         (
           firstLocation == other.secondLocation &&
             firstRef == other.secondRef &&
             secondLocation == other.firstLocation &&
             secondRef == other.firstRef
-          )
+        )
     }
 
     override fun hashCode(): Int {

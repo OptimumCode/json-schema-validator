@@ -18,23 +18,25 @@ import kotlinx.serialization.json.buildJsonObject
 class JsonSchemaItemsValidationTest : FunSpec() {
   init {
     test("true schema accepts all items") {
-      val schema = JsonSchema.fromDefinition(
-        """
-        {
-          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-          "items": true
+      val schema =
+        JsonSchema.fromDefinition(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "items": true
+          }
+          """.trimIndent(),
+        )
+      val array =
+        buildJsonArray {
+          add(JsonPrimitive(42))
+          add(JsonPrimitive(42.5))
+          add(JsonPrimitive("test"))
+          add(JsonPrimitive(true))
+          add(JsonNull)
+          add(buildJsonObject { })
+          add(buildJsonArray { })
         }
-        """.trimIndent(),
-      )
-      val array = buildJsonArray {
-        add(JsonPrimitive(42))
-        add(JsonPrimitive(42.5))
-        add(JsonPrimitive("test"))
-        add(JsonPrimitive(true))
-        add(JsonNull)
-        add(buildJsonObject { })
-        add(buildJsonArray { })
-      }
 
       val errors = mutableListOf<ValidationError>()
       val valid = schema.validate(array, errors::add)
@@ -46,20 +48,22 @@ class JsonSchemaItemsValidationTest : FunSpec() {
     }
 
     test("items applied against all items") {
-      val schema = JsonSchema.fromDefinition(
-        """
-        {
-          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-          "items": {
-            "type": "number"
+      val schema =
+        JsonSchema.fromDefinition(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "items": {
+              "type": "number"
+            }
           }
+          """.trimIndent(),
+        )
+      val array =
+        buildJsonArray {
+          add(JsonPrimitive(42))
+          add(JsonPrimitive(42.5))
         }
-        """.trimIndent(),
-      )
-      val array = buildJsonArray {
-        add(JsonPrimitive(42))
-        add(JsonPrimitive(42.5))
-      }
 
       val errors = mutableListOf<ValidationError>()
       val valid = schema.validate(array, errors::add)
@@ -71,30 +75,32 @@ class JsonSchemaItemsValidationTest : FunSpec() {
     }
 
     test("items array applied against items on corresponding indexes") {
-      val schema = JsonSchema.fromDefinition(
-        """
-        {
-          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "string"
-            }
-          ]
+      val schema =
+        JsonSchema.fromDefinition(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "items": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+          """.trimIndent(),
+        )
+      val array =
+        buildJsonArray {
+          add(JsonPrimitive(42))
+          add(JsonPrimitive("string"))
+          // should be ignored by validation
+          add(JsonPrimitive(true))
+          add(JsonNull)
+          add(buildJsonObject { })
+          add(buildJsonArray { })
         }
-        """.trimIndent(),
-      )
-      val array = buildJsonArray {
-        add(JsonPrimitive(42))
-        add(JsonPrimitive("string"))
-        // should be ignored by validation
-        add(JsonPrimitive(true))
-        add(JsonNull)
-        add(buildJsonObject { })
-        add(buildJsonArray { })
-      }
 
       val errors = mutableListOf<ValidationError>()
       val valid = schema.validate(array, errors::add)
@@ -106,23 +112,25 @@ class JsonSchemaItemsValidationTest : FunSpec() {
     }
 
     test("single item reports error for all elements") {
-      val schema = JsonSchema.fromDefinition(
-        """
-        {
-          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-          "items": {
-            "type": "number"
+      val schema =
+        JsonSchema.fromDefinition(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "items": {
+              "type": "number"
+            }
           }
+          """.trimIndent(),
+        )
+      val array =
+        buildJsonArray {
+          add(JsonPrimitive("str"))
+          add(JsonPrimitive(true))
+          add(JsonNull)
+          add(buildJsonObject { })
+          add(buildJsonArray { })
         }
-        """.trimIndent(),
-      )
-      val array = buildJsonArray {
-        add(JsonPrimitive("str"))
-        add(JsonPrimitive(true))
-        add(JsonNull)
-        add(buildJsonObject { })
-        add(buildJsonArray { })
-      }
 
       val errors = mutableListOf<ValidationError>()
       val valid = schema.validate(array, errors::add)
@@ -161,31 +169,33 @@ class JsonSchemaItemsValidationTest : FunSpec() {
     }
 
     test("collection items reports error for elements on corresponding indexes") {
-      val schema = JsonSchema.fromDefinition(
-        """
-        {
-          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "string"
-            }
-          ]
-        }
-        """.trimIndent(),
-      )
+      val schema =
+        JsonSchema.fromDefinition(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "items": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+          """.trimIndent(),
+        )
 
-      val array = buildJsonArray {
-        add(JsonPrimitive("string"))
-        add(JsonPrimitive(42))
-        // should be ignored by validation
-        add(JsonPrimitive(true))
-        add(JsonNull)
-        add(buildJsonObject { })
-        add(buildJsonArray { })
-      }
+      val array =
+        buildJsonArray {
+          add(JsonPrimitive("string"))
+          add(JsonPrimitive(42))
+          // should be ignored by validation
+          add(JsonPrimitive(true))
+          add(JsonNull)
+          add(buildJsonObject { })
+          add(buildJsonArray { })
+        }
 
       val errors = mutableListOf<ValidationError>()
       val valid = schema.validate(array, errors::add)
@@ -208,24 +218,26 @@ class JsonSchemaItemsValidationTest : FunSpec() {
     }
 
     test("additional items ignored when item is a JSON schema") {
-      val schema = JsonSchema.fromDefinition(
-        """
-        {
-          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-          "items": {
-            "type": "string"
-          },
-          "additionalItems": {
-            "type": "number"
+      val schema =
+        JsonSchema.fromDefinition(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "items": {
+              "type": "string"
+            },
+            "additionalItems": {
+              "type": "number"
+            }
           }
-        }
-        """.trimIndent(),
-      )
+          """.trimIndent(),
+        )
 
-      val array = buildJsonArray {
-        add(JsonPrimitive("test1"))
-        add(JsonPrimitive("test2"))
-      }
+      val array =
+        buildJsonArray {
+          add(JsonPrimitive("test1"))
+          add(JsonPrimitive("test2"))
+        }
 
       array.asClue {
         val errors = mutableListOf<ValidationError>()
@@ -237,34 +249,36 @@ class JsonSchemaItemsValidationTest : FunSpec() {
     }
 
     test("additional items applied to all remaining elements") {
-      val schema = JsonSchema.fromDefinition(
-        """
-        {
-          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
+      val schema =
+        JsonSchema.fromDefinition(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "items": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "additionalItems": {
               "type": "string"
             }
-          ],
-          "additionalItems": {
-            "type": "string"
           }
-        }
-        """.trimIndent(),
-      )
+          """.trimIndent(),
+        )
 
-      val array = buildJsonArray {
-        add(JsonPrimitive(42))
-        add(JsonPrimitive("test"))
-        // invalid
-        add(JsonPrimitive(true))
-        add(JsonNull)
-        add(buildJsonObject { })
-        add(buildJsonArray { })
-      }
+      val array =
+        buildJsonArray {
+          add(JsonPrimitive(42))
+          add(JsonPrimitive("test"))
+          // invalid
+          add(JsonPrimitive(true))
+          add(JsonNull)
+          add(buildJsonObject { })
+          add(buildJsonArray { })
+        }
 
       array.asClue {
         val errors = mutableListOf<ValidationError>()
@@ -298,24 +312,26 @@ class JsonSchemaItemsValidationTest : FunSpec() {
     }
 
     test("false additional items reports any additional element") {
-      val schema = JsonSchema.fromDefinition(
-        """
-        {
-          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-          "items": [
-            {
-              "type": "string"
-            }
-          ],
-          "additionalItems": false
-        }
-        """.trimIndent(),
-      )
+      val schema =
+        JsonSchema.fromDefinition(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "items": [
+              {
+                "type": "string"
+              }
+            ],
+            "additionalItems": false
+          }
+          """.trimIndent(),
+        )
 
-      val array = buildJsonArray {
-        add(JsonPrimitive("test1"))
-        add(JsonPrimitive("test2"))
-      }
+      val array =
+        buildJsonArray {
+          add(JsonPrimitive("test1"))
+          add(JsonPrimitive("test2"))
+        }
 
       array.asClue {
         val errors = mutableListOf<ValidationError>()
@@ -332,8 +348,9 @@ class JsonSchemaItemsValidationTest : FunSpec() {
       }
     }
 
-    val schema = JsonSchema.fromDefinition(
-      """
+    val schema =
+      JsonSchema.fromDefinition(
+        """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
           "items": {
@@ -343,8 +360,8 @@ class JsonSchemaItemsValidationTest : FunSpec() {
             "type": "number"
           }
         }
-      """.trimIndent(),
-    )
+        """.trimIndent(),
+      )
     listOf(
       JsonPrimitive("test"),
       JsonPrimitive(42),

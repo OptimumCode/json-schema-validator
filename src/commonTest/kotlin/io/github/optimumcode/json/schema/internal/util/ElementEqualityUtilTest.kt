@@ -13,8 +13,9 @@ import kotlinx.serialization.json.JsonUnquotedLiteral
 class ElementEqualityUtilTest : FunSpec() {
   init {
     test("extracts number parts from max long engineering format") {
-      val (integer, fraction, precision) = parseNumberParts(JsonUnquotedLiteral("1e308"))
-        .shouldNotBeNull()
+      val (integer, fraction, precision) =
+        parseNumberParts(JsonUnquotedLiteral("1e308"))
+          .shouldNotBeNull()
       assertSoftly {
         integer shouldBe Long.MAX_VALUE
         fraction shouldBe 0L

@@ -14,7 +14,11 @@ internal class PropertiesNumberAssertion(
   private val errorMessage: String,
   private val check: (Int, Int) -> Boolean,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonObject) {
       return true
     }

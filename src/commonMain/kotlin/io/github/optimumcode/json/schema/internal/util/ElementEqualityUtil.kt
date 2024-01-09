@@ -10,7 +10,10 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
-internal fun areEqual(first: JsonElement, second: JsonElement): Boolean {
+internal fun areEqual(
+  first: JsonElement,
+  second: JsonElement,
+): Boolean {
   if (first::class != second::class) {
     return false
   }
@@ -21,7 +24,10 @@ internal fun areEqual(first: JsonElement, second: JsonElement): Boolean {
   }
 }
 
-internal fun areEqualPrimitives(first: JsonPrimitive, second: JsonPrimitive): Boolean {
+internal fun areEqualPrimitives(
+  first: JsonPrimitive,
+  second: JsonPrimitive,
+): Boolean {
   if (first is JsonNull && second is JsonNull) {
     return true
   }
@@ -38,11 +44,17 @@ internal fun areEqualPrimitives(first: JsonPrimitive, second: JsonPrimitive): Bo
   }
 }
 
-private fun compareAsNumbers(first: JsonPrimitive, second: JsonPrimitive): Boolean {
+private fun compareAsNumbers(
+  first: JsonPrimitive,
+  second: JsonPrimitive,
+): Boolean {
   return numberParts(first) == numberParts(second)
 }
 
-internal fun areEqualArrays(first: JsonArray, second: JsonArray): Boolean {
+internal fun areEqualArrays(
+  first: JsonArray,
+  second: JsonArray,
+): Boolean {
   if (first.size != second.size) {
     return false
   }
@@ -54,7 +66,10 @@ internal fun areEqualArrays(first: JsonArray, second: JsonArray): Boolean {
   return true
 }
 
-internal fun areEqualObjects(first: JsonObject, second: JsonObject): Boolean {
+internal fun areEqualObjects(
+  first: JsonObject,
+  second: JsonObject,
+): Boolean {
   if (first.size != second.size) {
     return false
   }

@@ -9,8 +9,11 @@ internal class JsonSchemaRoot(
   private val assertions: Collection<JsonSchemaAssertion>,
   private val canBeReferencedRecursively: Boolean,
 ) : JsonSchemaAssertion {
-
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (canBeReferencedRecursively) {
       context.setRecursiveRootIfAbsent(this)
     } else {

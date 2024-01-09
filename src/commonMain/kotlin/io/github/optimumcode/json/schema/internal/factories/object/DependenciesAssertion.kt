@@ -9,7 +9,11 @@ import kotlinx.serialization.json.JsonObject
 internal class DependenciesAssertion(
   private val dependenciesAssertions: Map<String, JsonSchemaAssertion>,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonObject) {
       return true
     }

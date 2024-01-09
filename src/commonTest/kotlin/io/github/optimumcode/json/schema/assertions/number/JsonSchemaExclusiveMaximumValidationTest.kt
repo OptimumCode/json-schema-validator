@@ -20,14 +20,15 @@ import kotlinx.serialization.json.buildJsonObject
 class JsonSchemaExclusiveMaximumValidationTest : FunSpec() {
   init {
     listOf("10", "10.0").forEach { number ->
-      val schemaPositive = JsonSchema.fromDefinition(
-        """
-        {
-          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-          "exclusiveMaximum": $number
-        }
-        """.trimIndent(),
-      )
+      val schemaPositive =
+        JsonSchema.fromDefinition(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "exclusiveMaximum": $number
+          }
+          """.trimIndent(),
+        )
       listOf(
         JsonPrimitive(9),
         JsonPrimitive(9.99),
@@ -64,14 +65,15 @@ class JsonSchemaExclusiveMaximumValidationTest : FunSpec() {
       }
     }
 
-    val schema = JsonSchema.fromDefinition(
-      """
+    val schema =
+      JsonSchema.fromDefinition(
+        """
         {
           "${KEY}schema": "http://json-schema.org/draft-07/schema#",
           "exclusiveMaximum": 10
         }
-      """.trimIndent(),
-    )
+        """.trimIndent(),
+      )
 
     listOf(
       JsonPrimitive(true),

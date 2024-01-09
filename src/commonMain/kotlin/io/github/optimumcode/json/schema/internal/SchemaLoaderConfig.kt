@@ -5,6 +5,7 @@ import kotlinx.serialization.json.JsonObject
 
 internal interface SchemaLoaderConfig {
   fun factories(schemaDefinition: JsonElement): List<AssertionFactory>
+
   val keywordResolver: KeyWordResolver
   val referenceFactory: ReferenceFactory
 }
@@ -18,7 +19,10 @@ internal interface ReferenceFactory {
    *
    * @return [RefHolder] if [schemaDefinition] has reference. Otherwise, returns `null`
    */
-  fun extractRef(schemaDefinition: JsonObject, context: SchemaLoaderContext): RefHolder?
+  fun extractRef(
+    schemaDefinition: JsonObject,
+    context: SchemaLoaderContext,
+  ): RefHolder?
 
   /**
    * Defines whether the other schema properties should be loaded when reference is present

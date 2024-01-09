@@ -157,35 +157,41 @@ class JsonSchemaTest : FunSpec() {
     }
 
     listOf(
-      "document root" to listOf(
-        "http://example.com/root.json",
-        "http://example.com/root.json#",
-      ),
-      "definition A" to listOf(
-        "http://example.com/root.json#foo",
-        "http://example.com/root.json#/definitions/A",
-      ),
-      "definition B" to listOf(
-        "http://example.com/other.json",
-        "http://example.com/other.json#",
-        "http://example.com/root.json#/definitions/B",
-      ),
-      "definition X" to listOf(
-        "http://example.com/other.json#bar",
-        "http://example.com/other.json#/definitions/X",
-        "http://example.com/root.json#/definitions/B/definitions/X",
-      ),
-      "definition Y" to listOf(
-        "http://example.com/t/inner.json",
-        "http://example.com/t/inner.json#",
-        "http://example.com/other.json#/definitions/Y",
-        "http://example.com/root.json#/definitions/B/definitions/Y",
-      ),
-      "definition C" to listOf(
-        "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f",
-        "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f#",
-        "http://example.com/root.json#/definitions/C",
-      ),
+      "document root" to
+        listOf(
+          "http://example.com/root.json",
+          "http://example.com/root.json#",
+        ),
+      "definition A" to
+        listOf(
+          "http://example.com/root.json#foo",
+          "http://example.com/root.json#/definitions/A",
+        ),
+      "definition B" to
+        listOf(
+          "http://example.com/other.json",
+          "http://example.com/other.json#",
+          "http://example.com/root.json#/definitions/B",
+        ),
+      "definition X" to
+        listOf(
+          "http://example.com/other.json#bar",
+          "http://example.com/other.json#/definitions/X",
+          "http://example.com/root.json#/definitions/B/definitions/X",
+        ),
+      "definition Y" to
+        listOf(
+          "http://example.com/t/inner.json",
+          "http://example.com/t/inner.json#",
+          "http://example.com/other.json#/definitions/Y",
+          "http://example.com/root.json#/definitions/B/definitions/Y",
+        ),
+      "definition C" to
+        listOf(
+          "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f",
+          "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f#",
+          "http://example.com/root.json#/definitions/C",
+        ),
     ).forEach { (refDestination, possibleRefs) ->
       possibleRefs.asSequence()
         .flatMapIndexed { index, ref ->
@@ -268,77 +274,80 @@ class JsonSchemaTest : FunSpec() {
     }
 
     test("\$dynamicRef is resolved every time") {
-      val schema = JsonSchema.fromDefinition(
-        """
-        {
-          "${KEY}schema": "https://json-schema.org/draft/2020-12/schema",
-          "${KEY}id": "https://test.json-schema.org/dynamic-ref-with-multiple-paths/main",
-          "if": {
-              "properties": {
-                  "kindOfList": { "const": "numbers" }
-              },
-              "required": ["kindOfList"]
-          },
-          "then": { "${KEY}ref": "numberList" },
-          "else": { "${KEY}ref": "stringList" },
-  
-          "${KEY}defs": {
-              "genericList": {
-                  "${KEY}id": "genericList",
-                  "properties": {
-                      "list": {
-                          "items": { "${KEY}dynamicRef": "#itemType" }
-                      }
-                  },
-                  "${KEY}defs": {
-                      "defaultItemType": {
-                          "${KEY}comment": "Only needed to satisfy bookending requirement",
-                          "${KEY}dynamicAnchor": "itemType"
-                      }
-                  }
-              },
-              "numberList": {
-                  "${KEY}id": "numberList",
-                  "${KEY}defs": {
-                      "itemType": {
-                          "${KEY}dynamicAnchor": "itemType",
-                          "type": "number"
-                      }
-                  },
-                  "${KEY}ref": "genericList"
-              },
-              "stringList": {
-                  "${KEY}id": "stringList",
-                  "${KEY}defs": {
-                      "itemType": {
-                          "${KEY}dynamicAnchor": "itemType",
-                          "type": "string"
-                      }
-                  },
-                  "${KEY}ref": "genericList"
-              }
+      val schema =
+        JsonSchema.fromDefinition(
+          """
+          {
+            "${KEY}schema": "https://json-schema.org/draft/2020-12/schema",
+            "${KEY}id": "https://test.json-schema.org/dynamic-ref-with-multiple-paths/main",
+            "if": {
+                "properties": {
+                    "kindOfList": { "const": "numbers" }
+                },
+                "required": ["kindOfList"]
+            },
+            "then": { "${KEY}ref": "numberList" },
+            "else": { "${KEY}ref": "stringList" },
+          
+            "${KEY}defs": {
+                "genericList": {
+                    "${KEY}id": "genericList",
+                    "properties": {
+                        "list": {
+                            "items": { "${KEY}dynamicRef": "#itemType" }
+                        }
+                    },
+                    "${KEY}defs": {
+                        "defaultItemType": {
+                            "${KEY}comment": "Only needed to satisfy bookending requirement",
+                            "${KEY}dynamicAnchor": "itemType"
+                        }
+                    }
+                },
+                "numberList": {
+                    "${KEY}id": "numberList",
+                    "${KEY}defs": {
+                        "itemType": {
+                            "${KEY}dynamicAnchor": "itemType",
+                            "type": "number"
+                        }
+                    },
+                    "${KEY}ref": "genericList"
+                },
+                "stringList": {
+                    "${KEY}id": "stringList",
+                    "${KEY}defs": {
+                        "itemType": {
+                            "${KEY}dynamicAnchor": "itemType",
+                            "type": "string"
+                        }
+                    },
+                    "${KEY}ref": "genericList"
+                }
+            }
           }
+          """.trimIndent(),
+        )
+      val numberList =
+        buildJsonObject {
+          put("kindOfList", JsonPrimitive("numbers"))
+          put(
+            "list",
+            buildJsonArray {
+              add(JsonPrimitive(42))
+            },
+          )
         }
-        """.trimIndent(),
-      )
-      val numberList = buildJsonObject {
-        put("kindOfList", JsonPrimitive("numbers"))
-        put(
-          "list",
-          buildJsonArray {
-            add(JsonPrimitive(42))
-          },
-        )
-      }
-      val stringsList = buildJsonObject {
-        put("kindOfList", JsonPrimitive("strings"))
-        put(
-          "list",
-          buildJsonArray {
-            add(JsonPrimitive("test"))
-          },
-        )
-      }
+      val stringsList =
+        buildJsonObject {
+          put("kindOfList", JsonPrimitive("strings"))
+          put(
+            "list",
+            buildJsonArray {
+              add(JsonPrimitive("test"))
+            },
+          )
+        }
 
       assertSoftly {
         withClue("resolves into list of numbers") {

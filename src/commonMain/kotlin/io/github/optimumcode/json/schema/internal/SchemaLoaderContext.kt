@@ -4,5 +4,6 @@ import com.eygraber.uri.Uri
 
 internal interface SchemaLoaderContext {
   val baseId: Uri
+
   fun ref(refId: String): RefId
 }

@@ -13,7 +13,10 @@ import kotlinx.serialization.json.JsonObject
 internal object UnevaluatedPropertiesAssertionFactory : AbstractAssertionFactory("unevaluatedProperties") {
   val ANNOTATION: AnnotationKey<Boolean> = AnnotationKey.createAggregatable(property, Boolean::or)
 
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     return UnevaluatedPropertiesAssertion(context.schemaFrom(element))
   }
@@ -22,7 +25,11 @@ internal object UnevaluatedPropertiesAssertionFactory : AbstractAssertionFactory
 private class UnevaluatedPropertiesAssertion(
   private val assertion: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonObject) {
       return true
     }

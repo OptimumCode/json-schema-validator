@@ -28,14 +28,15 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
       JsonPrimitive(-49),
       JsonUnquotedLiteral("-49.0"),
     ).forEach {
-      val schema = JsonSchema.fromDefinition(
-        """
+      val schema =
+        JsonSchema.fromDefinition(
+          """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "multipleOf": 7
           }
-        """.trimIndent(),
-      )
+          """.trimIndent(),
+        )
       test("integer in multiple of: $it % 7") {
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(it, errors::add)
@@ -52,14 +53,15 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
       JsonUnquotedLiteral("-3.0"),
       JsonPrimitive(-4.5),
     ).forEach {
-      val schema = JsonSchema.fromDefinition(
-        """
+      val schema =
+        JsonSchema.fromDefinition(
+          """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "multipleOf": 1.5
           }
-        """.trimIndent(),
-      )
+          """.trimIndent(),
+        )
       test("double in multiple of: $it % 1.5") {
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(it, errors::add)
@@ -90,14 +92,15 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
       }
     }
 
-    val numberSchema = JsonSchema.fromDefinition(
-      """
-      {
-        "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-        "multipleOf": 5
-      }
-      """.trimIndent(),
-    )
+    val numberSchema =
+      JsonSchema.fromDefinition(
+        """
+        {
+          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+          "multipleOf": 5
+        }
+        """.trimIndent(),
+      )
     listOf(
       JsonPrimitive(true),
       JsonPrimitive("42"),

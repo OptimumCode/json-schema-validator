@@ -49,9 +49,10 @@ class JsonSchemaAnyOfValidationTest : FunSpec() {
       }
 
       test("element does not match any assertion") {
-        val jsonObject = buildJsonObject {
-          put("test", JsonPrimitive(42))
-        }
+        val jsonObject =
+          buildJsonObject {
+            put("test", JsonPrimitive(42))
+          }
 
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(jsonObject, errors::add)

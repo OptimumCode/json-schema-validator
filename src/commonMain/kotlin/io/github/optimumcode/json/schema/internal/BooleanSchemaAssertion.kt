@@ -8,7 +8,11 @@ import kotlinx.serialization.json.JsonElement
 internal class FalseSchemaAssertion(
   private val path: JsonPointer,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     errorCollector.onError(
       ValidationError(
         schemaPath = path,
@@ -21,7 +25,11 @@ internal class FalseSchemaAssertion(
 }
 
 internal object TrueSchemaAssertion : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     return true
   }
 }

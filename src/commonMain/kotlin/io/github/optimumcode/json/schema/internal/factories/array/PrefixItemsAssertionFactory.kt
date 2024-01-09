@@ -11,7 +11,10 @@ import kotlin.math.max
 internal object PrefixItemsAssertionFactory : AbstractAssertionFactory("prefixItems") {
   val ANNOTATION: AnnotationKey<Int> = AnnotationKey.createAggregatable(property) { a, b -> max(a, b) }
 
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonArray) { "$property must be an array" }
     require(element.isNotEmpty()) { "$property must have at least one element" }
     require(element.all(context::isJsonSchema)) {

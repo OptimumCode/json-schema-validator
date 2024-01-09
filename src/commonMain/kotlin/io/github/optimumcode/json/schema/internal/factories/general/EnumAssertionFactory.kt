@@ -12,7 +12,10 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 
 internal object EnumAssertionFactory : AbstractAssertionFactory("enum") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonArray) { "$property must be an array" }
     require(element.isNotEmpty()) { "$property must have at least one element" }
     val uniqueElements = element.toSet()
@@ -29,7 +32,11 @@ private class EnumAssertion(
     require(possibleElements.isNotEmpty()) { "at least one element must be set" }
   }
 
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (possibleElements.any { areEqual(it, element) }) {
       return true
     }

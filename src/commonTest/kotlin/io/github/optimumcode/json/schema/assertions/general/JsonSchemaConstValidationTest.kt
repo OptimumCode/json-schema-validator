@@ -32,14 +32,15 @@ class JsonSchemaConstValidationTest : FunSpec() {
       },
     ).forEach {
       test("const match to $it") {
-        val schema = JsonSchema.fromDefinition(
-          """
-          {
-            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-            "const": $it
-          }
-          """.trimIndent(),
-        )
+        val schema =
+          JsonSchema.fromDefinition(
+            """
+            {
+              "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+              "const": $it
+            }
+            """.trimIndent(),
+          )
 
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(it, errors::add)
@@ -49,14 +50,15 @@ class JsonSchemaConstValidationTest : FunSpec() {
     }
 
     test("does not match const") {
-      val schema = JsonSchema.fromDefinition(
-        """
+      val schema =
+        JsonSchema.fromDefinition(
+          """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "const": 42
           }
-        """.trimIndent(),
-      )
+          """.trimIndent(),
+        )
 
       val errors = mutableListOf<ValidationError>()
       val valid = schema.validate(JsonPrimitive("test"), errors::add)

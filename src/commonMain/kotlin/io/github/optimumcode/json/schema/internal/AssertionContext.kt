@@ -8,7 +8,9 @@ internal interface AssertionContext {
   val objectPath: JsonPointer
   val annotationCollector: AnnotationCollector
   val referenceResolver: ReferenceResolver
+
   fun at(index: Int): AssertionContext
+
   fun at(property: String): AssertionContext
 
   /**
@@ -61,6 +63,7 @@ internal data class DefaultAssertionContext(
   private var recursiveRoot: JsonSchemaAssertion? = null,
 ) : AssertionContext {
   override val annotationCollector: DefaultAnnotationCollector = DefaultAnnotationCollector()
+
   override fun at(index: Int): AssertionContext = copy(objectPath = objectPath[index])
 
   override fun at(property: String): AssertionContext {

@@ -22,7 +22,6 @@ public data class ValidationError(
    * Additional details about error
    */
   val details: Map<String, String> = emptyMap(),
-
   /**
    * The absolute path to triggered assertion if the $ref was used
    */

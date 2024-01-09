@@ -9,6 +9,7 @@ internal interface LoadingContext {
   val schemaPath: JsonPointer
 
   fun at(property: String): LoadingContext
+
   fun at(index: Int): LoadingContext
 
   /**

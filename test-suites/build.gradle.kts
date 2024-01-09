@@ -5,7 +5,6 @@ import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: remove when migrate to Gradle 8
 plugins {
   alias(libs.plugins.kotlin.mutliplatform)
   alias(libs.plugins.kotlin.serialization)
@@ -31,27 +30,30 @@ kotlin {
   js(IR) {
     nodejs()
   }
-  ios()
+  applyDefaultHierarchyTemplate()
 
-  val macOsTargets = listOf<KotlinTarget>(
-    macosX64(),
-    macosArm64(),
-    iosX64(),
-    iosArm64(),
-    iosSimulatorArm64(),
-  )
+  val macOsTargets =
+    listOf<KotlinTarget>(
+      macosX64(),
+      macosArm64(),
+      iosX64(),
+      iosArm64(),
+      iosSimulatorArm64(),
+    )
 
-  val linuxTargets = listOf<KotlinTarget>(
-    linuxX64(),
-    linuxArm64(),
-  )
+  val linuxTargets =
+    listOf<KotlinTarget>(
+      linuxX64(),
+      linuxArm64(),
+    )
 
-  val windowsTargets = listOf<KotlinTarget>(
-    mingwX64(),
-  )
+  val windowsTargets =
+    listOf<KotlinTarget>(
+      mingwX64(),
+    )
 
   sourceSets {
-    val commonTest by getting {
+    commonTest {
       dependencies {
         implementation(project(":"))
         implementation(libs.kotest.assertions.core)
@@ -62,12 +64,12 @@ kotlin {
         implementation(libs.kotlin.serialization.json.okio)
       }
     }
-    val jsTest by getting {
+    jsTest {
       dependencies {
         implementation(libs.okio.nodefilesystem)
       }
     }
-    val jvmTest by getting {
+    jvmTest {
       dependencies {
         implementation(libs.kotest.runner.junit5)
       }

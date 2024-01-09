@@ -13,13 +13,18 @@ import kotlinx.serialization.json.contentOrNull
 
 @Suppress("unused")
 internal object PatternAssertionFactory : AbstractAssertionFactory("pattern") {
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonPrimitive && element.isString) { "$property must be a string" }
-    val regex = try {
-      element.content.toRegex()
-    } catch (exOrJsError: Throwable) { // we handle throwable because of JsError that does not extend Exception
-      throw IllegalArgumentException("$property is not a valid regular expression", exOrJsError)
-    }
+    val regex =
+      try {
+        element.content.toRegex()
+      } catch (exOrJsError: Throwable) {
+        // we handle throwable because of JsError that does not extend Exception
+        throw IllegalArgumentException("$property is not a valid regular expression", exOrJsError)
+      }
     return PatternAssertion(context.schemaPath, regex)
   }
 }
@@ -28,7 +33,11 @@ private class PatternAssertion(
   private val path: JsonPointer,
   private val regex: Regex,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonPrimitive || !element.isString) {
       return true
     }

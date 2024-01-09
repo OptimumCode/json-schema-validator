@@ -33,9 +33,10 @@ class JsonSchemaUnevaluatedPropertiesValidationTest : FunSpec() {
       notAnObjectPasses(schema)
 
       test("skips if property is validated by properties") {
-        val obj = buildJsonObject {
-          put("prop1", JsonPrimitive("test"))
-        }
+        val obj =
+          buildJsonObject {
+            put("prop1", JsonPrimitive("test"))
+          }
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(obj, errors::add)
         assertSoftly {
@@ -45,9 +46,10 @@ class JsonSchemaUnevaluatedPropertiesValidationTest : FunSpec() {
       }
 
       test("skips if property is validated by patternProperties") {
-        val obj = buildJsonObject {
-          put("pattern123", JsonPrimitive(42))
-        }
+        val obj =
+          buildJsonObject {
+            put("pattern123", JsonPrimitive(42))
+          }
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(obj, errors::add)
         assertSoftly {
@@ -57,9 +59,10 @@ class JsonSchemaUnevaluatedPropertiesValidationTest : FunSpec() {
       }
 
       test("process object when not other validation passed") {
-        val obj = buildJsonObject {
-          put("test", JsonPrimitive(42))
-        }
+        val obj =
+          buildJsonObject {
+            put("test", JsonPrimitive(42))
+          }
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(obj, errors::add)
         assertSoftly {
@@ -86,9 +89,10 @@ class JsonSchemaUnevaluatedPropertiesValidationTest : FunSpec() {
       """.trimIndent(),
     ).also { schema ->
       test("skips if property is validated by additionalProperties") {
-        val obj = buildJsonObject {
-          put("test", buildJsonObject { })
-        }
+        val obj =
+          buildJsonObject {
+            put("test", buildJsonObject { })
+          }
         val errors = mutableListOf<ValidationError>()
         val valid = schema.validate(obj, errors::add)
         assertSoftly {

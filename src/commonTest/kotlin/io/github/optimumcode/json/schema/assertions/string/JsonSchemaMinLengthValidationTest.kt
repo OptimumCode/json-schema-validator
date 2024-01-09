@@ -17,24 +17,26 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaMinLengthValidationTest : FunSpec() {
   init {
-    val schema = JsonSchema.fromDefinition(
-      """
-      {
-        "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-        "minLength": 10
-      }
-      """.trimIndent(),
-    )
-    val validStrings = listOf(
-      "⩌⻏⊧➘⨜Ⅎ⮲➓⌸⨝❌Ⱞ₼⽩Ⅻⱄ⯐⡼℻⮟",
-      "OQF1dZuGiXPBwNI2enQ2",
-      "ⱜ⠚\u2FDBⲢ⯕⃣⠽␁⧂\u245D≻\u2FDD╉♊\u20CF⯟ℯ∙⧩",
-      "JpEblYiJE57H70qGNXs",
-      "ⅵ┡\u243A⢻␀⁾⡪∛⫑⏽",
-      "Si1kaAhdpS",
-      "💩".repeat(11),
-      "💩".repeat(10),
-    )
+    val schema =
+      JsonSchema.fromDefinition(
+        """
+        {
+          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+          "minLength": 10
+        }
+        """.trimIndent(),
+      )
+    val validStrings =
+      listOf(
+        "⩌⻏⊧➘⨜Ⅎ⮲➓⌸⨝❌Ⱞ₼⽩Ⅻⱄ⯐⡼℻⮟",
+        "OQF1dZuGiXPBwNI2enQ2",
+        "ⱜ⠚\u2FDBⲢ⯕⃣⠽␁⧂\u245D≻\u2FDD╉♊\u20CF⯟ℯ∙⧩",
+        "JpEblYiJE57H70qGNXs",
+        "ⅵ┡\u243A⢻␀⁾⡪∛⫑⏽",
+        "Si1kaAhdpS",
+        "💩".repeat(11),
+        "💩".repeat(10),
+      )
     for (str in validStrings) {
       test("'$str' passes validation") {
         val errors = mutableListOf<ValidationError>()
@@ -44,14 +46,15 @@ class JsonSchemaMinLengthValidationTest : FunSpec() {
       }
     }
 
-    val invalidStrings = listOf(
-      "5z0byD49N",
-      "⸖⿻ⲏ⯥ⲃ⮔∸ⲷ▭",
-      " ⍘↽♔⚪➕ⷰ➖",
-      "⧦",
-      "",
-      "💩".repeat(9),
-    )
+    val invalidStrings =
+      listOf(
+        "5z0byD49N",
+        "⸖⿻ⲏ⯥ⲃ⮔∸ⲷ▭",
+        " ⍘↽♔⚪➕ⷰ➖",
+        "⧦",
+        "",
+        "💩".repeat(9),
+      )
     for (str in invalidStrings) {
       test("'$str' does not pass validation") {
         val errors = mutableListOf<ValidationError>()

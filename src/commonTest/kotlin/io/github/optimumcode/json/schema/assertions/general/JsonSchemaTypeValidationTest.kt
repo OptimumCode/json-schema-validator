@@ -22,29 +22,32 @@ import kotlinx.serialization.json.buildJsonObject
 @Suppress("unused")
 class JsonSchemaTypeValidationTest : FunSpec() {
   init {
-    val possibleTypes = mapOf(
-      "boolean" to JsonPrimitive(true),
-      "string" to JsonPrimitive("true"),
-      "number" to JsonPrimitive(42.5),
-      "integer" to JsonPrimitive(42),
-      "null" to JsonNull,
-      "array" to buildJsonArray {},
-      "object" to buildJsonObject {},
-    )
-    val associatedTypes = mapOf(
-      "number" to "integer",
-    )
+    val possibleTypes =
+      mapOf(
+        "boolean" to JsonPrimitive(true),
+        "string" to JsonPrimitive("true"),
+        "number" to JsonPrimitive(42.5),
+        "integer" to JsonPrimitive(42),
+        "null" to JsonNull,
+        "array" to buildJsonArray {},
+        "object" to buildJsonObject {},
+      )
+    val associatedTypes =
+      mapOf(
+        "number" to "integer",
+      )
 
     possibleTypes.forEach { (type, value) ->
       test("validates type $type") {
-        val schema = JsonSchema.fromDefinition(
-          """
-          {
-            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-            "type": "$type"
-          }
-          """.trimIndent(),
-        )
+        val schema =
+          JsonSchema.fromDefinition(
+            """
+            {
+              "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+              "type": "$type"
+            }
+            """.trimIndent(),
+          )
         val errors = mutableListOf<ValidationError>()
         val valid: Boolean = schema.validate(value, errors::add)
         value.asClue {
@@ -57,14 +60,15 @@ class JsonSchemaTypeValidationTest : FunSpec() {
     }
 
     for (type in possibleTypes.keys) {
-      val schema = JsonSchema.fromDefinition(
-        """
+      val schema =
+        JsonSchema.fromDefinition(
+          """
           {
             "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "type": "$type"
           }
-        """.trimIndent(),
-      )
+          """.trimIndent(),
+        )
       possibleTypes.asSequence().filter { it.key != type && it.key != associatedTypes[type] }
         .forEach { (currentType, value) ->
           test("reports $currentType is not a $type") {
@@ -84,14 +88,15 @@ class JsonSchemaTypeValidationTest : FunSpec() {
         }
     }
 
-    val schema = JsonSchema.fromDefinition(
-      """
-          {
-            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
-            "type": ["object","array"]
-          }
-      """.trimIndent(),
-    )
+    val schema =
+      JsonSchema.fromDefinition(
+        """
+        {
+          "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+          "type": ["object","array"]
+        }
+        """.trimIndent(),
+      )
     test("object is one of [object, array]") {
       val errors = mutableListOf<ValidationError>()
       possibleTypes.getValue("object").asClue {

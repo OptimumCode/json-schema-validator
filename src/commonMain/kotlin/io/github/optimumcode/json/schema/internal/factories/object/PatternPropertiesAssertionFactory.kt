@@ -12,17 +12,23 @@ import kotlinx.serialization.json.JsonObject
 internal object PatternPropertiesAssertionFactory : AbstractAssertionFactory("patternProperties") {
   val ANNOTATION: AnnotationKey<Set<String>> = AnnotationKey.createAggregatable(property) { a, b -> a + b }
 
-  override fun createFromProperty(element: JsonElement, context: LoadingContext): JsonSchemaAssertion {
+  override fun createFromProperty(
+    element: JsonElement,
+    context: LoadingContext,
+  ): JsonSchemaAssertion {
     require(element is JsonObject) { "$property must be an object" }
-    val propAssertions: Map<Regex, JsonSchemaAssertion> = element.asSequence().associate { (prop, element) ->
-      require(context.isJsonSchema(element)) { "$prop must be a valid JSON schema" }
-      val regex = try {
-        prop.toRegex()
-      } catch (exOrJsError: Throwable) { // because of JsError
-        throw IllegalArgumentException("$prop must be a valid regular expression", exOrJsError)
+    val propAssertions: Map<Regex, JsonSchemaAssertion> =
+      element.asSequence().associate { (prop, element) ->
+        require(context.isJsonSchema(element)) { "$prop must be a valid JSON schema" }
+        val regex =
+          try {
+            prop.toRegex()
+          } catch (exOrJsError: Throwable) {
+            // because of JsError
+            throw IllegalArgumentException("$prop must be a valid regular expression", exOrJsError)
+          }
+        regex to context.at(prop).schemaFrom(element)
       }
-      regex to context.at(prop).schemaFrom(element)
-    }
     return PatternAssertion(propAssertions)
   }
 }
@@ -30,7 +36,11 @@ internal object PatternPropertiesAssertionFactory : AbstractAssertionFactory("pa
 private class PatternAssertion(
   private val assertionsByRegex: Map<Regex, JsonSchemaAssertion>,
 ) : JsonSchemaAssertion {
-  override fun validate(element: JsonElement, context: AssertionContext, errorCollector: ErrorCollector): Boolean {
+  override fun validate(
+    element: JsonElement,
+    context: AssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean {
     if (element !is JsonObject) {
       return true
     }
@@ -42,9 +52,10 @@ private class PatternAssertion(
     var result = true
     var checkedProps: MutableSet<String>? = null
     for ((prop, value) in element) {
-      val matchedRegex = assertionsByRegex.filter { (regex) ->
-        regex.find(prop) != null
-      }
+      val matchedRegex =
+        assertionsByRegex.filter { (regex) ->
+          regex.find(prop) != null
+        }
       if (matchedRegex.isEmpty()) {
         continue
       }
@@ -55,11 +66,12 @@ private class PatternAssertion(
       checkedProps.add(prop)
       val propContext = context.at(prop)
       for ((_, assertion) in matchedRegex) {
-        val valid = assertion.validate(
-          value,
-          propContext,
-          errorCollector,
-        )
+        val valid =
+          assertion.validate(
+            value,
+            propContext,
+            errorCollector,
+          )
         result = result && valid
       }
     }
