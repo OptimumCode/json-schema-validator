@@ -28,7 +28,7 @@ public enum class SchemaType(
         // so, it definitely is not a supported schema ID
         return null
       }
-      return values().find {
+      return entries.find {
         it.schemaId.run {
           host == uri.host &&
             port == uri.port &&

@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest
+import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
@@ -120,14 +121,40 @@ kotlin {
   }
 }
 
+private val remotesFile = file("$buildDir/remotes.json")
+
+val generateRemoteSchemas =
+  tasks.register<Exec>("generateRemoteSchemas") {
+    inputs.dir("$projectDir/schema-test-suite/remotes")
+    outputs.files(remotesFile)
+    doFirst {
+      standardOutput = remotesFile.outputStream()
+    }
+    commandLine("$projectDir/schema-test-suite/bin/jsonschema_suite", "remotes")
+  }
+
+tasks.withType<AbstractTestTask> {
+  dependsOn(generateRemoteSchemas)
+}
+
 tasks.withType<KotlinJsTest> {
   // This is used to pass the right location for Node.js test
   environment("TEST_SUITES_DIR", "$projectDir/schema-test-suite/tests")
+  environment("REMOTES_SCHEMAS_JSON", remotesFile.absolutePath)
 }
 
 tasks.withType<KotlinNativeSimulatorTest> {
   // prefix SIMCTL_CHILD_ is used to pass the env variable to the simulator
   environment("SIMCTL_CHILD_TEST_SUITES_DIR", "$projectDir/schema-test-suite/tests")
+  environment("SIMCTL_CHILD_REMOTES_SCHEMAS_JSON", remotesFile.absolutePath)
+}
+
+tasks.withType<KotlinNativeTest> {
+  environment("REMOTES_SCHEMAS_JSON", remotesFile.absolutePath)
+}
+
+tasks.withType<Test> {
+  environment("REMOTES_SCHEMAS_JSON", remotesFile.absolutePath)
 }
 
 ktlint {

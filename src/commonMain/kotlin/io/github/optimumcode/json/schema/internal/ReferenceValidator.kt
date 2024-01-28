@@ -1,5 +1,6 @@
 package io.github.optimumcode.json.schema.internal
 
+import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.pointer.contains
 import io.github.optimumcode.json.pointer.startsWith
@@ -10,8 +11,13 @@ internal object ReferenceValidator {
     val refId: RefId,
   )
 
+  class PointerWithBaseId(
+    val baseId: Uri,
+    val pointer: JsonPointer,
+  )
+
   fun validateReferences(
-    referencesWithPath: Map<RefId, JsonPointer>,
+    referencesWithPath: Map<RefId, PointerWithBaseId>,
     usedRef: Set<ReferenceLocation>,
   ) {
     val missingRefs: Map<RefId, List<ReferenceLocation>> =
@@ -32,7 +38,7 @@ internal object ReferenceValidator {
 
   private fun checkCircledReferences(
     usedRefs: Set<ReferenceLocation>,
-    referencesWithPath: Map<RefId, JsonPointer>,
+    referencesWithPath: Map<RefId, PointerWithBaseId>,
   ) {
     val locationToRef: Map<JsonPointer, RefId> =
       usedRefs.associate { (schemaPath, refId) ->
@@ -45,23 +51,25 @@ internal object ReferenceValidator {
       return alwaysRunAssertions.any { path.contains(it) }
     }
     for ((location, refId) in locationToRef) {
-      val schemaLocation: JsonPointer = referencesWithPath.getValue(refId)
+      val schemaLocation: PointerWithBaseId = referencesWithPath.getValue(refId)
 
       val (otherLocation, otherRef) =
         locationToRef.entries.find { (refKey) ->
-          refKey.startsWith(schemaLocation)
+          refKey.startsWith(schemaLocation.pointer)
         } ?: continue
-      val otherRefSchemaLocation: JsonPointer = referencesWithPath.getValue(otherRef)
-      if (!location.startsWith(otherRefSchemaLocation)) {
+      val otherRefSchemaLocation: PointerWithBaseId = referencesWithPath.getValue(otherRef)
+      if (!location.startsWith(otherRefSchemaLocation.pointer) ||
+        schemaLocation.baseId != otherRefSchemaLocation.baseId
+      ) {
         continue
       }
       if (checkRunAlways(location) && checkRunAlways(otherLocation) && location != otherLocation) {
         circledReferences +=
           CircledReference(
             firstLocation = location,
-            firstRef = schemaLocation,
+            firstRef = schemaLocation.pointer,
             secondLocation = otherLocation,
-            secondRef = otherRefSchemaLocation,
+            secondRef = otherRefSchemaLocation.pointer,
           )
       }
     }

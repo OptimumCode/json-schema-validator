@@ -1,10 +1,12 @@
 package io.github.optimumcode.json.schema.internal
 
+import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.ErrorCollector
 import kotlinx.serialization.json.JsonElement
 
 internal class JsonSchemaRoot(
+  private val baseId: Uri,
   private val schemaPath: JsonPointer,
   private val assertions: Collection<JsonSchemaAssertion>,
   private val canBeReferencedRecursively: Boolean,
@@ -20,7 +22,7 @@ internal class JsonSchemaRoot(
       context.resetRecursiveRoot()
     }
     var result = true
-    context.pushSchemaPath(schemaPath)
+    context.pushSchemaPath(schemaPath, baseId)
     assertions.forEach {
       val valid = it.validate(element, context, errorCollector)
       result = result and valid

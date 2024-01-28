@@ -284,6 +284,9 @@ as a part of the CI to make sure the validation meet the expected behavior.
 Not everything is supported right now but the missing functionality might be added in the future.
 The test are located [here](test-suites).
 
+**NOTE:** _Python 3.* is required to run test-suites._
+_It is used to generate list of remote schemas using [this script](test-suites/schema-test-suite/bin/jsonschema_suite)_
+
 ## Developer notes
 
 The update to Kotlin 1.9.22 came with an issue for JS incremental compilation.

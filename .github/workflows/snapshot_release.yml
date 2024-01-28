@@ -17,6 +17,9 @@ jobs:
         with:
           distribution: temurin
           java-version-file: .ci-java-version
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .ci-python-version
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.1.0
       - name: Cache konan

@@ -1,5 +1,6 @@
 package io.github.optimumcode.json.schema.internal
 
+import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.pointer.internal.dropLast
 import io.github.optimumcode.json.pointer.internal.length
@@ -13,7 +14,7 @@ internal interface ReferenceResolver {
 
 internal class DefaultReferenceResolver(
   private val references: Map<RefId, AssertionWithPath>,
-  private val schemaPathsStack: ArrayDeque<JsonPointer> = ArrayDeque(),
+  private val schemaPathsStack: ArrayDeque<Pair<JsonPointer, Uri>> = ArrayDeque(),
 ) : ReferenceResolver {
   override fun ref(refId: RefId): Pair<JsonPointer, JsonSchemaAssertion> {
     val resolvedRef = requireNotNull(references[refId]) { "$refId is not found" }
@@ -36,13 +37,18 @@ internal class DefaultReferenceResolver(
     val resolvedDynamicRef =
       findMostOuterRef(possibleDynamicRefs)
         // If no outer anchor found use the original ref
-        ?: possibleDynamicRefs.firstOrNull()
+        ?: schemaPathsStack.firstNotNullOfOrNull { (_, uri) ->
+          possibleDynamicRefs.firstOrNull { it.baseId == uri }
+        }
         ?: originalRef
     return resolvedDynamicRef.schemaPath to resolvedDynamicRef.assertion
   }
 
-  fun pushSchemaPath(path: JsonPointer) {
-    schemaPathsStack.addLast(path)
+  fun pushSchemaPath(
+    path: JsonPointer,
+    baseId: Uri,
+  ) {
+    schemaPathsStack.addLast(path to baseId)
   }
 
   fun popSchemaPath() {
@@ -54,11 +60,11 @@ internal class DefaultReferenceResolver(
     // Try to find the most outer anchor to use
     // Check every schema in the current chain
     // If not matches - take the most outer by location
-    for (schemaPath in schemaPathsStack) {
+    for ((schemaPath, baseId) in schemaPathsStack) {
       var currPath: JsonPointer = schemaPath
       while (currPath != JsonPointer.ROOT) {
         for (dynamicRef in possibleRefs) {
-          if (dynamicRef.schemaPath.startsWith(currPath)) {
+          if (dynamicRef.schemaPath.startsWith(currPath) && dynamicRef.baseId == baseId) {
             return dynamicRef
           }
         }
