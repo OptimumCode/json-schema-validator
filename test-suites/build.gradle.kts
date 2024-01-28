@@ -130,7 +130,7 @@ val generateRemoteSchemas =
     doFirst {
       standardOutput = remotesFile.outputStream()
     }
-    commandLine("python3", "$projectDir/schema-test-suite/bin/jsonschema_suite", "remotes")
+    commandLine("python", "$projectDir/schema-test-suite/bin/jsonschema_suite", "remotes")
   }
 
 tasks.withType<AbstractTestTask> {
