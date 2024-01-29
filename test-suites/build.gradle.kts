@@ -129,14 +129,15 @@ private val remotesFile = Path.of("$buildDir", "remotes.json")
 
 val generateRemoteSchemas =
   tasks.register("generateRemoteSchemas") {
-//    inputs.dir("$projectDir/schema-test-suite/remotes")
-//    outputs.files(remotesFile)
+    inputs.dir("$projectDir/schema-test-suite/remotes")
+    outputs.file(remotesFile)
     doLast {
       val remoteSchemas =
         ByteArrayOutputStream().use { out ->
           exec {
             standardOutput = out
-            commandLine("python3", "$projectDir/schema-test-suite/bin/jsonschema_suite", "remotes")
+            executable = "python3"
+            args("$projectDir/schema-test-suite/bin/jsonschema_suite", "remotes")
           }.rethrowFailure()
           out
         }
