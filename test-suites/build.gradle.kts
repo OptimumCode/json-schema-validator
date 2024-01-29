@@ -6,6 +6,9 @@ import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTes
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import java.io.ByteArrayOutputStream
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.StandardOpenOption
 
 plugins {
   alias(libs.plugins.kotlin.mutliplatform)
@@ -122,7 +125,7 @@ kotlin {
   }
 }
 
-private val remotesFile = file("$buildDir/remotes.json")
+private val remotesFile = Path.of("$buildDir", "remotes.json")
 
 val generateRemoteSchemas =
   tasks.register("generateRemoteSchemas") {
@@ -137,7 +140,11 @@ val generateRemoteSchemas =
           }.rethrowFailure()
           out
         }
-      remotesFile.outputStream().use(remoteSchemas::writeTo)
+      Files.newOutputStream(
+        Path.of("$buildDir", "remotes.json"),
+        StandardOpenOption.TRUNCATE_EXISTING,
+        StandardOpenOption.CREATE,
+      ).use(remoteSchemas::writeTo)
     }
   }
 
@@ -148,21 +155,21 @@ tasks.withType<AbstractTestTask> {
 tasks.withType<KotlinJsTest> {
   // This is used to pass the right location for Node.js test
   environment("TEST_SUITES_DIR", "$projectDir/schema-test-suite/tests")
-  environment("REMOTES_SCHEMAS_JSON", remotesFile.absolutePath)
+  environment("REMOTES_SCHEMAS_JSON", remotesFile.toAbsolutePath().toString())
 }
 
 tasks.withType<KotlinNativeSimulatorTest> {
   // prefix SIMCTL_CHILD_ is used to pass the env variable to the simulator
   environment("SIMCTL_CHILD_TEST_SUITES_DIR", "$projectDir/schema-test-suite/tests")
-  environment("SIMCTL_CHILD_REMOTES_SCHEMAS_JSON", remotesFile.absolutePath)
+  environment("SIMCTL_CHILD_REMOTES_SCHEMAS_JSON", remotesFile.toAbsolutePath().toString())
 }
 
 tasks.withType<KotlinNativeTest> {
-  environment("REMOTES_SCHEMAS_JSON", remotesFile.absolutePath)
+  environment("REMOTES_SCHEMAS_JSON", remotesFile.toAbsolutePath().toString())
 }
 
 tasks.withType<Test> {
-  environment("REMOTES_SCHEMAS_JSON", remotesFile.absolutePath)
+  environment("REMOTES_SCHEMAS_JSON", remotesFile.toAbsolutePath().toString())
 }
 
 ktlint {
