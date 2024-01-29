@@ -11,6 +11,10 @@ on:
         type: string
         required: true
         description: "task to check the platform targets"
+      remote-schema-artifact:
+        type: string
+        required: true
+        description: "artifact with remote schemas generated for tests"
 
 jobs:
   check:
@@ -36,6 +40,10 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts') }}
           restore-keys: |
               ${{ runner.os }}-gradle-
+      - name: Download a single artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.remote-schema-artifact }}
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2.11.1
         with:
@@ -47,3 +55,5 @@ jobs:
             detektAll
             ktlintCheck
             apiCheck
+            -x
+            :test-suites:generateRemoteSchemas

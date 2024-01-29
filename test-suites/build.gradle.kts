@@ -5,10 +5,6 @@ import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
-import java.io.ByteArrayOutputStream
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.StandardOpenOption
 
 plugins {
   alias(libs.plugins.kotlin.mutliplatform)
@@ -125,27 +121,23 @@ kotlin {
   }
 }
 
-private val remotesFile = Path.of("$buildDir", "remotes.json").toAbsolutePath()
+private val remotesFile = file("$buildDir/remotes.json")
 
 val generateRemoteSchemas =
   tasks.register("generateRemoteSchemas") {
-    inputs.dir(Path.of("$projectDir", "schema-test-suite", "remotes"))
-    outputs.file(remotesFile)
+    inputs.dir("$projectDir/schema-test-suite/remotes")
+    outputs.files(remotesFile)
     doLast {
-      val remoteSchemas =
-        ByteArrayOutputStream().use { out ->
-          exec {
-            standardOutput = out
-            executable = "python3"
-            args(Path.of("$projectDir", "schema-test-suite", "bin", "jsonschema_suite"), "remotes")
-          }.rethrowFailure()
-          out
+      remotesFile.outputStream().use { out ->
+        exec {
+          standardOutput = out
+          executable = "python3"
+          args(
+            "$projectDir/schema-test-suite/bin/jsonschema_suite",
+            "remotes",
+          )
         }
-      Files.newOutputStream(
-        remotesFile,
-        StandardOpenOption.TRUNCATE_EXISTING,
-        StandardOpenOption.CREATE,
-      ).use(remoteSchemas::writeTo)
+      }
     }
   }
 
@@ -156,21 +148,21 @@ tasks.withType<AbstractTestTask> {
 tasks.withType<KotlinJsTest> {
   // This is used to pass the right location for Node.js test
   environment("TEST_SUITES_DIR", "$projectDir/schema-test-suite/tests")
-  environment("REMOTES_SCHEMAS_JSON", remotesFile.toString())
+  environment("REMOTES_SCHEMAS_JSON", remotesFile.absolutePath)
 }
 
 tasks.withType<KotlinNativeSimulatorTest> {
   // prefix SIMCTL_CHILD_ is used to pass the env variable to the simulator
   environment("SIMCTL_CHILD_TEST_SUITES_DIR", "$projectDir/schema-test-suite/tests")
-  environment("SIMCTL_CHILD_REMOTES_SCHEMAS_JSON", remotesFile.toString())
+  environment("SIMCTL_CHILD_REMOTES_SCHEMAS_JSON", remotesFile.absolutePath)
 }
 
 tasks.withType<KotlinNativeTest> {
-  environment("REMOTES_SCHEMAS_JSON", remotesFile.toString())
+  environment("REMOTES_SCHEMAS_JSON", remotesFile.absolutePath)
 }
 
 tasks.withType<Test> {
-  environment("REMOTES_SCHEMAS_JSON", remotesFile.toString())
+  environment("REMOTES_SCHEMAS_JSON", remotesFile.absolutePath)
 }
 
 ktlint {
