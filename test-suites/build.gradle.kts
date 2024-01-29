@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+import java.io.ByteArrayOutputStream
 
 plugins {
   alias(libs.plugins.kotlin.mutliplatform)
@@ -128,17 +129,15 @@ val generateRemoteSchemas =
     inputs.dir("$projectDir/schema-test-suite/remotes")
     outputs.files(remotesFile)
     doLast {
-      remotesFile.outputStream().use { out ->
-        exec {
-          standardOutput = out
-          val osName = System.getProperty("os.name")
-          if (osName?.contains("Windows") == true) {
-            commandLine("cmd", "/c", "python3", "$projectDir/schema-test-suite/bin/jsonschema_suite", "remotes")
-          } else {
+      val remoteSchemas =
+        ByteArrayOutputStream().use { out ->
+          exec {
+            standardOutput = out
             commandLine("python3", "$projectDir/schema-test-suite/bin/jsonschema_suite", "remotes")
-          }
+          }.rethrowFailure()
+          out
         }
-      }
+      remotesFile.outputStream().use(remoteSchemas::writeTo)
     }
   }
 
