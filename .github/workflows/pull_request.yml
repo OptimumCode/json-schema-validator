@@ -21,6 +21,10 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version-file: .ci-python-version
+    - uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version-file: .ci-java-version
     - name: Validate Gradle Wrapper
       uses: gradle/wrapper-validation-action@v1.1.0
     - name: Generate file with remote schemas for test
@@ -34,7 +38,7 @@ jobs:
     - name: Store file with remote schamas
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ github.env.REMOTE_SCHEMAS_ARTIFACT }}
+        name: ${{ env.REMOTE_SCHEMAS_ARTIFACT }}
         path: test-suites/build/remotes.json
         retention-days: 1
         if-no-files-found: error
@@ -44,18 +48,18 @@ jobs:
     with:
       run-on: ubuntu-latest
       task: linuxAllTest
-      remote-schema-artifact: ${{ github.env.REMOTE_SCHEMAS_ARTIFACT }}
+      remote-schema-artifact: ${{ env.REMOTE_SCHEMAS_ARTIFACT }}
   check-macos:
     needs: [generate-remote-schemas]
     uses: ./.github/workflows/check.yml
     with:
       run-on: macos-latest
       task: macOsAllTest
-      remote-schema-artifact: ${{ github.env.REMOTE_SCHEMAS_ARTIFACT }}
+      remote-schema-artifact: ${{ env.REMOTE_SCHEMAS_ARTIFACT }}
   check-windows:
     needs: [generate-remote-schemas]
     uses: ./.github/workflows/check.yml
     with:
       run-on: windows-latest
       task: windowsAllTest
-      remote-schema-artifact: ${{ github.env.REMOTE_SCHEMAS_ARTIFACT }}
+      remote-schema-artifact: ${{ env.REMOTE_SCHEMAS_ARTIFACT }}
