@@ -126,8 +126,8 @@ private val remotesFile = file("$buildDir/remotes.json")
 
 val generateRemoteSchemas =
   tasks.register("generateRemoteSchemas") {
-    inputs.dir("$projectDir/schema-test-suite/remotes")
-    outputs.files(remotesFile)
+//    inputs.dir("$projectDir/schema-test-suite/remotes")
+//    outputs.files(remotesFile)
     doLast {
       val remoteSchemas =
         ByteArrayOutputStream().use { out ->
