@@ -13,6 +13,8 @@ env:
 jobs:
   generate-remote-schemas:
     runs-on: ubuntu-latest
+    outputs:
+      artifact: ${{ env.REMOTE_SCHEMAS_ARTIFACT }}
     steps:
     - name: 'Checkout Repository'
       uses: actions/checkout@v4
@@ -48,18 +50,18 @@ jobs:
     with:
       run-on: ubuntu-latest
       task: linuxAllTest
-      remote-schema-artifact: ${{ env.REMOTE_SCHEMAS_ARTIFACT }}
+      remote-schema-artifact: ${{ needs.generate-remote-schemas.outputs.artifact }}
   check-macos:
     needs: [generate-remote-schemas]
     uses: ./.github/workflows/check.yml
     with:
       run-on: macos-latest
       task: macOsAllTest
-      remote-schema-artifact: ${{ env.REMOTE_SCHEMAS_ARTIFACT }}
+      remote-schema-artifact: ${{ needs.generate-remote-schemas.outputs.artifact }}
   check-windows:
     needs: [generate-remote-schemas]
     uses: ./.github/workflows/check.yml
     with:
       run-on: windows-latest
       task: windowsAllTest
-      remote-schema-artifact: ${{ env.REMOTE_SCHEMAS_ARTIFACT }}
+      remote-schema-artifact: ${{ needs.generate-remote-schemas.outputs.artifact }}
