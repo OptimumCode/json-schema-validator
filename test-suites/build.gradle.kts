@@ -124,13 +124,17 @@ kotlin {
 private val remotesFile = file("$buildDir/remotes.json")
 
 val generateRemoteSchemas =
-  tasks.register<Exec>("generateRemoteSchemas") {
+  tasks.register("generateRemoteSchemas") {
     inputs.dir("$projectDir/schema-test-suite/remotes")
     outputs.files(remotesFile)
-    doFirst {
-      standardOutput = remotesFile.outputStream()
+    doLast {
+      remotesFile.outputStream().use { out ->
+        exec {
+          standardOutput = out
+          commandLine("python3", "$projectDir/schema-test-suite/bin/jsonschema_suite", "remotes")
+        }
+      }
     }
-    commandLine("python", "$projectDir/schema-test-suite/bin/jsonschema_suite", "remotes")
   }
 
 tasks.withType<AbstractTestTask> {
