@@ -133,7 +133,7 @@ val generateRemoteSchemas =
           standardOutput = out
           val osName = System.getProperty("os.name")
           if (osName?.contains("Windows") == true) {
-            commandLine("cmd", "python3", "$projectDir/schema-test-suite/bin/jsonschema_suite", "remotes")
+            commandLine("cmd", "/c", "python3", "$projectDir/schema-test-suite/bin/jsonschema_suite", "remotes")
           } else {
             commandLine("python3", "$projectDir/schema-test-suite/bin/jsonschema_suite", "remotes")
           }
