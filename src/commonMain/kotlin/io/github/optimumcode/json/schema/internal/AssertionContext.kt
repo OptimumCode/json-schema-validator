@@ -1,5 +1,6 @@
 package io.github.optimumcode.json.schema.internal
 
+import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.pointer.div
 import io.github.optimumcode.json.pointer.get
@@ -51,7 +52,10 @@ internal interface AssertionContext {
    */
   fun getRecursiveRoot(): JsonSchemaAssertion?
 
-  fun pushSchemaPath(path: JsonPointer)
+  fun pushSchemaPath(
+    path: JsonPointer,
+    baseId: Uri,
+  )
 
   fun popSchemaPath()
 }
@@ -104,8 +108,11 @@ internal data class DefaultAssertionContext(
     return recursiveRoot
   }
 
-  override fun pushSchemaPath(path: JsonPointer) {
-    referenceResolver.pushSchemaPath(path)
+  override fun pushSchemaPath(
+    path: JsonPointer,
+    baseId: Uri,
+  ) {
+    referenceResolver.pushSchemaPath(path, baseId)
   }
 
   override fun popSchemaPath() {

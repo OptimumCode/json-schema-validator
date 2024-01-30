@@ -133,7 +133,7 @@ val valid = schema.validate(elementToValidate, errors::add)
   |:------------|:----------------------------------------------------------------------------------------------------|
   | $id         | Supported. $id in sub-schemas are collected as well and can be used in $ref                         |
   | $schema     | Supported. Validates if schema is one of the supported schemas. The last supported is used if empty |
-  | $ref        | Supported (except references to schemas from another document)                                      |
+  | $ref        | Supported                                                                                           |
   | definitions | Supported. Definitions are loaded and can be referenced                                             |
 
   - Assertions
@@ -180,8 +180,8 @@ val valid = schema.validate(elementToValidate, errors::add)
   |:------------------|:----------------------------------------------------------------------------------------------------|
   | $id               | Supported. $id in sub-schemas are collected as well and can be used in $ref                         |
   | $schema           | Supported. Validates if schema is one of the supported schemas. The last supported is used if empty |
-  | $ref              | Supported (except references to schemas from another document)                                      |
-  | $recursiveRef     | Supported (does not work yet to extend schemas from other documents)                                |
+  | $ref              | Supported                                                                                           |
+  | $recursiveRef     | Supported                                                                                           |
   | $defs/definitions | Supported. Definitions are loaded and can be referenced                                             |
 
   - Assertions
@@ -233,8 +233,8 @@ val valid = schema.validate(elementToValidate, errors::add)
   |:---------------------------|:----------------------------------------------------------------------------------------------------|
   | $id                        | Supported. $id in sub-schemas are collected as well and can be used in $ref                         |
   | $schema                    | Supported. Validates if schema is one of the supported schemas. The last supported is used if empty |
-  | $ref                       | Supported (except references to schemas from another document)                                      |
-  | $dynamicRef/$dynamicAnchor | Supported (does not work yet to extend schemas from other documents)                                |
+  | $ref                       | Supported                                                                                           |
+  | $dynamicRef/$dynamicAnchor | Supported                                                                                           |
   | $defs/definitions          | Supported. Definitions are loaded and can be referenced                                             |
 
   - Assertions
@@ -284,6 +284,9 @@ as a part of the CI to make sure the validation meet the expected behavior.
 Not everything is supported right now but the missing functionality might be added in the future.
 The test are located [here](test-suites).
 
+**NOTE:** _Python 3.* is required to run test-suites._
+_It is used to generate list of remote schemas using [this script](test-suites/schema-test-suite/bin/jsonschema_suite)_
+
 ## Developer notes
 
 The update to Kotlin 1.9.22 came with an issue for JS incremental compilation.
@@ -296,7 +299,7 @@ In case you see an error about main function that already bind please execute `c
 - [x] Add support for newer drafts
   - [x] [Draft 2019-09 (Draft 8)](https://json-schema.org/specification-links.html#draft-2019-09-formerly-known-as-draft-8)
   - [x] [2020-12](https://json-schema.org/specification-links.html#2020-12)
-- [ ] Add support for schemas from external documents
-  - [ ] Load schemas from local sources
+- [x] Add support for schemas from external documents
+  - [x] Load schemas from local sources
   - [ ] Load schemas from remote sources
 - [ ] Formalize error output as it is defined in the latest drafts (have not fully decided if it should be done)

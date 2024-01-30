@@ -56,6 +56,35 @@ public final class io/github/optimumcode/json/schema/JsonSchema$Companion {
 	public static synthetic fun fromJsonElement$default (Lio/github/optimumcode/json/schema/JsonSchema$Companion;Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/SchemaType;ILjava/lang/Object;)Lio/github/optimumcode/json/schema/JsonSchema;
 }
 
+public abstract interface class io/github/optimumcode/json/schema/JsonSchemaLoader {
+	public static final field Companion Lio/github/optimumcode/json/schema/JsonSchemaLoader$Companion;
+	public static fun create ()Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun fromDefinition (Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public abstract fun fromDefinition (Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public abstract fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public abstract fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public abstract fun register (Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun register (Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun register (Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun registerWellKnown (Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+}
+
+public final class io/github/optimumcode/json/schema/JsonSchemaLoader$Companion {
+	public final fun create ()Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+}
+
+public final class io/github/optimumcode/json/schema/JsonSchemaLoader$DefaultImpls {
+	public static fun fromDefinition (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public static fun fromJsonElement (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public static fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public static fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public static fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public static fun registerWellKnown (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+}
+
 public final class io/github/optimumcode/json/schema/JsonSchemaStream {
 	public static final fun fromStream (Lio/github/optimumcode/json/schema/JsonSchema$Companion;Ljava/io/InputStream;)Lio/github/optimumcode/json/schema/JsonSchema;
 }

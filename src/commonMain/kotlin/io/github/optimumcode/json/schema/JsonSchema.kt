@@ -1,13 +1,10 @@
 package io.github.optimumcode.json.schema
 
 import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.schema.internal.AssertionWithPath
 import io.github.optimumcode.json.schema.internal.DefaultAssertionContext
 import io.github.optimumcode.json.schema.internal.DefaultReferenceResolver
+import io.github.optimumcode.json.schema.internal.IsolatedLoader
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
-import io.github.optimumcode.json.schema.internal.RefId
-import io.github.optimumcode.json.schema.internal.SchemaLoader
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmStatic
@@ -18,7 +15,7 @@ import kotlin.jvm.JvmStatic
  */
 public class JsonSchema internal constructor(
   private val assertion: JsonSchemaAssertion,
-  private val references: Map<RefId, AssertionWithPath>,
+  private val referenceResolver: DefaultReferenceResolver,
 ) {
   /**
    * Validates [value] against this [JsonSchema].
@@ -31,7 +28,7 @@ public class JsonSchema internal constructor(
     value: JsonElement,
     errorCollector: ErrorCollector,
   ): Boolean {
-    val context = DefaultAssertionContext(JsonPointer.ROOT, DefaultReferenceResolver(references))
+    val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolver)
     return assertion.validate(value, context, errorCollector)
   }
 
@@ -47,10 +44,7 @@ public class JsonSchema internal constructor(
     public fun fromDefinition(
       schema: String,
       defaultType: SchemaType? = null,
-    ): JsonSchema {
-      val schemaElement: JsonElement = Json.parseToJsonElement(schema)
-      return fromJsonElement(schemaElement, defaultType)
-    }
+    ): JsonSchema = IsolatedLoader.fromDefinition(schema, defaultType)
 
     /**
      * Loads JSON schema from the [schemaElement] JSON element
@@ -63,8 +57,6 @@ public class JsonSchema internal constructor(
     public fun fromJsonElement(
       schemaElement: JsonElement,
       defaultType: SchemaType? = null,
-    ): JsonSchema {
-      return SchemaLoader().load(schemaElement, defaultType)
-    }
+    ): JsonSchema = IsolatedLoader.fromJsonElement(schemaElement, defaultType)
   }
 }

@@ -7,12 +7,15 @@ import io.github.optimumcode.json.pointer.div
 import io.github.optimumcode.json.pointer.get
 import io.github.optimumcode.json.pointer.relative
 import io.github.optimumcode.json.schema.JsonSchema
+import io.github.optimumcode.json.schema.JsonSchemaLoader
 import io.github.optimumcode.json.schema.SchemaType
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder.Recursive
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder.Simple
+import io.github.optimumcode.json.schema.internal.ReferenceValidator.PointerWithBaseId
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.ReferenceLocation
 import io.github.optimumcode.json.schema.internal.util.getString
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -21,49 +24,162 @@ import kotlinx.serialization.json.booleanOrNull
 
 private const val SCHEMA_PROPERTY: String = "\$schema"
 
-internal class SchemaLoader {
-  fun load(
-    schemaDefinition: JsonElement,
-    defaultType: SchemaType? = null,
+internal class SchemaLoader : JsonSchemaLoader {
+  private val references: MutableMap<RefId, AssertionWithPath> = linkedMapOf()
+  private val usedRefs: MutableSet<RefId> = linkedSetOf()
+
+  override fun register(
+    schema: JsonElement,
+    draft: SchemaType?,
+  ): JsonSchemaLoader =
+    apply {
+      loadSchemaData(schema, draft, references, usedRefs)
+    }
+
+  override fun register(
+    schema: String,
+    draft: SchemaType?,
+  ): JsonSchemaLoader =
+    run {
+      val schemaElement: JsonElement = Json.parseToJsonElement(schema)
+      register(schemaElement, draft)
+    }
+
+  override fun register(
+    schema: JsonElement,
+    remoteUri: String,
+    draft: SchemaType?,
+  ): JsonSchemaLoader =
+    apply {
+      loadSchemaData(schema, draft, references, usedRefs, Uri.parse(remoteUri))
+    }
+
+  override fun fromDefinition(
+    schema: String,
+    draft: SchemaType?,
   ): JsonSchema {
-    val schemaType = extractSchemaType(schemaDefinition, defaultType)
-    val baseId: Uri = extractID(schemaDefinition, schemaType.config) ?: Uri.EMPTY
-    val assertionFactories = schemaType.config.factories(schemaDefinition)
-    val context = defaultLoadingContext(baseId, schemaType.config, assertionFactories)
-    val schemaAssertion = loadSchema(schemaDefinition, context)
-    ReferenceValidator.validateReferences(
-      context.references.mapValues { it.value.schemaPath },
-      context.usedRef,
-    )
-    val usedRefs = context.usedRef.map { it.refId }.toSet()
-    val dynamicRefs =
-      context.references.asSequence()
-        .filter { it.value.dynamic }
-        .map { it.key }
-        .toSet()
-    // pre-filter references to get rid of unused references
-    val usedReferencesWithPath: Map<RefId, AssertionWithPath> =
-      context.references.asSequence()
-        .filter { it.key in usedRefs || it.key in dynamicRefs }
-        .associate { it.key to it.value }
-    return JsonSchema(schemaAssertion, usedReferencesWithPath)
+    val schemaElement: JsonElement = Json.parseToJsonElement(schema)
+    return fromJsonElement(schemaElement, draft)
   }
 
-  private fun extractSchemaType(
-    schemaDefinition: JsonElement,
-    defaultType: SchemaType?,
-  ): SchemaType {
-    val schemaType: SchemaType? =
-      if (schemaDefinition is JsonObject) {
-        schemaDefinition[SCHEMA_PROPERTY]?.let {
-          require(it is JsonPrimitive && it.isString) { "$SCHEMA_PROPERTY must be a string" }
-          SchemaType.find(it.content) ?: throw IllegalArgumentException("unsupported schema type ${it.content}")
-        }
-      } else {
-        null
-      }
-    return schemaType ?: defaultType ?: SchemaType.values().last()
+  override fun fromJsonElement(
+    schemaElement: JsonElement,
+    draft: SchemaType?,
+  ): JsonSchema {
+    val assertion: JsonSchemaAssertion = loadSchemaData(schemaElement, draft, references, usedRefs)
+    return createSchema(
+      LoadResult(
+        assertion,
+        references.toMutableMap(),
+        usedRefs.toMutableSet(),
+      ),
+    )
   }
+}
+
+internal object IsolatedLoader : JsonSchemaLoader {
+  override fun register(
+    schema: JsonElement,
+    draft: SchemaType?,
+  ): JsonSchemaLoader = throw UnsupportedOperationException()
+
+  override fun register(
+    schema: String,
+    draft: SchemaType?,
+  ): JsonSchemaLoader = throw UnsupportedOperationException()
+
+  override fun register(
+    schema: JsonElement,
+    remoteUri: String,
+    draft: SchemaType?,
+  ): JsonSchemaLoader = throw UnsupportedOperationException()
+
+  override fun fromDefinition(
+    schema: String,
+    draft: SchemaType?,
+  ): JsonSchema {
+    val schemaElement: JsonElement = Json.parseToJsonElement(schema)
+    return fromJsonElement(schemaElement, draft)
+  }
+
+  override fun fromJsonElement(
+    schemaElement: JsonElement,
+    draft: SchemaType?,
+  ): JsonSchema {
+    val references: MutableMap<RefId, AssertionWithPath> = linkedMapOf()
+    val usedRefs: MutableSet<RefId> = hashSetOf()
+    val assertion: JsonSchemaAssertion = loadSchemaData(schemaElement, draft, references, usedRefs)
+    return createSchema(LoadResult(assertion, references, usedRefs))
+  }
+}
+
+private fun loadSchemaData(
+  schemaDefinition: JsonElement,
+  defaultType: SchemaType?,
+  references: MutableMap<RefId, AssertionWithPath>,
+  usedRefs: MutableSet<RefId>,
+  externalUri: Uri? = null,
+): JsonSchemaAssertion {
+  val schemaType = extractSchemaType(schemaDefinition, defaultType)
+  val baseId: Uri = extractID(schemaDefinition, schemaType.config) ?: externalUri ?: Uri.EMPTY
+  val assertionFactories = schemaType.config.factories(schemaDefinition)
+  val isolatedReferences: MutableMap<RefId, AssertionWithPath> = linkedMapOf()
+  val context =
+    defaultLoadingContext(baseId, schemaType.config, assertionFactories, references = isolatedReferences)
+      .let {
+        if (externalUri != null && baseId != externalUri) {
+          // The external URI is added as the first one
+          // as it should not be used to calculate ids
+          // inside the schema
+          it.copy(additionalIDs = setOf(IdWithLocation(externalUri, JsonPointer.ROOT)) + it.additionalIDs)
+        } else {
+          it
+        }
+      }
+  val schemaAssertion = loadSchema(schemaDefinition, context)
+  references.putAll(isolatedReferences)
+  context.usedRef.mapTo(usedRefs) { it.refId }
+  ReferenceValidator.validateReferences(
+    references.mapValues { it.value.run { PointerWithBaseId(this.baseId, schemaPath) } },
+    context.usedRef,
+  )
+  return schemaAssertion
+}
+
+private fun createSchema(result: LoadResult): JsonSchema {
+  val dynamicRefs =
+    result.references.asSequence()
+      .filter { it.value.dynamic }
+      .map { it.key }
+      .toSet()
+  // pre-filter references to get rid of unused references
+  val usedReferencesWithPath: Map<RefId, AssertionWithPath> =
+    result.references.asSequence()
+      .filter { it.key in result.usedRefs || it.key in dynamicRefs }
+      .associate { it.key to it.value }
+  return JsonSchema(result.assertion, DefaultReferenceResolver(usedReferencesWithPath))
+}
+
+private class LoadResult(
+  val assertion: JsonSchemaAssertion,
+  val references: Map<RefId, AssertionWithPath>,
+  val usedRefs: Set<RefId>,
+)
+
+private fun extractSchemaType(
+  schemaDefinition: JsonElement,
+  defaultType: SchemaType?,
+): SchemaType {
+  val schemaType: SchemaType? =
+    if (schemaDefinition is JsonObject) {
+      schemaDefinition[SCHEMA_PROPERTY]?.let {
+        require(it is JsonPrimitive && it.isString) { "$SCHEMA_PROPERTY must be a string" }
+        SchemaType.find(it.content) ?: throw IllegalArgumentException("unsupported schema type ${it.content}")
+      }
+    } else {
+      null
+    }
+  return schemaType ?: defaultType ?: SchemaType.entries.last()
 }
 
 private fun loadDefinitions(
@@ -144,6 +260,7 @@ private fun loadSchema(
         }
       if (refAssertion != null && !referenceFactory.allowOverriding) {
         JsonSchemaRoot(
+          contextWithAdditionalID.baseId,
           contextWithAdditionalID.schemaPath,
           listOf(refAssertion),
           contextWithAdditionalID.recursiveResolution,
@@ -204,6 +321,7 @@ private fun loadJsonSchemaRoot(
       addAll(assertions)
     }
   return JsonSchemaRoot(
+    context.baseId,
     context.schemaPath,
     result,
     context.recursiveResolution,
@@ -239,6 +357,7 @@ internal data class AssertionWithPath(
   val assertion: JsonSchemaAssertion,
   val schemaPath: JsonPointer,
   val dynamic: Boolean,
+  val baseId: Uri,
 )
 
 private data class DefaultLoadingContext(
@@ -385,7 +504,7 @@ private data class DefaultLoadingContext(
     assertion: JsonSchemaAssertion,
     dynamic: Boolean,
   ) {
-    references.put(referenceId, AssertionWithPath(assertion, schemaPath, dynamic))?.apply {
+    references.put(referenceId, AssertionWithPath(assertion, schemaPath, dynamic, baseId))?.apply {
       throw IllegalStateException("duplicated definition $referenceId")
     }
   }
@@ -403,6 +522,7 @@ private fun Uri.appendPathToParent(path: String): Uri {
     buildUpon()
       .path(null) // reset path in builder
       .apply {
+        if (pathSegments.isEmpty()) return@apply
         pathSegments.asSequence()
           .take(pathSegments.size - 1) // drop last path segment
           .forEach(this::appendPath)
@@ -421,4 +541,6 @@ private fun defaultLoadingContext(
   baseId: Uri,
   config: SchemaLoaderConfig,
   assertionFactories: List<AssertionFactory>,
-): DefaultLoadingContext = DefaultLoadingContext(baseId, config = config, assertionFactories = assertionFactories)
+  references: MutableMap<RefId, AssertionWithPath>,
+): DefaultLoadingContext =
+  DefaultLoadingContext(baseId, references = references, config = config, assertionFactories = assertionFactories)

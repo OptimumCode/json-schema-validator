@@ -2,6 +2,7 @@ package io.github.optimumcode.json.schema.suite
 
 import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.JsonSchema
+import io.github.optimumcode.json.schema.JsonSchemaLoader
 import io.github.optimumcode.json.schema.SchemaType
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.withClue
@@ -11,8 +12,12 @@ import io.kotest.mpp.env
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.okio.decodeFromBufferedSource
 import okio.FileSystem
 import okio.Path
@@ -63,10 +68,17 @@ internal fun FunSpec.runTestSuites(
         "neither $TEST_SUITES_DIR or $TEST_SUITES_DIR_FROM_ROOT exist " +
           "(current dir: ${fs.canonicalize(".".toPath())}, env: ${env(TEST_SUITES_DIR_ENV_VAR)})",
       )
+  val remoteSchemasDefinitions =
+    env(REMOTE_SCHEMAS_JSON_ENV_VAR)?.toPath()
+      ?: error("cannot resolve file with remote schemas from $REMOTE_SCHEMAS_JSON_ENV_VAR env variable")
+
+  require(fs.exists(remoteSchemasDefinitions)) { "file $remoteSchemasDefinitions with remote schemas does not exist" }
+
+  val remoteSchemas: Map<String, JsonElement> = loadRemoteSchemas(fs, remoteSchemasDefinitions)
 
   require(fs.exists(testSuiteDir)) { "folder $testSuiteDir does not exist" }
 
-  executeFromDirectory(fs, testSuiteDir, excludeSuites, excludeTests, schemaType)
+  executeFromDirectory(fs, testSuiteDir, excludeSuites, excludeTests, schemaType, remoteSchemas)
 
   if (includeOptional) {
     val optionalTestSuites = testSuiteDir / "optional"
@@ -77,12 +89,27 @@ internal fun FunSpec.runTestSuites(
 }
 
 @OptIn(ExperimentalSerializationApi::class)
+private fun loadRemoteSchemas(
+  fs: FileSystem,
+  remoteSchemasDefinitions: Path,
+): Map<String, JsonElement> =
+  fs.openReadOnly(remoteSchemasDefinitions).use { fh ->
+    fh.source().use {
+      Json.decodeFromBufferedSource(
+        MapSerializer(String.serializer(), JsonElement.serializer()),
+        it.buffer(),
+      )
+    }
+  }
+
+@OptIn(ExperimentalSerializationApi::class)
 private fun FunSpec.executeFromDirectory(
   fs: FileSystem,
   testSuiteDir: Path,
   excludeSuites: Map<String, Set<String>>,
   excludeTests: Map<String, Set<String>>,
   schemaType: SchemaType?,
+  remoteSchemas: Map<String, JsonElement> = emptyMap(),
 ) {
   fs.list(testSuiteDir).forEach { testSuiteFile ->
     if (fs.metadata(testSuiteFile).isDirectory) {
@@ -97,9 +124,32 @@ private fun FunSpec.executeFromDirectory(
     }
 
     val testSuites: List<TestSuite> =
-      fs.openReadOnly(testSuiteFile).use {
-        Json.decodeFromBufferedSource(ListSerializer(TestSuite.serializer()), it.source().buffer())
+      fs.openReadOnly(testSuiteFile).use { fh ->
+        fh.source().use {
+          Json.decodeFromBufferedSource(ListSerializer(TestSuite.serializer()), it.buffer())
+        }
       }
+    val schemaLoader =
+      JsonSchemaLoader.create()
+        .apply {
+          SchemaType.entries.forEach(::registerWellKnown)
+          for ((uri, schema) in remoteSchemas.entries.reversed()) {
+            if (uri.contains("draft4", ignoreCase = true)) {
+              // skip draft4 schemas
+              continue
+            }
+            if (schema is JsonObject &&
+              schema["\$schema"]?.jsonPrimitive?.content.let { it != null && SchemaType.find(it) == null }
+            ) {
+              continue
+            }
+            try {
+              register(schema, uri)
+            } catch (ex: Exception) {
+              throw IllegalStateException("cannot load schema with uri '$uri'", ex)
+            }
+          }
+        }
     var testSuiteIndex = -1
     for (testSuite in testSuites) {
       testSuiteIndex += 1
@@ -117,7 +167,7 @@ private fun FunSpec.executeFromDirectory(
           withClue(listOf(testSuite.description, testSuite.schema, test.description, test.data)) {
             val schema: JsonSchema =
               shouldNotThrowAny {
-                JsonSchema.fromJsonElement(testSuite.schema, schemaType)
+                schemaLoader.fromJsonElement(testSuite.schema, schemaType)
               }
             shouldNotThrowAny {
               schema.validate(test.data, ErrorCollector.EMPTY)
@@ -148,5 +198,6 @@ private class SchemaTest(
 private val TEST_SUITES_DIR: Path = "schema-test-suite/tests".toPath()
 private val TEST_SUITES_DIR_FROM_ROOT: Path = "test-suites".toPath() / TEST_SUITES_DIR
 private const val TEST_SUITES_DIR_ENV_VAR: String = "TEST_SUITES_DIR"
+private const val REMOTE_SCHEMAS_JSON_ENV_VAR: String = "REMOTES_SCHEMAS_JSON"
 
 expect fun fileSystem(): FileSystem

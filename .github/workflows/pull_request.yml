@@ -2,6 +2,9 @@ name: "Check the PR"
 
 on:
   pull_request:
+    paths-ignore:
+    - 'README.md'
+    - 'changelog_config.json'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
