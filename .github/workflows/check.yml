@@ -11,6 +11,11 @@ on:
         type: string
         required: true
         description: "task to check the platform targets"
+      upload-code-coverage:
+        type: boolean
+        description: "enabled uploading coverage report to codecov"
+        required: false
+        default: false
 
 jobs:
   check:
@@ -47,3 +52,9 @@ jobs:
             detektAll
             ktlintCheck
             apiCheck
+            koverXmlReport
+      - name: Upload coverage reports to Codecov
+        if: inputs.upload-code-coverage
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
