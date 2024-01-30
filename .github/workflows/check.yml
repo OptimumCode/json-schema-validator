@@ -44,7 +44,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.remote-schema-artifact }}
-          path: test-suites/build/remotes.json
+          path: test-suites/build/
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2.11.1
         with:
