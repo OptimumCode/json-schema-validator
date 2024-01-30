@@ -93,11 +93,13 @@ private fun loadRemoteSchemas(
   fs: FileSystem,
   remoteSchemasDefinitions: Path,
 ): Map<String, JsonElement> =
-  fs.openReadOnly(remoteSchemasDefinitions).use {
-    Json.decodeFromBufferedSource(
-      MapSerializer(String.serializer(), JsonElement.serializer()),
-      it.source().buffer(),
-    )
+  fs.openReadOnly(remoteSchemasDefinitions).use { fh ->
+    fh.source().use {
+      Json.decodeFromBufferedSource(
+        MapSerializer(String.serializer(), JsonElement.serializer()),
+        it.buffer(),
+      )
+    }
   }
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -122,8 +124,10 @@ private fun FunSpec.executeFromDirectory(
     }
 
     val testSuites: List<TestSuite> =
-      fs.openReadOnly(testSuiteFile).use {
-        Json.decodeFromBufferedSource(ListSerializer(TestSuite.serializer()), it.source().buffer())
+      fs.openReadOnly(testSuiteFile).use { fh ->
+        fh.source().use {
+          Json.decodeFromBufferedSource(ListSerializer(TestSuite.serializer()), it.buffer())
+        }
       }
     val schemaLoader =
       JsonSchemaLoader.create()
