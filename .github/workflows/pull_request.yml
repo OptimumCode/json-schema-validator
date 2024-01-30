@@ -7,61 +7,19 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
-env:
-  REMOTE_SCHEMAS_ARTIFACT: remote-schemas-for-test
-
 jobs:
-  generate-remote-schemas:
-    runs-on: ubuntu-latest
-    outputs:
-      artifact: ${{ env.REMOTE_SCHEMAS_ARTIFACT }}
-    steps:
-    - name: 'Checkout Repository'
-      uses: actions/checkout@v4
-      with:
-        submodules: true
-    - uses: actions/setup-python@v5
-      with:
-        python-version-file: .ci-python-version
-    - uses: actions/setup-java@v4
-      with:
-        distribution: temurin
-        java-version-file: .ci-java-version
-    - name: Validate Gradle Wrapper
-      uses: gradle/wrapper-validation-action@v1.1.0
-    - name: Generate file with remote schemas for test
-      uses: gradle/gradle-build-action@v2.11.1
-      with:
-        gradle-version: wrapper
-        arguments: |
-          --no-daemon
-          --info
-          :test-suites:generateRemoteSchemas
-    - name: Store file with remote schamas
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.REMOTE_SCHEMAS_ARTIFACT }}
-        path: test-suites/build/remotes.json
-        retention-days: 1
-        if-no-files-found: error
   check-linux:
-    needs: [generate-remote-schemas]
     uses: ./.github/workflows/check.yml
     with:
       run-on: ubuntu-latest
       task: linuxAllTest
-      remote-schema-artifact: ${{ needs.generate-remote-schemas.outputs.artifact }}
   check-macos:
-    needs: [generate-remote-schemas]
     uses: ./.github/workflows/check.yml
     with:
       run-on: macos-latest
       task: macOsAllTest
-      remote-schema-artifact: ${{ needs.generate-remote-schemas.outputs.artifact }}
   check-windows:
-    needs: [generate-remote-schemas]
     uses: ./.github/workflows/check.yml
     with:
       run-on: windows-latest
       task: windowsAllTest
-      remote-schema-artifact: ${{ needs.generate-remote-schemas.outputs.artifact }}
