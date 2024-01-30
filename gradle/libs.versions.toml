@@ -14,7 +14,7 @@ kotest-multiplatform = { id = "io.kotest.multiplatform", version.ref = "kotest" 
 kover = { id = "org.jetbrains.kotlinx.kover", version = "0.7.5" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "12.0.3" }
-kotlin-binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.13.2" }
+kotlin-binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.14.0" }
 nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version = "1.3.0" }
 
 [libraries]
@@ -23,6 +23,6 @@ kotlin-serialization-json-okio = { group = "org.jetbrains.kotlinx", name = "kotl
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
 kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
-uri = { group = "com.eygraber", name = "uri-kmp", version = "0.0.15" }
+uri = { group = "com.eygraber", name = "uri-kmp", version = "0.0.16" }
 okio-common = { group = "com.squareup.okio", name = "okio", version.ref = "okio" }
 okio-nodefilesystem = { group = "com.squareup.okio", name = "okio-nodefilesystem", version.ref = "okio" }
