@@ -14,7 +14,7 @@ import kotlin.jvm.JvmStatic
  * and collect errors using [ErrorCollector]
  */
 public class JsonSchema internal constructor(
-  internal val assertion: JsonSchemaAssertion,
+  private val assertion: JsonSchemaAssertion,
   private val referenceResolver: DefaultReferenceResolver,
 ) {
   /**
