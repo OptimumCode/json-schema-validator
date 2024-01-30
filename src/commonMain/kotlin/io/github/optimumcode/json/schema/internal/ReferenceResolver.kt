@@ -36,10 +36,11 @@ internal class DefaultReferenceResolver(
 
     val resolvedDynamicRef =
       findMostOuterRef(possibleDynamicRefs)
-        // If no outer anchor found use the original ref
+        // Try to select by base id starting from the most outer uri in path to the current location
         ?: schemaPathsStack.firstNotNullOfOrNull { (_, uri) ->
           possibleDynamicRefs.firstOrNull { it.baseId == uri }
         }
+        // If no outer anchor found use the original ref
         ?: originalRef
     return resolvedDynamicRef.schemaPath to resolvedDynamicRef.assertion
   }

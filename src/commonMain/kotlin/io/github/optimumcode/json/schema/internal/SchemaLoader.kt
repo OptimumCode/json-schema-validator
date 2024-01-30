@@ -128,6 +128,9 @@ private fun loadSchemaData(
     defaultLoadingContext(baseId, schemaType.config, assertionFactories, references = isolatedReferences)
       .let {
         if (externalUri != null && baseId != externalUri) {
+          // The external URI is added as the first one
+          // as it should not be used to calculate ids
+          // inside the schema
           it.copy(additionalIDs = setOf(IdWithLocation(externalUri, JsonPointer.ROOT)) + it.additionalIDs)
         } else {
           it
@@ -154,7 +157,7 @@ private fun createSchema(result: LoadResult): JsonSchema {
     result.references.asSequence()
       .filter { it.key in result.usedRefs || it.key in dynamicRefs }
       .associate { it.key to it.value }
-  return JsonSchema(result.assertion) { DefaultReferenceResolver(usedReferencesWithPath) }
+  return JsonSchema(result.assertion, DefaultReferenceResolver(usedReferencesWithPath))
 }
 
 private class LoadResult(

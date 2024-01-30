@@ -15,7 +15,7 @@ import kotlin.jvm.JvmStatic
  */
 public class JsonSchema internal constructor(
   internal val assertion: JsonSchemaAssertion,
-  private val referenceResolverFactory: () -> DefaultReferenceResolver,
+  private val referenceResolver: DefaultReferenceResolver,
 ) {
   /**
    * Validates [value] against this [JsonSchema].
@@ -28,7 +28,7 @@ public class JsonSchema internal constructor(
     value: JsonElement,
     errorCollector: ErrorCollector,
   ): Boolean {
-    val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolverFactory())
+    val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolver)
     return assertion.validate(value, context, errorCollector)
   }
 
