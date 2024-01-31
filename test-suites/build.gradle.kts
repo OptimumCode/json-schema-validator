@@ -121,6 +121,10 @@ kotlin {
   }
 }
 
+dependencies {
+  kover(project(":"))
+}
+
 private val remotesFile = file("$buildDir/remotes.json")
 
 val generateRemoteSchemas =
