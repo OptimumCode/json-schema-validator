@@ -16,6 +16,7 @@ jobs:
     with:
       run-on: ubuntu-latest
       task: linuxAllTest
+      upload-code-coverage: true
   check-macos:
     uses: ./.github/workflows/check.yml
     with:
