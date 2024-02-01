@@ -5,6 +5,8 @@ import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.JsonSchemaLoader
 import io.github.optimumcode.json.schema.ValidationError
 import io.kotest.assertions.assertSoftly
+import io.kotest.assertions.throwables.shouldNotThrowAnyUnit
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
@@ -161,5 +163,53 @@ class JsonSchemaLoaderTest : FunSpec() {
           }
         }
       }
+
+    test("does not report missing refs when schema is registered") {
+      shouldNotThrowAnyUnit {
+        JsonSchemaLoader.create()
+          .register(
+            """
+            {
+              "id": "https://test.com/a",
+              "properties": {
+                "anotherName": {
+                  "${KEY}ref": "https://test.com/b#/properties/name"
+                }
+              }
+            }
+            """.trimIndent(),
+          )
+      }
+    }
+
+    test("reports missing refs when schema is created from definition") {
+      shouldThrow<IllegalArgumentException> {
+        JsonSchemaLoader.create()
+          .register(
+            """
+            {
+              "${KEY}id": "https://test.com/a",
+              "properties": {
+                "anotherName": {
+                  "${KEY}ref": "https://test.com/b#/properties/name"
+                }
+              }
+            }
+            """.trimIndent(),
+          ).fromDefinition(
+            """
+            {
+              "${KEY}id": "https://test.com/c",
+              "properties": {
+                "subName": {
+                  "${KEY}ref": "https://test.com/a#/properties/anotherName"
+                }
+              }
+            }
+            """.trimIndent(),
+          )
+      }.message shouldBe "cannot resolve references: " +
+        "{\"https://test.com/b#/properties/name\": [\"/properties/anotherName\"]}"
+    }
   }
 }
