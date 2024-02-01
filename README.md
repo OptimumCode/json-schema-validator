@@ -35,7 +35,7 @@ repositories {
   mavenCentral()
 }
 
-implementation("io.github.optimumcode:json-schema-validator:0.0.5")
+implementation("io.github.optimumcode:json-schema-validator:0.0.6")
 ```
 
 ##### Groovy
@@ -45,7 +45,7 @@ repositories {
   mavenCentral()
 }
 
-implementation 'io.github.optimumcode:json-schema-validator:0.0.5'
+implementation 'io.github.optimumcode:json-schema-validator:0.0.6'
 ```
 
 _Release are published to Sonatype repository. The synchronization with Maven Central takes time._
@@ -78,7 +78,7 @@ repositories {
   maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots")
 }
 
-implementation("io.github.optimumcode:json-schema-validator:0.0.6-SNAPSHOT")
+implementation("io.github.optimumcode:json-schema-validator:0.0.7-SNAPSHOT")
 ```
 
 ##### Groovy
@@ -88,7 +88,7 @@ repositories {
   maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots' }
 }
 
-implementation 'io.github.optimumcode:json-schema-validator:0.0.6-SNAPSHOT'
+implementation 'io.github.optimumcode:json-schema-validator:0.0.7-SNAPSHOT'
 ```
 
 ### Example
