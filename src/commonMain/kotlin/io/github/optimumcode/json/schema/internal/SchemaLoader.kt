@@ -26,7 +26,7 @@ private const val SCHEMA_PROPERTY: String = "\$schema"
 
 internal class SchemaLoader : JsonSchemaLoader {
   private val references: MutableMap<RefId, AssertionWithPath> = linkedMapOf()
-  private val usedRefs: MutableSet<RefId> = linkedSetOf()
+  private val usedRefs: MutableSet<ReferenceLocation> = linkedSetOf()
 
   override fun register(
     schema: JsonElement,
@@ -67,11 +67,12 @@ internal class SchemaLoader : JsonSchemaLoader {
     draft: SchemaType?,
   ): JsonSchema {
     val assertion: JsonSchemaAssertion = loadSchemaData(schemaElement, draft, references, usedRefs)
+    validateReferences(references, usedRefs)
     return createSchema(
       LoadResult(
         assertion,
         references.toMutableMap(),
-        usedRefs.toMutableSet(),
+        usedRefs.mapTo(hashSetOf()) { it.refId },
       ),
     )
   }
@@ -107,9 +108,10 @@ internal object IsolatedLoader : JsonSchemaLoader {
     draft: SchemaType?,
   ): JsonSchema {
     val references: MutableMap<RefId, AssertionWithPath> = linkedMapOf()
-    val usedRefs: MutableSet<RefId> = hashSetOf()
+    val usedRefs: MutableSet<ReferenceLocation> = hashSetOf()
     val assertion: JsonSchemaAssertion = loadSchemaData(schemaElement, draft, references, usedRefs)
-    return createSchema(LoadResult(assertion, references, usedRefs))
+    validateReferences(references, usedRefs)
+    return createSchema(LoadResult(assertion, references, usedRefs.mapTo(hashSetOf()) { it.refId }))
   }
 }
 
@@ -117,7 +119,7 @@ private fun loadSchemaData(
   schemaDefinition: JsonElement,
   defaultType: SchemaType?,
   references: MutableMap<RefId, AssertionWithPath>,
-  usedRefs: MutableSet<RefId>,
+  usedRefs: MutableSet<ReferenceLocation>,
   externalUri: Uri? = null,
 ): JsonSchemaAssertion {
   val schemaType = extractSchemaType(schemaDefinition, defaultType)
@@ -138,12 +140,18 @@ private fun loadSchemaData(
       }
   val schemaAssertion = loadSchema(schemaDefinition, context)
   references.putAll(isolatedReferences)
-  context.usedRef.mapTo(usedRefs) { it.refId }
+  usedRefs.addAll(context.usedRef)
+  return schemaAssertion
+}
+
+private fun validateReferences(
+  references: Map<RefId, AssertionWithPath>,
+  usedRefs: Set<ReferenceLocation>,
+) {
   ReferenceValidator.validateReferences(
     references.mapValues { it.value.run { PointerWithBaseId(this.baseId, schemaPath) } },
-    context.usedRef,
+    usedRefs,
   )
-  return schemaAssertion
 }
 
 private fun createSchema(result: LoadResult): JsonSchema {

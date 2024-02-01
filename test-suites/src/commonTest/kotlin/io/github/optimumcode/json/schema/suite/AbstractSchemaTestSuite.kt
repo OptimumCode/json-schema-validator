@@ -133,7 +133,7 @@ private fun FunSpec.executeFromDirectory(
       JsonSchemaLoader.create()
         .apply {
           SchemaType.entries.forEach(::registerWellKnown)
-          for ((uri, schema) in remoteSchemas.entries.reversed()) {
+          for ((uri, schema) in remoteSchemas) {
             if (uri.contains("draft4", ignoreCase = true)) {
               // skip draft4 schemas
               continue
