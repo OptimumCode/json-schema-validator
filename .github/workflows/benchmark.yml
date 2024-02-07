@@ -1,0 +1,22 @@
+name: "Running benchmark"
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 2 * * 1"
+
+jobs:
+  check-linux:
+    uses: ./.github/workflows/platform-benchmark.yml
+    with:
+      run-on: ubuntu-latest
+  check-macos:
+    uses: ./.github/workflows/platform-benchmark.yml
+    with:
+      run-on: macos-latest
+      additional-task: "-x :benchmark:jvmBenchmark"
+  check-windows:
+    uses: ./.github/workflows/platform-benchmark.yml
+    with:
+      run-on: windows-latest
+      additional-task: "-x :benchmark:jvmBenchmark"

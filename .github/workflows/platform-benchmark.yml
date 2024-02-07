@@ -1,4 +1,4 @@
-name: Check project
+name: Reusable workflow to run a benchmark on the platform
 
 on:
   workflow_call:
@@ -7,18 +7,14 @@ on:
         type: string
         required: true
         description: "runner to check the project"
-      task:
+      additional-task:
         type: string
-        required: true
-        description: "task to check the platform targets"
-      upload-code-coverage:
-        type: boolean
-        description: "enabled uploading coverage report to codecov"
+        description: additional task to add to gradle call
         required: false
-        default: false
+        default: ""
 
 jobs:
-  check:
+  benchmark:
     runs-on: ${{ inputs.run-on }}
     steps:
       - name: 'Checkout Repository'
@@ -48,14 +44,5 @@ jobs:
           arguments: |
             --no-daemon
             --info
-            ${{ inputs.task }}
-            detektAll
-            ktlintCheck
-            apiCheck
-            koverXmlReport
-            -x :benchmark:benchmark
-      - name: Upload coverage reports to Codecov
-        if: inputs.upload-code-coverage
-        uses: codecov/codecov-action@v3
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+            :benchmark:benchmark
+            ${{ inputs.additional-task }}
