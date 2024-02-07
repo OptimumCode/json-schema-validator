@@ -20,6 +20,10 @@ repositories {
   mavenCentral()
 }
 
+apiValidation {
+  ignoredProjects += listOf("benchmark", "test-suites")
+}
+
 kotlin {
   explicitApi()
   jvm {

@@ -35,6 +35,7 @@ internal object ReferenceValidator {
   }
 
   private val alwaysRunAssertions = hashSetOf("allOf", "anyOf", "oneOf")
+  private val mightNotRun = hashSetOf("properties")
 
   private fun checkCircledReferences(
     usedRefs: Set<ReferenceLocation>,
@@ -48,7 +49,7 @@ internal object ReferenceValidator {
     val circledReferences = hashSetOf<CircledReference>()
 
     fun checkRunAlways(path: JsonPointer): Boolean {
-      return alwaysRunAssertions.any { path.contains(it) }
+      return alwaysRunAssertions.any { path.contains(it) } && mightNotRun.none { path.contains(it) }
     }
     for ((location, refId) in locationToRef) {
       val schemaLocation: PointerWithBaseId = referencesWithPath.getValue(refId)
