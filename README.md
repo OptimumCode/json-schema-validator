@@ -1,6 +1,7 @@
 # json-schema-validator
 
 [![Licence](https://img.shields.io/github/license/OptimumCode/json-schema-validator)](https://opensource.org/license/mit/)
+[![Supported-drafts](https://img.shields.io/endpoint?url=https://bowtie-json-schema.github.io/bowtie/badges/kotlin-kmp-json-schema-validator/supported_versions.json)](https://json-schema.org/specification)
 
 This multiplatform library is an implementation of JSON schema that can validate
 [JsonElement](https://github.com/Kotlin/kotlinx.serialization/blob/master/formats/json/commonMain/src/kotlinx/serialization/json/JsonElement.kt)
@@ -284,8 +285,17 @@ as a part of the CI to make sure the validation meet the expected behavior.
 Not everything is supported right now but the missing functionality might be added in the future.
 The test are located [here](test-suites).
 
+
 **NOTE:** _Python 3.* is required to run test-suites._
 _It is used to generate list of remote schemas using [this script](test-suites/schema-test-suite/bin/jsonschema_suite)_
+
+This library is also integrated into [bowtie](https://github.com/bowtie-json-schema/bowtie)
+and runs against the official test suite along with other libraries.
+You can find the report [here](https://bowtie.report/).
+
+[![draft-07](https://img.shields.io/endpoint?url=https://bowtie-json-schema.github.io/bowtie/badges/kotlin-kmp-json-schema-validator/compliance/Draft_7.json)](https://bowtie.report/#/dialects/draft7?language=kotlin)
+[![draft/2019-09](https://img.shields.io/endpoint?url=https://bowtie-json-schema.github.io/bowtie/badges/kotlin-kmp-json-schema-validator/compliance/Draft_2019-09.json)](https://bowtie.report/#/dialects/draft2019-09?language=kotlin)
+[![draft/2020-12](https://img.shields.io/endpoint?url=https://bowtie-json-schema.github.io/bowtie/badges/kotlin-kmp-json-schema-validator/compliance/Draft_2020-12.json)](https://bowtie.report/#/dialects/draft2020-12?language=kotlin)
 
 ## Benchmarking
 
