@@ -287,6 +287,16 @@ The test are located [here](test-suites).
 **NOTE:** _Python 3.* is required to run test-suites._
 _It is used to generate list of remote schemas using [this script](test-suites/schema-test-suite/bin/jsonschema_suite)_
 
+## Benchmarking
+
+There is a benchmark project that compares this library with some other ones:
+
++ [OpenAPI schema validator](https://github.com/openapi-processor/openapi-parser/tree/master/json-schema-validator)
++ [Networknt Schema Validator](https://github.com/networknt/json-schema-validator)
+
+The benchmark is scheduled to run every night on Monday.
+You can see the results in the latest workflow execution.
+
 ## Developer notes
 
 The update to Kotlin 1.9.22 came with an issue for JS incremental compilation.

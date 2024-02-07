@@ -156,6 +156,42 @@ class JsonSchemaTest : FunSpec() {
       }
     }
 
+    test("does not report circled references if have one of the applicators that might not be invoked") {
+      shouldNotThrowAny {
+        JsonSchema.fromDefinition(
+          """
+          {
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "definitions": {
+              "alice": {
+                "allOf": [
+                  { "${KEY}ref": "#/definitions/bob" }
+                ]
+              },
+              "bob": {
+                "properties": {
+                  "test": {
+                    "allOf": [
+                      { "${KEY}ref": "#/definitions/alice" }
+                    ]
+                  }
+                }
+              }
+            },
+            "properties": {
+              "alice": {
+                "${KEY}ref": "#/definitions/alice"
+              },
+              "bob": {
+                "${KEY}ref": "#/definitions/bob"
+              }
+            }
+          }
+          """.trimIndent(),
+        )
+      }
+    }
+
     listOf(
       "document root" to
         listOf(
