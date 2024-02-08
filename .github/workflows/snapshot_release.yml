@@ -44,5 +44,5 @@ jobs:
       - run: ./gradlew --no-daemon --info build publish koverXmlReport-x :benchmark:benchmark
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
