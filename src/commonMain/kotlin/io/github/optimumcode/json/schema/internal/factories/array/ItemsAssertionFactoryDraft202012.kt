@@ -1,13 +1,14 @@
 package io.github.optimumcode.json.schema.internal.factories.array
 
-import io.github.optimumcode.json.schema.internal.AnnotationKey
+import io.github.optimumcode.json.schema.AnnotationKey
+import io.github.optimumcode.json.schema.internal.AnnotationKeyFactory
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
 import kotlinx.serialization.json.JsonElement
 
 internal object ItemsAssertionFactoryDraft202012 : AbstractAssertionFactory("items") {
-  val ANNOTATION: AnnotationKey<Boolean> = AnnotationKey.createAggregatable(property, Boolean::or)
+  val ANNOTATION: AnnotationKey<Boolean> = AnnotationKeyFactory.createAggregatable(property, Boolean::or)
 
   override fun createFromProperty(
     element: JsonElement,

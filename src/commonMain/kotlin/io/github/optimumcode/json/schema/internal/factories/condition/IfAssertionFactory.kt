@@ -1,7 +1,8 @@
 package io.github.optimumcode.json.schema.internal.factories.condition
 
+import io.github.optimumcode.json.schema.AnnotationKey
 import io.github.optimumcode.json.schema.ErrorCollector
-import io.github.optimumcode.json.schema.internal.AnnotationKey
+import io.github.optimumcode.json.schema.internal.AnnotationKeyFactory
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
@@ -9,7 +10,7 @@ import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFac
 import kotlinx.serialization.json.JsonElement
 
 internal object IfAssertionFactory : AbstractAssertionFactory("if") {
-  val ANNOTATION: AnnotationKey<Boolean> = AnnotationKey.create(property)
+  val ANNOTATION: AnnotationKey<Boolean> = AnnotationKeyFactory.create(property)
 
   override fun createFromProperty(
     element: JsonElement,

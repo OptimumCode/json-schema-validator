@@ -1,8 +1,8 @@
 package io.github.optimumcode.json.schema.internal.factories.array
 
+import io.github.optimumcode.json.schema.AnnotationKey
 import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.internal.AnnotationCollector
-import io.github.optimumcode.json.schema.internal.AnnotationKey
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import kotlinx.serialization.json.JsonArray

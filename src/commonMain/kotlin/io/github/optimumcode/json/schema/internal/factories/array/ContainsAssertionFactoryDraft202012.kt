@@ -1,9 +1,10 @@
 package io.github.optimumcode.json.schema.internal.factories.array
 
 import io.github.optimumcode.json.pointer.JsonPointer
+import io.github.optimumcode.json.schema.AnnotationKey
 import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.ValidationError
-import io.github.optimumcode.json.schema.internal.AnnotationKey
+import io.github.optimumcode.json.schema.internal.AnnotationKeyFactory
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.AssertionFactory
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -23,7 +24,7 @@ internal object ContainsAssertionFactoryDraft202012 : AssertionFactory {
   private const val PROPERTY: String = "contains"
   private const val MIN_CONTAINS_PROPERTY: String = "minContains"
 
-  val ANNOTATION: AnnotationKey<Set<Int>> = AnnotationKey.createAggregatable(PROPERTY, Set<Int>::plus)
+  val ANNOTATION: AnnotationKey<Set<Int>> = AnnotationKeyFactory.createAggregatable(PROPERTY, Set<Int>::plus)
 
   override fun isApplicable(element: JsonElement): Boolean {
     return element is JsonObject && element.containsKey(PROPERTY)

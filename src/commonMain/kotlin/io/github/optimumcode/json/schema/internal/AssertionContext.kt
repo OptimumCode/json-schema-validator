@@ -4,10 +4,10 @@ import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.pointer.div
 import io.github.optimumcode.json.pointer.get
+import io.github.optimumcode.json.schema.extension.ExternalAssertionContext
 
-internal interface AssertionContext {
-  val objectPath: JsonPointer
-  val annotationCollector: AnnotationCollector
+internal interface AssertionContext : ExternalAssertionContext {
+  override val annotationCollector: AnnotationCollector
   val referenceResolver: ReferenceResolver
 
   fun at(index: Int): AssertionContext

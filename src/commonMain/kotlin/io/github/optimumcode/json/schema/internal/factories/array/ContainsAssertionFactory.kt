@@ -1,9 +1,10 @@
 package io.github.optimumcode.json.schema.internal.factories.array
 
 import io.github.optimumcode.json.pointer.JsonPointer
+import io.github.optimumcode.json.schema.AnnotationKey
 import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.ValidationError
-import io.github.optimumcode.json.schema.internal.AnnotationKey
+import io.github.optimumcode.json.schema.internal.AnnotationKeyFactory
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
@@ -13,7 +14,7 @@ import kotlinx.serialization.json.JsonElement
 
 @Suppress("unused")
 internal object ContainsAssertionFactory : AbstractAssertionFactory("contains") {
-  val ANNOTATION: AnnotationKey<Int> = AnnotationKey.create(property)
+  val ANNOTATION: AnnotationKey<Int> = AnnotationKeyFactory.create(property)
 
   override fun createFromProperty(
     element: JsonElement,

@@ -29,6 +29,19 @@ public final class io/github/optimumcode/json/pointer/JsonPointerKt {
 	public static final fun JsonPointer (Ljava/lang/String;)Lio/github/optimumcode/json/pointer/JsonPointer;
 }
 
+public abstract class io/github/optimumcode/json/schema/AnnotationKey {
+	public static final field Companion Lio/github/optimumcode/json/schema/AnnotationKey$Companion;
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/reflect/KClass;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public static final fun simple (Ljava/lang/String;Lkotlin/reflect/KClass;)Lio/github/optimumcode/json/schema/AnnotationKey;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/optimumcode/json/schema/AnnotationKey$Companion {
+	public final fun simple (Ljava/lang/String;Lkotlin/reflect/KClass;)Lio/github/optimumcode/json/schema/AnnotationKey;
+}
+
 public abstract interface class io/github/optimumcode/json/schema/ErrorCollector {
 	public static final field Companion Lio/github/optimumcode/json/schema/ErrorCollector$Companion;
 	public static final field EMPTY Lio/github/optimumcode/json/schema/ErrorCollector;
@@ -122,5 +135,28 @@ public final class io/github/optimumcode/json/schema/ValidationError {
 	public final fun getSchemaPath ()Lio/github/optimumcode/json/pointer/JsonPointer;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/optimumcode/json/schema/extension/ExternalAnnotationCollector {
+	public abstract fun annotate (Lio/github/optimumcode/json/schema/AnnotationKey;Ljava/lang/Object;)V
+	public abstract fun annotated (Lio/github/optimumcode/json/schema/AnnotationKey;)Ljava/lang/Object;
+}
+
+public abstract interface class io/github/optimumcode/json/schema/extension/ExternalAssertion {
+	public abstract fun validate (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
+}
+
+public abstract interface class io/github/optimumcode/json/schema/extension/ExternalAssertionContext {
+	public abstract fun getAnnotationCollector ()Lio/github/optimumcode/json/schema/extension/ExternalAnnotationCollector;
+	public abstract fun getObjectPath ()Lio/github/optimumcode/json/pointer/JsonPointer;
+}
+
+public abstract interface class io/github/optimumcode/json/schema/extension/ExternalAssertionFactory {
+	public abstract fun create (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/extension/ExternalLoadingContext;)Lio/github/optimumcode/json/schema/extension/ExternalAssertion;
+	public abstract fun getKeywordName ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/optimumcode/json/schema/extension/ExternalLoadingContext {
+	public abstract fun getSchemaPath ()Lio/github/optimumcode/json/pointer/JsonPointer;
 }
 

@@ -1,79 +1,44 @@
 package io.github.optimumcode.json.schema.internal
 
+import io.github.optimumcode.json.schema.Aggregator
+import io.github.optimumcode.json.schema.AnnotationKey
+import io.github.optimumcode.json.schema.AnnotationKey.AggregatableAnnotationKey
+import io.github.optimumcode.json.schema.AnnotationKey.SimpleAnnotationKey
+import io.github.optimumcode.json.schema.extension.ExternalAnnotationCollector
 import kotlin.jvm.JvmStatic
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
 
-internal interface AnnotationCollector {
-  fun <T : Any> annotate(
-    key: AnnotationKey<T>,
-    value: T,
-  )
-
-  fun <T : Any> annotated(key: AnnotationKey<T>): T?
-
+internal interface AnnotationCollector : ExternalAnnotationCollector {
   fun <T : Any> aggregatedAnnotation(key: AnnotationKey<T>): T?
 }
 
-internal fun interface Aggregator<T : Any> {
-  fun aggregate(
-    a: T,
-    b: T,
-  ): T?
-}
+internal object AnnotationKeyFactory {
+  internal val NOT_AGGREGATABLE: (Any, Any) -> Nothing? = { _, _ -> null }
 
-internal class AnnotationKey<T : Any> private constructor(
-  private val name: String,
-  internal val type: KClass<T>,
-  internal val aggregator: Aggregator<T>,
-) {
-  override fun equals(other: Any?): Boolean {
-    if (this === other) return true
-    if (other == null || this::class != other::class) return false
+  private fun <T : Any> notAggragatable(): (T, T) -> T? = NOT_AGGREGATABLE
 
-    other as AnnotationKey<*>
+  @JvmStatic
+  inline fun <reified T : Any> create(name: String): AnnotationKey<T> = create(name, T::class)
 
-    if (name != other.name) return false
-    if (type != other.type) return false
+  @JvmStatic
+  inline fun <reified T : Any> createAggregatable(
+    name: String,
+    noinline aggregator: (T, T) -> T,
+  ): AnnotationKey<T> = createAggregatable(name, T::class, aggregator)
 
-    return true
-  }
+  @JvmStatic
+  fun <T : Any> create(
+    name: String,
+    type: KClass<T>,
+  ): AnnotationKey<T> = SimpleAnnotationKey.create(name, type)
 
-  override fun hashCode(): Int {
-    var result = name.hashCode()
-    result = 31 * result + type.hashCode()
-    return result
-  }
-
-  override fun toString(): String = "$name(${type.simpleName})"
-
-  companion object {
-    internal val NOT_AGGREGATABLE: (Any, Any) -> Nothing? = { _, _ -> null }
-
-    private fun <T : Any> notAggragatable(): (T, T) -> T? = NOT_AGGREGATABLE
-
-    @JvmStatic
-    inline fun <reified T : Any> create(name: String): AnnotationKey<T> = create(name, T::class)
-
-    @JvmStatic
-    inline fun <reified T : Any> createAggregatable(
-      name: String,
-      noinline aggregator: (T, T) -> T,
-    ): AnnotationKey<T> = createAggregatable(name, T::class, aggregator)
-
-    @JvmStatic
-    fun <T : Any> create(
-      name: String,
-      type: KClass<T>,
-    ): AnnotationKey<T> = AnnotationKey(name, type, notAggragatable())
-
-    @JvmStatic
-    fun <T : Any> createAggregatable(
-      name: String,
-      type: KClass<T>,
-      aggregator: (T, T) -> T,
-    ): AnnotationKey<T> = AnnotationKey(name, type, aggregator)
-  }
+  @JvmStatic
+  fun <T : Any> createAggregatable(
+    name: String,
+    type: KClass<T>,
+    aggregator: (T, T) -> T,
+  ): AnnotationKey<T> = AggregatableAnnotationKey.create(name, type, aggregator)
 }
 
 internal class DefaultAnnotationCollector : AnnotationCollector {
@@ -107,7 +72,10 @@ internal class DefaultAnnotationCollector : AnnotationCollector {
       if (currentLevelAnnotation == null) {
         aggregatedAnnotation
       } else {
-        key.aggregator.aggregate(currentLevelAnnotation, aggregatedAnnotation)
+        when (key) {
+          is AggregatableAnnotationKey -> key.aggregator.aggregate(currentLevelAnnotation, aggregatedAnnotation)
+          is SimpleAnnotationKey -> null
+        }
       }
     } ?: currentLevelAnnotation
   }
@@ -137,7 +105,7 @@ internal class DefaultAnnotationCollector : AnnotationCollector {
     destination: () -> MutableMap<AnnotationKey<*>, Any>,
   ) {
     source.forEach { (key, value) ->
-      if (key.aggregator === AnnotationKey.NOT_AGGREGATABLE) {
+      if (key !is AggregatableAnnotationKey) {
         return@forEach
       }
       val aggregatedAnnotations = destination()
