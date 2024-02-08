@@ -45,7 +45,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: wrapper
-      - run: gradle --no-daemon --info ${{ inputs.task }} detektAll ktlintCheck apiCheck koverXmlReport -x :benchmark:benchmark
+      - run: ./gradlew --no-daemon --info ${{ inputs.task }} detektAll ktlintCheck apiCheck koverXmlReport -x :benchmark:benchmark
       - name: Upload coverage reports to Codecov
         if: inputs.upload-code-coverage
         uses: codecov/codecov-action@v4

@@ -59,7 +59,7 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         with:
           gradle-version: wrapper
-      - run: gradle --no-daemon --info build publish closeAndReleaseStagingRepository -Pversion=${{ needs.version.outputs.RELEASE_VERSION }} -x :benchmark:benchmark
+      - run: ./gradlew --no-daemon --info build publish closeAndReleaseStagingRepository -Pversion=${{ needs.version.outputs.RELEASE_VERSION }} -x :benchmark:benchmark
   create_release:
     runs-on: ubuntu-latest
     needs:

@@ -38,4 +38,4 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: wrapper
-      - run: gradle --no-daemon --info :benchmark:benchmark ${{ inputs.additional-task }}
+      - run: ./gradlew --no-daemon --info :benchmark:benchmark ${{ inputs.additional-task }}
