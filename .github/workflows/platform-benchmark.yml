@@ -26,20 +26,16 @@ jobs:
           distribution: temurin
           java-version-file: .ci-java-version
       - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1.1.0
+        uses: gradle/wrapper-validation-action@v2
       - name: Cache konan
-        uses: actions/cache@v3.3.2
+        uses: actions/cache@v4
         with:
           path: ~/.konan
           key: ${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts') }}
           restore-keys: |
               ${{ runner.os }}-gradle-
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2.11.1
+        uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: wrapper
-          arguments: |
-            --no-daemon
-            --info
-            :benchmark:benchmark
-            ${{ inputs.additional-task }}
+      - run: gradle --no-daemon --info :benchmark:benchmark ${{ inputs.additional-task }}
