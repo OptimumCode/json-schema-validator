@@ -17,6 +17,8 @@ jobs:
       run-on: ubuntu-latest
       task: linuxAllTest
       upload-code-coverage: true
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   check-macos:
     uses: ./.github/workflows/check.yml
     with:
