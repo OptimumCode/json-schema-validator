@@ -33,15 +33,16 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Build with Gradle
         uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: wrapper
+      - name: Setup Gradle
+        run: ./gradlew --no-daemon --info build publish koverXmlReport -x :benchmark:benchmark
         env:
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
           SIGNING_SECRET_KEY: ${{ secrets.SIGNING_SECRET_KEY }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-        with:
-          gradle-version: wrapper
-      - run: ./gradlew --no-daemon --info build publish koverXmlReport -x :benchmark:benchmark
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
         with:
