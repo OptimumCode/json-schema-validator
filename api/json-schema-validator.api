@@ -83,6 +83,8 @@ public abstract interface class io/github/optimumcode/json/schema/JsonSchemaLoad
 	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun registerWellKnown (Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun withExtensions (Lio/github/optimumcode/json/schema/extension/ExternalAssertionFactory;[Lio/github/optimumcode/json/schema/extension/ExternalAssertionFactory;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun withExtensions (Ljava/lang/Iterable;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 }
 
 public final class io/github/optimumcode/json/schema/JsonSchemaLoader$Companion {
