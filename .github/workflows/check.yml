@@ -52,7 +52,7 @@ jobs:
       - name: Build
         run: ./gradlew --no-daemon --info ${{ inputs.task }} detektAll ktlintCheck apiCheck koverXmlReport -x :benchmark:benchmark
       - name: Upload coverage reports to Codecov
-        if: inputs.upload-code-coverage
+        if: inputs.upload-code-coverage && github.actor != 'dependabot[bot]'
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

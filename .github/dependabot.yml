@@ -1,0 +1,19 @@
+version: 2
+updates:
+  - package-ecosystem: gradle
+    labels:
+      - dependencies
+    assignees:
+      - 'OptimumCode'
+    directory: '/'
+    schedule:
+      interval: daily
+  - package-ecosystem: github-actions
+    labels:
+      - dependencies
+      - ci/cd
+    assignees:
+      - 'OptimumCode'
+    directory: '/'
+    schedule:
+      interval: daily
