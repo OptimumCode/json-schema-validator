@@ -278,6 +278,10 @@ val valid = schema.validate(elementToValidate, errors::add)
   |               | not                   | Supported                                                                                                                                       |
   </details>
 
+## Custom assertions
+
+You can implement custom assertions and use them. Read more [here](docs/custom_assertions.md).
+
 ## Compliance to JSON schema test suites
 
 This library uses official [JSON schema test suites](https://github.com/json-schema-org/JSON-Schema-Test-Suite)
