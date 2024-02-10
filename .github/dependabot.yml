@@ -11,7 +11,7 @@ updates:
   - package-ecosystem: github-actions
     labels:
       - dependencies
-      - ci/cd
+      - CI/CD
     assignees:
       - 'OptimumCode'
     directory: '/'
