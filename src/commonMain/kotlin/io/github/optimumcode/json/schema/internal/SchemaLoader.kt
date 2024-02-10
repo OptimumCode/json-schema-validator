@@ -36,7 +36,7 @@ internal class SchemaLoader : JsonSchemaLoader {
     draft: SchemaType?,
   ): JsonSchemaLoader =
     apply {
-      loadSchemaData(schema, draft, references, usedRefs, extensionFactories = extensionFactories.values)
+      loadSchemaData(schema, LoadingParameters(draft, references, usedRefs, extensionFactories.values))
     }
 
   override fun register(
@@ -56,11 +56,13 @@ internal class SchemaLoader : JsonSchemaLoader {
     apply {
       loadSchemaData(
         schema,
-        draft,
-        references,
-        usedRefs,
+        LoadingParameters(
+          draft,
+          references,
+          usedRefs,
+          extensionFactories = extensionFactories.values,
+        ),
         Uri.parse(remoteUri),
-        extensionFactories = extensionFactories.values,
       )
     }
 
@@ -95,7 +97,10 @@ internal class SchemaLoader : JsonSchemaLoader {
     draft: SchemaType?,
   ): JsonSchema {
     val assertion: JsonSchemaAssertion =
-      loadSchemaData(schemaElement, draft, references, usedRefs, extensionFactories = extensionFactories.values)
+      loadSchemaData(
+        schemaElement,
+        LoadingParameters(draft, references, usedRefs, extensionFactories.values),
+      )
     validateReferences(references, usedRefs)
     return createSchema(
       LoadResult(
@@ -163,28 +168,32 @@ internal object IsolatedLoader : JsonSchemaLoader {
   ): JsonSchema {
     val references: MutableMap<RefId, AssertionWithPath> = linkedMapOf()
     val usedRefs: MutableSet<ReferenceLocation> = hashSetOf()
-    val assertion: JsonSchemaAssertion = loadSchemaData(schemaElement, draft, references, usedRefs)
+    val assertion: JsonSchemaAssertion = loadSchemaData(schemaElement, LoadingParameters(draft, references, usedRefs))
     validateReferences(references, usedRefs)
     return createSchema(LoadResult(assertion, references, usedRefs.mapTo(hashSetOf()) { it.refId }))
   }
 }
 
+private class LoadingParameters(
+  val defaultType: SchemaType?,
+  val references: MutableMap<RefId, AssertionWithPath>,
+  val usedRefs: MutableSet<ReferenceLocation>,
+  val extensionFactories: Collection<AssertionFactory> = emptySet(),
+)
+
 private fun loadSchemaData(
   schemaDefinition: JsonElement,
-  defaultType: SchemaType?,
-  references: MutableMap<RefId, AssertionWithPath>,
-  usedRefs: MutableSet<ReferenceLocation>,
+  parameters: LoadingParameters,
   externalUri: Uri? = null,
-  extensionFactories: Collection<AssertionFactory> = emptySet(),
 ): JsonSchemaAssertion {
-  val schemaType = extractSchemaType(schemaDefinition, defaultType)
+  val schemaType = extractSchemaType(schemaDefinition, parameters.defaultType)
   val baseId: Uri = extractID(schemaDefinition, schemaType.config) ?: externalUri ?: Uri.EMPTY
   val assertionFactories =
     schemaType.config.factories(schemaDefinition).let {
-      if (extensionFactories.isEmpty()) {
+      if (parameters.extensionFactories.isEmpty()) {
         it
       } else {
-        it + extensionFactories
+        it + parameters.extensionFactories
       }
     }
   val isolatedReferences: MutableMap<RefId, AssertionWithPath> = linkedMapOf()
@@ -201,8 +210,8 @@ private fun loadSchemaData(
         }
       }
   val schemaAssertion = loadSchema(schemaDefinition, context)
-  references.putAll(isolatedReferences)
-  usedRefs.addAll(context.usedRef)
+  parameters.references.putAll(isolatedReferences)
+  parameters.usedRefs.addAll(context.usedRef)
   return schemaAssertion
 }
 

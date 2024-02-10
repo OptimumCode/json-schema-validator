@@ -14,10 +14,6 @@ internal interface AnnotationCollector : ExternalAnnotationCollector {
 }
 
 internal object AnnotationKeyFactory {
-  internal val NOT_AGGREGATABLE: (Any, Any) -> Nothing? = { _, _ -> null }
-
-  private fun <T : Any> notAggragatable(): (T, T) -> T? = NOT_AGGREGATABLE
-
   @JvmStatic
   inline fun <reified T : Any> create(name: String): AnnotationKey<T> = create(name, T::class)
 
