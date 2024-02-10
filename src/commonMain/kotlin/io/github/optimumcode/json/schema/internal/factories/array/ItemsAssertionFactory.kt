@@ -1,6 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.array
 
-import io.github.optimumcode.json.schema.internal.AnnotationKey
+import io.github.optimumcode.json.schema.AnnotationKey
+import io.github.optimumcode.json.schema.internal.AnnotationKeyFactory
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
@@ -10,7 +11,7 @@ import kotlin.math.max
 
 @Suppress("unused")
 internal object ItemsAssertionFactory : AbstractAssertionFactory("items") {
-  val ANNOTATION: AnnotationKey<Int> = AnnotationKey.createAggregatable(property) { a, b -> max(a, b) }
+  val ANNOTATION: AnnotationKey<Int> = AnnotationKeyFactory.createAggregatable(property) { a, b -> max(a, b) }
 
   override fun createFromProperty(
     element: JsonElement,

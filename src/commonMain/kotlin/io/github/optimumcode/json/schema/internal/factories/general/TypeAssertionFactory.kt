@@ -7,6 +7,7 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.number.util.number
 import io.github.optimumcode.json.schema.internal.util.parseNumberParts
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
@@ -14,8 +15,6 @@ import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
-import kotlinx.serialization.json.doubleOrNull
-import kotlinx.serialization.json.longOrNull
 
 internal object TypeAssertionFactory : AbstractAssertionFactory("type") {
   private val typeValidations: Map<String, Validation> =
@@ -23,7 +22,7 @@ internal object TypeAssertionFactory : AbstractAssertionFactory("type") {
       "null" to { it is JsonNull },
       "string" to { it is JsonPrimitive && it.isString },
       "boolean" to { it is JsonPrimitive && !it.isString && it.booleanOrNull != null },
-      "number" to { it is JsonPrimitive && !it.isString && (it.doubleOrNull != null || it.longOrNull != null) },
+      "number" to { it is JsonPrimitive && !it.isString && (it.number != null) },
       "integer" to { it is JsonPrimitive && !it.isString && parseNumberParts(it)?.fractional == 0L },
       "array" to { it is JsonArray },
       "object" to { it is JsonObject },

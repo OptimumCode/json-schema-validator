@@ -56,7 +56,7 @@ internal class NumberComparisonAssertion(
     if (element !is JsonPrimitive || element.isString) {
       return true
     }
-    val value: Number = element.longOrNull ?: element.doubleOrNull ?: return true
+    val value: Number = element.number ?: return true
     if (check(value, boundary)) {
       return true
     }

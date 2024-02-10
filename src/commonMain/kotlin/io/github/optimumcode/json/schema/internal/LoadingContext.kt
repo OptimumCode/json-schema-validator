@@ -1,13 +1,9 @@
 package io.github.optimumcode.json.schema.internal
 
-import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.pointer.div
-import io.github.optimumcode.json.pointer.get
+import io.github.optimumcode.json.schema.extension.ExternalLoadingContext
 import kotlinx.serialization.json.JsonElement
 
-internal interface LoadingContext {
-  val schemaPath: JsonPointer
-
+internal interface LoadingContext : ExternalLoadingContext {
   fun at(property: String): LoadingContext
 
   fun at(index: Int): LoadingContext

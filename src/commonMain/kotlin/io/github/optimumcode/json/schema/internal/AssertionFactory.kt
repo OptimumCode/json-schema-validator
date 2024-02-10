@@ -4,6 +4,11 @@ import kotlinx.serialization.json.JsonElement
 
 internal interface AssertionFactory {
   /**
+   * Property that should contain element to create an [JsonSchemaAssertion]
+   */
+  val property: String
+
+  /**
    * Checks whether the factory can create an assertion from the [element].
    *
    * @return `true` if factory can create an assertion from [element].

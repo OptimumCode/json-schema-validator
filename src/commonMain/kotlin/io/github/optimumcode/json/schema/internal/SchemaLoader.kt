@@ -9,11 +9,13 @@ import io.github.optimumcode.json.pointer.relative
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.JsonSchemaLoader
 import io.github.optimumcode.json.schema.SchemaType
+import io.github.optimumcode.json.schema.extension.ExternalAssertionFactory
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder.Recursive
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder.Simple
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.PointerWithBaseId
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.ReferenceLocation
+import io.github.optimumcode.json.schema.internal.factories.ExternalAssertionFactoryAdapter
 import io.github.optimumcode.json.schema.internal.util.getString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -27,13 +29,14 @@ private const val SCHEMA_PROPERTY: String = "\$schema"
 internal class SchemaLoader : JsonSchemaLoader {
   private val references: MutableMap<RefId, AssertionWithPath> = linkedMapOf()
   private val usedRefs: MutableSet<ReferenceLocation> = linkedSetOf()
+  private val extensionFactories: MutableMap<String, AssertionFactory> = linkedMapOf()
 
   override fun register(
     schema: JsonElement,
     draft: SchemaType?,
   ): JsonSchemaLoader =
     apply {
-      loadSchemaData(schema, draft, references, usedRefs)
+      loadSchemaData(schema, LoadingParameters(draft, references, usedRefs, extensionFactories.values))
     }
 
   override fun register(
@@ -51,7 +54,34 @@ internal class SchemaLoader : JsonSchemaLoader {
     draft: SchemaType?,
   ): JsonSchemaLoader =
     apply {
-      loadSchemaData(schema, draft, references, usedRefs, Uri.parse(remoteUri))
+      loadSchemaData(
+        schema,
+        LoadingParameters(
+          draft,
+          references,
+          usedRefs,
+          extensionFactories = extensionFactories.values,
+        ),
+        Uri.parse(remoteUri),
+      )
+    }
+
+  override fun withExtensions(
+    externalFactory: ExternalAssertionFactory,
+    vararg otherExternalFactories: ExternalAssertionFactory,
+  ): JsonSchemaLoader =
+    apply {
+      addExtensionFactory(externalFactory)
+      for (extFactory in otherExternalFactories) {
+        addExtensionFactory(extFactory)
+      }
+    }
+
+  override fun withExtensions(externalFactories: Iterable<ExternalAssertionFactory>): JsonSchemaLoader =
+    apply {
+      for (extFactory in externalFactories) {
+        addExtensionFactory(extFactory)
+      }
     }
 
   override fun fromDefinition(
@@ -66,7 +96,11 @@ internal class SchemaLoader : JsonSchemaLoader {
     schemaElement: JsonElement,
     draft: SchemaType?,
   ): JsonSchema {
-    val assertion: JsonSchemaAssertion = loadSchemaData(schemaElement, draft, references, usedRefs)
+    val assertion: JsonSchemaAssertion =
+      loadSchemaData(
+        schemaElement,
+        LoadingParameters(draft, references, usedRefs, extensionFactories.values),
+      )
     validateReferences(references, usedRefs)
     return createSchema(
       LoadResult(
@@ -75,6 +109,23 @@ internal class SchemaLoader : JsonSchemaLoader {
         usedRefs.mapTo(hashSetOf()) { it.refId },
       ),
     )
+  }
+
+  private fun addExtensionFactory(extensionFactory: ExternalAssertionFactory) {
+    for (schemaType in SchemaType.entries) {
+      val match =
+        schemaType.config.allFactories.find { it.property.equals(extensionFactory.keywordName, ignoreCase = true) }
+      if (match == null) {
+        continue
+      }
+      error(
+        "external factory with keyword '${extensionFactory.keywordName}' " +
+          "overlaps with '${match.property}' keyword from $schemaType",
+      )
+    }
+    val duplicate = extensionFactories.keys.find { it.equals(extensionFactory.keywordName, ignoreCase = true) }
+    check(duplicate == null) { "duplicated extension factory with keyword '$duplicate'" }
+    extensionFactories[extensionFactory.keywordName] = ExternalAssertionFactoryAdapter(extensionFactory)
   }
 }
 
@@ -95,6 +146,14 @@ internal object IsolatedLoader : JsonSchemaLoader {
     draft: SchemaType?,
   ): JsonSchemaLoader = throw UnsupportedOperationException()
 
+  override fun withExtensions(
+    externalFactory: ExternalAssertionFactory,
+    vararg otherExternalFactories: ExternalAssertionFactory,
+  ): JsonSchemaLoader = throw UnsupportedOperationException()
+
+  override fun withExtensions(externalFactories: Iterable<ExternalAssertionFactory>): JsonSchemaLoader =
+    throw UnsupportedOperationException()
+
   override fun fromDefinition(
     schema: String,
     draft: SchemaType?,
@@ -109,22 +168,34 @@ internal object IsolatedLoader : JsonSchemaLoader {
   ): JsonSchema {
     val references: MutableMap<RefId, AssertionWithPath> = linkedMapOf()
     val usedRefs: MutableSet<ReferenceLocation> = hashSetOf()
-    val assertion: JsonSchemaAssertion = loadSchemaData(schemaElement, draft, references, usedRefs)
+    val assertion: JsonSchemaAssertion = loadSchemaData(schemaElement, LoadingParameters(draft, references, usedRefs))
     validateReferences(references, usedRefs)
     return createSchema(LoadResult(assertion, references, usedRefs.mapTo(hashSetOf()) { it.refId }))
   }
 }
 
+private class LoadingParameters(
+  val defaultType: SchemaType?,
+  val references: MutableMap<RefId, AssertionWithPath>,
+  val usedRefs: MutableSet<ReferenceLocation>,
+  val extensionFactories: Collection<AssertionFactory> = emptySet(),
+)
+
 private fun loadSchemaData(
   schemaDefinition: JsonElement,
-  defaultType: SchemaType?,
-  references: MutableMap<RefId, AssertionWithPath>,
-  usedRefs: MutableSet<ReferenceLocation>,
+  parameters: LoadingParameters,
   externalUri: Uri? = null,
 ): JsonSchemaAssertion {
-  val schemaType = extractSchemaType(schemaDefinition, defaultType)
+  val schemaType = extractSchemaType(schemaDefinition, parameters.defaultType)
   val baseId: Uri = extractID(schemaDefinition, schemaType.config) ?: externalUri ?: Uri.EMPTY
-  val assertionFactories = schemaType.config.factories(schemaDefinition)
+  val assertionFactories =
+    schemaType.config.factories(schemaDefinition).let {
+      if (parameters.extensionFactories.isEmpty()) {
+        it
+      } else {
+        it + parameters.extensionFactories
+      }
+    }
   val isolatedReferences: MutableMap<RefId, AssertionWithPath> = linkedMapOf()
   val context =
     defaultLoadingContext(baseId, schemaType.config, assertionFactories, references = isolatedReferences)
@@ -139,8 +210,8 @@ private fun loadSchemaData(
         }
       }
   val schemaAssertion = loadSchema(schemaDefinition, context)
-  references.putAll(isolatedReferences)
-  usedRefs.addAll(context.usedRef)
+  parameters.references.putAll(isolatedReferences)
+  parameters.usedRefs.addAll(context.usedRef)
   return schemaAssertion
 }
 
