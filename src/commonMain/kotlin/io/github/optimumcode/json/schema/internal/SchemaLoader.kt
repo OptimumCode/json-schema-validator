@@ -115,7 +115,7 @@ internal class SchemaLoader : JsonSchemaLoader {
       }
       error(
         "external factory with keyword '${extensionFactory.keywordName}' " +
-          "overlaps with ${match.property} from $schemaType",
+          "overlaps with '${match.property}' keyword from $schemaType",
       )
     }
     val duplicate = extensionFactories.keys.find { it.equals(extensionFactory.keywordName, ignoreCase = true) }

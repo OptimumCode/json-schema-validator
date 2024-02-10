@@ -15,6 +15,10 @@ public interface ExternalAssertion {
    * and calls [ErrorCollector.onError] on passed [errorCollector].
    * Otherwise, returns `true`
    *
+   * You should follow the rules from JSON specification.
+   * E.g. element passes assertion if it has a different type from that the assertion expects.
+   * This would mean for 'format' assertion if the [element] is not a primitive the assertion must pass
+   *
    * @param element JSON element to validate
    * @param context [ExternalAssertionContext] associated with the [element]
    * @param errorCollector handler for [io.github.optimumcode.json.schema.ValidationError] produced by assertion
