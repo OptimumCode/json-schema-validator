@@ -3,21 +3,22 @@ package io.github.optimumcode.json.schema
 import kotlin.jvm.JvmStatic
 import kotlin.reflect.KClass
 
+/**
+ * Class represents a key with certain type that can be used
+ * to annotate a [JSON element][kotlinx.serialization.json.JsonElement].
+ * Only **one instance** of a key should be created and used to annotate or retrieve annotations.
+ *
+ * ```kotlin
+ *object Factory : AbstractAssertionFactory(/* .. */) {
+ *  val ANNOTATION: AnnotationKey<String> = AnnotationKey.simple(/*...*/)
+ *}
+ * ```
+ */
 public sealed class AnnotationKey<T : Any> private constructor(
   private val name: String,
   internal val type: KClass<T>,
 ) {
-  override fun equals(other: Any?): Boolean {
-    if (this === other) return true
-    if (other == null || this::class != other::class) return false
-
-    other as AnnotationKey<*>
-
-    if (name != other.name) return false
-    if (type != other.type) return false
-
-    return true
-  }
+  override fun equals(other: Any?): Boolean = this === other
 
   override fun hashCode(): Int {
     var result = name.hashCode()
