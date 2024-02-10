@@ -1,7 +1,7 @@
 [versions]
 kotlin = "1.9.22"
 kotest = "5.8.0"
-detekt = "1.23.4"
+detekt = "1.23.5"
 ktlint = "1.1.0"
 okio = "3.7.0"
 serialization = "1.6.2"
