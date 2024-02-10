@@ -1,9 +1,6 @@
 name: "Gradle dependencies submission"
 
-on:
-  push:
-    branches:
-      - main
+on: [ push ]
 
 jobs:
   build:
@@ -23,11 +20,12 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: wrapper
-      - name: Root Gradle Dependency Submission
-        uses: mikepenz/gradle-dependency-submission@v0.9.1
+      - name: Gradle Dependency Submission
+        uses: gradle/actions/dependency-submission@v3
         with:
-          use-gradlew: true
-          gradle-build-module: |-
-            :
-          gradle-build-configuration: |-
-            runtimeClasspath
+          build-scan-publish: true
+          build-scan-terms-of-service-url: "https://gradle.com/terms-of-service"
+          build-scan-terms-of-service-agree: "yes"
+        env:
+          DEPENDENCY_GRAPH_EXCLUDE_PROJECTS: ':buildSrc'
+          DEPENDENCY_GRAPH_EXCLUDE_CONFIGURATIONS: '.*[Tt]est(Compile|Runtime)Classpath'
