@@ -26,7 +26,7 @@ jobs:
           build-scan-publish: true
           build-scan-terms-of-service-url: 'https://gradle.com/terms-of-service'
           build-scan-terms-of-service-agree: 'yes'
-          additional-arguments: '--init-script init.gradle.kts'
         env:
+          GITHUB_DEPENDENCY_GRAPH_REF: ${{ github.ref }}
           DEPENDENCY_GRAPH_EXCLUDE_PROJECTS: ':buildSrc'
           DEPENDENCY_GRAPH_EXCLUDE_CONFIGURATIONS: '.*[Tt]est(Compile|Runtime)Classpath'
