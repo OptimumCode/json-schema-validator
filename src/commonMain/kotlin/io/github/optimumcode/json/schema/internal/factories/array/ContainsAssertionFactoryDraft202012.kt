@@ -26,6 +26,9 @@ internal object ContainsAssertionFactoryDraft202012 : AssertionFactory {
 
   val ANNOTATION: AnnotationKey<Set<Int>> = AnnotationKeyFactory.createAggregatable(PROPERTY, Set<Int>::plus)
 
+  override val property: String
+    get() = PROPERTY
+
   override fun isApplicable(element: JsonElement): Boolean {
     return element is JsonObject && element.containsKey(PROPERTY)
   }

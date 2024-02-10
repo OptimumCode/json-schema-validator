@@ -109,6 +109,9 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
       TypeAssertionFactory,
     )
 
+  override val allFactories: List<AssertionFactory> =
+    applicatorFactories + validationFactories
+
   override fun factories(schemaDefinition: JsonElement): List<AssertionFactory> {
     if (schemaDefinition !is JsonObject) {
       // no point to return any factories here

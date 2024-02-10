@@ -4,6 +4,8 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 
 internal interface SchemaLoaderConfig {
+  val allFactories: List<AssertionFactory>
+
   fun factories(schemaDefinition: JsonElement): List<AssertionFactory>
 
   val keywordResolver: KeyWordResolver

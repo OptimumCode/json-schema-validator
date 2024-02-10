@@ -3,6 +3,7 @@ package io.github.optimumcode.json.schema
 import io.github.optimumcode.json.schema.SchemaType.DRAFT_2019_09
 import io.github.optimumcode.json.schema.SchemaType.DRAFT_2020_12
 import io.github.optimumcode.json.schema.SchemaType.DRAFT_7
+import io.github.optimumcode.json.schema.extension.ExternalAssertionFactory
 import io.github.optimumcode.json.schema.internal.SchemaLoader
 import io.github.optimumcode.json.schema.internal.wellknown.Draft201909
 import io.github.optimumcode.json.schema.internal.wellknown.Draft202012
@@ -44,6 +45,13 @@ public interface JsonSchemaLoader {
     remoteUri: String,
     draft: SchemaType?,
   ): JsonSchemaLoader
+
+  public fun withExtensions(
+    externalFactory: ExternalAssertionFactory,
+    vararg otherExternalFactories: ExternalAssertionFactory,
+  ): JsonSchemaLoader
+
+  public fun withExtensions(externalFactories: Iterable<ExternalAssertionFactory>): JsonSchemaLoader
 
   public fun fromDefinition(schema: String): JsonSchema = fromDefinition(schema, null)
 

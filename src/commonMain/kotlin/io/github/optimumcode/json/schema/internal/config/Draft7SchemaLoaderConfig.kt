@@ -86,6 +86,9 @@ internal object Draft7SchemaLoaderConfig : SchemaLoaderConfig {
       NotAssertionFactory,
     )
 
+  override val allFactories: List<AssertionFactory>
+    get() = factories
+
   override fun factories(schemaDefinition: JsonElement): List<AssertionFactory> = factories
 
   override val keywordResolver: KeyWordResolver

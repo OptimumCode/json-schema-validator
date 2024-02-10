@@ -10,7 +10,7 @@ internal abstract class AbstractAssertionFactory(
   /**
    * JSON property name that will be used to extract element for assertion from JSON schema definition
    */
-  protected val property: String,
+  override val property: String,
 ) : AssertionFactory {
   final override fun isApplicable(element: JsonElement): Boolean {
     return element is JsonObject && element.contains(property)
