@@ -1,9 +1,6 @@
 name: "Gradle dependencies submission"
 
-on:
-  push:
-    branches:
-      - main
+on: [ push ]
 
 jobs:
   build:
@@ -19,15 +16,13 @@ jobs:
           java-version-file: .ci-java-version
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v2
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+      - name: Gradle Dependency Submission
+        uses: gradle/actions/dependency-submission@v3
         with:
-          gradle-version: wrapper
-      - name: Root Gradle Dependency Submission
-        uses: mikepenz/gradle-dependency-submission@v0.9.1
-        with:
-          use-gradlew: true
-          gradle-build-module: |-
-            :
-          gradle-build-configuration: |-
-            runtimeClasspath
+          build-scan-publish: true
+          build-scan-terms-of-service-url: 'https://gradle.com/terms-of-service'
+          build-scan-terms-of-service-agree: 'yes'
+        env:
+          GITHUB_DEPENDENCY_GRAPH_REF: ${{ github.ref }}
+          DEPENDENCY_GRAPH_EXCLUDE_PROJECTS: ':buildSrc'
+          DEPENDENCY_GRAPH_EXCLUDE_CONFIGURATIONS: '.*[Tt]est(Compile|Runtime)Classpath'
