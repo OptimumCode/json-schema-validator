@@ -15,14 +15,17 @@ on:
       warmups:
         description: 'number of warmups run before the actual benchmark'
         type: number
+        default: 5
         required: false
       iterations:
         description: 'number of iterations in the benchmark'
         type: number
+        default: 3
         required: false
       iteration-time:
         description: 'duraition of individual interation in benchmark'
         type: number
+        default: 1
         required: false
       iteration-time-unit:
         description: 'timeunit for iteration-time parameter'
