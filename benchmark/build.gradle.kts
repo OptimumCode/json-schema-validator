@@ -56,10 +56,10 @@ fun Any?.takeIfNotBlank(): String? = this?.toString()?.takeUnless(String::isBlan
 benchmark {
   configurations {
     getByName("main") {
-      warmups = properties["benchmark.warmups"]?.takeIfNotBlank()?.toInt() ?: 5
-      iterations = properties["benchmark.iterations"]?.takeIfNotBlank()?.toInt() ?: 10
-      iterationTime = properties["benchmark.iteration_time"]?.takeIfNotBlank()?.toLong() ?: 1L
-      iterationTimeUnit = properties["benchmark.iteration_time_unit"]?.takeIfNotBlank() ?: "s"
+      warmups = properties["benchmark_warmups"]?.takeIfNotBlank()?.toInt() ?: 5
+      iterations = properties["benchmark_iterations"]?.takeIfNotBlank()?.toInt() ?: 10
+      iterationTime = properties["benchmark_iteration_time"]?.takeIfNotBlank()?.toLong() ?: 1L
+      iterationTimeUnit = properties["benchmark_iteration_time_unit"]?.takeIfNotBlank() ?: "s"
       param("objectPath", "$projectDir/data/openapi.json")
       param("schemaPath", "$projectDir/data/schemas/openapi_schema.json")
     }
