@@ -56,9 +56,9 @@ jobs:
         with:
           gradle-version: wrapper
       - name: Run benchmarks
-        run: |
-          ./gradlew --no-daemon --info :benchmark:benchmark ${{ inputs.additional-task }} \
-          -Pbenchmark.warmups=${{ inputs.warmups }} \
-          -Pbenchmark.iterations=${{ inputs.iterations }} \
-          -Pbenchmark.iteration_time=${{ inputs.iteration-time }} \
+        run: >
+          ./gradlew --no-daemon --info :benchmark:benchmark ${{ inputs.additional-task }}
+          -Pbenchmark.warmups=${{ inputs.warmups }}
+          -Pbenchmark.iterations=${{ inputs.iterations }}
+          -Pbenchmark.iteration_time=${{ inputs.iteration-time }}
           -Pbenchmark.iteration_time_unit=${{ inputs.iteration-time-unit }}
