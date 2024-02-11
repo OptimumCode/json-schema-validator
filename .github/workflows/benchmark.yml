@@ -14,7 +14,7 @@ on:
         default: 3
         required: false
       iteration-time:
-        description: 'duraition of individual interation in benchmark'
+        description: 'duration of individual integration in benchmark'
         type: number
         default: 1
         required: false
