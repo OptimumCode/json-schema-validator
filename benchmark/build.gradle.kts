@@ -51,13 +51,15 @@ kotlin {
   }
 }
 
+fun Any?.takeIfNotBlank(): String? = this?.toString()?.takeUnless(String::isBlank)
+
 benchmark {
   configurations {
     getByName("main") {
-      warmups = 5
-      iterations = 3
-      iterationTime = 1
-      iterationTimeUnit = "s"
+      warmups = properties["benchmark.warmups"]?.takeIfNotBlank()?.toInt() ?: 5
+      iterations = properties["benchmark.iterations"]?.takeIfNotBlank()?.toInt() ?: 10
+      iterationTime = properties["benchmark.iteration_time"]?.takeIfNotBlank()?.toLong() ?: 1L
+      iterationTimeUnit = properties["benchmark.iteration_time_unit"]?.takeIfNotBlank() ?: "s"
       param("objectPath", "$projectDir/data/openapi.json")
       param("schemaPath", "$projectDir/data/schemas/openapi_schema.json")
     }

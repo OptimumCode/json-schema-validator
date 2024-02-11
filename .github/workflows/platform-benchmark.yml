@@ -12,6 +12,23 @@ on:
         description: additional task to add to gradle call
         required: false
         default: ""
+      warmups:
+        description: 'number of warmups run before the actual benchmark'
+        type: number
+        required: false
+      iterations:
+        description: 'number of iterations in the benchmark'
+        type: number
+        required: false
+      iteration-time:
+        description: 'duraition of individual interation in benchmark'
+        type: number
+        required: false
+      iteration-time-unit:
+        description: 'timeunit for iteration-time parameter'
+        default: 's'
+        type: string
+        required: false
 
 jobs:
   benchmark:
@@ -39,4 +56,9 @@ jobs:
         with:
           gradle-version: wrapper
       - name: Run benchmarks
-        run: ./gradlew --no-daemon --info :benchmark:benchmark ${{ inputs.additional-task }}
+        run: |
+          ./gradlew --no-daemon --info :benchmark:benchmark ${{ inputs.additional-task }} \
+          -Pbenchmark.warmups=${{ inputs.warmups }} \
+          -Pbenchmark.iterations=${{ inputs.iterations }} \
+          -Pbenchmark.iteration_time=${{ inputs.iteration-time }} \
+          -Pbenchmark.iteration_time_unit=${{ inputs.iteration-time-unit }}
