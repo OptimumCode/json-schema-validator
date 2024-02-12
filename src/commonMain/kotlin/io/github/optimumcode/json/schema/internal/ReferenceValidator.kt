@@ -2,7 +2,8 @@ package io.github.optimumcode.json.schema.internal
 
 import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.pointer.contains
+import io.github.optimumcode.json.pointer.internal.dropLast
+import io.github.optimumcode.json.pointer.internal.lastSegment
 import io.github.optimumcode.json.pointer.startsWith
 
 internal object ReferenceValidator {
@@ -34,8 +35,8 @@ internal object ReferenceValidator {
     checkCircledReferences(usedRef, referencesWithPath)
   }
 
-  private val alwaysRunAssertions = hashSetOf("allOf", "anyOf", "oneOf")
-  private val mightNotRun = hashSetOf("properties")
+  private val alwaysRunInPlaceApplicators = hashSetOf("allOf", "anyOf", "oneOf")
+  private val definitionProperties = hashSetOf("definitions", "\$defs")
 
   private fun checkCircledReferences(
     usedRefs: Set<ReferenceLocation>,
@@ -48,9 +49,12 @@ internal object ReferenceValidator {
 
     val circledReferences = hashSetOf<CircledReference>()
 
-    fun checkRunAlways(path: JsonPointer): Boolean {
-      return alwaysRunAssertions.any { path.contains(it) } && mightNotRun.none { path.contains(it) }
-    }
+    val refsByBaseId: Map<Uri, Set<JsonPointer>> =
+      referencesWithPath
+        .entries
+        .groupingBy { it.value.baseId }
+        .fold(hashSetOf()) { acc, el -> acc.apply { add(el.value.pointer) } }
+
     for ((location, refId) in locationToRef) {
       val schemaLocation: PointerWithBaseId = referencesWithPath.getValue(refId)
 
@@ -64,7 +68,12 @@ internal object ReferenceValidator {
       ) {
         continue
       }
-      if (checkRunAlways(location) && checkRunAlways(otherLocation) && location != otherLocation) {
+      val refsForBaseId = refsByBaseId[schemaLocation.baseId] ?: emptySet()
+      if (checkRunAlways(
+          location,
+          refsForBaseId,
+        ) && checkRunAlways(otherLocation, refsForBaseId) && location != otherLocation
+      ) {
         circledReferences +=
           CircledReference(
             firstLocation = location,
@@ -81,6 +90,31 @@ internal object ReferenceValidator {
         }
       }"
     }
+  }
+
+  private fun checkRunAlways(
+    path: JsonPointer,
+    schemaLocations: Set<JsonPointer>,
+  ): Boolean {
+    var curPath: JsonPointer? = path
+    while (curPath != null) {
+      val parentPath = curPath.dropLast()
+      // The idea here is the following:
+      // 'parentPath in schemaLocations' returns true only if the last segment is a schema keyword.
+      // If this is the case we should check if this keyword is not applied in-place.
+      // We also check that this keyword is not a definition as this would be incorrect.
+      // If this all is 'true' this is not a circled reference
+      if (
+        parentPath in schemaLocations &&
+        curPath.lastSegment()?.let {
+          it !in alwaysRunInPlaceApplicators && it !in definitionProperties
+        } == true
+      ) {
+        return false
+      }
+      curPath = parentPath
+    }
+    return true
   }
 
   private class CircledReference(
