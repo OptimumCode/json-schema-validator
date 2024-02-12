@@ -99,6 +99,11 @@ internal object ReferenceValidator {
     var curPath: JsonPointer? = path
     while (curPath != null) {
       val parentPath = curPath.dropLast()
+      // The idea here is the following:
+      // 'parentPath in schemaLocations' returns true only if the last segment is a schema keyword.
+      // If this is the case we should check if this keyword is not applied in-place.
+      // We also check that this keyword is not a definition as this would be incorrect.
+      // If this all is 'true' this is not a circled reference
       if (
         parentPath in schemaLocations &&
         curPath.lastSegment()?.let {
