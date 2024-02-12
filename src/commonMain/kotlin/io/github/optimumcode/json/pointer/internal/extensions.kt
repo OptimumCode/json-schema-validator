@@ -33,3 +33,14 @@ internal fun JsonPointer.dropLast(): JsonPointer? {
   }
   return JsonPointer.compile(fullPath.substring(0, lastPathPart))
 }
+
+internal fun JsonPointer.lastSegment(): String? {
+  var cur: JsonPointer? = this
+  while (cur != EmptyPointer) {
+    if (cur is SegmentPointer && cur.next is EmptyPointer) {
+      return cur.propertyName
+    }
+    cur = cur?.next
+  }
+  return null
+}
