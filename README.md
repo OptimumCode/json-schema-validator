@@ -184,6 +184,7 @@ val valid = schema.validate(elementToValidate, errors::add)
   | $ref              | Supported                                                                                           |
   | $recursiveRef     | Supported                                                                                           |
   | $defs/definitions | Supported. Definitions are loaded and can be referenced                                             |
+  | $vocabulary       | Supported. You can disable and enable vocabularies through custom meta-schemes                      |
 
   - Assertions
 
@@ -237,6 +238,7 @@ val valid = schema.validate(elementToValidate, errors::add)
   | $ref                       | Supported                                                                                           |
   | $dynamicRef/$dynamicAnchor | Supported                                                                                           |
   | $defs/definitions          | Supported. Definitions are loaded and can be referenced                                             |
+  | $vocabulary                | Supported. You can disable and enable vocabularies through custom meta-schemes                      |
 
   - Assertions
 
