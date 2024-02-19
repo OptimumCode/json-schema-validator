@@ -6,10 +6,23 @@ import kotlinx.serialization.json.JsonObject
 internal interface SchemaLoaderConfig {
   val allFactories: List<AssertionFactory>
 
-  fun factories(schemaDefinition: JsonElement): List<AssertionFactory>
+  val defaultVocabulary: Vocabulary
+
+  fun createVocabulary(schemaDefinition: JsonElement): Vocabulary?
+
+  fun factories(
+    schemaDefinition: JsonElement,
+    vocabulary: Vocabulary,
+  ): List<AssertionFactory>
 
   val keywordResolver: KeyWordResolver
   val referenceFactory: ReferenceFactory
+
+  class Vocabulary(
+    private val vocabularies: Map<String, Boolean> = emptyMap(),
+  ) {
+    fun enabled(vocabulary: String): Boolean = vocabularies[vocabulary] ?: false
+  }
 }
 
 /**

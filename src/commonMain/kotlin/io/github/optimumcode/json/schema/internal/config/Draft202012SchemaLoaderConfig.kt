@@ -11,8 +11,8 @@ import io.github.optimumcode.json.schema.internal.KeyWordResolver
 import io.github.optimumcode.json.schema.internal.ReferenceFactory
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
+import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig.Vocabulary
 import io.github.optimumcode.json.schema.internal.SchemaLoaderContext
-import io.github.optimumcode.json.schema.internal.config.Draft202012KeyWordResolver.DYNAMIC_ANCHOR_PROPERTY
 import io.github.optimumcode.json.schema.internal.config.Draft202012KeyWordResolver.DYNAMIC_REF_PROPERTY
 import io.github.optimumcode.json.schema.internal.config.Draft202012KeyWordResolver.REF_PROPERTY
 import io.github.optimumcode.json.schema.internal.factories.array.ContainsAssertionFactoryDraft202012
@@ -53,6 +53,8 @@ import io.github.optimumcode.json.schema.internal.factories.string.MaxLengthAsse
 import io.github.optimumcode.json.schema.internal.factories.string.MinLengthAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.string.PatternAssertionFactory
 import io.github.optimumcode.json.schema.internal.util.getStringRequired
+import io.github.optimumcode.json.schema.internal.wellknown.Draft202012
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.boolean
@@ -60,6 +62,7 @@ import kotlinx.serialization.json.jsonPrimitive
 
 private const val APPLICATOR_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/applicator"
 private const val VALIDATION_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/validation"
+private const val UNEVALUATED_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/unevaluated"
 private const val VOCABULARY_PROPERTY = "\$vocabulary"
 
 internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
@@ -80,7 +83,11 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
       AnyOfAssertionFactory,
       OneOfAssertionFactory,
       NotAssertionFactory,
-      // MUST be applied last
+    )
+
+  // MUST be applied last
+  private val unevaluatedFactories: List<AssertionFactory> =
+    listOf(
       UnevaluatedItemsAssertionFactoryDraft202012,
       UnevaluatedPropertiesAssertionFactory,
     )
@@ -109,23 +116,38 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
       TypeAssertionFactory,
     )
 
+  override val defaultVocabulary: Vocabulary =
+    requireNotNull(createVocabulary(Json.parseToJsonElement(Draft202012.DRAFT202012_SCHEMA.content))) {
+      "draft schema must have a vocabulary"
+    }
+
   override val allFactories: List<AssertionFactory> =
     applicatorFactories + validationFactories
 
-  override fun factories(schemaDefinition: JsonElement): List<AssertionFactory> {
+  override fun factories(
+    schemaDefinition: JsonElement,
+    vocabulary: Vocabulary,
+  ): List<AssertionFactory> {
     if (schemaDefinition !is JsonObject) {
       // no point to return any factories here
       return emptyList()
     }
-    val vocabularyElement = schemaDefinition[VOCABULARY_PROPERTY] ?: return allFactories()
-    require(vocabularyElement is JsonObject) { "$VOCABULARY_PROPERTY must be a JSON object" }
-    val applicators = vocabularyElement[APPLICATOR_VOCABULARY_URI]?.jsonPrimitive?.boolean ?: true
-    val validations = vocabularyElement[VALIDATION_VOCABULARY_URI]?.jsonPrimitive?.boolean ?: true
+
+    val applicators = vocabulary.enabled(APPLICATOR_VOCABULARY_URI)
+    val validations = vocabulary.enabled(VALIDATION_VOCABULARY_URI)
+    val unevaluated = vocabulary.enabled(UNEVALUATED_VOCABULARY_URI)
+    val allEnabled = applicators && validations && unevaluated
     return when {
-      applicators && validations -> allFactories()
+      allEnabled -> allFactories()
       applicators -> applicatorFactories
       validations -> validationFactories
       else -> emptyList() // no vocabulary enabled
+    }.let { factories ->
+      if (factories.isNotEmpty() && !allEnabled && unevaluated) {
+        factories + unevaluatedFactories
+      } else {
+        factories
+      }
     }
   }
 
@@ -134,7 +156,22 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
   override val referenceFactory: ReferenceFactory
     get() = Draft202012ReferenceFactory
 
-  private fun allFactories(): List<AssertionFactory> = applicatorFactories + validationFactories
+  override fun createVocabulary(schemaDefinition: JsonElement): Vocabulary? {
+    if (schemaDefinition !is JsonObject || VOCABULARY_PROPERTY !in schemaDefinition) {
+      return null
+    }
+    val vocabulary = schemaDefinition.getValue(VOCABULARY_PROPERTY)
+    require(vocabulary is JsonObject) { "$VOCABULARY_PROPERTY must be a JSON object" }
+    if (vocabulary.isEmpty()) {
+      return null
+    }
+    return Vocabulary(
+      vocabularies =
+        vocabulary.mapValues { (_, state) -> state.jsonPrimitive.boolean },
+    )
+  }
+
+  private fun allFactories(): List<AssertionFactory> = applicatorFactories + validationFactories + unevaluatedFactories
 }
 
 private object Draft202012KeyWordResolver : KeyWordResolver {

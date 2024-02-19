@@ -11,6 +11,7 @@ import io.github.optimumcode.json.schema.internal.KeyWordResolver
 import io.github.optimumcode.json.schema.internal.ReferenceFactory
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
+import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig.Vocabulary
 import io.github.optimumcode.json.schema.internal.SchemaLoaderContext
 import io.github.optimumcode.json.schema.internal.config.Draft201909KeyWordResolver.REC_ANCHOR_PROPERTY
 import io.github.optimumcode.json.schema.internal.config.Draft201909KeyWordResolver.REC_REF_PROPERTY
@@ -53,6 +54,8 @@ import io.github.optimumcode.json.schema.internal.factories.string.MaxLengthAsse
 import io.github.optimumcode.json.schema.internal.factories.string.MinLengthAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.string.PatternAssertionFactory
 import io.github.optimumcode.json.schema.internal.util.getStringRequired
+import io.github.optimumcode.json.schema.internal.wellknown.Draft201909
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.boolean
@@ -109,18 +112,40 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
       TypeAssertionFactory,
     )
 
+  override val defaultVocabulary: Vocabulary =
+    requireNotNull(createVocabulary(Json.parseToJsonElement(Draft201909.DRAFT201909_SCHEMA.content))) {
+      "draft schema must have a vocabulary"
+    }
+
   override val allFactories: List<AssertionFactory> =
     applicatorFactories + validationFactories
 
-  override fun factories(schemaDefinition: JsonElement): List<AssertionFactory> {
+  override fun createVocabulary(schemaDefinition: JsonElement): Vocabulary? {
+    if (schemaDefinition !is JsonObject || VOCABULARY_PROPERTY !in schemaDefinition) {
+      return null
+    }
+    val vocabulary = schemaDefinition.getValue(VOCABULARY_PROPERTY)
+    require(vocabulary is JsonObject) { "$VOCABULARY_PROPERTY must be a JSON object" }
+    if (vocabulary.isEmpty()) {
+      return null
+    }
+    return Vocabulary(
+      vocabularies =
+        vocabulary.mapValues { (_, state) -> state.jsonPrimitive.boolean },
+    )
+  }
+
+  override fun factories(
+    schemaDefinition: JsonElement,
+    vocabulary: Vocabulary,
+  ): List<AssertionFactory> {
     if (schemaDefinition !is JsonObject) {
       // no point to return any factories here
       return emptyList()
     }
-    val vocabularyElement = schemaDefinition[VOCABULARY_PROPERTY] ?: return allFactories()
-    require(vocabularyElement is JsonObject) { "$VOCABULARY_PROPERTY must be a JSON object" }
-    val applicators = vocabularyElement[APPLICATOR_VOCABULARY_URI]?.jsonPrimitive?.boolean ?: true
-    val validations = vocabularyElement[VALIDATION_VOCABULARY_URI]?.jsonPrimitive?.boolean ?: true
+
+    val applicators = vocabulary.enabled(APPLICATOR_VOCABULARY_URI)
+    val validations = vocabulary.enabled(VALIDATION_VOCABULARY_URI)
     return when {
       applicators && validations -> allFactories()
       applicators -> applicatorFactories
