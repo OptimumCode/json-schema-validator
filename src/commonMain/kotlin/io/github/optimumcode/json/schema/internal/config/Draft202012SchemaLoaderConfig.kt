@@ -139,6 +139,7 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
     val allEnabled = applicators && validations && unevaluated
     return when {
       allEnabled -> allFactories()
+      applicators && validations -> applicatorFactories + validationFactories
       applicators -> applicatorFactories
       validations -> validationFactories
       else -> emptyList() // no vocabulary enabled
