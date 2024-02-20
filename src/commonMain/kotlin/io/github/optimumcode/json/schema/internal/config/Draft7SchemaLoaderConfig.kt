@@ -11,6 +11,7 @@ import io.github.optimumcode.json.schema.internal.KeyWordResolver
 import io.github.optimumcode.json.schema.internal.ReferenceFactory
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
+import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig.Vocabulary
 import io.github.optimumcode.json.schema.internal.SchemaLoaderContext
 import io.github.optimumcode.json.schema.internal.config.Draft7KeyWordResolver.REF_PROPERTY
 import io.github.optimumcode.json.schema.internal.factories.array.AdditionalItemsAssertionFactory
@@ -86,10 +87,16 @@ internal object Draft7SchemaLoaderConfig : SchemaLoaderConfig {
       NotAssertionFactory,
     )
 
+  override val defaultVocabulary: Vocabulary = Vocabulary()
   override val allFactories: List<AssertionFactory>
     get() = factories
 
-  override fun factories(schemaDefinition: JsonElement): List<AssertionFactory> = factories
+  override fun createVocabulary(schemaDefinition: JsonElement): Vocabulary? = null
+
+  override fun factories(
+    schemaDefinition: JsonElement,
+    vocabulary: Vocabulary,
+  ): List<AssertionFactory> = factories
 
   override val keywordResolver: KeyWordResolver
     get() = Draft7KeyWordResolver

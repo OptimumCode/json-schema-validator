@@ -10,11 +10,13 @@ import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.JsonSchemaLoader
 import io.github.optimumcode.json.schema.SchemaType
 import io.github.optimumcode.json.schema.extension.ExternalAssertionFactory
+import io.github.optimumcode.json.schema.findSchemaType
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder.Recursive
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder.Simple
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.PointerWithBaseId
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.ReferenceLocation
+import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig.Vocabulary
 import io.github.optimumcode.json.schema.internal.factories.ExternalAssertionFactoryAdapter
 import io.github.optimumcode.json.schema.internal.util.getString
 import kotlinx.serialization.json.Json
@@ -30,13 +32,14 @@ internal class SchemaLoader : JsonSchemaLoader {
   private val references: MutableMap<RefId, AssertionWithPath> = linkedMapOf()
   private val usedRefs: MutableSet<ReferenceLocation> = linkedSetOf()
   private val extensionFactories: MutableMap<String, AssertionFactory> = linkedMapOf()
+  private val customMetaSchemas: MutableMap<Uri, Pair<SchemaType, Vocabulary>> = linkedMapOf()
 
   override fun register(
     schema: JsonElement,
     draft: SchemaType?,
   ): JsonSchemaLoader =
     apply {
-      loadSchemaData(schema, LoadingParameters(draft, references, usedRefs, extensionFactories.values))
+      loadSchemaData(schema, createParameters(draft))
     }
 
   override fun register(
@@ -56,12 +59,7 @@ internal class SchemaLoader : JsonSchemaLoader {
     apply {
       loadSchemaData(
         schema,
-        LoadingParameters(
-          draft,
-          references,
-          usedRefs,
-          extensionFactories = extensionFactories.values,
-        ),
+        createParameters(draft),
         Uri.parse(remoteUri),
       )
     }
@@ -99,7 +97,7 @@ internal class SchemaLoader : JsonSchemaLoader {
     val assertion: JsonSchemaAssertion =
       loadSchemaData(
         schemaElement,
-        LoadingParameters(draft, references, usedRefs, extensionFactories.values),
+        createParameters(draft),
       )
     validateReferences(references, usedRefs)
     return createSchema(
@@ -110,6 +108,20 @@ internal class SchemaLoader : JsonSchemaLoader {
       ),
     )
   }
+
+  private fun createParameters(draft: SchemaType?): LoadingParameters =
+    LoadingParameters(
+      defaultType = draft,
+      references = references,
+      usedRefs = usedRefs,
+      extensionFactories = extensionFactories.values,
+      registerMetaSchema = { uri, type, vocab ->
+        val prev = customMetaSchemas.put(uri, type to vocab)
+        require(prev == null) { "duplicated meta-schema with uri '$uri'" }
+      },
+      resolveCustomVocabulary = { customMetaSchemas[it]?.second },
+      resolveCustomMetaSchemaType = { customMetaSchemas[it]?.first },
+    )
 
   private fun addExtensionFactory(extensionFactory: ExternalAssertionFactory) {
     for (schemaType in SchemaType.entries) {
@@ -174,11 +186,15 @@ internal object IsolatedLoader : JsonSchemaLoader {
   }
 }
 
+@Suppress("detekt:LongParameterList")
 private class LoadingParameters(
   val defaultType: SchemaType?,
   val references: MutableMap<RefId, AssertionWithPath>,
   val usedRefs: MutableSet<ReferenceLocation>,
   val extensionFactories: Collection<AssertionFactory> = emptySet(),
+  val resolveCustomMetaSchemaType: (Uri) -> SchemaType? = { null },
+  val resolveCustomVocabulary: (Uri) -> Vocabulary? = { null },
+  val registerMetaSchema: (Uri, SchemaType, Vocabulary) -> Unit = { _, _, _ -> },
 )
 
 private fun loadSchemaData(
@@ -186,10 +202,19 @@ private fun loadSchemaData(
   parameters: LoadingParameters,
   externalUri: Uri? = null,
 ): JsonSchemaAssertion {
-  val schemaType = extractSchemaType(schemaDefinition, parameters.defaultType)
+  val schema: Uri? = extractSchema(schemaDefinition)?.let(Uri::parse)
+  val schemaType: SchemaType = resolveSchemaType(schema, parameters.defaultType, parameters.resolveCustomMetaSchemaType)
   val baseId: Uri = extractID(schemaDefinition, schemaType.config) ?: externalUri ?: Uri.EMPTY
+  val schemaVocabulary: Vocabulary? =
+    schemaType.config.createVocabulary(schemaDefinition)?.also {
+      parameters.registerMetaSchema(baseId, schemaType, it)
+    }
+  val vocabulary: Vocabulary =
+    schemaVocabulary
+      ?: schema?.let(parameters.resolveCustomVocabulary)
+      ?: schemaType.config.defaultVocabulary
   val assertionFactories =
-    schemaType.config.factories(schemaDefinition).let {
+    schemaType.config.factories(schemaDefinition, vocabulary).let {
       if (parameters.extensionFactories.isEmpty()) {
         it
       } else {
@@ -245,20 +270,29 @@ private class LoadResult(
   val usedRefs: Set<RefId>,
 )
 
-private fun extractSchemaType(
-  schemaDefinition: JsonElement,
+private fun resolveSchemaType(
+  schema: Uri?,
   defaultType: SchemaType?,
+  resolveCustomMetaSchemaType: (Uri) -> SchemaType?,
 ): SchemaType {
   val schemaType: SchemaType? =
-    if (schemaDefinition is JsonObject) {
-      schemaDefinition[SCHEMA_PROPERTY]?.let {
-        require(it is JsonPrimitive && it.isString) { "$SCHEMA_PROPERTY must be a string" }
-        SchemaType.find(it.content) ?: throw IllegalArgumentException("unsupported schema type ${it.content}")
-      }
-    } else {
-      null
+    schema?.let {
+      findSchemaType(it)
+        ?: resolveCustomMetaSchemaType(it)
+        ?: throw IllegalArgumentException("unsupported schema type $it")
     }
   return schemaType ?: defaultType ?: SchemaType.entries.last()
+}
+
+private fun extractSchema(schemaDefinition: JsonElement): String? {
+  return if (schemaDefinition is JsonObject) {
+    schemaDefinition[SCHEMA_PROPERTY]?.let {
+      require(it is JsonPrimitive && it.isString) { "$SCHEMA_PROPERTY must be a string" }
+      it.content
+    }
+  } else {
+    null
+  }
 }
 
 private fun loadDefinitions(

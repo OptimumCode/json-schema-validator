@@ -19,8 +19,6 @@ internal class TestSuite : FunSpec() {
               // if there is no match to it according to spec
               "minContains = 0 with no maxContains",
             ),
-          // current version does not look in non-standard $schema values to gather vocabulary
-          "vocabulary" to emptySet(),
         ),
       excludeTests =
         mapOf(

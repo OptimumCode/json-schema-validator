@@ -8,10 +8,7 @@ internal class TestSuite : FunSpec() {
   init {
     runTestSuites(
       draftName = "draft2020-12",
-      excludeSuites =
-        mapOf(
-          "vocabulary" to emptySet(),
-        ),
+      excludeSuites = mapOf(),
     )
   }
 }
