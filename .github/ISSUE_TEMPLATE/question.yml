@@ -19,6 +19,13 @@ body:
       description: What would you like to know?
     validations:
       required: false
+  - type: input
+    attributes:
+      label: Library version
+      description: Version of the library that you use right now
+      placeholder: '0.0.1'
+    validations:
+      required: false
   - type: textarea
     attributes:
       label: Anything else?

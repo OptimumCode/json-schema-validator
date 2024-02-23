@@ -37,7 +37,7 @@ body:
   - type: input
     attributes:
       label: Library version
-      description: Version of the library which you used when experienced the problem
+      description: Version of the library that you used when experienced the problem
       placeholder: '0.0.1'
     validations:
       required: true
