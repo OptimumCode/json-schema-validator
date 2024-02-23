@@ -1,0 +1,21 @@
+name: Feature request
+description: Enhancement proposal for the library
+title: 'Enhancement: <title>'
+labels:
+  - enhancement
+assignees:
+  - OptimumCode
+body:
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if a similar proposal already exists.
+      options:
+        - label: I have searched the existing issues
+          required: true
+  - type: textarea
+    attributes:
+      label: Enhancement description
+      description: A description of what would like to add/change in the library.
+    validations:
+      required: true
