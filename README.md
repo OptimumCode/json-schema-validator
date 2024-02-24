@@ -2,6 +2,12 @@
 
 [![Licence](https://img.shields.io/github/license/OptimumCode/json-schema-validator)](https://opensource.org/license/mit/)
 [![Supported-drafts](https://img.shields.io/endpoint?url=https://bowtie-json-schema.github.io/bowtie/badges/kotlin-kmp-json-schema-validator/supported_versions.json)](https://json-schema.org/specification)
+![Codecov](https://img.shields.io/codecov/c/github/optimumcode/json-schema-validator)
+
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.optimumcode/json-schema-validator)
+![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/io.github.optimumcode/json-schema-validator?server=https%3A%2F%2Fs01.oss.sonatype.org)
+![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/io.github.optimumcode/json-schema-validator?server=https%3A%2F%2Fs01.oss.sonatype.org)
+
 
 This multiplatform library is an implementation of JSON schema that can validate
 [JsonElement](https://github.com/Kotlin/kotlinx.serialization/blob/master/formats/json/commonMain/src/kotlinx/serialization/json/JsonElement.kt)
