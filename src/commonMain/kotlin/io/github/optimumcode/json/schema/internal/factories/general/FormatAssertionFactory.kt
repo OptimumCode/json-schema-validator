@@ -20,15 +20,12 @@ import io.github.optimumcode.json.schema.internal.formats.TimeFormatValidator
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 
-internal object FormatAssertionFactory : AbstractAssertionFactory("format") {
-  internal val ANNOTATION: AnnotationKey<String> = AnnotationKeyFactory.create(property)
-  private val KNOWN_FORMATS: Map<String, FormatValidator> =
-    mapOf(
-      "date" to DateFormatValidator,
-      "time" to TimeFormatValidator,
-      "date-time" to DateTimeFormatValidator,
-      "duration" to DurationFormatValidator,
-    )
+internal sealed class FormatAssertionFactory(
+  private val assertion: Boolean,
+) : AbstractAssertionFactory(FORMAT_PROPERTY) {
+  internal data object AnnotationOnly : FormatAssertionFactory(assertion = false)
+
+  internal data object AnnotationAndAssertion : FormatAssertionFactory(assertion = true)
 
   override fun createFromProperty(
     element: JsonElement,
@@ -36,12 +33,32 @@ internal object FormatAssertionFactory : AbstractAssertionFactory("format") {
   ): JsonSchemaAssertion {
     require(element is JsonPrimitive && element.isString) { "$property must be a string" }
     val formatKey = element.content.lowercase()
-    val validator = KNOWN_FORMATS[formatKey] ?: return TrueSchemaAssertion
+    val validator =
+      KNOWN_FORMATS[formatKey]
+        ?: context.customFormatValidators[formatKey]
+        // assertion with unknown format must fail schema loading
+        // but right now the library does not have all required formats implemented
+        // so it cannot throw an error here
+        ?: return TrueSchemaAssertion
+
     return FormatAssertion(
       context.schemaPath,
       formatKey,
       validator,
+      assertion,
     )
+  }
+
+  internal companion object {
+    private const val FORMAT_PROPERTY = "format"
+    internal val ANNOTATION: AnnotationKey<String> = AnnotationKeyFactory.create(FORMAT_PROPERTY)
+    private val KNOWN_FORMATS: Map<String, FormatValidator> =
+      mapOf(
+        "date" to DateFormatValidator,
+        "time" to TimeFormatValidator,
+        "date-time" to DateTimeFormatValidator,
+        "duration" to DurationFormatValidator,
+      )
   }
 }
 
@@ -49,6 +66,7 @@ private class FormatAssertion(
   private val schemaPath: JsonPointer,
   private val formatKey: String,
   private val validator: FormatValidator,
+  private val assertion: Boolean,
 ) : JsonSchemaAssertion {
   override fun validate(
     element: JsonElement,
@@ -61,15 +79,21 @@ private class FormatAssertion(
         context.annotationCollector.annotate(FormatAssertionFactory.ANNOTATION, formatKey)
         true
       }
+
       Invalid -> {
-        errorCollector.onError(
-          ValidationError(
-            schemaPath = schemaPath,
-            objectPath = context.objectPath,
-            message = "value does not match '$formatKey' format",
-          ),
-        )
-        false
+        if (assertion) {
+          errorCollector.onError(
+            ValidationError(
+              schemaPath = schemaPath,
+              objectPath = context.objectPath,
+              message = "value does not match '$formatKey' format",
+            ),
+          )
+          false
+        } else {
+          // only annotation should return true if format does not match
+          true
+        }
       }
     }
   }

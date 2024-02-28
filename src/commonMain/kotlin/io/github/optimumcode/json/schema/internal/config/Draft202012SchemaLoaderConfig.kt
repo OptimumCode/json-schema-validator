@@ -64,6 +64,8 @@ import kotlinx.serialization.json.jsonPrimitive
 private const val APPLICATOR_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/applicator"
 private const val VALIDATION_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/validation"
 private const val UNEVALUATED_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/unevaluated"
+private const val FORMAT_ANNOTATION_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/format-annotation"
+private const val FORMAT_ASSERTION_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/format-assertion"
 private const val VOCABULARY_PROPERTY = "\$vocabulary"
 
 internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
@@ -115,7 +117,6 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
       ConstAssertionFactory,
       EnumAssertionFactory,
       TypeAssertionFactory,
-      FormatAssertionFactory,
     )
 
   override val defaultVocabulary: Vocabulary =
@@ -138,6 +139,8 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
     val applicators = vocabulary.enabled(APPLICATOR_VOCABULARY_URI)
     val validations = vocabulary.enabled(VALIDATION_VOCABULARY_URI)
     val unevaluated = vocabulary.enabled(UNEVALUATED_VOCABULARY_URI)
+    val formatAssertions = vocabulary.enabled(FORMAT_ASSERTION_VOCABULARY_URI)
+    val formatAnnotations = vocabulary.enabled(FORMAT_ANNOTATION_VOCABULARY_URI)
     val allEnabled = applicators && validations && unevaluated
     return when {
       allEnabled -> allFactories()
@@ -148,6 +151,17 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
     }.let { factories ->
       if (factories.isNotEmpty() && !allEnabled && unevaluated) {
         factories + unevaluatedFactories
+      } else {
+        factories
+      }
+    }.let { factories ->
+      if (formatAnnotations || formatAnnotations) {
+        factories +
+          if (formatAssertions) {
+            FormatAssertionFactory.AnnotationAndAssertion
+          } else {
+            FormatAssertionFactory.AnnotationOnly
+          }
       } else {
         factories
       }

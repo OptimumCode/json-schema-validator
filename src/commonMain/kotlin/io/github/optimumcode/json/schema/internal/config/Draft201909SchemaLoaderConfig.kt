@@ -111,7 +111,7 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
       ConstAssertionFactory,
       EnumAssertionFactory,
       TypeAssertionFactory,
-      FormatAssertionFactory,
+      FormatAssertionFactory.AnnotationAndAssertion,
     )
 
   override val defaultVocabulary: Vocabulary =

@@ -3,6 +3,7 @@ package io.github.optimumcode.json.schema.assertions.general.format
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.ValidationError
+import io.github.optimumcode.json.schema.base.KEY
 import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
@@ -13,14 +14,14 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 
-abstract class AbstractFormatValidationTest(
+class FormatValidationTestSuite(
   private val format: String,
   private val validTestCases: List<String>,
   private val invalidTestCases: List<TestCase>,
-) : FunSpec() {
+) {
   data class TestCase(val value: String, val description: String)
 
-  init {
+  fun FunSpec.testFormat() {
     fun FunSpec.notStringPasses(
       format: String,
       schema: JsonSchema,
@@ -46,6 +47,16 @@ abstract class AbstractFormatValidationTest(
     JsonSchema.fromDefinition(
       """
       {
+        "${KEY}schema": "https://json-schema.org/draft/2020-12/schema",
+        "${KEY}vocabulary": {
+          "https://json-schema.org/draft/2020-12/vocab/core": true,
+          "https://json-schema.org/draft/2020-12/vocab/applicator": true,
+          "https://json-schema.org/draft/2020-12/vocab/unevaluated": true,
+          "https://json-schema.org/draft/2020-12/vocab/validation": true,
+          "https://json-schema.org/draft/2020-12/vocab/meta-data": true,
+          "https://json-schema.org/draft/2020-12/vocab/format-assertion": true,
+          "https://json-schema.org/draft/2020-12/vocab/content": true
+        },
         "format": "$format"
       }
       """.trimIndent(),

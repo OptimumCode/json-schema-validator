@@ -86,7 +86,7 @@ internal object Draft7SchemaLoaderConfig : SchemaLoaderConfig {
       AnyOfAssertionFactory,
       OneOfAssertionFactory,
       NotAssertionFactory,
-      FormatAssertionFactory,
+      FormatAssertionFactory.AnnotationAndAssertion,
     )
 
   override val defaultVocabulary: Vocabulary = Vocabulary()
