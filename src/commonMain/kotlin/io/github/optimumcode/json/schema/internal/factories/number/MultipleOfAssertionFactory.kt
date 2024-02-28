@@ -7,10 +7,12 @@ import io.github.optimumcode.json.schema.internal.factories.number.util.NumberCo
 import io.github.optimumcode.json.schema.internal.factories.number.util.number
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
+import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.log10
 import kotlin.math.max
 import kotlin.math.pow
+import kotlin.math.round
 
 @Suppress("unused")
 internal object MultipleOfAssertionFactory : AbstractAssertionFactory("multipleOf") {
@@ -66,6 +68,8 @@ private fun isZero(first: Double): Boolean {
   return first == -0.0 || first == 0.0
 }
 
+private const val ROUND_THRESHOLD = 0.000000001
+
 private tailrec fun rem(
   first: Double,
   second: Double,
@@ -75,13 +79,35 @@ private tailrec fun rem(
     if (first < 1 && first > -1) {
       val newDegree = max(floor(log10(second)), degree)
       val newPow = 10.0.pow(-newDegree)
-      rem((first * newPow), (second * newPow))
+      rem(safeRound(first * newPow), safeRound(second * newPow))
     } else {
       val pow = 10.0.pow(-degree)
-      (first * pow) % (second * pow)
+      val newFirst = safeRound(first * pow)
+      val newSecond = safeRound(second * pow)
+
+      newFirst % newSecond
     }
   } else {
     first % second
+  }
+}
+
+/**
+ * Rounds the [value] if an abs delta between original value and result of rounding
+ * is less than [ROUND_THRESHOLD].
+ * Otherwise, the original value is return.
+ *
+ * This method tries to solve the issue with double operation when not a precise result is returned.
+ * E.g. `19.99 * 100 = 1998.9999999999998` instead of `1999.0`
+ */
+private fun safeRound(value: Double): Double {
+  val rounded = round(value)
+  return if (abs(rounded - value) < ROUND_THRESHOLD) {
+    rounded
+  } else {
+    // we return the original value because the result was precise,
+    // and we don't need rounding to fix issue with double operations
+    value
   }
 }
 
