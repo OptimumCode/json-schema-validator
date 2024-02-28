@@ -33,6 +33,7 @@ import io.github.optimumcode.json.schema.internal.factories.condition.OneOfAsser
 import io.github.optimumcode.json.schema.internal.factories.condition.ThenAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.ConstAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.EnumAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.general.FormatAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.TypeAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.ExclusiveMaximumAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.ExclusiveMinimumAssertionFactory
@@ -114,6 +115,7 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
       ConstAssertionFactory,
       EnumAssertionFactory,
       TypeAssertionFactory,
+      FormatAssertionFactory,
     )
 
   override val defaultVocabulary: Vocabulary =

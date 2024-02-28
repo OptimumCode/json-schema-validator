@@ -83,6 +83,8 @@ public abstract interface class io/github/optimumcode/json/schema/JsonSchemaLoad
 	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun registerWellKnown (Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun withCustomFormat (Ljava/lang/String;Lio/github/optimumcode/json/schema/internal/FormatValidator;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun withCustomFormats (Ljava/util/Map;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun withExtensions (Lio/github/optimumcode/json/schema/extension/ExternalAssertionFactory;[Lio/github/optimumcode/json/schema/extension/ExternalAssertionFactory;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun withExtensions (Ljava/lang/Iterable;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 }
@@ -160,5 +162,26 @@ public abstract interface class io/github/optimumcode/json/schema/extension/Exte
 
 public abstract interface class io/github/optimumcode/json/schema/extension/ExternalLoadingContext {
 	public abstract fun getSchemaPath ()Lio/github/optimumcode/json/pointer/JsonPointer;
+}
+
+public final class io/github/optimumcode/json/schema/internal/Annotations {
+	public static final field FORMAT_ANNOTATION Lio/github/optimumcode/json/schema/AnnotationKey;
+}
+
+public abstract class io/github/optimumcode/json/schema/internal/FormatValidationResult {
+	public synthetic fun <init> (ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun isValid ()Z
+}
+
+public abstract interface class io/github/optimumcode/json/schema/internal/FormatValidator {
+	public static final field Companion Lio/github/optimumcode/json/schema/internal/FormatValidator$Companion;
+	public static fun Invalid ()Lio/github/optimumcode/json/schema/internal/FormatValidationResult;
+	public static fun Valid ()Lio/github/optimumcode/json/schema/internal/FormatValidationResult;
+	public abstract fun validate (Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/internal/FormatValidationResult;
+}
+
+public final class io/github/optimumcode/json/schema/internal/FormatValidator$Companion {
+	public final fun Invalid ()Lio/github/optimumcode/json/schema/internal/FormatValidationResult;
+	public final fun Valid ()Lio/github/optimumcode/json/schema/internal/FormatValidationResult;
 }
 

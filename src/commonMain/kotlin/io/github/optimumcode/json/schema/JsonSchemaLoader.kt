@@ -4,6 +4,7 @@ import io.github.optimumcode.json.schema.SchemaType.DRAFT_2019_09
 import io.github.optimumcode.json.schema.SchemaType.DRAFT_2020_12
 import io.github.optimumcode.json.schema.SchemaType.DRAFT_7
 import io.github.optimumcode.json.schema.extension.ExternalAssertionFactory
+import io.github.optimumcode.json.schema.internal.FormatValidator
 import io.github.optimumcode.json.schema.internal.SchemaLoader
 import io.github.optimumcode.json.schema.internal.wellknown.Draft201909
 import io.github.optimumcode.json.schema.internal.wellknown.Draft202012
@@ -52,6 +53,13 @@ public interface JsonSchemaLoader {
   ): JsonSchemaLoader
 
   public fun withExtensions(externalFactories: Iterable<ExternalAssertionFactory>): JsonSchemaLoader
+
+  public fun withCustomFormat(
+    format: String,
+    formatValidator: FormatValidator,
+  ): JsonSchemaLoader
+
+  public fun withCustomFormats(formats: Map<String, FormatValidator>): JsonSchemaLoader
 
   public fun fromDefinition(schema: String): JsonSchema = fromDefinition(schema, null)
 

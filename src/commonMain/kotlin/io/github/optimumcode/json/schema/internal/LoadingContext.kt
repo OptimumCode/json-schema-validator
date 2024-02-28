@@ -4,6 +4,8 @@ import io.github.optimumcode.json.schema.extension.ExternalLoadingContext
 import kotlinx.serialization.json.JsonElement
 
 internal interface LoadingContext : ExternalLoadingContext {
+  val customFormatValidators: Map<String, FormatValidator>
+
   fun at(property: String): LoadingContext
 
   fun at(index: Int): LoadingContext
