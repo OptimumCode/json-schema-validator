@@ -4,6 +4,7 @@ import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.base.KEY
+import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
@@ -172,6 +173,23 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
             ),
           )
         }
+      }
+    }
+
+    test("BUG_70 rounding problem with some numbers because double does not behave as you expect") {
+      val schema =
+        JsonSchema.fromDefinition(
+          """
+          {
+            "multipleOf": 0.01
+          }
+          """.trimIndent(),
+        )
+      val errors = mutableListOf<ValidationError>()
+      val valid = schema.validate(JsonPrimitive(19.99), errors::add)
+      assertSoftly {
+        valid shouldBe true
+        errors shouldHaveSize 0
       }
     }
   }
