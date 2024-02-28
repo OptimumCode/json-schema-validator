@@ -3,12 +3,12 @@ package io.github.optimumcode.json.schema.internal.factories.general
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.AnnotationKey
 import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.FormatValidationResult.Invalid
+import io.github.optimumcode.json.schema.FormatValidationResult.Valid
+import io.github.optimumcode.json.schema.FormatValidator
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AnnotationKeyFactory
 import io.github.optimumcode.json.schema.internal.AssertionContext
-import io.github.optimumcode.json.schema.internal.FormatValidationResult.Invalid
-import io.github.optimumcode.json.schema.internal.FormatValidationResult.Valid
-import io.github.optimumcode.json.schema.internal.FormatValidator
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.TrueSchemaAssertion

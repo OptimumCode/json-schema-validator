@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.internal.formats
 
-import io.github.optimumcode.json.schema.internal.FormatValidationResult
-import io.github.optimumcode.json.schema.internal.FormatValidator
+import io.github.optimumcode.json.schema.FormatValidationResult
+import io.github.optimumcode.json.schema.FormatValidator
 import kotlin.text.RegexOption.IGNORE_CASE
 
 internal object DurationFormatValidator : AbstractStringFormatValidator() {

@@ -6,6 +6,7 @@ import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.pointer.div
 import io.github.optimumcode.json.pointer.get
 import io.github.optimumcode.json.pointer.relative
+import io.github.optimumcode.json.schema.FormatValidator
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.JsonSchemaLoader
 import io.github.optimumcode.json.schema.SchemaType

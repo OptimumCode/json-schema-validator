@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.internal.formats
 
-import io.github.optimumcode.json.schema.internal.FormatValidationResult
-import io.github.optimumcode.json.schema.internal.FormatValidator
+import io.github.optimumcode.json.schema.FormatValidationResult
+import io.github.optimumcode.json.schema.FormatValidator
 
 internal object DateFormatValidator : AbstractStringFormatValidator() {
   private val dateRegex = Regex("(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})")

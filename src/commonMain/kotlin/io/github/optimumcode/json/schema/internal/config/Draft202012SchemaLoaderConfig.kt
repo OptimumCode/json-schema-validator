@@ -155,7 +155,7 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
         factories
       }
     }.let { factories ->
-      if (formatAnnotations || formatAnnotations) {
+      if (formatAnnotations || formatAssertions) {
         factories +
           if (formatAssertions) {
             FormatAssertionFactory.AnnotationAndAssertion

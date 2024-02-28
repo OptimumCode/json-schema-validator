@@ -1,5 +1,6 @@
 package io.github.optimumcode.json.schema.internal
 
+import io.github.optimumcode.json.schema.FormatValidator
 import io.github.optimumcode.json.schema.extension.ExternalLoadingContext
 import kotlinx.serialization.json.JsonElement
 

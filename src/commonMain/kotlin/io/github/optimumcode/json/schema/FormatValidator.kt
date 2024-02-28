@@ -1,4 +1,4 @@
-package io.github.optimumcode.json.schema.internal
+package io.github.optimumcode.json.schema
 
 import kotlinx.serialization.json.JsonElement
 import kotlin.jvm.JvmStatic
@@ -8,6 +8,7 @@ import kotlin.jvm.JvmStatic
  * If the [JsonElement] is not of the required type (e.g. validator expects string but the [JsonElement] is an object)
  * the validator **MUST** return [FormatValidator.Valid] result
  */
+@ExperimentalApi
 public interface FormatValidator {
   /**
    * Validates [element] against the expected format
@@ -28,6 +29,7 @@ public interface FormatValidator {
   }
 }
 
+@ExperimentalApi
 public sealed class FormatValidationResult(private val valid: Boolean) {
   public fun isValid(): Boolean = valid
 
