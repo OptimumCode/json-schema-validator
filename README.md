@@ -286,6 +286,20 @@ val valid = schema.validate(elementToValidate, errors::add)
   |               | not                   | Supported                                                                                                                                       |
   </details>
 
+## Format assertion
+
+The library supports `format` assertion. For now only a few formats are supported:
+* date
+* time
+* date-time
+* duration
+
+But there is an API to implement the user's defined format validation.
+The [FormatValidator](src/commonMain/kotlin/io/github/optimumcode/json/schema/ValidationError.kt) interface can be user for that.
+The custom format validators can be register in [JsonSchemaLoader](src/commonMain/kotlin/io/github/optimumcode/json/schema/JsonSchemaLoader.kt).
+
+_**Please note, that the format validation API is marked as experimental and will require `OptIn` declaration in your code.**_
+
 ## Custom assertions
 
 You can implement custom assertions and use them. Read more [here](docs/custom_assertions.md).

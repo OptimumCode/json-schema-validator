@@ -1,5 +1,8 @@
 package io.github.optimumcode.json.schema.internal.config
 
+import io.github.optimumcode.json.schema.FormatBehavior.ANNOTATION_AND_ASSERTION
+import io.github.optimumcode.json.schema.FormatBehavior.ANNOTATION_ONLY
+import io.github.optimumcode.json.schema.SchemaOption
 import io.github.optimumcode.json.schema.internal.AssertionFactory
 import io.github.optimumcode.json.schema.internal.KeyWord
 import io.github.optimumcode.json.schema.internal.KeyWord.ANCHOR
@@ -11,6 +14,7 @@ import io.github.optimumcode.json.schema.internal.KeyWordResolver
 import io.github.optimumcode.json.schema.internal.ReferenceFactory
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
+import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig.Options
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig.Vocabulary
 import io.github.optimumcode.json.schema.internal.SchemaLoaderContext
 import io.github.optimumcode.json.schema.internal.config.Draft202012KeyWordResolver.DYNAMIC_REF_PROPERTY
@@ -33,6 +37,8 @@ import io.github.optimumcode.json.schema.internal.factories.condition.OneOfAsser
 import io.github.optimumcode.json.schema.internal.factories.condition.ThenAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.ConstAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.EnumAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.general.FormatAssertionFactory.AnnotationAndAssertion
+import io.github.optimumcode.json.schema.internal.factories.general.FormatAssertionFactory.AnnotationOnly
 import io.github.optimumcode.json.schema.internal.factories.general.TypeAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.ExclusiveMaximumAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.ExclusiveMinimumAssertionFactory
@@ -63,6 +69,8 @@ import kotlinx.serialization.json.jsonPrimitive
 private const val APPLICATOR_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/applicator"
 private const val VALIDATION_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/validation"
 private const val UNEVALUATED_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/unevaluated"
+private const val FORMAT_ANNOTATION_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/format-annotation"
+private const val FORMAT_ASSERTION_VOCABULARY_URI = "https://json-schema.org/draft/2020-12/vocab/format-assertion"
 private const val VOCABULARY_PROPERTY = "\$vocabulary"
 
 internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
@@ -127,6 +135,7 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
   override fun factories(
     schemaDefinition: JsonElement,
     vocabulary: Vocabulary,
+    options: Options,
   ): List<AssertionFactory> {
     if (schemaDefinition !is JsonObject) {
       // no point to return any factories here
@@ -136,6 +145,13 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
     val applicators = vocabulary.enabled(APPLICATOR_VOCABULARY_URI)
     val validations = vocabulary.enabled(VALIDATION_VOCABULARY_URI)
     val unevaluated = vocabulary.enabled(UNEVALUATED_VOCABULARY_URI)
+    val formatBehavior = options[SchemaOption.FORMAT_BEHAVIOR_OPTION]
+    val formatAssertions =
+      formatBehavior?.let { it == ANNOTATION_AND_ASSERTION }
+        ?: vocabulary.enabled(FORMAT_ASSERTION_VOCABULARY_URI)
+    val formatAnnotations =
+      formatBehavior?.let { it == ANNOTATION_ONLY }
+        ?: vocabulary.enabled(FORMAT_ANNOTATION_VOCABULARY_URI)
     val allEnabled = applicators && validations && unevaluated
     return when {
       allEnabled -> allFactories()
@@ -143,17 +159,13 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
       applicators -> applicatorFactories
       validations -> validationFactories
       else -> emptyList() // no vocabulary enabled
-    }.let { factories ->
-      if (factories.isNotEmpty() && !allEnabled && unevaluated) {
-        factories + unevaluatedFactories
-      } else {
-        factories
-      }
-    }
+    }.appendUnevaluatedFactory(allEnabled, unevaluated)
+      .appendFormatFactory(formatAnnotations, formatAssertions)
   }
 
   override val keywordResolver: KeyWordResolver
     get() = Draft202012KeyWordResolver
+
   override val referenceFactory: ReferenceFactory
     get() = Draft202012ReferenceFactory
 
@@ -170,6 +182,29 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
       vocabularies =
         vocabulary.mapValues { (_, state) -> state.jsonPrimitive.boolean },
     )
+  }
+
+  private fun List<AssertionFactory>.appendFormatFactory(
+    formatAnnotations: Boolean,
+    formatAssertions: Boolean,
+  ) = if (formatAnnotations || formatAssertions) {
+    this +
+      if (formatAssertions) {
+        AnnotationAndAssertion
+      } else {
+        AnnotationOnly
+      }
+  } else {
+    this
+  }
+
+  private fun List<AssertionFactory>.appendUnevaluatedFactory(
+    allEnabled: Boolean,
+    unevaluated: Boolean,
+  ) = if (isNotEmpty() && !allEnabled && unevaluated) {
+    this + unevaluatedFactories
+  } else {
+    this
   }
 
   private fun allFactories(): List<AssertionFactory> = applicatorFactories + validationFactories + unevaluatedFactories

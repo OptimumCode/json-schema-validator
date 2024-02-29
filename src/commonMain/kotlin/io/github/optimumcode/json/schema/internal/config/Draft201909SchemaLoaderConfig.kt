@@ -1,5 +1,7 @@
 package io.github.optimumcode.json.schema.internal.config
 
+import io.github.optimumcode.json.schema.FormatBehavior.ANNOTATION_AND_ASSERTION
+import io.github.optimumcode.json.schema.SchemaOption
 import io.github.optimumcode.json.schema.internal.AssertionFactory
 import io.github.optimumcode.json.schema.internal.KeyWord
 import io.github.optimumcode.json.schema.internal.KeyWord.ANCHOR
@@ -11,6 +13,7 @@ import io.github.optimumcode.json.schema.internal.KeyWordResolver
 import io.github.optimumcode.json.schema.internal.ReferenceFactory
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
+import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig.Options
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig.Vocabulary
 import io.github.optimumcode.json.schema.internal.SchemaLoaderContext
 import io.github.optimumcode.json.schema.internal.config.Draft201909KeyWordResolver.REC_ANCHOR_PROPERTY
@@ -34,6 +37,7 @@ import io.github.optimumcode.json.schema.internal.factories.condition.OneOfAsser
 import io.github.optimumcode.json.schema.internal.factories.condition.ThenAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.ConstAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.EnumAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.general.FormatAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.TypeAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.ExclusiveMaximumAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.ExclusiveMinimumAssertionFactory
@@ -63,6 +67,7 @@ import kotlinx.serialization.json.jsonPrimitive
 
 private const val APPLICATOR_VOCABULARY_URI = "https://json-schema.org/draft/2019-09/vocab/applicator"
 private const val VALIDATION_VOCABULARY_URI = "https://json-schema.org/draft/2019-09/vocab/validation"
+private const val FORMAT_VOCABULARY_URI = "https://json-schema.org/draft/2019-09/vocab/format"
 private const val VOCABULARY_PROPERTY = "\$vocabulary"
 
 internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
@@ -138,6 +143,7 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
   override fun factories(
     schemaDefinition: JsonElement,
     vocabulary: Vocabulary,
+    options: Options,
   ): List<AssertionFactory> {
     if (schemaDefinition !is JsonObject) {
       // no point to return any factories here
@@ -146,11 +152,26 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
 
     val applicators = vocabulary.enabled(APPLICATOR_VOCABULARY_URI)
     val validations = vocabulary.enabled(VALIDATION_VOCABULARY_URI)
+    val formatAssertion =
+      options[SchemaOption.FORMAT_BEHAVIOR_OPTION]?.let { it == ANNOTATION_AND_ASSERTION }
+        ?: vocabulary.enabled(FORMAT_VOCABULARY_URI)
+    val formatFactory =
+      if (formatAssertion) {
+        FormatAssertionFactory.AnnotationAndAssertion
+      } else {
+        FormatAssertionFactory.AnnotationOnly
+      }
     return when {
       applicators && validations -> allFactories()
       applicators -> applicatorFactories
       validations -> validationFactories
       else -> emptyList() // no vocabulary enabled
+    }.let { factories ->
+      if (factories.isEmpty()) {
+        listOf(formatFactory)
+      } else {
+        factories + formatFactory
+      }
     }
   }
 

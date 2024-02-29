@@ -1,4 +1,5 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
@@ -26,6 +27,11 @@ apiValidation {
 
 kotlin {
   explicitApi()
+
+  @OptIn(ExperimentalKotlinGradlePluginApi::class)
+  compilerOptions {
+    freeCompilerArgs.add("-opt-in=io.github.optimumcode.json.schema.ExperimentalApi")
+  }
   jvm {
     jvmToolchain(11)
     withJava()

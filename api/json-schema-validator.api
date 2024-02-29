@@ -42,6 +42,10 @@ public final class io/github/optimumcode/json/schema/AnnotationKey$Companion {
 	public final fun simple (Ljava/lang/String;Lkotlin/reflect/KClass;)Lio/github/optimumcode/json/schema/AnnotationKey;
 }
 
+public final class io/github/optimumcode/json/schema/Annotations {
+	public static final field FORMAT_ANNOTATION Lio/github/optimumcode/json/schema/AnnotationKey;
+}
+
 public abstract interface class io/github/optimumcode/json/schema/ErrorCollector {
 	public static final field Companion Lio/github/optimumcode/json/schema/ErrorCollector$Companion;
 	public static final field EMPTY Lio/github/optimumcode/json/schema/ErrorCollector;
@@ -49,6 +53,34 @@ public abstract interface class io/github/optimumcode/json/schema/ErrorCollector
 }
 
 public final class io/github/optimumcode/json/schema/ErrorCollector$Companion {
+}
+
+public abstract interface annotation class io/github/optimumcode/json/schema/ExperimentalApi : java/lang/annotation/Annotation {
+}
+
+public final class io/github/optimumcode/json/schema/FormatBehavior : java/lang/Enum {
+	public static final field ANNOTATION_AND_ASSERTION Lio/github/optimumcode/json/schema/FormatBehavior;
+	public static final field ANNOTATION_ONLY Lio/github/optimumcode/json/schema/FormatBehavior;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/optimumcode/json/schema/FormatBehavior;
+	public static fun values ()[Lio/github/optimumcode/json/schema/FormatBehavior;
+}
+
+public abstract class io/github/optimumcode/json/schema/FormatValidationResult {
+	public synthetic fun <init> (ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun isValid ()Z
+}
+
+public abstract interface class io/github/optimumcode/json/schema/FormatValidator {
+	public static final field Companion Lio/github/optimumcode/json/schema/FormatValidator$Companion;
+	public static fun Invalid ()Lio/github/optimumcode/json/schema/FormatValidationResult;
+	public static fun Valid ()Lio/github/optimumcode/json/schema/FormatValidationResult;
+	public abstract fun validate (Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/FormatValidationResult;
+}
+
+public final class io/github/optimumcode/json/schema/FormatValidator$Companion {
+	public final fun Invalid ()Lio/github/optimumcode/json/schema/FormatValidationResult;
+	public final fun Valid ()Lio/github/optimumcode/json/schema/FormatValidationResult;
 }
 
 public final class io/github/optimumcode/json/schema/JsonSchema {
@@ -83,8 +115,11 @@ public abstract interface class io/github/optimumcode/json/schema/JsonSchemaLoad
 	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun registerWellKnown (Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun withCustomFormat (Ljava/lang/String;Lio/github/optimumcode/json/schema/FormatValidator;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun withCustomFormats (Ljava/util/Map;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun withExtensions (Lio/github/optimumcode/json/schema/extension/ExternalAssertionFactory;[Lio/github/optimumcode/json/schema/extension/ExternalAssertionFactory;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun withExtensions (Ljava/lang/Iterable;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun withSchemaOption (Lio/github/optimumcode/json/schema/SchemaOption;Ljava/lang/Object;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 }
 
 public final class io/github/optimumcode/json/schema/JsonSchemaLoader$Companion {
@@ -102,6 +137,14 @@ public final class io/github/optimumcode/json/schema/JsonSchemaLoader$DefaultImp
 
 public final class io/github/optimumcode/json/schema/JsonSchemaStream {
 	public static final fun fromStream (Lio/github/optimumcode/json/schema/JsonSchema$Companion;Ljava/io/InputStream;)Lio/github/optimumcode/json/schema/JsonSchema;
+}
+
+public final class io/github/optimumcode/json/schema/SchemaOption {
+	public static final field Companion Lio/github/optimumcode/json/schema/SchemaOption$Companion;
+	public static final field FORMAT_BEHAVIOR_OPTION Lio/github/optimumcode/json/schema/SchemaOption;
+}
+
+public final class io/github/optimumcode/json/schema/SchemaOption$Companion {
 }
 
 public final class io/github/optimumcode/json/schema/SchemaType : java/lang/Enum {

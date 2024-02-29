@@ -11,6 +11,7 @@ import io.github.optimumcode.json.schema.internal.wellknown.Draft7
 import kotlinx.serialization.json.JsonElement
 import kotlin.jvm.JvmStatic
 
+@Suppress("detekt:TooManyFunctions")
 public interface JsonSchemaLoader {
   public fun registerWellKnown(draft: SchemaType): JsonSchemaLoader =
     apply {
@@ -52,6 +53,20 @@ public interface JsonSchemaLoader {
   ): JsonSchemaLoader
 
   public fun withExtensions(externalFactories: Iterable<ExternalAssertionFactory>): JsonSchemaLoader
+
+  @ExperimentalApi
+  public fun withCustomFormat(
+    format: String,
+    formatValidator: FormatValidator,
+  ): JsonSchemaLoader
+
+  @ExperimentalApi
+  public fun withCustomFormats(formats: Map<String, FormatValidator>): JsonSchemaLoader
+
+  public fun <T : Any> withSchemaOption(
+    option: SchemaOption<T>,
+    value: T,
+  ): JsonSchemaLoader
 
   public fun fromDefinition(schema: String): JsonSchema = fromDefinition(schema, null)
 

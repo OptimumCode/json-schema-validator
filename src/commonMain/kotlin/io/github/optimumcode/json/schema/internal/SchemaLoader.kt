@@ -6,8 +6,10 @@ import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.pointer.div
 import io.github.optimumcode.json.pointer.get
 import io.github.optimumcode.json.pointer.relative
+import io.github.optimumcode.json.schema.FormatValidator
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.JsonSchemaLoader
+import io.github.optimumcode.json.schema.SchemaOption
 import io.github.optimumcode.json.schema.SchemaType
 import io.github.optimumcode.json.schema.extension.ExternalAssertionFactory
 import io.github.optimumcode.json.schema.findSchemaType
@@ -16,6 +18,7 @@ import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder.Rec
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder.Simple
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.PointerWithBaseId
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.ReferenceLocation
+import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig.Options
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig.Vocabulary
 import io.github.optimumcode.json.schema.internal.factories.ExternalAssertionFactoryAdapter
 import io.github.optimumcode.json.schema.internal.util.getString
@@ -33,6 +36,8 @@ internal class SchemaLoader : JsonSchemaLoader {
   private val usedRefs: MutableSet<ReferenceLocation> = linkedSetOf()
   private val extensionFactories: MutableMap<String, AssertionFactory> = linkedMapOf()
   private val customMetaSchemas: MutableMap<Uri, Pair<SchemaType, Vocabulary>> = linkedMapOf()
+  private val customFormats: MutableMap<String, FormatValidator> = linkedMapOf()
+  private val schemaOptions: MutableMap<SchemaOption<*>, Any> = linkedMapOf()
 
   override fun register(
     schema: JsonElement,
@@ -82,6 +87,32 @@ internal class SchemaLoader : JsonSchemaLoader {
       }
     }
 
+  override fun withCustomFormat(
+    format: String,
+    formatValidator: FormatValidator,
+  ): JsonSchemaLoader =
+    apply {
+      val key = format.lowercase()
+      require(customFormats.put(key, formatValidator) == null) {
+        "format '$key' already registered"
+      }
+    }
+
+  override fun withCustomFormats(formats: Map<String, FormatValidator>): JsonSchemaLoader =
+    apply {
+      for ((format, validator) in formats) {
+        withCustomFormat(format, validator)
+      }
+    }
+
+  override fun <T : Any> withSchemaOption(
+    option: SchemaOption<T>,
+    value: T,
+  ): JsonSchemaLoader =
+    apply {
+      schemaOptions[option] = value
+    }
+
   override fun fromDefinition(
     schema: String,
     draft: SchemaType?,
@@ -115,6 +146,8 @@ internal class SchemaLoader : JsonSchemaLoader {
       references = references,
       usedRefs = usedRefs,
       extensionFactories = extensionFactories.values,
+      customFormats = customFormats,
+      schemaOptions = schemaOptions,
       registerMetaSchema = { uri, type, vocab ->
         val prev = customMetaSchemas.put(uri, type to vocab)
         require(prev == null) { "duplicated meta-schema with uri '$uri'" }
@@ -141,32 +174,8 @@ internal class SchemaLoader : JsonSchemaLoader {
   }
 }
 
-internal object IsolatedLoader : JsonSchemaLoader {
-  override fun register(
-    schema: JsonElement,
-    draft: SchemaType?,
-  ): JsonSchemaLoader = throw UnsupportedOperationException()
-
-  override fun register(
-    schema: String,
-    draft: SchemaType?,
-  ): JsonSchemaLoader = throw UnsupportedOperationException()
-
-  override fun register(
-    schema: JsonElement,
-    remoteUri: String,
-    draft: SchemaType?,
-  ): JsonSchemaLoader = throw UnsupportedOperationException()
-
-  override fun withExtensions(
-    externalFactory: ExternalAssertionFactory,
-    vararg otherExternalFactories: ExternalAssertionFactory,
-  ): JsonSchemaLoader = throw UnsupportedOperationException()
-
-  override fun withExtensions(externalFactories: Iterable<ExternalAssertionFactory>): JsonSchemaLoader =
-    throw UnsupportedOperationException()
-
-  override fun fromDefinition(
+internal object IsolatedLoader {
+  fun fromDefinition(
     schema: String,
     draft: SchemaType?,
   ): JsonSchema {
@@ -174,7 +183,7 @@ internal object IsolatedLoader : JsonSchemaLoader {
     return fromJsonElement(schemaElement, draft)
   }
 
-  override fun fromJsonElement(
+  fun fromJsonElement(
     schemaElement: JsonElement,
     draft: SchemaType?,
   ): JsonSchema {
@@ -192,6 +201,8 @@ private class LoadingParameters(
   val references: MutableMap<RefId, AssertionWithPath>,
   val usedRefs: MutableSet<ReferenceLocation>,
   val extensionFactories: Collection<AssertionFactory> = emptySet(),
+  val customFormats: Map<String, FormatValidator> = emptyMap(),
+  val schemaOptions: Map<SchemaOption<*>, Any> = emptyMap(),
   val resolveCustomMetaSchemaType: (Uri) -> SchemaType? = { null },
   val resolveCustomVocabulary: (Uri) -> Vocabulary? = { null },
   val registerMetaSchema: (Uri, SchemaType, Vocabulary) -> Unit = { _, _, _ -> },
@@ -214,7 +225,7 @@ private fun loadSchemaData(
       ?: schema?.let(parameters.resolveCustomVocabulary)
       ?: schemaType.config.defaultVocabulary
   val assertionFactories =
-    schemaType.config.factories(schemaDefinition, vocabulary).let {
+    schemaType.config.factories(schemaDefinition, vocabulary, Options(parameters.schemaOptions)).let {
       if (parameters.extensionFactories.isEmpty()) {
         it
       } else {
@@ -223,17 +234,22 @@ private fun loadSchemaData(
     }
   val isolatedReferences: MutableMap<RefId, AssertionWithPath> = linkedMapOf()
   val context =
-    defaultLoadingContext(baseId, schemaType.config, assertionFactories, references = isolatedReferences)
-      .let {
-        if (externalUri != null && baseId != externalUri) {
-          // The external URI is added as the first one
-          // as it should not be used to calculate ids
-          // inside the schema
-          it.copy(additionalIDs = setOf(IdWithLocation(externalUri, JsonPointer.ROOT)) + it.additionalIDs)
-        } else {
-          it
-        }
+    defaultLoadingContext(
+      baseId,
+      schemaType.config,
+      assertionFactories,
+      references = isolatedReferences,
+      customFormats = parameters.customFormats,
+    ).let {
+      if (externalUri != null && baseId != externalUri) {
+        // The external URI is added as the first one
+        // as it should not be used to calculate ids
+        // inside the schema
+        it.copy(additionalIDs = setOf(IdWithLocation(externalUri, JsonPointer.ROOT)) + it.additionalIDs)
+      } else {
+        it
       }
+    }
   val schemaAssertion = loadSchema(schemaDefinition, context)
   parameters.references.putAll(isolatedReferences)
   parameters.usedRefs.addAll(context.usedRef)
@@ -482,6 +498,7 @@ private data class DefaultLoadingContext(
   val usedRef: MutableSet<ReferenceLocation> = linkedSetOf(),
   val config: SchemaLoaderConfig,
   val assertionFactories: List<AssertionFactory>,
+  override val customFormatValidators: Map<String, FormatValidator>,
 ) : LoadingContext, SchemaLoaderContext {
   override fun at(property: String): DefaultLoadingContext {
     return copy(schemaPath = schemaPath / property)
@@ -655,5 +672,12 @@ private fun defaultLoadingContext(
   config: SchemaLoaderConfig,
   assertionFactories: List<AssertionFactory>,
   references: MutableMap<RefId, AssertionWithPath>,
+  customFormats: Map<String, FormatValidator>,
 ): DefaultLoadingContext =
-  DefaultLoadingContext(baseId, references = references, config = config, assertionFactories = assertionFactories)
+  DefaultLoadingContext(
+    baseId,
+    references = references,
+    config = config,
+    assertionFactories = assertionFactories,
+    customFormatValidators = customFormats,
+  )
