@@ -2,7 +2,11 @@ package io.github.optimumcode.json.schema.base
 
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.FormatBehavior.ANNOTATION_AND_ASSERTION
+import io.github.optimumcode.json.schema.FormatValidationResult
+import io.github.optimumcode.json.schema.FormatValidator
 import io.github.optimumcode.json.schema.JsonSchemaLoader
+import io.github.optimumcode.json.schema.SchemaOption
 import io.github.optimumcode.json.schema.ValidationError
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.throwables.shouldNotThrowAnyUnit
@@ -12,6 +16,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
@@ -210,6 +215,60 @@ class JsonSchemaLoaderTest : FunSpec() {
           )
       }.message shouldBe "cannot resolve references: " +
         "{\"https://test.com/b#/properties/name\": [\"/properties/anotherName\"]}"
+    }
+
+    class MagicFormatValidator : FormatValidator {
+      override fun validate(element: JsonElement): FormatValidationResult {
+        return if (element is JsonPrimitive && element.isString) {
+          if (element.content == "42") {
+            FormatValidator.Valid()
+          } else {
+            FormatValidator.Invalid()
+          }
+        } else {
+          FormatValidator.Valid()
+        }
+      }
+    }
+    JsonSchemaLoader.create()
+      .withSchemaOption(SchemaOption.FORMAT_BEHAVIOR_OPTION, ANNOTATION_AND_ASSERTION)
+      .withCustomFormat("magic", MagicFormatValidator())
+      .fromDefinition(
+        """
+        {
+          "format": "magic"
+        }
+        """.trimIndent(),
+      ).also { schema ->
+        test("custom format validator and element passes validation") {
+          val errors = mutableListOf<ValidationError>()
+          assertSoftly {
+            schema.validate(JsonPrimitive("42"), errors::add) shouldBe true
+            errors shouldHaveSize 0
+          }
+        }
+
+        test("custom format validator and element fails validation") {
+          val errors = mutableListOf<ValidationError>()
+          assertSoftly {
+            schema.validate(JsonPrimitive("54"), errors::add) shouldBe false
+            errors.shouldContainExactly(
+              ValidationError(
+                schemaPath = JsonPointer("/format"),
+                objectPath = JsonPointer.ROOT,
+                message = "value does not match 'magic' format",
+              ),
+            )
+          }
+        }
+      }
+
+    test("reports error for duplicated custom format validators") {
+      shouldThrow<IllegalArgumentException> {
+        JsonSchemaLoader.create()
+          .withCustomFormat("magic", MagicFormatValidator())
+          .withCustomFormat("magic", MagicFormatValidator())
+      }.message shouldBe "format 'magic' already registered"
     }
   }
 }

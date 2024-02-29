@@ -94,7 +94,7 @@ internal class SchemaLoader : JsonSchemaLoader {
     apply {
       val key = format.lowercase()
       require(customFormats.put(key, formatValidator) == null) {
-        "format $key already registered"
+        "format '$key' already registered"
       }
     }
 
