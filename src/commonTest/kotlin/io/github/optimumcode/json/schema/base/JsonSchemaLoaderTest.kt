@@ -240,7 +240,7 @@ class JsonSchemaLoaderTest : FunSpec() {
         }
         """.trimIndent(),
       ).also { schema ->
-        test("custom format validator and element passes validation") {
+        test("single custom format validator and element passes validation") {
           val errors = mutableListOf<ValidationError>()
           assertSoftly {
             schema.validate(JsonPrimitive("42"), errors::add) shouldBe true
@@ -248,7 +248,40 @@ class JsonSchemaLoaderTest : FunSpec() {
           }
         }
 
-        test("custom format validator and element fails validation") {
+        test("single custom format validator and element fails validation") {
+          val errors = mutableListOf<ValidationError>()
+          assertSoftly {
+            schema.validate(JsonPrimitive("54"), errors::add) shouldBe false
+            errors.shouldContainExactly(
+              ValidationError(
+                schemaPath = JsonPointer("/format"),
+                objectPath = JsonPointer.ROOT,
+                message = "value does not match 'magic' format",
+              ),
+            )
+          }
+        }
+      }
+
+    JsonSchemaLoader.create()
+      .withSchemaOption(SchemaOption.FORMAT_BEHAVIOR_OPTION, ANNOTATION_AND_ASSERTION)
+      .withCustomFormats(mapOf("magic" to MagicFormatValidator()))
+      .fromDefinition(
+        """
+        {
+          "format": "magic"
+        }
+        """.trimIndent(),
+      ).also { schema ->
+        test("map custom format validator and element passes validation") {
+          val errors = mutableListOf<ValidationError>()
+          assertSoftly {
+            schema.validate(JsonPrimitive("42"), errors::add) shouldBe true
+            errors shouldHaveSize 0
+          }
+        }
+
+        test("map custom format validator and element fails validation") {
           val errors = mutableListOf<ValidationError>()
           assertSoftly {
             schema.validate(JsonPrimitive("54"), errors::add) shouldBe false
