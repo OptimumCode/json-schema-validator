@@ -1,8 +1,11 @@
 package io.github.optimumcode.json.schema.suite
 
 import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.FormatBehavior
+import io.github.optimumcode.json.schema.FormatBehavior.ANNOTATION_AND_ASSERTION
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.JsonSchemaLoader
+import io.github.optimumcode.json.schema.SchemaOption
 import io.github.optimumcode.json.schema.SchemaType
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.withClue
@@ -25,6 +28,42 @@ import okio.Path.Companion.toPath
 import okio.buffer
 import okio.use
 
+internal class TestFilter(
+  /**
+   * The test suites that should be excluded from the run.
+   * The file name is an identifier for a test suites.
+   * The test suite description is identifier for single set of tests
+   */
+  val excludeSuites: Map<String, Set<String>> = emptyMap(),
+  /**
+   * The tests that should be excluded from a test suite.
+   * The **description** property is a test identifier
+   */
+  val excludeTests: Map<String, Set<String>> = emptyMap(),
+)
+
+internal val COMMON_FORMAT_FILTER =
+  TestFilter(
+    excludeSuites =
+      mapOf(
+        "email" to emptySet(),
+        "hostname" to emptySet(),
+        "idn-email" to emptySet(),
+        "idn-hostname" to emptySet(),
+        "ipv4" to emptySet(),
+        "ipv6" to emptySet(),
+        "iri" to emptySet(),
+        "iri-reference" to emptySet(),
+        "json-pointer" to emptySet(),
+        "regex" to emptySet(),
+        "relative-json-pointer" to emptySet(),
+        "uri" to emptySet(),
+        "uri-reference" to emptySet(),
+        "uri-template" to emptySet(),
+        "uuid" to emptySet(),
+      ),
+  )
+
 /**
  * This class is a base for creating a test suite run from https://github.com/json-schema-org/JSON-Schema-Test-Suite.
  * That repository contains test-suites for all drafts to verify the validator.
@@ -41,20 +80,19 @@ internal fun FunSpec.runTestSuites(
    */
   schemaType: SchemaType? = null,
   /**
-   * Defines whether the optional suites should be included into the run
+   * Filter for main tests
    */
-  includeOptional: Boolean = false,
+  filter: TestFilter = TestFilter(),
   /**
-   * The test suites that should be excluded from the run.
-   * The file name is an identifier for a test suites.
-   * The test suite description is identifier for single set of tests
+   * Filter for tests in optional folder.
+   * If `null` not tests from that folder will be executed
    */
-  excludeSuites: Map<String, Set<String>> = emptyMap(),
+  optionalFilter: TestFilter? = null,
   /**
-   * The tests that should be excluded from a test suite.
-   * The **description** property is a test identifier
+   * Filter for tests in format folder.
+   * If `null` not tests from that folder will be executed
    */
-  excludeTests: Map<String, Set<String>> = emptyMap(),
+  formatFilter: TestFilter? = null,
 ) {
   require(draftName.isNotBlank()) { "draftName is blank" }
   val fs = fileSystem()
@@ -78,12 +116,32 @@ internal fun FunSpec.runTestSuites(
 
   require(fs.exists(testSuiteDir)) { "folder $testSuiteDir does not exist" }
 
-  executeFromDirectory(fs, testSuiteDir, excludeSuites, excludeTests, schemaType, remoteSchemas)
+  executeFromDirectory(fs, testSuiteDir, filter.excludeSuites, filter.excludeTests, schemaType, remoteSchemas)
 
-  if (includeOptional) {
-    val optionalTestSuites = testSuiteDir / "optional"
+  val optionalTestSuites = testSuiteDir / "optional"
+  optionalFilter?.also {
     if (fs.exists(optionalTestSuites)) {
-      executeFromDirectory(fs, optionalTestSuites, excludeSuites, excludeTests, schemaType)
+      executeFromDirectory(
+        fs,
+        optionalTestSuites,
+        it.excludeSuites,
+        it.excludeTests,
+        schemaType,
+      )
+    }
+  }
+
+  val formatTestSuites = optionalTestSuites / "format"
+  formatFilter?.also {
+    if (fs.exists(formatTestSuites)) {
+      executeFromDirectory(
+        fs,
+        formatTestSuites,
+        it.excludeSuites,
+        it.excludeTests,
+        schemaType,
+        formatBehavior = ANNOTATION_AND_ASSERTION,
+      )
     }
   }
 }
@@ -110,6 +168,7 @@ private fun FunSpec.executeFromDirectory(
   excludeTests: Map<String, Set<String>>,
   schemaType: SchemaType?,
   remoteSchemas: Map<String, JsonElement> = emptyMap(),
+  formatBehavior: FormatBehavior? = null,
 ) {
   fs.list(testSuiteDir).forEach { testSuiteFile ->
     if (fs.metadata(testSuiteFile).isDirectory) {
@@ -132,6 +191,9 @@ private fun FunSpec.executeFromDirectory(
     val schemaLoader =
       JsonSchemaLoader.create()
         .apply {
+          formatBehavior?.also {
+            withSchemaOption(SchemaOption.FORMAT_BEHAVIOR_OPTION, it)
+          }
           SchemaType.entries.forEach(::registerWellKnown)
           for ((uri, schema) in remoteSchemas) {
             if (uri.contains("draft4", ignoreCase = true)) {
