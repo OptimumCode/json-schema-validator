@@ -9,6 +9,7 @@ import io.github.optimumcode.json.pointer.relative
 import io.github.optimumcode.json.schema.FormatValidator
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.JsonSchemaLoader
+import io.github.optimumcode.json.schema.SchemaOption
 import io.github.optimumcode.json.schema.SchemaType
 import io.github.optimumcode.json.schema.extension.ExternalAssertionFactory
 import io.github.optimumcode.json.schema.findSchemaType
@@ -17,6 +18,7 @@ import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder.Rec
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder.Simple
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.PointerWithBaseId
 import io.github.optimumcode.json.schema.internal.ReferenceValidator.ReferenceLocation
+import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig.Options
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig.Vocabulary
 import io.github.optimumcode.json.schema.internal.factories.ExternalAssertionFactoryAdapter
 import io.github.optimumcode.json.schema.internal.util.getString
@@ -35,6 +37,7 @@ internal class SchemaLoader : JsonSchemaLoader {
   private val extensionFactories: MutableMap<String, AssertionFactory> = linkedMapOf()
   private val customMetaSchemas: MutableMap<Uri, Pair<SchemaType, Vocabulary>> = linkedMapOf()
   private val customFormats: MutableMap<String, FormatValidator> = linkedMapOf()
+  private val schemaOptions: MutableMap<SchemaOption<*>, Any> = linkedMapOf()
 
   override fun register(
     schema: JsonElement,
@@ -102,6 +105,14 @@ internal class SchemaLoader : JsonSchemaLoader {
       }
     }
 
+  override fun <T : Any> withSchemaOption(
+    option: SchemaOption<T>,
+    value: T,
+  ): JsonSchemaLoader =
+    apply {
+      schemaOptions[option] = value
+    }
+
   override fun fromDefinition(
     schema: String,
     draft: SchemaType?,
@@ -136,6 +147,7 @@ internal class SchemaLoader : JsonSchemaLoader {
       usedRefs = usedRefs,
       extensionFactories = extensionFactories.values,
       customFormats = customFormats,
+      schemaOptions = schemaOptions,
       registerMetaSchema = { uri, type, vocab ->
         val prev = customMetaSchemas.put(uri, type to vocab)
         require(prev == null) { "duplicated meta-schema with uri '$uri'" }
@@ -195,6 +207,11 @@ internal object IsolatedLoader : JsonSchemaLoader {
   override fun withCustomFormats(formats: Map<String, FormatValidator>): JsonSchemaLoader =
     throw UnsupportedOperationException()
 
+  override fun <T : Any> withSchemaOption(
+    option: SchemaOption<T>,
+    value: T,
+  ): JsonSchemaLoader = throw UnsupportedOperationException()
+
   override fun fromDefinition(
     schema: String,
     draft: SchemaType?,
@@ -222,6 +239,7 @@ private class LoadingParameters(
   val usedRefs: MutableSet<ReferenceLocation>,
   val extensionFactories: Collection<AssertionFactory> = emptySet(),
   val customFormats: Map<String, FormatValidator> = emptyMap(),
+  val schemaOptions: Map<SchemaOption<*>, Any> = emptyMap(),
   val resolveCustomMetaSchemaType: (Uri) -> SchemaType? = { null },
   val resolveCustomVocabulary: (Uri) -> Vocabulary? = { null },
   val registerMetaSchema: (Uri, SchemaType, Vocabulary) -> Unit = { _, _, _ -> },
@@ -244,7 +262,7 @@ private fun loadSchemaData(
       ?: schema?.let(parameters.resolveCustomVocabulary)
       ?: schemaType.config.defaultVocabulary
   val assertionFactories =
-    schemaType.config.factories(schemaDefinition, vocabulary).let {
+    schemaType.config.factories(schemaDefinition, vocabulary, Options(parameters.schemaOptions)).let {
       if (parameters.extensionFactories.isEmpty()) {
         it
       } else {

@@ -1,7 +1,11 @@
 package io.github.optimumcode.json.schema.assertions.general.format
 
 import io.github.optimumcode.json.pointer.JsonPointer
+import io.github.optimumcode.json.schema.FormatBehavior.ANNOTATION_AND_ASSERTION
 import io.github.optimumcode.json.schema.JsonSchema
+import io.github.optimumcode.json.schema.JsonSchemaLoader
+import io.github.optimumcode.json.schema.SchemaOption
+import io.github.optimumcode.json.schema.SchemaType
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.base.KEY
 import io.kotest.assertions.assertSoftly
@@ -23,6 +27,7 @@ class FormatValidationTestSuite(
 
   fun FunSpec.testFormat() {
     fun FunSpec.notStringPasses(
+      schemaType: SchemaType,
       format: String,
       schema: JsonSchema,
     ) {
@@ -34,7 +39,7 @@ class FormatValidationTestSuite(
         buildJsonArray { },
         buildJsonObject { },
       ).forEach {
-        test("'$it' passes validation for '$format'") {
+        test("$schemaType '$it' passes validation for '$format'") {
           val errors = mutableListOf<ValidationError>()
           val valid = schema.validate(it, errors::add)
           assertSoftly {
@@ -44,49 +49,47 @@ class FormatValidationTestSuite(
         }
       }
     }
-    JsonSchema.fromDefinition(
-      """
-      {
-        "${KEY}schema": "https://json-schema.org/draft/2020-12/schema",
-        "${KEY}vocabulary": {
-          "https://json-schema.org/draft/2020-12/vocab/core": true,
-          "https://json-schema.org/draft/2020-12/vocab/applicator": true,
-          "https://json-schema.org/draft/2020-12/vocab/unevaluated": true,
-          "https://json-schema.org/draft/2020-12/vocab/validation": true,
-          "https://json-schema.org/draft/2020-12/vocab/meta-data": true,
-          "https://json-schema.org/draft/2020-12/vocab/format-assertion": true,
-          "https://json-schema.org/draft/2020-12/vocab/content": true
-        },
-        "format": "$format"
-      }
-      """.trimIndent(),
-    ).also { schema ->
-      notStringPasses(format, schema)
 
-      validTestCases.forEach {
-        test("valid $format '$it' passes") {
-          val errors = mutableListOf<ValidationError>()
-          val valid = schema.validate(JsonPrimitive(it), errors::add)
-          assertSoftly {
-            valid shouldBe true
-            errors shouldHaveSize 0
+    val loader =
+      JsonSchemaLoader.create()
+        .withSchemaOption(SchemaOption.FORMAT_BEHAVIOR_OPTION, ANNOTATION_AND_ASSERTION)
+    for (schemaType in SchemaType.entries) {
+      loader.fromDefinition(
+        """
+        {
+          "${KEY}schema": "${schemaType.schemaId}",
+          "format": "$format"
+        }
+        """.trimIndent(),
+        draft = schemaType,
+      ).also { schema ->
+        notStringPasses(schemaType, format, schema)
+
+        validTestCases.forEach {
+          test("$schemaType valid $format '$it' passes") {
+            val errors = mutableListOf<ValidationError>()
+            val valid = schema.validate(JsonPrimitive(it), errors::add)
+            assertSoftly {
+              valid shouldBe true
+              errors shouldHaveSize 0
+            }
           }
         }
-      }
 
-      invalidTestCases.forEach { (element, description) ->
-        test("invalid $format '$element' with '$description' fails validation") {
-          val errors = mutableListOf<ValidationError>()
-          val valid = schema.validate(JsonPrimitive(element), errors::add)
-          assertSoftly {
-            valid shouldBe false
-            errors.shouldContainExactly(
-              ValidationError(
-                schemaPath = JsonPointer("/format"),
-                objectPath = JsonPointer.ROOT,
-                message = "value does not match '$format' format",
-              ),
-            )
+        invalidTestCases.forEach { (element, description) ->
+          test("$schemaType invalid $format '$element' with '$description' fails validation") {
+            val errors = mutableListOf<ValidationError>()
+            val valid = schema.validate(JsonPrimitive(element), errors::add)
+            assertSoftly {
+              valid shouldBe false
+              errors.shouldContainExactly(
+                ValidationError(
+                  schemaPath = JsonPointer("/format"),
+                  objectPath = JsonPointer.ROOT,
+                  message = "value does not match '$format' format",
+                ),
+              )
+            }
           }
         }
       }

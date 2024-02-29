@@ -1,5 +1,7 @@
 package io.github.optimumcode.json.schema.internal.config
 
+import io.github.optimumcode.json.schema.FormatBehavior.ANNOTATION_AND_ASSERTION
+import io.github.optimumcode.json.schema.SchemaOption
 import io.github.optimumcode.json.schema.internal.AssertionFactory
 import io.github.optimumcode.json.schema.internal.KeyWord
 import io.github.optimumcode.json.schema.internal.KeyWord.ANCHOR
@@ -11,6 +13,7 @@ import io.github.optimumcode.json.schema.internal.KeyWordResolver
 import io.github.optimumcode.json.schema.internal.ReferenceFactory
 import io.github.optimumcode.json.schema.internal.ReferenceFactory.RefHolder
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
+import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig.Options
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig.Vocabulary
 import io.github.optimumcode.json.schema.internal.SchemaLoaderContext
 import io.github.optimumcode.json.schema.internal.config.Draft201909KeyWordResolver.REC_ANCHOR_PROPERTY
@@ -140,6 +143,7 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
   override fun factories(
     schemaDefinition: JsonElement,
     vocabulary: Vocabulary,
+    options: Options,
   ): List<AssertionFactory> {
     if (schemaDefinition !is JsonObject) {
       // no point to return any factories here
@@ -148,9 +152,11 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
 
     val applicators = vocabulary.enabled(APPLICATOR_VOCABULARY_URI)
     val validations = vocabulary.enabled(VALIDATION_VOCABULARY_URI)
-    val format = vocabulary.enabled(FORMAT_VOCABULARY_URI)
+    val formatAssertion =
+      options[SchemaOption.FORMAT_BEHAVIOR_OPTION]?.let { it == ANNOTATION_AND_ASSERTION }
+        ?: vocabulary.enabled(FORMAT_VOCABULARY_URI)
     val formatFactory =
-      if (format) {
+      if (formatAssertion) {
         FormatAssertionFactory.AnnotationAndAssertion
       } else {
         FormatAssertionFactory.AnnotationOnly

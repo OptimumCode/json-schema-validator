@@ -62,6 +62,11 @@ public interface JsonSchemaLoader {
   @ExperimentalApi
   public fun withCustomFormats(formats: Map<String, FormatValidator>): JsonSchemaLoader
 
+  public fun <T : Any> withSchemaOption(
+    option: SchemaOption<T>,
+    value: T,
+  ): JsonSchemaLoader
+
   public fun fromDefinition(schema: String): JsonSchema = fromDefinition(schema, null)
 
   public fun fromDefinition(

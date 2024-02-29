@@ -30,10 +30,22 @@ public interface FormatValidator {
 }
 
 @ExperimentalApi
-public sealed class FormatValidationResult(private val valid: Boolean) {
+public sealed class FormatValidationResult private constructor(private val valid: Boolean) {
   public fun isValid(): Boolean = valid
 
   internal data object Valid : FormatValidationResult(true)
 
   internal data object Invalid : FormatValidationResult(false)
+}
+
+public enum class FormatBehavior {
+  /**
+   * Only annotation. If the value does not match format the validation will pass
+   */
+  ANNOTATION_ONLY,
+
+  /**
+   * Annotation and assertion. If the value does not match format the validation will fail
+   */
+  ANNOTATION_AND_ASSERTION,
 }

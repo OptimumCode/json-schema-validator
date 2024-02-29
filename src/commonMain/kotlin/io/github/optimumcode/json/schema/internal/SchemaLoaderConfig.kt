@@ -1,7 +1,9 @@
 package io.github.optimumcode.json.schema.internal
 
+import io.github.optimumcode.json.schema.SchemaOption
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
+import kotlin.reflect.cast
 
 internal interface SchemaLoaderConfig {
   val allFactories: List<AssertionFactory>
@@ -13,6 +15,7 @@ internal interface SchemaLoaderConfig {
   fun factories(
     schemaDefinition: JsonElement,
     vocabulary: Vocabulary,
+    options: Options,
   ): List<AssertionFactory>
 
   val keywordResolver: KeyWordResolver
@@ -22,6 +25,12 @@ internal interface SchemaLoaderConfig {
     private val vocabularies: Map<String, Boolean> = emptyMap(),
   ) {
     fun enabled(vocabulary: String): Boolean = vocabularies[vocabulary] ?: false
+  }
+
+  class Options(
+    private val options: Map<SchemaOption<*>, Any>,
+  ) {
+    operator fun <T : Any> get(option: SchemaOption<T>): T? = options[option]?.let(option.type::cast)
   }
 }
 
