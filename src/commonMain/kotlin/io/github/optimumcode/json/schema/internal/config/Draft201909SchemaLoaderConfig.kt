@@ -64,6 +64,7 @@ import kotlinx.serialization.json.jsonPrimitive
 
 private const val APPLICATOR_VOCABULARY_URI = "https://json-schema.org/draft/2019-09/vocab/applicator"
 private const val VALIDATION_VOCABULARY_URI = "https://json-schema.org/draft/2019-09/vocab/validation"
+private const val FORMAT_VOCABULARY_URI = "https://json-schema.org/draft/2019-09/vocab/format"
 private const val VOCABULARY_PROPERTY = "\$vocabulary"
 
 internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
@@ -111,7 +112,6 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
       ConstAssertionFactory,
       EnumAssertionFactory,
       TypeAssertionFactory,
-      FormatAssertionFactory.AnnotationAndAssertion,
     )
 
   override val defaultVocabulary: Vocabulary =
@@ -148,11 +148,24 @@ internal object Draft201909SchemaLoaderConfig : SchemaLoaderConfig {
 
     val applicators = vocabulary.enabled(APPLICATOR_VOCABULARY_URI)
     val validations = vocabulary.enabled(VALIDATION_VOCABULARY_URI)
+    val format = vocabulary.enabled(FORMAT_VOCABULARY_URI)
+    val formatFactory =
+      if (format) {
+        FormatAssertionFactory.AnnotationAndAssertion
+      } else {
+        FormatAssertionFactory.AnnotationOnly
+      }
     return when {
       applicators && validations -> allFactories()
       applicators -> applicatorFactories
       validations -> validationFactories
       else -> emptyList() // no vocabulary enabled
+    }.let { factories ->
+      if (factories.isEmpty()) {
+        listOf(formatFactory)
+      } else {
+        factories + formatFactory
+      }
     }
   }
 
