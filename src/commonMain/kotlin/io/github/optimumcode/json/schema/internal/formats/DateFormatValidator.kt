@@ -33,7 +33,7 @@ internal object DateFormatValidator : AbstractStringFormatValidator() {
     leapYear: Boolean,
   ): Int =
     when {
-      month == FEB_MONTH -> if (leapYear) 28 else 28
+      month == FEB_MONTH -> if (leapYear) 29 else 28
       month < AUG_MONTH -> if (month % 2 == 0) 30 else 31
       month <= MAX_MONTHS -> if (month % 2 == 0) 31 else 30
       else -> -1
