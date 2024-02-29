@@ -174,45 +174,8 @@ internal class SchemaLoader : JsonSchemaLoader {
   }
 }
 
-internal object IsolatedLoader : JsonSchemaLoader {
-  override fun register(
-    schema: JsonElement,
-    draft: SchemaType?,
-  ): JsonSchemaLoader = throw UnsupportedOperationException()
-
-  override fun register(
-    schema: String,
-    draft: SchemaType?,
-  ): JsonSchemaLoader = throw UnsupportedOperationException()
-
-  override fun register(
-    schema: JsonElement,
-    remoteUri: String,
-    draft: SchemaType?,
-  ): JsonSchemaLoader = throw UnsupportedOperationException()
-
-  override fun withExtensions(
-    externalFactory: ExternalAssertionFactory,
-    vararg otherExternalFactories: ExternalAssertionFactory,
-  ): JsonSchemaLoader = throw UnsupportedOperationException()
-
-  override fun withExtensions(externalFactories: Iterable<ExternalAssertionFactory>): JsonSchemaLoader =
-    throw UnsupportedOperationException()
-
-  override fun withCustomFormat(
-    format: String,
-    formatValidator: FormatValidator,
-  ): JsonSchemaLoader = throw UnsupportedOperationException()
-
-  override fun withCustomFormats(formats: Map<String, FormatValidator>): JsonSchemaLoader =
-    throw UnsupportedOperationException()
-
-  override fun <T : Any> withSchemaOption(
-    option: SchemaOption<T>,
-    value: T,
-  ): JsonSchemaLoader = throw UnsupportedOperationException()
-
-  override fun fromDefinition(
+internal object IsolatedLoader {
+  fun fromDefinition(
     schema: String,
     draft: SchemaType?,
   ): JsonSchema {
@@ -220,7 +183,7 @@ internal object IsolatedLoader : JsonSchemaLoader {
     return fromJsonElement(schemaElement, draft)
   }
 
-  override fun fromJsonElement(
+  fun fromJsonElement(
     schemaElement: JsonElement,
     draft: SchemaType?,
   ): JsonSchema {
