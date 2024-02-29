@@ -14,6 +14,17 @@ internal object TimeFormatValidator : AbstractStringFormatValidator() {
 
   override fun validate(value: String): FormatValidationResult {
     val result = timeRegex.matchEntire(value) ?: return FormatValidator.Invalid()
+    val validTimeFormat = isValidFormat(result)
+
+    return if (validTimeFormat) {
+      FormatValidator.Valid()
+    } else {
+      FormatValidator.Invalid()
+    }
+  }
+
+  @Suppress("detekt:MagicNumber")
+  private fun isValidFormat(result: MatchResult): Boolean {
     val hours = result.groups["hours"]!!.value.toInt()
     val minutes = result.groups["minutes"]!!.value.toInt()
     val seconds = result.groups["seconds"]!!.value.toInt()
@@ -31,14 +42,9 @@ internal object TimeFormatValidator : AbstractStringFormatValidator() {
         (if (substituteOffset) minutes - offsetMinutes == -1 else minutes + offsetMinutes == 59) &&
         seconds == 60
 
-    return if (
-      (normalTime() || leapSecondTime()) &&
-      offsetHours in 0..23 &&
-      offsetMinutes in 0..59
-    ) {
-      FormatValidator.Valid()
-    } else {
-      FormatValidator.Invalid()
-    }
+    val validTime = normalTime() || leapSecondTime()
+
+    val validOffset = offsetHours in 0..23 && offsetMinutes in 0..59
+    return validTime && validOffset
   }
 }

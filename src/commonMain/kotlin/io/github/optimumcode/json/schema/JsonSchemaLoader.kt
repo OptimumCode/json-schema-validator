@@ -11,6 +11,7 @@ import io.github.optimumcode.json.schema.internal.wellknown.Draft7
 import kotlinx.serialization.json.JsonElement
 import kotlin.jvm.JvmStatic
 
+@Suppress("detekt:TooManyFunctions")
 public interface JsonSchemaLoader {
   public fun registerWellKnown(draft: SchemaType): JsonSchemaLoader =
     apply {

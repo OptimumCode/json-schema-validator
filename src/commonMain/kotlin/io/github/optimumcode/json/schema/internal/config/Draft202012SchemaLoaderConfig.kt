@@ -37,7 +37,8 @@ import io.github.optimumcode.json.schema.internal.factories.condition.OneOfAsser
 import io.github.optimumcode.json.schema.internal.factories.condition.ThenAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.ConstAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.general.EnumAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.general.FormatAssertionFactory
+import io.github.optimumcode.json.schema.internal.factories.general.FormatAssertionFactory.AnnotationAndAssertion
+import io.github.optimumcode.json.schema.internal.factories.general.FormatAssertionFactory.AnnotationOnly
 import io.github.optimumcode.json.schema.internal.factories.general.TypeAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.ExclusiveMaximumAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.ExclusiveMinimumAssertionFactory
@@ -158,28 +159,13 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
       applicators -> applicatorFactories
       validations -> validationFactories
       else -> emptyList() // no vocabulary enabled
-    }.let { factories ->
-      if (factories.isNotEmpty() && !allEnabled && unevaluated) {
-        factories + unevaluatedFactories
-      } else {
-        factories
-      }
-    }.let { factories ->
-      if (formatAnnotations || formatAssertions) {
-        factories +
-          if (formatAssertions) {
-            FormatAssertionFactory.AnnotationAndAssertion
-          } else {
-            FormatAssertionFactory.AnnotationOnly
-          }
-      } else {
-        factories
-      }
-    }
+    }.appendUnevaluatedFactory(allEnabled, unevaluated)
+      .appendFormatFactory(formatAnnotations, formatAssertions)
   }
 
   override val keywordResolver: KeyWordResolver
     get() = Draft202012KeyWordResolver
+
   override val referenceFactory: ReferenceFactory
     get() = Draft202012ReferenceFactory
 
@@ -196,6 +182,29 @@ internal object Draft202012SchemaLoaderConfig : SchemaLoaderConfig {
       vocabularies =
         vocabulary.mapValues { (_, state) -> state.jsonPrimitive.boolean },
     )
+  }
+
+  private fun List<AssertionFactory>.appendFormatFactory(
+    formatAnnotations: Boolean,
+    formatAssertions: Boolean,
+  ) = if (formatAnnotations || formatAssertions) {
+    this +
+      if (formatAssertions) {
+        AnnotationAndAssertion
+      } else {
+        AnnotationOnly
+      }
+  } else {
+    this
+  }
+
+  private fun List<AssertionFactory>.appendUnevaluatedFactory(
+    allEnabled: Boolean,
+    unevaluated: Boolean,
+  ) = if (isNotEmpty() && !allEnabled && unevaluated) {
+    this + unevaluatedFactories
+  } else {
+    this
   }
 
   private fun allFactories(): List<AssertionFactory> = applicatorFactories + validationFactories + unevaluatedFactories

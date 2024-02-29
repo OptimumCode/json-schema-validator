@@ -1,15 +1,13 @@
 @file:JvmName("Annotations")
 
-package io.github.optimumcode.json.schema.internal
+package io.github.optimumcode.json.schema
 
-import io.github.optimumcode.json.schema.AnnotationKey
 import io.github.optimumcode.json.schema.internal.factories.general.FormatAssertionFactory
 import kotlin.jvm.JvmField
 import kotlin.jvm.JvmName
 
 /**
- * This object contains generally available annotations
- * that can be used in [io.github.optimumcode.json.schema.extension.ExternalAssertion]
+ * Key for getting annotation from `format` assertion
  */
 @JvmField
 public val FORMAT_ANNOTATION: AnnotationKey<String> = FormatAssertionFactory.ANNOTATION

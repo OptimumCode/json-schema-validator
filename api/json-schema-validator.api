@@ -42,6 +42,10 @@ public final class io/github/optimumcode/json/schema/AnnotationKey$Companion {
 	public final fun simple (Ljava/lang/String;Lkotlin/reflect/KClass;)Lio/github/optimumcode/json/schema/AnnotationKey;
 }
 
+public final class io/github/optimumcode/json/schema/Annotations {
+	public static final field FORMAT_ANNOTATION Lio/github/optimumcode/json/schema/AnnotationKey;
+}
+
 public abstract interface class io/github/optimumcode/json/schema/ErrorCollector {
 	public static final field Companion Lio/github/optimumcode/json/schema/ErrorCollector$Companion;
 	public static final field EMPTY Lio/github/optimumcode/json/schema/ErrorCollector;
@@ -199,9 +203,5 @@ public abstract interface class io/github/optimumcode/json/schema/extension/Exte
 
 public abstract interface class io/github/optimumcode/json/schema/extension/ExternalLoadingContext {
 	public abstract fun getSchemaPath ()Lio/github/optimumcode/json/pointer/JsonPointer;
-}
-
-public final class io/github/optimumcode/json/schema/internal/Annotations {
-	public static final field FORMAT_ANNOTATION Lio/github/optimumcode/json/schema/AnnotationKey;
 }
 
