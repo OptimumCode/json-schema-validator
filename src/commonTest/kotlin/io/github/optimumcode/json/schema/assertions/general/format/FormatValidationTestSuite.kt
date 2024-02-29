@@ -2,6 +2,7 @@ package io.github.optimumcode.json.schema.assertions.general.format
 
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.FormatBehavior.ANNOTATION_AND_ASSERTION
+import io.github.optimumcode.json.schema.FormatBehavior.ANNOTATION_ONLY
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.JsonSchemaLoader
 import io.github.optimumcode.json.schema.SchemaOption
@@ -50,11 +51,14 @@ class FormatValidationTestSuite(
       }
     }
 
-    val loader =
+    val loaderWithFormatAssertions =
       JsonSchemaLoader.create()
         .withSchemaOption(SchemaOption.FORMAT_BEHAVIOR_OPTION, ANNOTATION_AND_ASSERTION)
+    val loaderWithFormatAnnotation =
+      JsonSchemaLoader.create()
+        .withSchemaOption(SchemaOption.FORMAT_BEHAVIOR_OPTION, ANNOTATION_ONLY)
     for (schemaType in SchemaType.entries) {
-      loader.fromDefinition(
+      loaderWithFormatAssertions.fromDefinition(
         """
         {
           "${KEY}schema": "${schemaType.schemaId}",
@@ -89,6 +93,26 @@ class FormatValidationTestSuite(
                   message = "value does not match '$format' format",
                 ),
               )
+            }
+          }
+        }
+      }
+      loaderWithFormatAnnotation.fromDefinition(
+        """
+        {
+          "${KEY}schema": "${schemaType.schemaId}",
+          "format": "$format"
+        }
+        """.trimIndent(),
+        draft = schemaType,
+      ).also { schema ->
+        invalidTestCases.forEach { (element, description) ->
+          test("$schemaType invalid $format '$element' with '$description' passes annotation only mode") {
+            val errors = mutableListOf<ValidationError>()
+            val valid = schema.validate(JsonPrimitive(element), errors::add)
+            assertSoftly {
+              valid shouldBe true
+              errors shouldHaveSize 0
             }
           }
         }
