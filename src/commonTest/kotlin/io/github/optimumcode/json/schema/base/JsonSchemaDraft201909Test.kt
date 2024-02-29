@@ -1,11 +1,15 @@
 package io.github.optimumcode.json.schema.base
 
+import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.JsonSchemaLoader
 import io.github.optimumcode.json.schema.SchemaType.DRAFT_2019_09
+import io.github.optimumcode.json.schema.ValidationError
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonArray
@@ -148,6 +152,123 @@ class JsonSchemaDraft201909Test : FunSpec() {
                 ) shouldBe true
               }
             }
+          }
+        }
+      }
+
+    JsonSchemaLoader.create()
+      .register(
+        """
+        {
+          "${KEY}schema": "https://json-schema.org/draft/2019-09/schema",
+          "${KEY}id": "https://localhost:8080/custom_meta",
+          "${KEY}vocabulary": {
+            "https://json-schema.org/draft/2019-09/vocab/core": true,
+            "https://json-schema.org/draft/2019-09/vocab/applicator": true,
+            "https://json-schema.org/draft/2019-09/vocab/validation": true,
+            "https://json-schema.org/draft/2019-09/vocab/format": true
+          }
+        }
+        """.trimIndent(),
+        DRAFT_2019_09,
+      ).fromDefinition(
+        """
+        {
+          "${KEY}schema": "https://localhost:8080/custom_meta",
+          "format": "date"
+        }
+        """.trimIndent(),
+        DRAFT_2019_09,
+      ).also { schema ->
+        test("format works as assertion when format vocabulary has true value for draft 2019-09") {
+          val errors = mutableListOf<ValidationError>()
+          val valid = schema.validate(JsonPrimitive("2024-02-30"), errors::add)
+
+          assertSoftly {
+            valid shouldBe false
+            errors.shouldContainExactly(
+              ValidationError(
+                schemaPath = JsonPointer("/format"),
+                objectPath = JsonPointer.ROOT,
+                message = "value does not match 'date' format",
+              ),
+            )
+          }
+        }
+      }
+
+    JsonSchemaLoader.create()
+      .register(
+        """
+        {
+          "${KEY}schema": "https://json-schema.org/draft/2019-09/schema",
+          "${KEY}id": "https://localhost:8080/custom_meta",
+          "${KEY}vocabulary": {
+            "https://json-schema.org/draft/2019-09/vocab/core": true,
+            "https://json-schema.org/draft/2019-09/vocab/applicator": true,
+            "https://json-schema.org/draft/2019-09/vocab/validation": true,
+            "https://json-schema.org/draft/2019-09/vocab/format": false
+          }
+        }
+        """.trimIndent(),
+        DRAFT_2019_09,
+      ).fromDefinition(
+        """
+        {
+          "${KEY}schema": "https://localhost:8080/custom_meta",
+          "format": "date"
+        }
+        """.trimIndent(),
+        DRAFT_2019_09,
+      ).also { schema ->
+        test("format works as annotation only when format vocabulary has false value for draft 2019-09") {
+          val errors = mutableListOf<ValidationError>()
+          val valid = schema.validate(JsonPrimitive("2024-02-30"), errors::add)
+
+          assertSoftly {
+            valid shouldBe true
+            errors shouldHaveSize 0
+          }
+        }
+      }
+
+    JsonSchemaLoader.create()
+      .register(
+        """
+        {
+          "${KEY}schema": "https://json-schema.org/draft/2019-09/schema",
+          "${KEY}id": "https://localhost:8080/custom_meta",
+          "${KEY}vocabulary": {
+            "https://json-schema.org/draft/2019-09/vocab/core": true,
+            "https://json-schema.org/draft/2019-09/vocab/applicator": false,
+            "https://json-schema.org/draft/2019-09/vocab/validation": false,
+            "https://json-schema.org/draft/2019-09/vocab/format": true
+          }
+        }
+        """.trimIndent(),
+        DRAFT_2019_09,
+      ).fromDefinition(
+        """
+        {
+          "${KEY}schema": "https://localhost:8080/custom_meta",
+          "format": "date"
+        }
+        """.trimIndent(),
+        DRAFT_2019_09,
+      ).also { schema ->
+        test("format applied when only its vocabulary enabled draft 2019-09") {
+          val errors = mutableListOf<ValidationError>()
+          val valid = schema.validate(JsonPrimitive("2024-02-30"), errors::add)
+
+          assertSoftly {
+            valid shouldBe false
+            errors.shouldContainExactly(
+              ValidationError(
+                schemaPath = JsonPointer("/format"),
+                objectPath = JsonPointer.ROOT,
+                message = "value does not match 'date' format",
+              ),
+            )
           }
         }
       }
