@@ -319,9 +319,9 @@ This library is also integrated into [bowtie](https://github.com/bowtie-json-sch
 and runs against the official test suite along with other libraries.
 You can find the report [here](https://bowtie.report/).
 
-[![draft-07](https://img.shields.io/endpoint?url=https://bowtie-json-schema.github.io/bowtie/badges/kotlin-kmp-json-schema-validator/compliance/Draft_7.json)](https://bowtie.report/#/dialects/draft7?language=kotlin)
-[![draft/2019-09](https://img.shields.io/endpoint?url=https://bowtie-json-schema.github.io/bowtie/badges/kotlin-kmp-json-schema-validator/compliance/Draft_2019-09.json)](https://bowtie.report/#/dialects/draft2019-09?language=kotlin)
-[![draft/2020-12](https://img.shields.io/endpoint?url=https://bowtie-json-schema.github.io/bowtie/badges/kotlin-kmp-json-schema-validator/compliance/Draft_2020-12.json)](https://bowtie.report/#/dialects/draft2020-12?language=kotlin)
+[![draft-07](https://img.shields.io/endpoint?url=https://bowtie-json-schema.github.io/bowtie/badges/kotlin-kmp-json-schema-validator/compliance/draft7.json)](https://bowtie.report/#/dialects/draft7?language=kotlin)
+[![draft/2019-09](https://img.shields.io/endpoint?url=https://bowtie-json-schema.github.io/bowtie/badges/kotlin-kmp-json-schema-validator/compliance/draft2019-09.json)](https://bowtie.report/#/dialects/draft2019-09?language=kotlin)
+[![draft/2020-12](https://img.shields.io/endpoint?url=https://bowtie-json-schema.github.io/bowtie/badges/kotlin-kmp-json-schema-validator/compliance/draft2020-12.json)](https://bowtie.report/#/dialects/draft2020-12?language=kotlin)
 
 ## Benchmarking
 
