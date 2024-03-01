@@ -29,6 +29,11 @@ on:
         default: 's'
         type: string
         required: false
+      report-format:
+        description: 'format of the report'
+        default: 'csv'
+        type: string
+        required: false
 
 jobs:
   benchmark:
@@ -36,12 +41,13 @@ jobs:
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
-        with:
-          submodules: true
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version-file: .ci-java-version
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .ci-python-version
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v2
       - name: Cache konan
@@ -57,8 +63,21 @@ jobs:
           gradle-version: wrapper
       - name: Run benchmarks
         run: >
-          ./gradlew --no-daemon --info :benchmark:benchmark ${{ inputs.additional-task }}
+          ./gradlew --no-daemon :benchmark:benchmark ${{ inputs.additional-task }}
           -Pbenchmark_warmups=${{ inputs.warmups }}
           -Pbenchmark_iterations=${{ inputs.iterations }}
           -Pbenchmark_iteration_time=${{ inputs.iteration-time }}
           -Pbenchmark_iteration_time_unit=${{ inputs.iteration-time-unit }}
+          -Pbenchmark_report_format=${{ inputs.report-format }}
+      - name: Install CSV to MD converter
+        run: pip install csv2md
+      - name: Add benchmark results to summary
+        shell: bash
+        run: |
+          for report in $(find ./benchmark/build/reports/benchmarks/main -type f -name "*.csv")
+          do
+            file_name=$(basename "$report")
+            platform="${file_name%.*}"
+            echo "# Platform ${platform}" >> $GITHUB_STEP_SUMMARY 
+            csv2md "$report" >> $GITHUB_STEP_SUMMARY
+          done
