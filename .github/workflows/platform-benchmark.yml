@@ -79,10 +79,12 @@ jobs:
             file_name=$(basename "$report")
             platform="${file_name%.*}"
             echo "File $file_name"
+            # remove empty lines
+            sed -i -e '/^[[:space:]]*$/d' $report
             echo "::group::Report CSV"
             cat "$report"
             echo "::endgroup::"
-            markdown_table=$(csv2md "$report" | sed -e '/^[[:space:]]*$/d')
+            markdown_table=$(csv2md "$report")
             echo "::group::Report Markdown"
             echo "$markdown_table"
             echo "::endgroup::"
