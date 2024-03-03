@@ -82,7 +82,7 @@ jobs:
             echo "::group::Report CSV"
             cat "$report"
             echo "::endgroup::"
-            markdown_table=$(csv2md "$report" | tr -d '\r')
+            markdown_table=$(csv2md "$report" | sed -e '/^[[:space:]]*$/d')
             echo "::group::Report Markdown"
             echo "$markdown_table"
             echo "::endgroup::"
