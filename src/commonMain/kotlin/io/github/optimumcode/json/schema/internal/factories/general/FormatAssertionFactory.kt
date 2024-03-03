@@ -17,6 +17,7 @@ import io.github.optimumcode.json.schema.internal.formats.DateFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.DateTimeFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.DurationFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.JsonPointerFormatValidator
+import io.github.optimumcode.json.schema.internal.formats.RelativeJsonPointerFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.TimeFormatValidator
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
@@ -60,6 +61,7 @@ internal sealed class FormatAssertionFactory(
         "date-time" to DateTimeFormatValidator,
         "duration" to DurationFormatValidator,
         "json-pointer" to JsonPointerFormatValidator,
+        "relative-json-pointer" to RelativeJsonPointerFormatValidator,
       )
   }
 }
