@@ -5,6 +5,7 @@ on:
     branches:
       - main
     paths-ignore:
+      - 'changelog_config.json'
       - 'README.md'
       - 'benchmark/*'
       - '.github/workflows/platform-benchmark.yml'
