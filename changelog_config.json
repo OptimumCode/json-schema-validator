@@ -14,8 +14,11 @@
     {
       "title": "## 🧰 CI/CD",
       "labels": ["ci/cd"]
+    },
+    {
+      "title": "## Dependencies",
+      "labels": ["dependencies"]
     }
-
   ],
   "ignore_labels": [
     "ignore"
