@@ -293,6 +293,8 @@ The library supports `format` assertion. For now only a few formats are supporte
 * time
 * date-time
 * duration
+* json-pointer
+* relative-json-pointer
 
 But there is an API to implement the user's defined format validation.
 The [FormatValidator](src/commonMain/kotlin/io/github/optimumcode/json/schema/ValidationError.kt) interface can be user for that.
