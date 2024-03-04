@@ -18,18 +18,7 @@ internal object RelativeJsonPointerFormatValidator : AbstractStringFormatValidat
       val isDigit = code in ZERO_CODE..NINE_CODE
       val isRef = symbol == REF_SYMBOL
       if (!isDigit) {
-        return when {
-          // we must have a digit at the beginning
-          index == 0 -> FormatValidator.Invalid()
-          isRef && index > 0 ->
-            if (index == value.lastIndex) {
-              FormatValidator.Valid()
-            } else {
-              // # must be the last character
-              FormatValidator.Invalid()
-            }
-          else -> JsonPointerFormatValidator.validate(value.substring(index))
-        }
+        return checkEnding(index, isRef, value)
       }
       if (code > ZERO_CODE && isFirstZero) {
         // leading zeros are not allowed
@@ -38,4 +27,23 @@ internal object RelativeJsonPointerFormatValidator : AbstractStringFormatValidat
     }
     return FormatValidator.Valid()
   }
+
+  private fun checkEnding(
+    index: Int,
+    isRef: Boolean,
+    value: String,
+  ): FormatValidationResult =
+    when {
+      // we must have a digit at the beginning
+      index == 0 -> FormatValidator.Invalid()
+      isRef && index > 0 ->
+        if (index == value.lastIndex) {
+          FormatValidator.Valid()
+        } else {
+          // # must be the last character
+          FormatValidator.Invalid()
+        }
+
+      else -> JsonPointerFormatValidator.validate(value.substring(index))
+    }
 }
