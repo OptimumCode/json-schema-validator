@@ -36,7 +36,7 @@ internal object RelativeJsonPointerFormatValidator : AbstractStringFormatValidat
     when {
       // we must have a digit at the beginning
       index == 0 -> FormatValidator.Invalid()
-      isRef && index > 0 ->
+      isRef ->
         if (index == value.lastIndex) {
           FormatValidator.Valid()
         } else {

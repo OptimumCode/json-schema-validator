@@ -24,7 +24,8 @@ class JsonSchemaRelativeJsonPointerFormatValidationTest : FunSpec() {
           TestCase("01", "leading zeroes are not allowed"),
           TestCase("0##", "ref is the last character"),
           TestCase("0#/test", "ref and JSON pointer are not allowed"),
-          TestCase("/test", "JSON pointer is no valid RJP"),
+          TestCase("/test", "JSON pointer is not a valid RJP"),
+          TestCase("test", "invalid Json Pointer"),
         ),
     ).run { testFormat() }
   }
