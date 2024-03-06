@@ -69,7 +69,7 @@ internal fun FunSpec.formatValidationTestSuite(
       notStringPasses(schemaType, format, schema)
 
       validTestCases.forEach {
-        test("$schemaType valid $format '$it' passes") {
+        test("$schemaType valid $format '$it' passes".escapeCharacterForWindows()) {
           val errors = mutableListOf<ValidationError>()
           val valid = schema.validate(JsonPrimitive(it), errors::add)
           assertSoftly {
@@ -80,7 +80,9 @@ internal fun FunSpec.formatValidationTestSuite(
       }
 
       invalidTestCases.forEach { (element, description) ->
-        test("$schemaType invalid $format '$element' with '$description' fails validation") {
+        test(
+          "$schemaType invalid $format '$element' with '$description' fails validation".escapeCharacterForWindows(),
+        ) {
           val errors = mutableListOf<ValidationError>()
           val valid = schema.validate(JsonPrimitive(element), errors::add)
           assertSoftly {
@@ -106,7 +108,10 @@ internal fun FunSpec.formatValidationTestSuite(
       draft = schemaType,
     ).also { schema ->
       invalidTestCases.forEach { (element, description) ->
-        test("$schemaType invalid $format '$element' with '$description' passes annotation only mode") {
+        test(
+          "$schemaType invalid $format '$element' with '$description' passes annotation only mode"
+            .escapeCharacterForWindows(),
+        ) {
           val errors = mutableListOf<ValidationError>()
           val valid = schema.validate(JsonPrimitive(element), errors::add)
           assertSoftly {
@@ -117,4 +122,10 @@ internal fun FunSpec.formatValidationTestSuite(
       }
     }
   }
+}
+
+private val WINDOWS_PROHIBITED_CHARACTER = Regex("[:]")
+
+private fun String.escapeCharacterForWindows(): String {
+  return replace(WINDOWS_PROHIBITED_CHARACTER, "_")
 }
