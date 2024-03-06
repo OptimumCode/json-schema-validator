@@ -1,11 +1,10 @@
 package io.github.optimumcode.json.schema.assertions.general.format
 
-import io.github.optimumcode.json.schema.assertions.general.format.FormatValidationTestSuite.TestCase
 import io.kotest.core.spec.style.FunSpec
 
 class JsonSchemaDateTimeFormatValidationTest : FunSpec() {
   init {
-    FormatValidationTestSuite(
+    formatValidationTestSuite(
       format = "date-time",
       validTestCases =
         listOf(
@@ -31,6 +30,6 @@ class JsonSchemaDateTimeFormatValidationTest : FunSpec() {
           TestCase("2024-12-28'T'12:61:45", "invalid delimiter location"),
           TestCase("not a date-time", "invalid format"),
         ),
-    ).run { testFormat() }
+    )
   }
 }

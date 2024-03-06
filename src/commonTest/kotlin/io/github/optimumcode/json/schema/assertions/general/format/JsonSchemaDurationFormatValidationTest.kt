@@ -1,11 +1,10 @@
 package io.github.optimumcode.json.schema.assertions.general.format
 
-import io.github.optimumcode.json.schema.assertions.general.format.FormatValidationTestSuite.TestCase
 import io.kotest.core.spec.style.FunSpec
 
 class JsonSchemaDurationFormatValidationTest : FunSpec() {
   init {
-    FormatValidationTestSuite(
+    formatValidationTestSuite(
       format = "duration",
       validTestCases =
         listOf(
@@ -41,6 +40,6 @@ class JsonSchemaDurationFormatValidationTest : FunSpec() {
           TestCase("P1Y1D", "missing month block"),
           TestCase("P1Y1M1DT1H1S", "missing minutes block in full duration"),
         ),
-    ).run { testFormat() }
+    )
   }
 }

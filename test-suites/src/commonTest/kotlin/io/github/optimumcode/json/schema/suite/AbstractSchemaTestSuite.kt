@@ -50,8 +50,6 @@ internal val COMMON_FORMAT_FILTER =
         "hostname" to emptySet(),
         "idn-email" to emptySet(),
         "idn-hostname" to emptySet(),
-        "ipv4" to emptySet(),
-        "ipv6" to emptySet(),
         "iri" to emptySet(),
         "iri-reference" to emptySet(),
         "regex" to emptySet(),
