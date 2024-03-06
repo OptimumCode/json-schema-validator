@@ -1,11 +1,10 @@
 package io.github.optimumcode.json.schema.assertions.general.format
 
-import io.github.optimumcode.json.schema.assertions.general.format.FormatValidationTestSuite.TestCase
 import io.kotest.core.spec.style.FunSpec
 
 class JsonSchemaIpV4FormatValidationTest : FunSpec() {
   init {
-    FormatValidationTestSuite(
+    formatValidationTestSuite(
       format = "ipv4",
       validTestCases =
         listOf(
@@ -22,6 +21,6 @@ class JsonSchemaIpV4FormatValidationTest : FunSpec() {
           TestCase("256.256.256.256", "invalid component value"),
           TestCase("087.0.1.35", "invalid leading zero"),
         ),
-    ).run { testFormat() }
+    )
   }
 }
