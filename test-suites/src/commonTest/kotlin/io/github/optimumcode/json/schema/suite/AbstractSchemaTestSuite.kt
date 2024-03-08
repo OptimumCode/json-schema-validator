@@ -56,7 +56,6 @@ internal val COMMON_FORMAT_FILTER =
         "uri" to emptySet(),
         "uri-reference" to emptySet(),
         "uri-template" to emptySet(),
-        "uuid" to emptySet(),
       ),
   )
 
