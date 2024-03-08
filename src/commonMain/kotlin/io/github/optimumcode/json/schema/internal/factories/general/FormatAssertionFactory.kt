@@ -21,6 +21,7 @@ import io.github.optimumcode.json.schema.internal.formats.IpV6FormatValidator
 import io.github.optimumcode.json.schema.internal.formats.JsonPointerFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.RelativeJsonPointerFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.TimeFormatValidator
+import io.github.optimumcode.json.schema.internal.formats.UuidFormatValidator
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 
@@ -66,6 +67,7 @@ internal sealed class FormatAssertionFactory(
         "relative-json-pointer" to RelativeJsonPointerFormatValidator,
         "ipv4" to IpV4FormatValidator,
         "ipv6" to IpV6FormatValidator,
+        "uuid" to UuidFormatValidator,
       )
   }
 }
