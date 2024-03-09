@@ -12,8 +12,7 @@
       "installTools": false
     },
     "ghcr.io/rocker-org/devcontainer-features/apt-packages" : {
-      "packages": "tig",
-      "upgradePackages": true
+      "packages": "tig"
     }
   },
   // Download all required dependencies
