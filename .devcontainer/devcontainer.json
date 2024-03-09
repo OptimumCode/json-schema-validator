@@ -14,7 +14,7 @@
   },
   // Download all required dependencies
   "postCreateCommand": {
-    "install-dependencies": "./gradlew dependencies",
+    "install-dependencies": "./gradlew dependencies > /dev/null",
     "init-submodules": "git submodule init && git submodule update",
     "git-completion": "echo \"source /usr/share/bash-completion/completions/git\" >> ~/.bashrc"
   },
