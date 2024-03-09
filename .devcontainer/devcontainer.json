@@ -3,7 +3,7 @@
   "image": "mcr.microsoft.com/devcontainers/java:1.0-11",
   "features": {
     "ghcr.io/devcontainers/features/java:1" : {
-      "version": "none",
+      "version": "11",
       "installGradle": true,
       "gradleVersion": "8.1"
     },
