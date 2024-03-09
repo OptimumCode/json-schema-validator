@@ -1,0 +1,18 @@
+{
+  "name": "KMP json schema validator",
+  "image": "mcr.microsoft.com/devcontainers/java:1.0-11",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1" : {
+      "version": "none",
+      "installGradle": true,
+      "gradleVersion": "8.1"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.10"
+    }
+  },
+  // Download all required dependencies
+  postCreateCommand: [
+    "gradle dependencies > /dev/null"
+  ]
+}
