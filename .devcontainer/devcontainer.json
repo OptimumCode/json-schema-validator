@@ -14,7 +14,8 @@
   },
   // Download all required dependencies
   "postCreateCommand": {
-    "install-dependencies": "./gradlew dependencies"
+    "install-dependencies": "./gradlew dependencies",
+    "init-submodules": "git submodule init && git submodule update"
   },
   "customizations": {
     "vscode": {
