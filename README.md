@@ -136,7 +136,7 @@ val valid = schema.validate(elementToValidate, errors::add)
 - [Draft 7](https://json-schema.org/specification-links.html#draft-7)
   <details>
   <summary>Supported keywords</summary>
-  
+
   - Core
 
   | Keyword     | Status                                                                                              |
@@ -343,8 +343,19 @@ You can see the results in the latest workflow execution.
 
 ## Developer notes
 
+### Build process
+
 The update to Kotlin 1.9.22 came with an issue for JS incremental compilation.
 In case you see an error about main function that already bind please execute `clean` task.
+
+### Devcontainer
+
+Devcontainers is a cool feature. However, by default in Codespaces and DevPod you will use [VS Code](https://code.visualstudio.com/).
+This is a good IDE but not for Kotlin, unfortunately.
+The extension that is available for VS Code to support Kotlin works quite slow (when workspace is just started)
+and sometimes does not work correctly with multiplatform definitions.
+Because of that I higly recoment using JetBrains Gateway
+(but it looks like the GitHub Codespace provider is not currently compatible with latest Gateway version).
 
 ## Future plans
 
