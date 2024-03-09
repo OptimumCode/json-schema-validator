@@ -23,7 +23,8 @@
       "extensions": [
         "fwcd.kotlin",
         "redhat.java",
-        "github.vscode-github-actions"
+        "github.vscode-github-actions",
+        "vscjava.vscode-gradle"
       ]
     }
   }
