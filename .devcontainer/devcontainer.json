@@ -14,7 +14,7 @@
   },
   // Download all required dependencies
   "postCreateCommand": {
-    "install-dependencies": "gradle dependencies > /dev/null"
+    "install-dependencies": "./gradlew dependencies"
   },
   "customizations": {
     "vscode": {
