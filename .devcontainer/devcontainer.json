@@ -8,11 +8,20 @@
       "gradleVersion": "8.1"
     },
     "ghcr.io/devcontainers/features/python:1": {
-      "version": "3.10"
+      "version": "3.10",
+      "installTools": false
     }
   },
   // Download all required dependencies
-  postCreateCommand: [
-    "gradle dependencies > /dev/null"
-  ]
+  "postCreateCommand": {
+    "install-dependencies": "gradle dependencies > /dev/null"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "fwcd.kotlin",
+        "redhat.java"
+      ]
+    }
+  }
 }
