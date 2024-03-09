@@ -15,7 +15,8 @@
   // Download all required dependencies
   "postCreateCommand": {
     "install-dependencies": "./gradlew dependencies",
-    "init-submodules": "git submodule init && git submodule update"
+    "init-submodules": "git submodule init && git submodule update",
+    "git-completion": "echo \"source /usr/share/bash-completion/completions/git\" >> ~/.bashrc"
   },
   "customizations": {
     "vscode": {
