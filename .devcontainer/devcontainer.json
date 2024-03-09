@@ -20,7 +20,8 @@
     "vscode": {
       "extensions": [
         "fwcd.kotlin",
-        "redhat.java"
+        "redhat.java",
+        "github.vscode-github-actions"
       ]
     }
   }
