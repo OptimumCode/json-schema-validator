@@ -1,0 +1,37 @@
+{
+  "name": "KMP json schema validator",
+  "image": "mcr.microsoft.com/devcontainers/java:1.0-11",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1" : {
+      "version": "11",
+      "installGradle": true,
+      "gradleVersion": "8.1"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.10",
+      "installTools": false
+    },
+    "ghcr.io/rocker-org/devcontainer-features/apt-packages" : {
+      "packages": "tig"
+    },
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+    }
+  },
+  // Download all required dependencies
+  "postCreateCommand": {
+    "install-dependencies": "./gradlew dependencies > /dev/null",
+    "init-submodules": "git submodule init && git submodule update",
+    "git-completion": "echo \"source /usr/share/bash-completion/completions/git\" >> ~/.bashrc"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "fwcd.kotlin",
+        "redhat.java",
+        "github.vscode-github-actions",
+        "vscjava.vscode-gradle"
+      ]
+    }
+  }
+}
