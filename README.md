@@ -14,7 +14,7 @@ This multiplatform library is an implementation of JSON schema that can validate
 from [kotlinx.serialization-json](https://github.com/Kotlin/kotlinx.serialization/tree/master/formats/json) library.
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/OptimumCode/json-schema-validator)
-[![Open in DevPod!](https://devpod.sh/assets/open-in-devpod.svg)](https://github.com/OptimumCode/json-schema-validator)
+[![Open in DevPod!](https://devpod.sh/assets/open-in-devpod.svg)](https://devpod.sh/open#https://github.com/OptimumCode/json-schema-validator)
 
 ## Usage
 
