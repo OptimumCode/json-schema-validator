@@ -13,6 +13,9 @@
     },
     "ghcr.io/rocker-org/devcontainer-features/apt-packages" : {
       "packages": "tig"
+    },
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
     }
   },
   // Download all required dependencies
