@@ -356,6 +356,8 @@ The extension that is available for VS Code to support Kotlin works quite slow (
 and sometimes does not work correctly with multiplatform definitions.
 Because of that I higly recoment using JetBrains Gateway
 (but it looks like the GitHub Codespace provider is not currently compatible with latest Gateway version).
+However, there is a way to connect to Codespace and work with project using JetBrains IDE.
+Please, read details [here](docs/codespaces_for_jetbrains.md).
 
 ## Future plans
 
