@@ -32,10 +32,10 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version-file: .ci-java-version
+          java-version-file: .java-version
       - uses: actions/setup-python@v5
         with:
-          python-version-file: .ci-python-version
+          python-version-file: .python-version
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v2
       - name: Cache konan
