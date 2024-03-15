@@ -610,6 +610,11 @@ private data class DefaultLoadingContext(
       id.isAbsolute -> register(id.buildRefId(), assertion, dynamic) // register JSON schema by absolute URI
       id.isRelative ->
         when {
+          // For root schema we should not apply any transformations to ID
+          schemaPath === JsonPointer.ROOT && !id.path.isNullOrBlank() ->
+            // Empty URI is used to normalize the path
+            // Instead of 'path/segment' it will result '/path/segment
+            register(Uri.EMPTY.appendPathToParent(id.path!!).buildRefId(), assertion, dynamic)
           !id.path.isNullOrBlank() ->
             register(
               // register JSON schema by related path
