@@ -176,6 +176,7 @@ class JsonSchemaMultipleOfValidationTest : FunSpec() {
       }
     }
 
+    // https://github.com/OptimumCode/json-schema-validator/issues/70
     test("BUG_70 rounding problem with some numbers because double does not behave as you expect") {
       val schema =
         JsonSchema.fromDefinition(

@@ -9,6 +9,7 @@ import io.github.optimumcode.json.schema.JsonSchemaLoader
 import io.github.optimumcode.json.schema.SchemaOption
 import io.github.optimumcode.json.schema.ValidationError
 import io.kotest.assertions.assertSoftly
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldNotThrowAnyUnit
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.assertions.withClue
@@ -302,6 +303,56 @@ class JsonSchemaLoaderTest : FunSpec() {
           .withCustomFormat("magic", MagicFormatValidator())
           .withCustomFormat("magic", MagicFormatValidator())
       }.message shouldBe "format 'magic' already registered"
+    }
+
+    // https://github.com/OptimumCode/json-schema-validator/issues/87
+    test("BUG_87 relative uri-ref in root \$id causes incorrect reference resolution for root schema") {
+      val schema =
+        shouldNotThrowAny {
+          JsonSchemaLoader.create()
+            .register(
+              """
+              {
+                "${'$'}schema": "https://json-schema.org/draft/2020-12/schema",
+                "${'$'}id": "myproject/enums/foo",
+                "type": "integer"
+              }
+              """.trimIndent(),
+            ).fromDefinition(
+              """
+              {
+                  "${'$'}schema": "https://json-schema.org/draft/2020-12/schema",
+                  "${'$'}id": "myproject/data/request",
+                  "type": "object",
+                  "properties": {
+                      "foobar": {
+                          "${'$'}ref": "/myproject/enums/foo"
+                      }
+                  }
+              }
+              """.trimIndent(),
+            )
+        }
+
+      val errors = mutableListOf<ValidationError>()
+      val valid =
+        schema.validate(
+          buildJsonObject {
+            put("foobar", JsonPrimitive("test"))
+          },
+          errors::add,
+        )
+      assertSoftly {
+        valid shouldBe false
+        errors.shouldContainExactly(
+          ValidationError(
+            schemaPath = JsonPointer("/properties/foobar/\$ref/type"),
+            objectPath = JsonPointer("/foobar"),
+            message = "element is not a integer",
+            absoluteLocation = JsonPointer("/type"),
+          ),
+        )
+      }
     }
   }
 }
