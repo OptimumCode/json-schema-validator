@@ -103,6 +103,9 @@ implementation 'io.github.optimumcode:json-schema-validator:0.0.11-SNAPSHOT'
 
 ### Example
 
+If you have just one JSON schema or many independent schemes
+you can create it using factory methods defined on `JsonSchema` class.
+
 ```kotlin
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.ValidationError
@@ -125,6 +128,44 @@ val schema = JsonSchema.fromDefinition(
   }
   """.trimIndent(),
 )
+val errors = mutableListOf<ValidationError>()
+val elementToValidate: JsonElement = loadJsonToValidate()
+
+val valid = schema.validate(elementToValidate, errors::add)
+```
+
+If you need to use more than one schema, and they have references to other schemas you should use `JsonSchemaLoader` class.
+
+```kotlin
+import io.github.optimumcode.json.schema.JsonSchemaLoader
+import io.github.optimumcode.json.schema.JsonSchema
+import io.github.optimumcode.json.schema.ValidationError
+import kotlinx.serialization.json.JsonElement
+
+val schema: JsonSchema = JsonSchemaLoader.create()
+  .register(
+    """
+    {
+      "${KEY}id": "https://test.com",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+    """.trimIndent(),
+  ).fromDefinition(
+    """
+    {
+      "properties": {
+        "anotherName": {
+          "${KEY}ref": "https://test.com#/properties/name"
+        }
+      }
+    }
+    """.trimIndent(),
+  )
+
 val errors = mutableListOf<ValidationError>()
 val elementToValidate: JsonElement = loadJsonToValidate()
 
