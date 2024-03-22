@@ -77,7 +77,9 @@ internal object Punycode {
       while (pos < lastDelimiter) {
         when (val codePoint = string[pos++]) {
           in 'a'..'z', in 'A'..'Z', in '0'..'9', '-' -> {
-            insertCodePoint(if (isEmpty()) 0 else length, codePoint.code)
+            if (!insertCodePoint(if (isEmpty()) 0 else length, codePoint.code)) {
+              return false
+            }
             codePoints += 1
           }
           else -> return false // Malformed.
@@ -125,7 +127,9 @@ internal object Punycode {
 
       if (n > MAX_CODE_POINT) return false // Not a valid code point.
 
-      insertCodePoint(originalPos + i, n)
+      if (!insertCodePoint(originalPos + i, n)) {
+        return false
+      }
       codePoints += 1
 
       i++
@@ -158,6 +162,8 @@ internal object Punycode {
    * Function insert a code point to the specified index.
    *
    * The logic was taken from JVM `StringBuilder.appendCodePoint` method
+   *
+   * @return `false` if [codePoint] is invalid
    */
   private fun StringBuilder.insertCodePoint(
     index: Int,
