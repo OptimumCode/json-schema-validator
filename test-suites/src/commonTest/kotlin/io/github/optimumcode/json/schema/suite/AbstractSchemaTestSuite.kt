@@ -47,7 +47,6 @@ internal val COMMON_FORMAT_FILTER =
     excludeSuites =
       mapOf(
         "email" to emptySet(),
-        "hostname" to emptySet(),
         "idn-email" to emptySet(),
         "idn-hostname" to emptySet(),
         "iri" to emptySet(),
