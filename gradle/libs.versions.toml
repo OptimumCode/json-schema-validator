@@ -30,7 +30,7 @@ kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.
 kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
 kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-common = { module = "io.kotest:kotest-common", version.ref = "kotest" }
-uri = { group = "com.eygraber", name = "uri-kmp", version = "0.0.17" }
+uri = { group = "com.eygraber", name = "uri-kmp", version = "0.0.18" }
 okio-common = { group = "com.squareup.okio", name = "okio", version.ref = "okio" }
 okio-nodefilesystem = { group = "com.squareup.okio", name = "okio-nodefilesystem", version.ref = "okio" }
 openapi-bom = { group = "io.openapiprocessor", name = "json-schema-validator-bom", version.ref = "openapi" }
