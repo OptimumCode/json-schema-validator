@@ -117,6 +117,37 @@ class PunycodeTest : FunSpec() {
         punycode = "xn--klmnpqrst-uvwxy-ctb",
       )
     }
+
+    test("non basic code point in prefix") {
+      Punycode.decode("xn--cåt-n3h") shouldBe null
+    }
+
+    test("non basic code point in insertion coding") {
+      Punycode.decode("xn--cat-ñ3h") shouldBe null
+    }
+
+    test("unterminated code point") {
+      Punycode.decode("xn--cat-n") shouldBe null
+    }
+
+    test("overflow I") {
+      Punycode.decode("xn--99999999") shouldBe null
+    }
+
+    test("overflow max code point") {
+      assertSoftly {
+        Punycode.decode("xn--a-b.net") shouldBe null
+        Punycode.decode("xn--a-9b.net") shouldBe null
+        Punycode.decode("xn--a-99999b.net") shouldBe null
+        Punycode.decode("xn--a-9999b.net") shouldBe "a\uD8E2\uDF5C.net"
+        Punycode.decode("xn--a-999b.net") shouldBe "a溠.net"
+        Punycode.decode("xn--a-99b.net") shouldBe "a՚.net"
+      }
+    }
+
+    test("invalid punycode") {
+      Punycode.decode("xn--ls8h=") shouldBe null
+    }
   }
 
   private fun testDecode(
