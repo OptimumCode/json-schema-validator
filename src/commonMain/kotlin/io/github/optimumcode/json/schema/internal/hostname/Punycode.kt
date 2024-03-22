@@ -53,7 +53,12 @@ internal object Punycode {
    * @return true if the range of [string] from [pos] to [limit] was valid and decoded successfully.
    *     Otherwise, the decoding failed.
    */
-  @Suppress("detekt:CyclomaticComplexMethod", "detekt:ReturnCount", "detekt:LongMethod")
+  @Suppress(
+    "detekt:CyclomaticComplexMethod",
+    "detekt:ReturnCount",
+    "detekt:LongMethod",
+    "detekt:NestedBlockDepth",
+  )
   private fun StringBuilder.decodeLabel(
     string: String,
     pos: Int,
