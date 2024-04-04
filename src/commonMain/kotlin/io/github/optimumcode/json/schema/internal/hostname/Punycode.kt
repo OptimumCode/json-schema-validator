@@ -10,8 +10,8 @@ package io.github.optimumcode.json.schema.internal.hostname
  */
 @Suppress("detekt:MagicNumber")
 internal object Punycode {
-  private const val PREFIX_STRING = "xn--"
-  private const val PREFIX_SIZE = PREFIX_STRING.length
+  const val PREFIX_STRING = "xn--"
+  const val PREFIX_SIZE = PREFIX_STRING.length
   private const val MIN_SUPPLEMENTARY_CODE_POINT = 0x010000
   private const val MAX_CODE_POINT = 0x10FFFF
 

@@ -77,6 +77,12 @@ kotlin {
       dependencies {
         api(libs.kotlin.serialization.json)
         implementation(libs.uri)
+        implementation("de.cketti.unicode:kotlin-codepoints:0.7.0") {
+          because("simplifies work with unicode codepoints")
+        }
+        implementation("com.doist.x:normalize:1.0.5") {
+          because("provides normalization required by IDN-hostname format")
+        }
       }
     }
     commonTest {

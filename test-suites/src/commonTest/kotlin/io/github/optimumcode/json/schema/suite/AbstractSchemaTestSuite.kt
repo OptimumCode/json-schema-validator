@@ -48,7 +48,6 @@ internal val COMMON_FORMAT_FILTER =
       mapOf(
         "email" to emptySet(),
         "idn-email" to emptySet(),
-        "idn-hostname" to emptySet(),
         "iri" to emptySet(),
         "iri-reference" to emptySet(),
         "regex" to emptySet(),

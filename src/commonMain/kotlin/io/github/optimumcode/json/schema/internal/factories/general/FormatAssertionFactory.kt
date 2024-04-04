@@ -17,6 +17,7 @@ import io.github.optimumcode.json.schema.internal.formats.DateFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.DateTimeFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.DurationFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.HostnameFormatValidator
+import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.IpV4FormatValidator
 import io.github.optimumcode.json.schema.internal.formats.IpV6FormatValidator
 import io.github.optimumcode.json.schema.internal.formats.JsonPointerFormatValidator
@@ -70,6 +71,7 @@ internal sealed class FormatAssertionFactory(
         "ipv6" to IpV6FormatValidator,
         "uuid" to UuidFormatValidator,
         "hostname" to HostnameFormatValidator,
+        "idn-hostname" to IdnHostnameFormatValidator,
       )
   }
 }
