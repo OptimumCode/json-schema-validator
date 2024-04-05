@@ -25,6 +25,9 @@ jobs:
   check:
     runs-on: ${{ inputs.run-on }}
     steps:
+      - name: 'Install native dependencies'
+        run: apt-get install -y libunistring-dev
+        if: runner.os != 'Windows'
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
         with:
