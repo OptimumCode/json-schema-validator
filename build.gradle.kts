@@ -180,13 +180,15 @@ kotlin {
 }
 
 afterEvaluate {
+  val taskNames = setOf("compile", "detekt", "runKtlint")
   tasks.configureEach {
     // There is something wrong with compileCommonMainKotlinMetadata task
     // Gradle cannot find it, but this task uses the generated source directory
     // and Gradle reports implicit dependency.
     // As a workaround I do this - seems like it is working.
     // However, I might be missing something. Need to revisit this later.
-    if (name.startsWith("compile") || name.startsWith("detekt")) {
+
+    if (taskNames.any { name.startsWith(it) }) {
       mustRunAfter(generateCharacterData)
     }
   }
