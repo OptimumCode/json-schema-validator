@@ -1,0 +1,6 @@
+query BidirectionalClasses {
+  unicodeObject(type: bidiclass) {
+    id
+    name
+  }
+}

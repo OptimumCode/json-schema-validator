@@ -10,6 +10,7 @@ openapi = "2024.2"
 jackson = "2.17.0"
 
 [plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-mutliplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-dokka = { id = "org.jetbrains.dokka", version = "1.9.20" }
