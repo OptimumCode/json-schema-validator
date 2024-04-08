@@ -6,16 +6,27 @@ import io.github.optimumcode.unicode.generator.internal.graphql.BidirectionalCha
 import io.github.optimumcode.unicode.generator.internal.graphql.BidirectionalClasses
 import io.github.optimumcode.unocode.generator.internal.model.BiDirectionalClass
 import io.github.optimumcode.unocode.generator.internal.model.UnicodeChar
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.HttpRequestRetry
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.net.URL
 
 internal class GraphqlClient(
   url: URL,
+  maxRetries: Int = 3,
 ) : AutoCloseable {
   private val client =
     GraphQLKtorClient(
       url = url,
+      httpClient =
+        HttpClient(CIO) {
+          install(HttpRequestRetry) {
+            retryOnServerErrors(maxRetries = maxRetries)
+            exponentialDelay()
+          }
+        },
     )
 
   suspend fun bidirectionalClasses(): List<BiDirectionalClass> {
