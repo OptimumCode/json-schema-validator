@@ -6,6 +6,7 @@ import io.github.optimumcode.json.schema.FormatValidationResult
 import io.github.optimumcode.json.schema.FormatValidator
 import io.github.optimumcode.json.schema.internal.hostname.Normalizer
 import io.github.optimumcode.json.schema.internal.hostname.Punycode
+import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality
 import kotlin.text.CharCategory.COMBINING_SPACING_MARK
 import kotlin.text.CharCategory.ENCLOSING_MARK
 import kotlin.text.CharCategory.NON_SPACING_MARK
@@ -59,7 +60,22 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       return false
     }
 
-    // TODO: check common rules and specific depending on char direction
+    val bidiRule: BidiRule =
+      when (getDirectionality(firstCodePoint)) {
+        CharacterDirectionality.LEFT_TO_RIGHT,
+        -> BidiRule.LTR
+
+        CharacterDirectionality.RIGHT_TO_LEFT,
+        CharacterDirectionality.ARABIC_LETTER,
+        -> BidiRule.RTL
+
+        CharacterDirectionality.EUROPEAN_NUMBER,
+        CharacterDirectionality.OTHER_NEUTRAL,
+        -> BidiRule.NONE
+
+        else -> return false
+      }
+
     // TODO: encode using Punycode and check length
 
     return true
@@ -98,4 +114,12 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
     }
     return value.length
   }
+
+  private fun getDirectionality(codePoint: Int): CharacterDirectionality {
+    return CharacterDirectionality.entries.first {
+      it.characterData.contains(codePoint)
+    }
+  }
+
+  private enum class BidiRule { LTR, RTL, NONE }
 }
