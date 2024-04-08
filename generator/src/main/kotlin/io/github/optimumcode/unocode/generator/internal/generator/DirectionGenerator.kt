@@ -100,6 +100,9 @@ fun generateDirectionClasses(
             addEnumConstant(
               unicodeObject.name.replace(" ", "_").uppercase(),
               TypeSpec.anonymousClassBuilder()
+                .apply {
+                  kdoc.addStatement("%L type \"%L\" in unicode", unicodeObject.name, unicodeObject.id)
+                }
                 .addSuperclassConstructorParameter("%T", ClassName(internalPackageName, className))
                 .build(),
             )
