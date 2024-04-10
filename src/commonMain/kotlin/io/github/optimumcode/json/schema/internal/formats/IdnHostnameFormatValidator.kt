@@ -24,6 +24,7 @@ import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionalit
 import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.LEFT_TO_RIGHT
 import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.OTHER_NEUTRAL
 import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.RIGHT_TO_LEFT
+import io.github.optimumcode.json.schema.internal.unicode.DerivedProperties
 import io.github.optimumcode.json.schema.internal.util.forEachCodePointIndexed
 import kotlin.math.abs
 import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.NONSPACING_MARK as NONSPACING_MARK_DIRECTIONALITY
@@ -118,6 +119,10 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       arabicDigitStatus = currentArabicDigitStatus
       //endregion
 
+      if (disallowedCodePoint(codePoint)) {
+        return false
+      }
+
       if (failsBidiRule(codePoint, bidiRule)) {
         return false
       }
@@ -140,10 +145,16 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       // TODO: add ZeroWidthNonJoiner rule
     }
 
-    // TODO: check allowed characters
     // TODO: encode using Punycode and check length
 
     return true
+  }
+
+  private fun disallowedCodePoint(codePoint: Int): Boolean {
+    return DerivedProperties.DISALLOWED.contains(codePoint) ||
+      DerivedProperties.UNASSIGNED.contains(codePoint) // || // TODO: remove some codepoint from contextj and contexto
+//      DerivedProperties.CONTEXTJ.contains(codePoint) ||
+//      DerivedProperties.CONTEXTO.contains(codePoint)
   }
 
   private fun failsBidiRule(
