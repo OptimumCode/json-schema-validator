@@ -37,6 +37,9 @@ dependencies {
 val dumpDir: Provider<Directory> = layout.buildDirectory.dir("unicode_dump")
 
 val dumpCharacterData by tasks.register<JavaExec>("dumpCharacterData") {
+  onlyIf {
+    dumpDir.get().asFile.run { !exists() || listFiles().isNullOrEmpty() }
+  }
   outputs.dir(dumpDir)
   classpath(generatorConfiguration)
   mainClass.set("io.github.optimumcode.unocode.generator.Main")
@@ -47,7 +50,7 @@ val dumpCharacterData by tasks.register<JavaExec>("dumpCharacterData") {
   )
 }
 
-val generateCharacterData by tasks.register<JavaExec>("generateCharacterData") {
+val generateCharacterDirectionData by tasks.register<JavaExec>("generateCharacterDirectionData") {
   inputs.dir(dumpDir)
   outputs.dir(generatedSourceDirectory)
 
@@ -57,6 +60,25 @@ val generateCharacterData by tasks.register<JavaExec>("generateCharacterData") {
   mainClass.set("io.github.optimumcode.unocode.generator.Main")
   args(
     "character-direction",
+    "-p",
+    "io.github.optimumcode.json.schema.internal.unicode",
+    "-o",
+    generatedSourceDirectory.get(),
+    "-d",
+    dumpDir.get(),
+  )
+}
+
+val generateCharacterCategoryData by tasks.register<JavaExec>("generateCharacterCategoryData") {
+  inputs.dir(dumpDir)
+  outputs.dir(generatedSourceDirectory)
+
+  dependsOn(dumpCharacterData)
+
+  classpath(generatorConfiguration)
+  mainClass.set("io.github.optimumcode.unocode.generator.Main")
+  args(
+    "character-category",
     "-p",
     "io.github.optimumcode.json.schema.internal.unicode",
     "-o",
@@ -147,7 +169,7 @@ kotlin {
     val capitalizedTargetName =
       name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
     tasks.named("compileKotlin$capitalizedTargetName") {
-      dependsOn(generateCharacterData)
+      dependsOn(generateCharacterDirectionData, generateCharacterCategoryData)
     }
   }
 
@@ -189,7 +211,7 @@ afterEvaluate {
     // However, I might be missing something. Need to revisit this later.
 
     if (taskNames.any { name.startsWith(it) }) {
-      mustRunAfter(generateCharacterData)
+      mustRunAfter(generateCharacterDirectionData, generateCharacterCategoryData)
     }
   }
 }

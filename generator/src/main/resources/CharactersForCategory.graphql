@@ -1,0 +1,8 @@
+query CharactersForCategory($id: String, $offset: Int = 0, $limit: Int = 100) {
+  unicodeObject(type: category, id: $id) {
+    chars(offset: $offset, limit: $limit) {
+      id
+      text
+    }
+  }
+}

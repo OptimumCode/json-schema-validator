@@ -12,7 +12,7 @@ import com.squareup.kotlinpoet.KModifier.OVERRIDE
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import io.github.optimumcode.unocode.generator.internal.model.BiDirectionalClass
+import io.github.optimumcode.unocode.generator.internal.model.Category
 import io.github.optimumcode.unocode.generator.internal.model.Range
 import java.nio.file.Path
 
@@ -24,19 +24,19 @@ private const val CONTAINS_METHOD = "contains"
 
 private const val CODEPOINT_PARAMETER = "codepoint"
 
-fun generateDirectionClasses(
+fun generateCategoryClasses(
   packageName: String,
   outputDir: Path,
-  classes: List<BiDirectionalClass>,
-  rangeProvider: (BiDirectionalClass) -> List<Range>,
+  classes: List<Category>,
+  rangeProvider: (Category) -> List<Range>,
 ) {
-  val internalPackageName = "$packageName.classes"
+  val internalPackageName = "$packageName.categories"
   val unicodeObjects =
     classes.associateBy {
       it.name.replace(" ", "")
     }
 
-  val characterData = ClassName(packageName, "CharacterDirectionData")
+  val characterData = ClassName(packageName, "CharacterCategoryData")
   FileSpec.builder(characterData)
     .addType(
       TypeSpec.interfaceBuilder(characterData)
@@ -67,7 +67,7 @@ fun generateDirectionClasses(
     .writeTo(outputDir)
 
   unicodeObjects.forEach { (directionClassName, unicodeObject) ->
-    println("Processing '${unicodeObject.name}' group")
+    println("Processing '${unicodeObject.name}' category")
     generateObjectWithCheckLogic(
       unicodeObject,
       directionClassName,
@@ -78,9 +78,9 @@ fun generateDirectionClasses(
       .writeTo(outputDir)
   }
   val characterDataProperty = "characterData"
-  FileSpec.builder(packageName, "CharacterDirectionality")
+  FileSpec.builder(packageName, "CharacterCategory")
     .addType(
-      TypeSpec.enumBuilder("CharacterDirectionality")
+      TypeSpec.enumBuilder("CharacterCategory")
         .addModifiers(INTERNAL)
         .primaryConstructor(
           FunSpec.constructorBuilder()
@@ -101,7 +101,7 @@ fun generateDirectionClasses(
               unicodeObject.name.replace(" ", "_").uppercase(),
               TypeSpec.anonymousClassBuilder()
                 .apply {
-                  kdoc.addStatement("%L type \"%L\" in unicode", unicodeObject.name, unicodeObject.id)
+                  kdoc.addStatement("%L category \"%L\" in unicode", unicodeObject.name, unicodeObject.id)
                 }
                 .addSuperclassConstructorParameter("%T", ClassName(internalPackageName, className))
                 .build(),
@@ -115,13 +115,13 @@ fun generateDirectionClasses(
 }
 
 private fun generateObjectWithCheckLogic(
-  biDirectionalClass: BiDirectionalClass,
+  category: Category,
   directionClassName: String,
   packageName: String,
   interfaceImpl: ClassName,
-  rangeProvider: (BiDirectionalClass) -> List<Range>,
+  rangeProvider: (Category) -> List<Range>,
 ): FileSpec.Builder {
-  val codepointRanges: List<Range> = rangeProvider(biDirectionalClass)
+  val codepointRanges: List<Range> = rangeProvider(category)
   val minCodepoint: Int = codepointRanges.minOf { it.start }
   val maxCodepoint: Int = codepointRanges.maxOf { it.end }
   val minCodepointProp =

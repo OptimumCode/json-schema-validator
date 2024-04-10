@@ -15,4 +15,10 @@ data class UnicodeChar(
 )
 
 @Serializable
+data class Category(
+  val id: String,
+  val name: String,
+)
+
+@Serializable
 class Range(val start: Int, val end: Int)
