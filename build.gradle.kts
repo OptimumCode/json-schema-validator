@@ -88,6 +88,24 @@ val generateCharacterCategoryData by tasks.register<JavaExec>("generateCharacter
   )
 }
 
+val generateDerivedProperties by tasks.register<JavaExec>("generateDerivedProperties") {
+  val dataFile = layout.projectDirectory.dir("generator").dir("data").file("rfc5895_appendix_b_1.txt")
+  inputs.file(dataFile)
+  outputs.dir(generatedSourceDirectory)
+
+  classpath(generatorConfiguration)
+  mainClass.set("io.github.optimumcode.unocode.generator.Main")
+  args(
+    "derived-properties",
+    "-p",
+    "io.github.optimumcode.json.schema.internal.unicode",
+    "-o",
+    generatedSourceDirectory.get(),
+    "-d",
+    dataFile,
+  )
+}
+
 kotlin {
   explicitApi()
 

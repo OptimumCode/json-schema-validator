@@ -21,4 +21,9 @@ data class Category(
 )
 
 @Serializable
-class Range(val start: Int, val end: Int)
+class Range(val start: Int, val end: Int) {
+  constructor(single: Int) : this(single, single)
+}
+
+@Serializable
+class DerivedProperty(val type: String, val range: Range)

@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.BOOLEAN
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.FunSpec.Builder
 import com.squareup.kotlinpoet.INT
 import com.squareup.kotlinpoet.KModifier.ABSTRACT
 import com.squareup.kotlinpoet.KModifier.INTERNAL
@@ -165,49 +166,10 @@ private fun generateObjectWithCheckLogic(
                 addStatement("return false")
                 endControlFlow()
               }
-              addCode("return ")
-              addStatements(codepointRanges, CODEPOINT_PARAMETER)
+              checkCodepointInRanges(codepointRanges, CODEPOINT_PARAMETER)
             }
             .build(),
         )
         .build(),
     )
 }
-
-private fun FunSpec.Builder.addStatements(
-  codepointRanges: List<Range>,
-  codepointParameterName: String,
-) {
-  when (codepointRanges.size) {
-    0 -> addStatement("false")
-    1 -> {
-      val range = codepointRanges[0]
-      if (range.start == range.end) {
-        addStatement(
-          "%L == %L",
-          codepointParameterName,
-          range.end.toHexString(),
-        )
-      } else {
-        addStatement(
-          "%L in %L..%L",
-          codepointParameterName,
-          range.start.toHexString(),
-          range.end.toHexString(),
-        )
-      }
-    }
-
-    else -> {
-      val middleIndex = codepointRanges.size / 2
-      val middle = codepointRanges[middleIndex]
-      beginControlFlow("if (%L < %L)", codepointParameterName, middle.start.toHexString())
-      addStatements(codepointRanges.subList(0, middleIndex), codepointParameterName)
-      nextControlFlow("else")
-      addStatements(codepointRanges.subList(middleIndex, codepointRanges.size), codepointParameterName)
-      endControlFlow()
-    }
-  }
-}
-
-private fun Int.toHexString(): String = "0x${toString(16)}"

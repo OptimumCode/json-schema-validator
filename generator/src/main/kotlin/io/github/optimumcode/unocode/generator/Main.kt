@@ -10,7 +10,9 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.path
 import io.github.optimumcode.unocode.generator.internal.dump.DataDamper
+import io.github.optimumcode.unocode.generator.internal.dump.DerivedPropertiesLoader
 import io.github.optimumcode.unocode.generator.internal.generator.generateCategoryClasses
+import io.github.optimumcode.unocode.generator.internal.generator.generateDerivedProperties
 import io.github.optimumcode.unocode.generator.internal.generator.generateDirectionClasses
 import io.github.optimumcode.unocode.generator.internal.graphql.GraphqlClient
 import kotlinx.coroutines.runBlocking
@@ -25,6 +27,7 @@ private class GeneratorCommand : CliktCommand() {
     subcommands(
       CharacterDirectionGenerator(),
       CharacterCategoryGenerator(),
+      DerivedPropertiesGenerator(),
       DumpCommand(),
     )
   }
@@ -55,9 +58,6 @@ private class DumpCommand : CliktCommand(
 }
 
 private abstract class AbstractGenerator(name: String) : CliktCommand(name = name) {
-  protected val dumpDirectory: Path by option("--dumpDir", "-d", help = "Output directory")
-    .path(mustExist = true, canBeFile = false, canBeDir = true)
-    .required()
   protected val outputDirectory: Path by option("--outputDir", "-o", help = "Output directory")
     .path(mustExist = true, canBeFile = false, canBeDir = true)
     .required()
@@ -67,7 +67,13 @@ private abstract class AbstractGenerator(name: String) : CliktCommand(name = nam
     .check("empty package name", String::isNotEmpty)
 }
 
-private class CharacterDirectionGenerator : AbstractGenerator(
+private abstract class AbstractDumperGenerator(name: String) : AbstractGenerator(name) {
+  protected val dumpDirectory: Path by option("--dumpDir", "-d", help = "Output directory")
+    .path(mustExist = true, canBeFile = false, canBeDir = true)
+    .required()
+}
+
+private class CharacterDirectionGenerator : AbstractDumperGenerator(
   name = "character-direction",
 ) {
   override fun run() {
@@ -78,7 +84,7 @@ private class CharacterDirectionGenerator : AbstractGenerator(
   }
 }
 
-private class CharacterCategoryGenerator : AbstractGenerator(
+private class CharacterCategoryGenerator : AbstractDumperGenerator(
   name = "character-category",
 ) {
   override fun run() {
@@ -86,5 +92,18 @@ private class CharacterCategoryGenerator : AbstractGenerator(
     generateCategoryClasses(packageName, outputDirectory, categories) {
       DataDamper.loadRanges(dumpDirectory, it)
     }
+  }
+}
+
+private class DerivedPropertiesGenerator : AbstractGenerator(
+  name = "derived-properties",
+) {
+  private val dataFile: Path by option("--data-file", "-d", help = "Input file")
+    .path(mustExist = true, canBeFile = true, canBeDir = false)
+    .required()
+
+  override fun run() {
+    val properties = DerivedPropertiesLoader.loadProperties(dataFile)
+    generateDerivedProperties(packageName, outputDirectory, properties)
   }
 }
