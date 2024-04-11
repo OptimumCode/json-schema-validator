@@ -63,8 +63,10 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
 
   @Suppress("detekt:ReturnCount")
   private fun isValidLabel(label: String): Boolean {
+    val isAce = isACE(label)
     val unicode =
-      if (isACE(label)) {
+      if (isAce) {
+        // fast check for length
         if (label.length > MAX_LABEL_LENGTH) {
           return false
         }
@@ -131,9 +133,8 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       }
     }
 
-    // TODO: encode using Punycode and check length
-
-    return true
+    return isAce ||
+      Punycode.encode(unicode)?.run { length <= MAX_LABEL_LENGTH } ?: false
   }
 
   @Suppress("detekt:ReturnCount")

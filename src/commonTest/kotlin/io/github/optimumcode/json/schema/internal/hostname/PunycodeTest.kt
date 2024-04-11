@@ -1,75 +1,77 @@
 package io.github.optimumcode.json.schema.internal.hostname
 
 import io.kotest.assertions.assertSoftly
+import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldBeEqualIgnoringCase
 
 class PunycodeTest : FunSpec() {
   init {
     test("rfc3492_Samples") {
       assertSoftly {
         // (A) Arabic (Egyptian)
-        testDecode(
+        testEncodeDecode(
           unicode = "ليهمابتكلموشعربي؟",
           punycode = "xn--egbpdaj6bu4bxfgehfvwxn",
         )
 
         // (B) Chinese (simplified)
-        testDecode(
+        testEncodeDecode(
           unicode = "他们为什么不说中文",
           punycode = "xn--ihqwcrb4cv8a8dqg056pqjye",
         )
 
         // (C) Chinese (traditional)
-        testDecode(
+        testEncodeDecode(
           unicode = "他們爲什麽不說中文",
           punycode = "xn--ihqwctvzc91f659drss3x8bo0yb",
         )
 
         // (D) Czech
-        testDecode(
+        testEncodeDecode(
           unicode = "Pročprostěnemluvíčesky",
           punycode = "xn--Proprostnemluvesky-uyb24dma41a",
         )
 
         // (E) Hebrew:
-        testDecode(
+        testEncodeDecode(
           unicode = "למההםפשוטלאמדבריםעברית",
           punycode = "xn--4dbcagdahymbxekheh6e0a7fei0b",
         )
 
         // (F) Hindi (Devanagari)
-        testDecode(
+        testEncodeDecode(
           unicode = "यहलोगहिन्दीक्योंनहींबोलसकतेहैं",
           punycode = "xn--i1baa7eci9glrd9b2ae1bj0hfcgg6iyaf8o0a1dig0cd",
         )
 
         // (G) Japanese (kanji and hiragana)
-        testDecode(
+        testEncodeDecode(
           unicode = "なぜみんな日本語を話してくれないのか",
           punycode = "xn--n8jok5ay5dzabd5bym9f0cm5685rrjetr6pdxa",
         )
 
         // (H) Korean (Hangul syllables)
-        testDecode(
+        testEncodeDecode(
           unicode = "세계의모든사람들이한국어를이해한다면얼마나좋을까",
           punycode = "xn--989aomsvi5e83db1d2a355cv1e0vak1dwrv93d5xbh15a0dt30a5jpsd879ccm6fea98c",
         )
 
         // (I) Russian (Cyrillic)
-        testDecode(
+        testEncodeDecode(
           unicode = "почемужеонинеговорятпорусски",
           punycode = "xn--b1abfaaepdrnnbgefbadotcwatmq2g4l",
         )
 
         // (J) Spanish
-        testDecode(
+        testEncodeDecode(
           unicode = "PorquénopuedensimplementehablarenEspañol",
           punycode = "xn--PorqunopuedensimplementehablarenEspaol-fmd56a",
         )
 
         // (K) Vietnamese
-        testDecode(
+        testEncodeDecode(
           unicode = "TạisaohọkhôngthểchỉnóitiếngViệt",
           punycode = "xn--TisaohkhngthchnitingVit-kjcr8268qyxafd2f1b9g",
         )
@@ -77,14 +79,14 @@ class PunycodeTest : FunSpec() {
     }
 
     test("uppercase punycode") {
-      testDecode(
+      testEncodeDecode(
         unicode = "ليهمابتكلموشعربي؟",
         punycode = "Xn--EgBpDaJ6Bu4bXfGeHfVwXn",
       )
     }
 
     test("mixed case punycode") {
-      testDecode(
+      testEncodeDecode(
         unicode = "ليهمابتكلموشعربي؟",
         punycode = "Xn--EgBpDaJ6Bu4bXfGeHfVwXn",
       )
@@ -92,19 +94,19 @@ class PunycodeTest : FunSpec() {
 
     test("multiple labels") {
       assertSoftly {
-        testDecode(
+        testEncodeDecode(
           unicode = "☃.net",
           punycode = "xn--n3h.net",
         )
-        testDecode(
+        testEncodeDecode(
           unicode = "ålgård.no",
           punycode = "xn--lgrd-poac.no",
         )
-        testDecode(
+        testEncodeDecode(
           unicode = "個人.香港",
           punycode = "xn--gmqw5a.xn--j6w193g",
         )
-        testDecode(
+        testEncodeDecode(
           unicode = "упр.срб",
           punycode = "xn--o1ach.xn--90a3ac",
         )
@@ -112,7 +114,7 @@ class PunycodeTest : FunSpec() {
     }
 
     test("dash in prefix") {
-      testDecode(
+      testEncodeDecode(
         unicode = "klmnöpqrst-uvwxy",
         punycode = "xn--klmnpqrst-uvwxy-ctb",
       )
@@ -148,12 +150,33 @@ class PunycodeTest : FunSpec() {
     test("invalid punycode") {
       Punycode.decode("xn--ls8h=") shouldBe null
     }
+
+    test("overflow encoding oversized labels") {
+      val a1000 = "a".repeat(1000)
+      val a1000MaxCodePoint = a1000 + "\udbff\udfff"
+      assertSoftly {
+        testEncodeDecode(
+          a1000MaxCodePoint,
+          "xn--$a1000-nc89312g",
+        )
+        withClue("encoding overflow") {
+          Punycode.encode(a1000MaxCodePoint.repeat(2)) shouldBe null
+        }
+      }
+    }
   }
 
-  private fun testDecode(
+  private fun testEncodeDecode(
     unicode: String,
     punycode: String,
   ) {
-    Punycode.decode(punycode) shouldBe unicode
+    assertSoftly {
+      withClue("decoding") {
+        Punycode.decode(punycode) shouldBe unicode
+      }
+      withClue("encoding") {
+        Punycode.encode(unicode) shouldBeEqualIgnoringCase punycode
+      }
+    }
   }
 }
