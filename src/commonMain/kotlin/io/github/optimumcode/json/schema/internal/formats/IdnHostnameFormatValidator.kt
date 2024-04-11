@@ -112,6 +112,18 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
         else -> return false
       }
 
+    if (!matchIdnRules(unicode, bidiRule)) {
+      return false
+    }
+
+    return isAce ||
+      Punycode.encode(unicode)?.run { length <= MAX_LABEL_LENGTH } ?: false
+  }
+
+  private fun matchIdnRules(
+    unicode: String,
+    bidiRule: BidiRule,
+  ): Boolean {
     var arabicDigitStatus: Byte = 0
     unicode.forEachCodePointIndexed { index, codePoint ->
       //region Arabic Digits
@@ -132,9 +144,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
         return false
       }
     }
-
-    return isAce ||
-      Punycode.encode(unicode)?.run { length <= MAX_LABEL_LENGTH } ?: false
+    return true
   }
 
   @Suppress("detekt:ReturnCount")
