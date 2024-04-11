@@ -38,6 +38,8 @@ private const val VIRAMA: Int = 0x94D
 private const val ZERO_WIDTH_JOINER: Int = 0x200D
 private const val ZERO_WIDTH_NON_JOINER: Int = 0x200C
 
+private const val LAST_PROHIBIT_HYPHEN_POSITION = 4
+
 internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
   override fun validate(value: String): FormatValidationResult {
     if (value.isEmpty()) {
@@ -58,6 +60,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
     return FormatValidator.Valid()
   }
 
+  @Suppress("detekt:ReturnCount")
   private fun isValidLabel(label: String): Boolean {
     val unicode =
       if (isACE(label)) {
@@ -76,7 +79,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       return false
     }
 
-    if (unicode.length >= 4 && hasTwoConsecutiveHyphens(unicode)) {
+    if (unicode.length >= LAST_PROHIBIT_HYPHEN_POSITION && hasTwoConsecutiveHyphens(unicode)) {
       // cannot have to consecutive hyphens at 3 and 4 char position
       return false
     }
@@ -119,35 +122,48 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       arabicDigitStatus = currentArabicDigitStatus
       //endregion
 
-      if (disallowedCodePoint(codePoint)) {
+      if (failsCodepointRules(codePoint, bidiRule, index, unicode)) {
         return false
       }
-
-      if (failsBidiRule(codePoint, bidiRule)) {
-        return false
-      }
-
-      if (failsGreekLowerNumeralSignRule(index, unicode, codePoint)) {
-        return false
-      }
-      if (failsHebrewPunctuationRule(index, unicode, codePoint)) {
-        return false
-      }
-      if (failsMiddleDotRule(index, unicode, codePoint)) {
-        return false
-      }
-      if (failsKatakanaMiddleDotRule(index, unicode, codePoint)) {
-        return false
-      }
-      if (failsZeroWidthJoiner(index, unicode, codePoint)) {
-        return false
-      }
-      // TODO: add ZeroWidthNonJoiner rule
     }
 
     // TODO: encode using Punycode and check length
 
     return true
+  }
+
+  @Suppress("detekt:ReturnCount")
+  private fun failsCodepointRules(
+    codePoint: Int,
+    bidiRule: BidiRule,
+    index: Int,
+    unicode: String,
+  ): Boolean {
+    if (disallowedCodePoint(codePoint)) {
+      return true
+    }
+
+    if (failsBidiRule(codePoint, bidiRule)) {
+      return true
+    }
+
+    if (failsGreekLowerNumeralSignRule(index, unicode, codePoint)) {
+      return true
+    }
+    if (failsHebrewPunctuationRule(index, unicode, codePoint)) {
+      return true
+    }
+    if (failsMiddleDotRule(index, unicode, codePoint)) {
+      return true
+    }
+    if (failsKatakanaMiddleDotRule(index, unicode, codePoint)) {
+      return true
+    }
+    if (failsZeroWidthJoiner(index, unicode, codePoint)) {
+      return true
+    }
+    // TODO: add ZeroWidthNonJoiner rule
+    return false
   }
 
   private fun disallowedCodePoint(codePoint: Int): Boolean {
@@ -226,6 +242,8 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       return true
     }
     val followingCodePoint = unicode.codePointAt(index + 1)
+
+    @Suppress("detekt:MagicNumber")
     val isGreek = followingCodePoint.let { it in 0x0370..0x0400 || it in 0x1F00..0x2000 }
     return !isGreek
   }
@@ -243,6 +261,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       return true
     }
     val preceding = unicode.codePointBefore(index)
+    @Suppress("detekt:MagicNumber")
     return preceding !in 0x0590..0x0600
   }
 
@@ -260,6 +279,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
     }
     val preceding = unicode.codePointBefore(index)
     val following = unicode.codePointAt(index + 1)
+    @Suppress("detekt:MagicNumber")
     return following != 0x006C || preceding != 0x006C
   }
 
@@ -276,6 +296,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       return true
     }
     val followingCodePoint = unicode.codePointAt(index + 1)
+    @Suppress("detekt:MagicNumber")
     return when (followingCodePoint) {
       in 0x2E80..0x2F00,
       in 0x2F00..0x2FE0,
@@ -327,7 +348,8 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
     }
 
   private fun hasTwoConsecutiveHyphens(value: String): Boolean =
-    value.codePointAt(2) == '-'.code && value.codePointAt(3) == '-'.code
+    value.codePointAt(LAST_PROHIBIT_HYPHEN_POSITION - 2) == '-'.code &&
+      value.codePointAt(LAST_PROHIBIT_HYPHEN_POSITION - 1) == '-'.code
 
   private fun isACE(label: String): Boolean =
     label.length > Punycode.PREFIX_SIZE && label.startsWith(Punycode.PREFIX_STRING)
@@ -358,8 +380,10 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
     }
   }
 
+  @Suppress("detekt:MagicNumber")
   private fun isArabicIndicDigit(code: Int): Boolean = code in 0x0660..0x0669
 
+  @Suppress("detekt:MagicNumber")
   private fun isExtendedArabicIndicDigit(code: Int): Boolean = code in 0x06F0..0x06F9
 
   private enum class BidiRule { LTR, RTL, NONE }
