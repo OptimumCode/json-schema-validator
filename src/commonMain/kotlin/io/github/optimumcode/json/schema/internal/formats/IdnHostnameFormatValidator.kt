@@ -151,10 +151,25 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
   }
 
   private fun disallowedCodePoint(codePoint: Int): Boolean {
-    return DerivedProperties.DISALLOWED.contains(codePoint) ||
-      DerivedProperties.UNASSIGNED.contains(codePoint) // || // TODO: remove some codepoint from contextj and contexto
-//      DerivedProperties.CONTEXTJ.contains(codePoint) ||
-//      DerivedProperties.CONTEXTO.contains(codePoint)
+    if (isArabicIndicDigit(codePoint) || isExtendedArabicIndicDigit(codePoint)) {
+      return false
+    }
+    return when (codePoint) {
+      ZERO_WIDTH_JOINER,
+      ZERO_WIDTH_NON_JOINER,
+      GREEK_LOWER_NUMERAL_SIGN,
+      HEBREW_GERESH,
+      HEBREW_GERSHAYIM,
+      KATAKANA_MIDDLE_DOT,
+      MIDDLE_DOT,
+      -> false
+
+      else ->
+        DerivedProperties.DISALLOWED.contains(codePoint) ||
+          DerivedProperties.UNASSIGNED.contains(codePoint) ||
+          DerivedProperties.CONTEXTJ.contains(codePoint) ||
+          DerivedProperties.CONTEXTO.contains(codePoint)
+    }
   }
 
   private fun failsBidiRule(
@@ -173,6 +188,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       BOUNDARY_NEUTRAL,
       NONSPACING_MARK_DIRECTIONALITY,
       -> false
+
       else ->
         when (bidiRule) {
           NONE -> false
