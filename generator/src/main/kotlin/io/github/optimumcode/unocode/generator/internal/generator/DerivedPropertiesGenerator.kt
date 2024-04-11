@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.INT
 import com.squareup.kotlinpoet.KModifier.ABSTRACT
+import com.squareup.kotlinpoet.KModifier.INTERNAL
 import com.squareup.kotlinpoet.KModifier.OVERRIDE
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeSpec
@@ -26,6 +27,7 @@ fun generateDerivedProperties(
   FileSpec.builder(packageName, "DerivedProperties")
     .addType(
       TypeSpec.enumBuilder("DerivedProperties")
+        .addModifiers(INTERNAL)
         .addAnnotation(AnnotationSpec.builder(Suppress::class).addMember("%S", "detekt:all").build())
         .addFunction(containsFunction().addModifiers(ABSTRACT).build())
         .apply {
