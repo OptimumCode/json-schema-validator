@@ -1,5 +1,6 @@
 package io.github.optimumcode.unocode.generator.internal.generator
 
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.INT
@@ -25,6 +26,7 @@ fun generateDerivedProperties(
   FileSpec.builder(packageName, "DerivedProperties")
     .addType(
       TypeSpec.enumBuilder("DerivedProperties")
+        .addAnnotation(AnnotationSpec.builder(Suppress::class).addMember("%S", "detekt:all").build())
         .addFunction(containsFunction().addModifiers(ABSTRACT).build())
         .apply {
           for ((type, properties) in derivedProperties) {
