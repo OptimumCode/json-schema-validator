@@ -187,7 +187,7 @@ kotlin {
     val capitalizedTargetName =
       name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
     tasks.named("compileKotlin$capitalizedTargetName") {
-      dependsOn(generateCharacterDirectionData, generateCharacterCategoryData)
+      dependsOn(generateCharacterDirectionData, generateCharacterCategoryData, generateDerivedProperties)
     }
   }
 
@@ -229,7 +229,7 @@ afterEvaluate {
     // However, I might be missing something. Need to revisit this later.
 
     if (taskNames.any { name.startsWith(it) }) {
-      mustRunAfter(generateCharacterDirectionData, generateCharacterCategoryData)
+      mustRunAfter(generateCharacterDirectionData, generateCharacterCategoryData, generateDerivedProperties)
     }
   }
 }
