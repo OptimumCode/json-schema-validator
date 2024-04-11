@@ -39,6 +39,7 @@ private const val ZERO_WIDTH_JOINER: Int = 0x200D
 private const val ZERO_WIDTH_NON_JOINER: Int = 0x200C
 
 private const val LAST_PROHIBIT_HYPHEN_POSITION = 4
+private const val MAX_LABEL_LENGTH = 63
 
 internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
   override fun validate(value: String): FormatValidationResult {
@@ -64,6 +65,9 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
   private fun isValidLabel(label: String): Boolean {
     val unicode =
       if (isACE(label)) {
+        if (label.length > MAX_LABEL_LENGTH) {
+          return false
+        }
         Punycode.decode(label) ?: return false
       } else {
         label
