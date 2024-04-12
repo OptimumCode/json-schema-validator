@@ -25,6 +25,7 @@ import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionalit
 import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.OTHER_NEUTRAL
 import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.RIGHT_TO_LEFT
 import io.github.optimumcode.json.schema.internal.unicode.DerivedProperties
+import io.github.optimumcode.json.schema.internal.unicode.JoiningType
 import io.github.optimumcode.json.schema.internal.util.forEachCodePointIndexed
 import kotlin.math.abs
 import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.NONSPACING_MARK as NONSPACING_MARK_DIRECTIONALITY
@@ -177,7 +178,9 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
     if (failsZeroWidthJoiner(index, unicode, codePoint)) {
       return true
     }
-    // TODO: add ZeroWidthNonJoiner rule
+    if (failsZeroWidthNonJoinerRule(index, unicode, codePoint)) {
+      return true
+    }
     return false
   }
 
@@ -350,6 +353,61 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
     }
     val preceding = unicode.codePointBefore(index)
     return preceding != VIRAMA
+  }
+
+  @Suppress("detekt:ReturnCount")
+  private fun failsZeroWidthNonJoinerRule(
+    index: Int,
+    unicode: String,
+    codePoint: Int,
+  ): Boolean {
+    if (codePoint != ZERO_WIDTH_NON_JOINER) {
+      return false
+    }
+    // https://datatracker.ietf.org/doc/html/rfc5892#appendix-A.1
+    // If Canonical_Combining_Class(Before(cp)) .eq.  Virama Then True;
+    //
+    // If RegExpMatch((Joining_Type:{L,D})(Joining_Type:T)*\u200C(Joining_Type:T)*(Joining_Type:{R,D})) Then True;
+    if (index == 0) {
+      // no preceding characters
+      return true
+    }
+    val preceding = unicode.codePointBefore(index)
+    if (preceding == VIRAMA) {
+      // matches first part of condition
+      return false
+    }
+    var j = index
+    while (0 < j && JoiningType.TRANSPARENT.contains(unicode.codePointBefore(j))) {
+      j -= 1
+    }
+    if (j == 0) {
+      // Must be joining type L or D before last T type
+      return true
+    }
+    val beforeFirstTransparent = unicode.codePointBefore(j)
+    if (
+      !JoiningType.LEFT_JOINING.contains(beforeFirstTransparent) &&
+      !JoiningType.DUAL_JOINING.contains(beforeFirstTransparent)
+    ) {
+      return true
+    }
+    j = index + 1
+    val len = unicode.length
+    if (j == len) {
+      // Must have joining type T after
+      return true
+    }
+    while (j < len && JoiningType.TRANSPARENT.contains(unicode.codePointAt(j))) {
+      j += 1
+    }
+    if (j == len) {
+      // Must have joining type R or D after last T type
+      return true
+    }
+    val afterLastTransparent = unicode.codePointAt(j)
+    return !JoiningType.RIGHT_JOINING.contains(afterLastTransparent) &&
+      !JoiningType.DUAL_JOINING.contains(afterLastTransparent)
   }
 
   private fun isLeadingCombiningMark(codePoint: Int): Boolean =

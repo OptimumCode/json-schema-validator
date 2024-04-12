@@ -106,6 +106,24 @@ val generateDerivedProperties by tasks.register<JavaExec>("generateDerivedProper
   )
 }
 
+val generateJoiningTypes by tasks.register<JavaExec>("generateJoiningTypes") {
+  val dataFile = layout.projectDirectory.dir("generator").dir("data").file("DerivedJoiningType.txt")
+  inputs.file(dataFile)
+  outputs.dir(generatedSourceDirectory)
+
+  classpath(generatorConfiguration)
+  mainClass.set("io.github.optimumcode.unocode.generator.Main")
+  args(
+    "joining-types",
+    "-p",
+    "io.github.optimumcode.json.schema.internal.unicode",
+    "-o",
+    generatedSourceDirectory.get(),
+    "-d",
+    dataFile,
+  )
+}
+
 kotlin {
   explicitApi()
 
@@ -187,7 +205,12 @@ kotlin {
     val capitalizedTargetName =
       name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
     tasks.named("compileKotlin$capitalizedTargetName") {
-      dependsOn(generateCharacterDirectionData, generateCharacterCategoryData, generateDerivedProperties)
+      dependsOn(
+        generateCharacterDirectionData,
+        generateCharacterCategoryData,
+        generateDerivedProperties,
+        generateJoiningTypes,
+      )
     }
   }
 
@@ -229,7 +252,12 @@ afterEvaluate {
     // However, I might be missing something. Need to revisit this later.
 
     if (taskNames.any { name.startsWith(it) }) {
-      mustRunAfter(generateCharacterDirectionData, generateCharacterCategoryData, generateDerivedProperties)
+      mustRunAfter(
+        generateCharacterDirectionData,
+        generateCharacterCategoryData,
+        generateDerivedProperties,
+        generateJoiningTypes,
+      )
     }
   }
 }
