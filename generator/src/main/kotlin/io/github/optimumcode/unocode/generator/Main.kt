@@ -11,7 +11,9 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.path
 import io.github.optimumcode.unocode.generator.internal.dump.DataDamper
 import io.github.optimumcode.unocode.generator.internal.dump.DerivedPropertiesLoader
+import io.github.optimumcode.unocode.generator.internal.dump.JoiningTypesLoader
 import io.github.optimumcode.unocode.generator.internal.generator.generateCategoryClasses
+import io.github.optimumcode.unocode.generator.internal.generator.generateDerivedJoiningTypes
 import io.github.optimumcode.unocode.generator.internal.generator.generateDerivedProperties
 import io.github.optimumcode.unocode.generator.internal.generator.generateDirectionClasses
 import io.github.optimumcode.unocode.generator.internal.graphql.GraphqlClient
@@ -28,6 +30,7 @@ private class GeneratorCommand : CliktCommand() {
       CharacterDirectionGenerator(),
       CharacterCategoryGenerator(),
       DerivedPropertiesGenerator(),
+      JoiningTypesGenerator(),
       DumpCommand(),
     )
   }
@@ -105,5 +108,18 @@ private class DerivedPropertiesGenerator : AbstractGenerator(
   override fun run() {
     val properties = DerivedPropertiesLoader.loadProperties(dataFile)
     generateDerivedProperties(packageName, outputDirectory, properties)
+  }
+}
+
+private class JoiningTypesGenerator : AbstractGenerator(
+  name = "joining-types",
+) {
+  private val dataFile: Path by option("--data-file", "-d", help = "Input file")
+    .path(mustExist = true, canBeFile = true, canBeDir = false)
+    .required()
+
+  override fun run() {
+    val properties = JoiningTypesLoader.loadTypes(dataFile)
+    generateDerivedJoiningTypes(packageName, outputDirectory, properties)
   }
 }

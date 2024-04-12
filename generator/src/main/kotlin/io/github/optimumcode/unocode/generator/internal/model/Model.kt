@@ -27,3 +27,6 @@ class Range(val start: Int, val end: Int) {
 
 @Serializable
 class DerivedProperty(val type: String, val range: Range)
+
+@Serializable
+class JoiningType(val type: String, val range: Range)
