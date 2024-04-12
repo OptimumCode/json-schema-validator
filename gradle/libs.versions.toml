@@ -8,6 +8,7 @@ serialization = "1.6.3"
 benchmark = "0.4.10"
 openapi = "2024.2"
 jackson = "2.17.0"
+graphql = "6.7.0"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -22,6 +23,8 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "12.1.0" }
 kotlin-binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.14.0" }
 nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version = "1.3.0" }
+# version 7.x requires java 17
+expediagroup-graphql = { id = "com.expediagroup.graphql", version.ref = "graphql" }
 
 [libraries]
 kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
@@ -42,6 +45,11 @@ jackson-bom = { group = "com.fasterxml.jackson", name = "jackson-bom", version.r
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind" }
 jackson-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml" }
 networknt-validator = { group = "com.networknt", name = "json-schema-validator", version = "1.4.0" }
+kotlinpoet = { group = "com.squareup", name = "kotlinpoet", version = "1.16.0" }
+graphql-ktor = { group = "com.expediagroup", name = "graphql-kotlin-ktor-client", version.ref = "graphql" }
+clikt = { group = "com.github.ajalt.clikt", name = "clikt", version = "4.3.0" }
+kotlin-codepoints = { group = "de.cketti.unicode", name = "kotlin-codepoints", version = "0.7.0" }
+normalize = { group = "com.doist.x", name = "normalize", version = "1.0.5" }
 
 [bundles]
 openapi = ["openapi-validator", "openapi-interfaces", "openapi-jackson"]

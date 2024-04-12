@@ -7,8 +7,7 @@ plugins {
   // https://github.com/gradle/gradle/issues/20084
   id(libs.plugins.kotlin.jvm.get().pluginId)
   alias(libs.plugins.kotlin.serialization)
-  // version 7.x requires java 17
-  id("com.expediagroup.graphql") version "6.7.0"
+  alias(libs.plugins.expediagroup.graphql)
 
   alias(libs.plugins.detekt)
   alias(libs.plugins.ktlint)
@@ -23,9 +22,11 @@ kotlin {
 }
 
 dependencies {
-  implementation("com.squareup:kotlinpoet:1.16.0")
-  implementation("com.expediagroup:graphql-kotlin-ktor-client:6.7.0")
-  implementation("com.github.ajalt.clikt:clikt:4.3.0")
+  implementation(libs.kotlinpoet)
+  implementation(libs.graphql.ktor)
+  implementation(libs.clikt) {
+    because("cli for executing generation")
+  }
 }
 
 graphql {

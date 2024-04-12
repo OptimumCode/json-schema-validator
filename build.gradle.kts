@@ -28,6 +28,7 @@ apiValidation {
 
 val generatedSourceDirectory: Provider<Directory> = layout.buildDirectory.dir("generated/source/unicode")
 
+//region Generation tasks block
 val generatorConfiguration: Configuration by configurations.creating
 
 dependencies {
@@ -123,6 +124,7 @@ val generateJoiningTypes by tasks.register<JavaExec>("generateJoiningTypes") {
     dataFile,
   )
 }
+//endregion
 
 kotlin {
   explicitApi()
@@ -178,10 +180,11 @@ kotlin {
       dependencies {
         api(libs.kotlin.serialization.json)
         implementation(libs.uri)
-        implementation("de.cketti.unicode:kotlin-codepoints:0.7.0") {
+        // When using approach like above you won't be able to add because block
+        implementation(libs.kotlin.codepoints.get().toString()) {
           because("simplifies work with unicode codepoints")
         }
-        implementation("com.doist.x:normalize:1.0.5") {
+        implementation(libs.normalize.get().toString()) {
           because("provides normalization required by IDN-hostname format")
         }
       }
