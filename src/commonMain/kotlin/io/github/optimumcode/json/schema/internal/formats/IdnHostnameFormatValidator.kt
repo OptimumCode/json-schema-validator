@@ -155,11 +155,18 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
   ): Boolean {
     var arabicDigitStatus: Byte = 0
     unicode.forEachCodePointIndexed { index, codePoint ->
-      //region Arabic Digits
+      //region Arabic Digits and european numbers
       val currentArabicDigitStatus: Byte =
         when {
           isArabicIndicDigit(codePoint) -> 1
-          isExtendedArabicIndicDigit(codePoint) -> -1
+          // Check mixed arabic indic digits
+          // https://datatracker.ietf.org/doc/html/rfc5892#appendix-A.9
+          // Extended Arabic-Indic digits are in EUROPEAN_NUMBER category
+          // but let's keep this check separated to show what rule it checks.
+          //
+          // Check absents of opposite directionality
+          // Point 4 https://datatracker.ietf.org/doc/html/rfc5893#section-2
+          isExtendedArabicIndicDigit(codePoint) || EUROPEAN_NUMBER.characterData.contains(codePoint) -> -1
           else -> 0
         }
       if (abs(currentArabicDigitStatus - arabicDigitStatus) > 1) {
@@ -187,7 +194,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       return true
     }
 
-    if (failsBidiRule(bidiLabelType, codePoint, unicode, index)) {
+    if (failsBidiRule(bidiLabelType, codePoint)) {
       return true
     }
 
@@ -237,31 +244,11 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
   private fun failsBidiRule(
     bidiLabelType: BidiLabelType,
     codePoint: Int,
-    unicode: String,
-    index: Int,
   ): Boolean {
     if (bidiLabelType == NONE) {
       return false
     }
-    val directionality = getDirectionality(codePoint)
-
-    if (bidiLabelType == RTL) {
-      if (directionality == ARABIC_NUMBER || directionality == EUROPEAN_NUMBER) {
-        // check absents of opposite directionality
-        // Point 4 https://datatracker.ietf.org/doc/html/rfc5893#section-2
-        unicode.forEachCodePointIndexed(index) { _, otherCodePoint ->
-          val otherDirectionality = getDirectionality(otherCodePoint)
-          if (
-            otherDirectionality == ARABIC_NUMBER && directionality == EUROPEAN_NUMBER ||
-            otherDirectionality == EUROPEAN_NUMBER && directionality == ARABIC_NUMBER
-          ) {
-            return true
-          }
-        }
-      }
-    }
-
-    return when (directionality) {
+    return when (val directionality = getDirectionality(codePoint)) {
       EUROPEAN_NUMBER,
       EUROPEAN_SEPARATOR,
       COMMON_SEPARATOR,
@@ -303,7 +290,8 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
     if (bidiLabelType == NONE) {
       return false
     }
-    var index = unicode.length - 1
+    var index = unicode.length
+    // Zero or more characters with Bidi property NSM are allowed in the end
     while (index > 0 && getDirectionality(unicode.codePointBefore(index)) == NONSPACING_MARK_DIRECTIONALITY) {
       index--
     }

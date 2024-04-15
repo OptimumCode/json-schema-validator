@@ -22,6 +22,10 @@ class JsonSchemaIdnHostnameFormatValidationTest : FunSpec() {
           "\u0628\u0669",
           // valid with extended arabic indic digit
           "\u0628\u06F9",
+          // Valid RTL label
+          "\u06281\u0300",
+          // Valid LTR label
+          "\u0628.a1\u0300",
         ),
       invalidTestCases =
         listOf(
@@ -31,8 +35,12 @@ class JsonSchemaIdnHostnameFormatValidationTest : FunSpec() {
           // Not normalized \u4E3D. Example from https://unicode.org/Public/UNIDATA/NormalizationTest.txt
           TestCase(CodePoints.toChars(0x2F800).joinToString(separator = ""), "not normalized"),
           TestCase("\u0628\u0669\u06F9", "mixed arabic indic digits and extended arabic indict digits"),
-          TestCase("\u0628\u0061", "fails BiDi rule RTL"),
-          TestCase("\u0061\u0628", "fails BiDi rule LTR"),
+          TestCase("\u0628\u0061", "invalid characters for RTL label"),
+          TestCase("\u0628.\u06F9", "invalid first character for bidi domain names"),
+          TestCase("\u0061\u0628", "invalid characters for LTR label"),
+          TestCase("\u0628\u002D\u0300", "invalid ending for RTL label"),
+          TestCase("\u0628.a\u002D\u0300", "invalid ending for LTR label"),
+          TestCase("\u0628\u06695", "mixed arabic numbers and european numbers"),
           TestCase("a\u200C", "zero with non joiner rule does not match"),
         ),
     )
