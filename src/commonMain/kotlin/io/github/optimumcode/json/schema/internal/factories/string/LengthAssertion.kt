@@ -5,7 +5,7 @@ import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
-import io.github.optimumcode.json.schema.internal.factories.string.util.codePointCount
+import io.github.optimumcode.json.schema.internal.util.codePointCount
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull

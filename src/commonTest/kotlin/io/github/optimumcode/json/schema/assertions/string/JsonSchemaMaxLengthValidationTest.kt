@@ -4,7 +4,7 @@ import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.base.KEY
-import io.github.optimumcode.json.schema.internal.factories.string.util.codePointCount
+import io.github.optimumcode.json.schema.internal.util.codePointCount
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize

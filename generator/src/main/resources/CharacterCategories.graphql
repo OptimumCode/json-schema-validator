@@ -1,0 +1,6 @@
+query CharacterCategories {
+  unicodeObject(type: category) {
+    id
+    name
+  }
+}
