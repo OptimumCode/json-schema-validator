@@ -204,16 +204,27 @@ kotlin {
     }
   }
 
+  fun Task.addGeneratedTasks() {
+    dependsOn(
+      generateCharacterDirectionData,
+      generateCharacterCategoryData,
+      generateDerivedProperties,
+      generateJoiningTypes,
+    )
+  }
+
   targets.configureEach {
     val capitalizedTargetName =
       name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
     tasks.named("compileKotlin$capitalizedTargetName") {
-      dependsOn(
-        generateCharacterDirectionData,
-        generateCharacterCategoryData,
-        generateDerivedProperties,
-        generateJoiningTypes,
-      )
+      addGeneratedTasks()
+    }
+  }
+  afterEvaluate {
+    targets.configureEach {
+      tasks.named("${name}SourcesJar") {
+        addGeneratedTasks()
+      }
     }
   }
 
