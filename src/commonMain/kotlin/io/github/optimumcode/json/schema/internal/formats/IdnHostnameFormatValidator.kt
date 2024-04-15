@@ -87,7 +87,8 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
   }
 
   /**
-   * NOTE: many thanks to authors of [com.networknt:json-schema-validator](https://github.com/networknt/json-schema-validator) library.
+   * NOTE: many thanks to authors of
+   * [com.networknt:json-schema-validator](https://github.com/networknt/json-schema-validator) library.
    * I used his [com.networknt.schema.utils.RFC5892] class as a reference when implementing these checks
    */
   @Suppress("detekt:ReturnCount")
