@@ -22,10 +22,13 @@ internal fun CharSequence.codePointCount(): Int {
   return count
 }
 
-internal inline fun CharSequence.forEachCodePointIndexed(block: (index: Int, codePoint: Int) -> Unit) {
+internal inline fun CharSequence.forEachCodePointIndexed(
+  startFrom: Int = 0,
+  block: (index: Int, codePoint: Int) -> Unit,
+) {
   val str = this
   val endIndex = length
-  var index = 0
+  var index = startFrom
   while (index < endIndex) {
     val startIndex = index
     val firstChar = str[index]

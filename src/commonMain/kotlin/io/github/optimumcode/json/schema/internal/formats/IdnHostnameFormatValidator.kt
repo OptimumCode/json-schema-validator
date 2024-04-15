@@ -4,9 +4,9 @@ import de.cketti.codepoints.codePointAt
 import de.cketti.codepoints.codePointBefore
 import io.github.optimumcode.json.schema.FormatValidationResult
 import io.github.optimumcode.json.schema.FormatValidator
-import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValidator.BidiRule.LTR
-import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValidator.BidiRule.NONE
-import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValidator.BidiRule.RTL
+import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValidator.BidiLabelType.LTR
+import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValidator.BidiLabelType.NONE
+import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValidator.BidiLabelType.RTL
 import io.github.optimumcode.json.schema.internal.hostname.Normalizer
 import io.github.optimumcode.json.schema.internal.hostname.Punycode
 import io.github.optimumcode.json.schema.internal.unicode.CharacterCategory
@@ -50,20 +50,47 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
     if (value.length == 1 && isLabelSeparator(value[0])) {
       return FormatValidator.Valid()
     }
-    var pointer = 0
-    while (pointer < value.length) {
-      val dot = findDot(value, pointer)
-      val label = value.substring(pointer, dot)
-      if (!isValidLabel(label)) {
+
+    // https://datatracker.ietf.org/doc/html/rfc5893#section-1.4
+    // Bidi rule is applied only to bidi domain names
+    var isBidiDomainName = false
+    value.forEachLabel {
+      it.forEachCodePointIndexed { _, codePoint ->
+        isBidiDomainName = isBidiDomainName ||
+          when (getDirectionality(codePoint)) {
+            RIGHT_TO_LEFT,
+            ARABIC_LETTER,
+            ARABIC_NUMBER,
+            -> true
+
+            else -> false
+          }
+      }
+    }
+
+    value.forEachLabel {
+      if (!isValidLabel(it, isBidiDomainName)) {
         return FormatValidator.Invalid()
       }
-      pointer = dot + 1
     }
     return FormatValidator.Valid()
   }
 
+  private inline fun String.forEachLabel(action: (String) -> Unit) {
+    var pointer = 0
+    while (pointer < length) {
+      val dot = findDot(this, pointer)
+      val label = substring(pointer, dot)
+      action(label)
+      pointer = dot + 1
+    }
+  }
+
   @Suppress("detekt:ReturnCount")
-  private fun isValidLabel(label: String): Boolean {
+  private fun isValidLabel(
+    label: String,
+    isBidiDomainName: Boolean,
+  ): Boolean {
     val isAce = isACE(label)
     val unicode =
       if (isAce) {
@@ -97,23 +124,24 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       return false
     }
 
-    val bidiRule: BidiRule =
-      when (getDirectionality(firstCodePoint)) {
-        LEFT_TO_RIGHT,
-        -> LTR
+    val bidiLabelType: BidiLabelType =
+      if (isBidiDomainName) {
+        when (getDirectionality(firstCodePoint)) {
+          LEFT_TO_RIGHT,
+          -> LTR
 
-        RIGHT_TO_LEFT,
-        ARABIC_LETTER,
-        -> RTL
+          RIGHT_TO_LEFT,
+          ARABIC_LETTER,
+          -> RTL
 
-        EUROPEAN_NUMBER,
-        OTHER_NEUTRAL,
-        -> NONE
-
-        else -> return false
+          // Point 1 https://datatracker.ietf.org/doc/html/rfc5893#section-2
+          else -> return false
+        }
+      } else {
+        NONE
       }
 
-    if (!matchIdnRules(unicode, bidiRule)) {
+    if (!matchIdnRules(unicode, bidiLabelType)) {
       return false
     }
 
@@ -123,7 +151,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
 
   private fun matchIdnRules(
     unicode: String,
-    bidiRule: BidiRule,
+    bidiLabelType: BidiLabelType,
   ): Boolean {
     var arabicDigitStatus: Byte = 0
     unicode.forEachCodePointIndexed { index, codePoint ->
@@ -141,17 +169,17 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       arabicDigitStatus = currentArabicDigitStatus
       //endregion
 
-      if (failsCodepointRules(codePoint, bidiRule, index, unicode)) {
+      if (failsCodepointRules(codePoint, bidiLabelType, index, unicode)) {
         return false
       }
     }
-    return true
+    return !failsBidiRuleEnding(bidiLabelType, unicode)
   }
 
   @Suppress("detekt:ReturnCount")
   private fun failsCodepointRules(
     codePoint: Int,
-    bidiRule: BidiRule,
+    bidiLabelType: BidiLabelType,
     index: Int,
     unicode: String,
   ): Boolean {
@@ -159,7 +187,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       return true
     }
 
-    if (failsBidiRule(codePoint, bidiRule)) {
+    if (failsBidiRule(bidiLabelType, codePoint, unicode, index)) {
       return true
     }
 
@@ -207,13 +235,33 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
   }
 
   private fun failsBidiRule(
+    bidiLabelType: BidiLabelType,
     codePoint: Int,
-    bidiRule: BidiRule,
+    unicode: String,
+    index: Int,
   ): Boolean {
-    if (bidiRule == NONE) {
+    if (bidiLabelType == NONE) {
       return false
     }
-    return when (val directionality = getDirectionality(codePoint)) {
+    val directionality = getDirectionality(codePoint)
+
+    if (bidiLabelType == RTL) {
+      if (directionality == ARABIC_NUMBER || directionality == EUROPEAN_NUMBER) {
+        // check absents of opposite directionality
+        // Point 4 https://datatracker.ietf.org/doc/html/rfc5893#section-2
+        unicode.forEachCodePointIndexed(index) { _, otherCodePoint ->
+          val otherDirectionality = getDirectionality(otherCodePoint)
+          if (
+            otherDirectionality == ARABIC_NUMBER && directionality == EUROPEAN_NUMBER ||
+            otherDirectionality == EUROPEAN_NUMBER && directionality == ARABIC_NUMBER
+          ) {
+            return true
+          }
+        }
+      }
+    }
+
+    return when (directionality) {
       EUROPEAN_NUMBER,
       EUROPEAN_SEPARATOR,
       COMMON_SEPARATOR,
@@ -224,7 +272,8 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       -> false
 
       else ->
-        when (bidiRule) {
+        when (bidiLabelType) {
+          // Not possible but we need to keep when exhaustive
           NONE -> false
           LTR ->
             when (directionality) {
@@ -243,6 +292,42 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
 
               else -> true
             }
+        }
+    }
+  }
+
+  private fun failsBidiRuleEnding(
+    bidiLabelType: BidiLabelType,
+    unicode: String,
+  ): Boolean {
+    if (bidiLabelType == NONE) {
+      return false
+    }
+    var index = unicode.length - 1
+    while (index > 0 && getDirectionality(unicode.codePointBefore(index)) == NONSPACING_MARK_DIRECTIONALITY) {
+      index--
+    }
+    val lastCodepointDirectionality = getDirectionality(unicode.codePointBefore(index))
+    return when (bidiLabelType) {
+      NONE -> false
+      RTL ->
+        when (lastCodepointDirectionality) {
+          RIGHT_TO_LEFT,
+          ARABIC_LETTER,
+          ARABIC_NUMBER,
+          EUROPEAN_NUMBER,
+          -> false
+
+          else -> true
+        }
+
+      LTR ->
+        when (lastCodepointDirectionality) {
+          LEFT_TO_RIGHT,
+          EUROPEAN_NUMBER,
+          -> false
+
+          else -> true
         }
     }
   }
@@ -459,5 +544,5 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
   @Suppress("detekt:MagicNumber")
   private fun isExtendedArabicIndicDigit(code: Int): Boolean = code in 0x06F0..0x06F9
 
-  private enum class BidiRule { LTR, RTL, NONE }
+  private enum class BidiLabelType { LTR, RTL, NONE }
 }
