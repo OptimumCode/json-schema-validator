@@ -16,7 +16,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: 'Install native dependencies'
-        run: brew install libunistring-dev
+        run: brew install libunistring && brew link --force libunistring
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
         with:
