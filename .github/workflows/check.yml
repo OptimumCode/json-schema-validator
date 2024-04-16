@@ -40,7 +40,7 @@ jobs:
         with:
           python-version-file: .python-version
       - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v2
+        uses: gradle/actions/wrapper-validation@v3
       - name: Cache konan
         uses: actions/cache@v4
         with:
