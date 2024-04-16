@@ -226,6 +226,9 @@ kotlin {
         addGeneratedTasks()
       }
     }
+    tasks.named("sourcesJar") {
+      addGeneratedTasks()
+    }
   }
 
   afterEvaluate {
