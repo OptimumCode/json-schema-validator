@@ -41,7 +41,7 @@ jobs:
         with:
           gradle-version: wrapper
       - name: Build
-        run: ./gradlew --no-daemon --continue detektAll ktlintCheck apiCheck
+        run: ./gradlew --no-daemon --continue detekt detektAll ktlintCheck apiCheck
   check-linux:
     uses: ./.github/workflows/check.yml
     with:
