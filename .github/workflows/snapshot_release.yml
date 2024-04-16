@@ -59,7 +59,7 @@ jobs:
           ./gradlew
           --no-daemon
           --info
-          assemble
+          :assemble
           publish
           -x :benchmark:benchmark
         env:
