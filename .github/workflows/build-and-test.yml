@@ -1,0 +1,64 @@
+name: Build and test on different host systems
+
+on:
+  workflow_call:
+    inputs:
+      upload-code-coverage:
+        type: boolean
+        description: "enabled uploading coverage report to codecov"
+        required: false
+        default: false
+    secrets:
+      CODECOV_TOKEN:
+        description: "token to upload codecov report"
+        required: false
+jobs:
+  check-style:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout Repository'
+      uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version-file: .java-version
+    - name: Validate Gradle Wrapper
+      uses: gradle/actions/wrapper-validation@v3
+    - name: Cache konan
+      uses: actions/cache@v4
+      with:
+        path: ~/.konan
+        key: ${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts') }}
+        restore-keys: |
+            ${{ runner.os }}-gradle-
+    - name: Cache unicode data
+      uses: actions/cache@v4
+      with:
+        path: build/unicode_dump
+        key: unicode-dump-${{ hashFiles('build/unicode_dump/*') }}
+        restore-keys: |
+            unicode-dump-
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-version: wrapper
+    - name: Build
+      run: ./gradlew --no-daemon --continue detekt detektAll ktlintCheck apiCheck
+  check-linux:
+    uses: ./.github/workflows/check.yml
+    with:
+      run-on: ubuntu-latest
+      task: linuxAllTest
+      upload-code-coverage: ${{ inputs.upload-code-coverage }}
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  check-macos:
+    uses: ./.github/workflows/check.yml
+    with:
+      run-on: macos-latest
+      task: macOsAllTest
+  check-windows:
+    uses: ./.github/workflows/check.yml
+    with:
+      run-on: windows-latest
+      task: windowsAllTest
