@@ -131,6 +131,7 @@ internal object DataDamper {
     var lastStartCodePoint: Int = -1
     var lastEndCodePoint: Int = -1
     collect { unicode ->
+      @Suppress("detekt:MagicNumber")
       val codepoint = unicode.id.removePrefix("U+").toInt(16)
       if (lastStartCodePoint < 0) {
         lastStartCodePoint = codepoint

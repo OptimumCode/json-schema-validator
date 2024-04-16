@@ -78,6 +78,16 @@ fun generateDirectionClasses(
     ).build()
       .writeTo(outputDir)
   }
+  generateEnum(packageName, characterData, unicodeObjects, internalPackageName, outputDir)
+}
+
+private fun generateEnum(
+  packageName: String,
+  characterData: ClassName,
+  unicodeObjects: Map<String, BiDirectionalClass>,
+  internalPackageName: String,
+  outputDir: Path,
+) {
   val characterDataProperty = "characterData"
   FileSpec.builder(packageName, "CharacterDirectionality")
     .addType(

@@ -47,4 +47,5 @@ internal fun FunSpec.Builder.addStatements(
   }
 }
 
+@Suppress("detekt:MagicNumber")
 internal fun Int.toHexString(): String = "0x${toString(16)}"

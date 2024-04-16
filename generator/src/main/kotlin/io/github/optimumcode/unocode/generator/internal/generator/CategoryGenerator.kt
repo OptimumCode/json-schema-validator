@@ -77,6 +77,16 @@ fun generateCategoryClasses(
     ).build()
       .writeTo(outputDir)
   }
+  generateEnum(packageName, characterData, unicodeObjects, internalPackageName, outputDir)
+}
+
+private fun generateEnum(
+  packageName: String,
+  characterData: ClassName,
+  unicodeObjects: Map<String, Category>,
+  internalPackageName: String,
+  outputDir: Path,
+) {
   val characterDataProperty = "characterData"
   FileSpec.builder(packageName, "CharacterCategory")
     .addType(
