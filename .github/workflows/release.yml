@@ -24,9 +24,12 @@ jobs:
           version-source: file
           version-file: ${{ env.VERSION_FILE }}
           version-file-extraction-pattern: ${{ env.VERSION_PATTERN }}
+  build-and-test:
+    uses: ./.github/workflows/build-and-test.yml
   publish_artifacts:
     needs:
       - version
+      - build-and-test
     runs-on: macos-latest
     steps:
       - name: 'Checkout Repository'
@@ -61,7 +64,7 @@ jobs:
         with:
           gradle-version: wrapper
       - name: Build and publish release
-        run: ./gradlew --no-daemon --info build publish closeAndReleaseStagingRepository -Pversion=${{ needs.version.outputs.RELEASE_VERSION }} -x :benchmark:benchmark
+        run: ./gradlew --no-daemon --info :assemble publish closeAndReleaseStagingRepository -Pversion=${{ needs.version.outputs.RELEASE_VERSION }} -x :benchmark:benchmark
         env:
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}

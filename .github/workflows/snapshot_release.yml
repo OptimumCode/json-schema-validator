@@ -12,7 +12,15 @@ on:
       - '.github/workflows/benchmark.yml'
 
 jobs:
+  build-and-test:
+    uses: ./.github/workflows/build-and-test.yml
+    with:
+      upload-code-coverage: true
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   publish:
+    needs:
+      - build-and-test
     runs-on: macos-latest
     steps:
       - name: 'Checkout Repository'
@@ -51,17 +59,12 @@ jobs:
           ./gradlew
           --no-daemon
           --info
-          build publish koverXmlReport
+          :assemble
+          publish
           -x :benchmark:benchmark
-          -x :linkDebugTestLinuxX64
-          -x :test-suites:linkDebugTestLinuxX64
         env:
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
           SIGNING_SECRET_KEY: ${{ secrets.SIGNING_SECRET_KEY }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
