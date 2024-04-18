@@ -8,7 +8,7 @@ serialization = "1.6.3"
 benchmark = "0.4.10"
 openapi = "2024.2"
 jackson = "2.17.0"
-graphql = "6.7.0"
+graphql = "6.8.0"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
