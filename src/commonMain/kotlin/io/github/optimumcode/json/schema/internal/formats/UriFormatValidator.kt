@@ -99,18 +99,18 @@ internal object UriFormatValidator : AbstractStringFormatValidator() {
     return isValidSegments(absolutePath)
   }
 
-  private fun isValidSegments(rootlessPath: String): Boolean {
+  private fun isValidSegments(segments: String): Boolean {
     var lastSep = -1
-    for ((index, value) in rootlessPath.withIndex()) {
+    for ((index, value) in segments.withIndex()) {
       if (value == '/') {
-        if (!hasOnlyPChars(rootlessPath.substring(lastSep + 1, index))) {
+        if (!hasOnlyPChars(segments.substring(lastSep + 1, index))) {
           return false
         }
         lastSep = index
       }
     }
 
-    return true
+    return hasOnlyPChars(segments.substring(lastSep + 1))
   }
 
   @Suppress("detekt:ReturnCount")
@@ -226,50 +226,15 @@ internal object UriFormatValidator : AbstractStringFormatValidator() {
     return true
   }
 
-  private fun isRegName(host: String): Boolean {
-    var i = 0
-    var valid = true
-    while (i < host.length) {
-      val char = host[i]
-      if (char != '%' && !isSubDelimiter(char) && !isUnreserved(char)) {
-        valid = false
-        break
-      }
-      if (char == '%') {
-        if (!isPctEncoded(i, host)) {
-          valid = false
-          break
-        }
-        i += 2
-      }
-      i += 1
+  private fun isRegName(host: String): Boolean =
+    hasValidCharsOrPctEncoded(host) {
+      isSubDelimiter(it) || isUnreserved(it)
     }
 
-    return valid
-  }
-
-  private fun isValidUserInfo(userInfo: String): Boolean {
-    var i = 0
-    var valid = true
-    while (i < userInfo.length) {
-      val char = userInfo[i]
-      @Suppress("detekt:ComplexCondition")
-      if (char != ':' && char != '%' && !isSubDelimiter(char) && !isUnreserved(char)) {
-        valid = false
-        break
-      }
-      if (char == '%') {
-        if (!isPctEncoded(i, userInfo)) {
-          valid = false
-          break
-        }
-        i += 2
-      }
-      i += 1
+  private fun isValidUserInfo(userInfo: String): Boolean =
+    hasValidCharsOrPctEncoded(userInfo) {
+      it == ':' || isSubDelimiter(it) || isUnreserved(it)
     }
-
-    return valid
-  }
 
   private fun isValidSchema(schema: String): Boolean {
     if (schema.isEmpty()) {
@@ -297,34 +262,22 @@ internal object UriFormatValidator : AbstractStringFormatValidator() {
       return true
     }
 
-    var i = 0
-    var valid = true
-    while (i < part.length) {
-      val char = part[i]
-      @Suppress("detekt:ComplexCondition")
-      if (char != '/' && char != '?' && char != '%' && !isPChar(char)) {
-        valid = false
-        break
-      }
-      if (char == '%') {
-        if (!isPctEncoded(i, part)) {
-          valid = false
-          break
-        }
-        i += 2
-      }
-      i += 1
+    return hasValidCharsOrPctEncoded(part) {
+      it == '/' || it == '?' || isPChar(it)
     }
-
-    return valid
   }
 
-  private fun hasOnlyPChars(part: String): Boolean {
+  private fun hasOnlyPChars(part: String): Boolean = hasValidCharsOrPctEncoded(part, ::isPChar)
+
+  private inline fun hasValidCharsOrPctEncoded(
+    part: String,
+    isValidChar: (Char) -> Boolean,
+  ): Boolean {
     var i = 0
     var valid = true
     while (i < part.length) {
       val char = part[i]
-      if (char != '%' && !isPChar(char)) {
+      if (char != '%' && !isValidChar(char)) {
         valid = false
         break
       }
