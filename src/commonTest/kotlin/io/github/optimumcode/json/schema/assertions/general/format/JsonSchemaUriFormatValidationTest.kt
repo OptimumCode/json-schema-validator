@@ -19,6 +19,7 @@ class JsonSchemaUriFormatValidationTest : FunSpec() {
           "https://localhost?",
           "https://localhost#",
           "h://localhost",
+          "https://locahost#frag?ment",
         ),
       invalidTestCases =
         listOf(
@@ -27,7 +28,6 @@ class JsonSchemaUriFormatValidationTest : FunSpec() {
           TestCase("2http://localhost", "invalid schema"),
           TestCase("https://example.com:44a/", "invalid port"),
           TestCase("https:", "only schema"),
-          TestCase("https://example.com#fragment?query=2", "query delimiter after fragment delimiter"),
           TestCase("https://example.com?invalid=[", "invalid query"),
           TestCase("https://example.com#invalid[Fragment", "invalid fragment"),
           TestCase("https://te[st@localhost", "invalid username"),

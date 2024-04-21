@@ -52,7 +52,6 @@ internal val COMMON_FORMAT_FILTER =
         "iri" to emptySet(),
         "iri-reference" to emptySet(),
         "regex" to emptySet(),
-        "uri-reference" to emptySet(),
         "uri-template" to emptySet(),
       ),
   )

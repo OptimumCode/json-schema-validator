@@ -24,6 +24,7 @@ import io.github.optimumcode.json.schema.internal.formats.JsonPointerFormatValid
 import io.github.optimumcode.json.schema.internal.formats.RelativeJsonPointerFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.TimeFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.UriFormatValidator
+import io.github.optimumcode.json.schema.internal.formats.UriReferenceFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.UuidFormatValidator
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
@@ -74,6 +75,7 @@ internal sealed class FormatAssertionFactory(
         "hostname" to HostnameFormatValidator,
         "idn-hostname" to IdnHostnameFormatValidator,
         "uri" to UriFormatValidator,
+        "uri-reference" to UriReferenceFormatValidator,
       )
   }
 }

@@ -4,23 +4,12 @@ import io.github.optimumcode.json.schema.FormatValidationResult
 import io.github.optimumcode.json.schema.FormatValidator
 import io.github.optimumcode.json.schema.internal.formats.UriSpec.FRAGMENT_DELIMITER
 import io.github.optimumcode.json.schema.internal.formats.UriSpec.QUERY_DELIMITER
-import io.github.optimumcode.json.schema.internal.formats.UriSpec.SCHEMA_DELIMITER
 
-internal object UriFormatValidator : AbstractStringFormatValidator() {
+internal object UriReferenceFormatValidator : AbstractStringFormatValidator() {
   @Suppress("detekt:ReturnCount")
   override fun validate(value: String): FormatValidationResult {
-    if (value.isEmpty()) {
-      return FormatValidator.Invalid()
-    }
-
-    val schemaEndIndex = value.indexOf(SCHEMA_DELIMITER)
-    if (schemaEndIndex < 0 || schemaEndIndex == value.lastIndex) {
-      return FormatValidator.Invalid()
-    }
-
-    val schema = value.substring(0, schemaEndIndex)
-    if (!UriSpec.isValidSchema(schema)) {
-      return FormatValidator.Invalid()
+    if (UriFormatValidator.validate(value).isValid()) {
+      return FormatValidator.Valid()
     }
 
     val fragmentDelimiterIndex = value.indexOf(FRAGMENT_DELIMITER)
@@ -28,20 +17,19 @@ internal object UriFormatValidator : AbstractStringFormatValidator() {
       value.indexOf(QUERY_DELIMITER)
         .takeUnless { fragmentDelimiterIndex in 0..<it }
         ?: -1
-    val hierPart =
+    val relativePart =
       when {
-        queryDelimiterIndex > 0 ->
-          value.substring(schemaEndIndex + 1, queryDelimiterIndex)
-        fragmentDelimiterIndex > 0 ->
-          value.substring(schemaEndIndex + 1, fragmentDelimiterIndex)
-        else ->
-          value.substring(schemaEndIndex + 1)
+        queryDelimiterIndex >= 0 ->
+          value.substring(0, queryDelimiterIndex)
+        fragmentDelimiterIndex >= 0 ->
+          value.substring(0, fragmentDelimiterIndex)
+        else -> value
       }
-    if (!UriSpec.isValidHierPart(hierPart)) {
+    if (!UriSpec.isValidRelativePart(relativePart)) {
       return FormatValidator.Invalid()
     }
 
-    if (queryDelimiterIndex > 0 && queryDelimiterIndex < value.lastIndex) {
+    if (queryDelimiterIndex >= 0 && queryDelimiterIndex < value.lastIndex) {
       val query =
         if (fragmentDelimiterIndex > 0) {
           value.substring(queryDelimiterIndex + 1, fragmentDelimiterIndex)
@@ -53,7 +41,7 @@ internal object UriFormatValidator : AbstractStringFormatValidator() {
       }
     }
 
-    if (fragmentDelimiterIndex > 0 && fragmentDelimiterIndex < value.lastIndex) {
+    if (fragmentDelimiterIndex >= 0 && fragmentDelimiterIndex < value.lastIndex) {
       val fragment = value.substring(fragmentDelimiterIndex + 1)
       if (!UriSpec.isValidFragment(fragment)) {
         return FormatValidator.Invalid()
