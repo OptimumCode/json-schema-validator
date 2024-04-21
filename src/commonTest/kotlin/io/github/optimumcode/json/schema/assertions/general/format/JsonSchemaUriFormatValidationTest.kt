@@ -20,6 +20,7 @@ class JsonSchemaUriFormatValidationTest : FunSpec() {
       invalidTestCases =
         listOf(
           TestCase("", "empty"),
+          TestCase("https:///", "empty hostname"),
           TestCase("2http://localhost", "invalid schema"),
           TestCase("https://example.com:44a/", "invalid port"),
           TestCase("https:", "only schema"),
@@ -29,7 +30,8 @@ class JsonSchemaUriFormatValidationTest : FunSpec() {
           TestCase("https://te[st@localhost", "invalid username"),
           TestCase("https://%2G@localhost", "invalid pct encoded in userinfo"),
           TestCase("https://%2locahost", "invalid pct encoded in host"),
-          TestCase("https://locahost/test%2", "invalid pct encoded in segment"),
+          TestCase("https://locahost/test%2", "invalid pct encoded in last segment"),
+          TestCase("https://locahost/test%2/t", "invalid pct encoded in segment"),
           TestCase("https://[v6.fe80::a_(en1)", "invalid ip feature hostname"),
           TestCase("https://[6.fe80::a_(en1)]", "invalid start for ip feature hostname"),
           TestCase("https://[v6fe80::a_(en1)]", "no dot for ip feature hostname"),
