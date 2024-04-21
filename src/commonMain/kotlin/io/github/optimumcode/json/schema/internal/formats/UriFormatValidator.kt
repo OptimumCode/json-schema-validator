@@ -203,7 +203,7 @@ internal object UriFormatValidator : AbstractStringFormatValidator() {
       return false
     }
     val dotIndex = ipVFuture.indexOf('.')
-    if (dotIndex < 0 || dotIndex == ipVFuture.lastIndex) {
+    if (dotIndex < 0) {
       return false
     }
     val firstPart = ipVFuture.substring(1, dotIndex)
@@ -298,7 +298,7 @@ internal object UriFormatValidator : AbstractStringFormatValidator() {
     index: Int,
     str: String,
   ): Boolean {
-    if (str.isEmpty() || index + 2 >= str.length) {
+    if (index + 2 >= str.length) {
       return false
     }
     return str[index] == '%' && isHexDigit(str[index + 1]) && isHexDigit(str[index + 2])

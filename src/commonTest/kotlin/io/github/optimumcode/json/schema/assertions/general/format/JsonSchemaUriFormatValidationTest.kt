@@ -16,6 +16,9 @@ class JsonSchemaUriFormatValidationTest : FunSpec() {
           "https://locahost/%20%4d%2F",
           "https://locahost:",
           "https://locahost:/",
+          "https://localhost?",
+          "https://localhost#",
+          "h://localhost",
         ),
       invalidTestCases =
         listOf(
@@ -38,6 +41,8 @@ class JsonSchemaUriFormatValidationTest : FunSpec() {
           TestCase("https://[vG.fe80::a_(en1)]", "invalid first part for ip feature hostname"),
           TestCase("https://[v6.fe80::a[(en1)]", "invalid second part for ip feature hostname"),
           TestCase("https://[v.]", "empty parts in ip feature hostname"),
+          TestCase("https://[v1.]", "empty first part in ip feature hostname"),
+          TestCase("https://[v.a]", "empty second part in ip feature hostname"),
           TestCase("https://[]", "empty ip feature hostname"),
         ),
     )
