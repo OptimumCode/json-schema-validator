@@ -360,7 +360,7 @@ You can implement custom assertions and use them. Read more [here](docs/custom_a
 This library uses official [JSON schema test suites](https://github.com/json-schema-org/JSON-Schema-Test-Suite)
 as a part of the CI to make sure the validation meet the expected behavior.
 Not everything is supported right now but the missing functionality might be added in the future.
-The test are located [here](test-suites).
+The tests are located [here](test-suites).
 
 
 **NOTE:** _Python 3.* is required to run test-suites._
