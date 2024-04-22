@@ -6,7 +6,7 @@ import io.github.optimumcode.json.schema.ErrorCollector
 import kotlinx.serialization.json.JsonElement
 
 internal class JsonSchemaRoot(
-  private val baseId: Uri,
+  private val scopeId: Uri,
   private val schemaPath: JsonPointer,
   private val assertions: Collection<JsonSchemaAssertion>,
   private val canBeReferencedRecursively: Boolean,
@@ -22,7 +22,7 @@ internal class JsonSchemaRoot(
       context.resetRecursiveRoot()
     }
     var result = true
-    context.pushSchemaPath(schemaPath, baseId)
+    context.pushSchemaPath(schemaPath, scopeId)
     assertions.forEach {
       val valid = it.validate(element, context, errorCollector)
       result = result and valid

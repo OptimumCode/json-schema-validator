@@ -261,7 +261,7 @@ private fun validateReferences(
   usedRefs: Set<ReferenceLocation>,
 ) {
   ReferenceValidator.validateReferences(
-    references.mapValues { it.value.run { PointerWithBaseId(this.baseId, schemaPath) } },
+    references.mapValues { it.value.run { PointerWithBaseId(this.scopeId, schemaPath) } },
     usedRefs,
   )
 }
@@ -389,7 +389,7 @@ private fun loadSchema(
         }
       if (refAssertion != null && !referenceFactory.allowOverriding) {
         JsonSchemaRoot(
-          contextWithAdditionalID.baseId,
+          contextWithAdditionalID.additionalIDs.last().id,
           contextWithAdditionalID.schemaPath,
           listOf(refAssertion),
           contextWithAdditionalID.recursiveResolution,
@@ -450,7 +450,7 @@ private fun loadJsonSchemaRoot(
       addAll(assertions)
     }
   return JsonSchemaRoot(
-    context.baseId,
+    context.additionalIDs.last().id,
     context.schemaPath,
     result,
     context.recursiveResolution,
@@ -486,7 +486,7 @@ internal data class AssertionWithPath(
   val assertion: JsonSchemaAssertion,
   val schemaPath: JsonPointer,
   val dynamic: Boolean,
-  val baseId: Uri,
+  val scopeId: Uri,
 )
 
 private data class DefaultLoadingContext(
@@ -639,7 +639,7 @@ private data class DefaultLoadingContext(
     assertion: JsonSchemaAssertion,
     dynamic: Boolean,
   ) {
-    references.put(referenceId, AssertionWithPath(assertion, schemaPath, dynamic, baseId))?.apply {
+    references.put(referenceId, AssertionWithPath(assertion, schemaPath, dynamic, additionalIDs.last().id))?.apply {
       throw IllegalStateException("duplicated definition $referenceId")
     }
   }
