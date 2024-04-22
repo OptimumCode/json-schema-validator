@@ -24,9 +24,7 @@ internal class DefaultReferenceResolver(
     if (!originalRef.dynamic) {
       return originalRef.schemaPath to originalRef.assertion
     }
-    // TODO:
-    // 1. Save schema ID (scope) for reference (not the baseID)
-    // 2. Filter reference by schema ID (scope)
+
     val fragment = refId.fragment
     val possibleDynamicRefs: MutableList<AssertionWithPath> =
       references.asSequence()
