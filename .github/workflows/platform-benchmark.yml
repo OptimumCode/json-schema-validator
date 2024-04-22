@@ -39,6 +39,9 @@ jobs:
   benchmark:
     runs-on: ${{ inputs.run-on }}
     steps:
+      - name: 'Install native dependencies'
+        run: sudo apt-get install -y libunistring-dev
+        if: runner.os == 'Linux'
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
       - uses: actions/setup-java@v4
