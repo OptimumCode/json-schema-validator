@@ -18,6 +18,7 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -240,6 +241,7 @@ private class TestSuite(
   val schema: JsonElement,
   val tests: List<SchemaTest>,
   val comment: String? = null,
+  val specification: JsonArray = EMPTY_JSON_ARRAY,
 )
 
 @Serializable
@@ -250,6 +252,7 @@ private class SchemaTest(
   val comment: String? = null,
 )
 
+private val EMPTY_JSON_ARRAY: JsonArray = JsonArray(emptyList())
 private val TEST_SUITES_DIR: Path = "schema-test-suite/tests".toPath()
 private val TEST_SUITES_DIR_FROM_ROOT: Path = "test-suites".toPath() / TEST_SUITES_DIR
 private const val TEST_SUITES_DIR_ENV_VAR: String = "TEST_SUITES_DIR"

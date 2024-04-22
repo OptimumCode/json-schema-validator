@@ -54,7 +54,7 @@ internal interface AssertionContext : ExternalAssertionContext {
 
   fun pushSchemaPath(
     path: JsonPointer,
-    baseId: Uri,
+    scopeId: Uri,
   )
 
   fun popSchemaPath()
@@ -110,9 +110,9 @@ internal data class DefaultAssertionContext(
 
   override fun pushSchemaPath(
     path: JsonPointer,
-    baseId: Uri,
+    scopeId: Uri,
   ) {
-    referenceResolver.pushSchemaPath(path, baseId)
+    referenceResolver.pushSchemaPath(path, scopeId)
   }
 
   override fun popSchemaPath() {
