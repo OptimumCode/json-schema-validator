@@ -6,7 +6,7 @@ internal object IriSpec {
   fun covertToUri(iri: String): String {
     return buildString {
       for (byte in iri.encodeToByteArray()) {
-        if (byte in 0..127) {
+        if (byte >= 0) {
           append(byte.toInt().toChar())
         } else {
           val unsignedInt = byte.toUByte().toInt()
