@@ -20,6 +20,7 @@ import io.github.optimumcode.json.schema.internal.formats.HostnameFormatValidato
 import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.IpV4FormatValidator
 import io.github.optimumcode.json.schema.internal.formats.IpV6FormatValidator
+import io.github.optimumcode.json.schema.internal.formats.IriFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.JsonPointerFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.RelativeJsonPointerFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.TimeFormatValidator
@@ -76,6 +77,7 @@ internal sealed class FormatAssertionFactory(
         "idn-hostname" to IdnHostnameFormatValidator,
         "uri" to UriFormatValidator,
         "uri-reference" to UriReferenceFormatValidator,
+        "iri" to IriFormatValidator,
       )
   }
 }

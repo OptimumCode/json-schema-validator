@@ -258,7 +258,7 @@ internal object UriSpec {
     return valid
   }
 
-  fun isPctEncoded(
+  private fun isPctEncoded(
     index: Int,
     str: String,
   ): Boolean {
