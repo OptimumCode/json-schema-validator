@@ -233,7 +233,7 @@ internal object UriSpec {
 
   private fun hasOnlyPChars(part: String): Boolean = hasValidCharsOrPctEncoded(part, ::isPChar)
 
-  private inline fun hasValidCharsOrPctEncoded(
+  inline fun hasValidCharsOrPctEncoded(
     part: String,
     isValidChar: (Char) -> Boolean,
   ): Boolean {
@@ -258,7 +258,7 @@ internal object UriSpec {
     return valid
   }
 
-  private fun isPctEncoded(
+  fun isPctEncoded(
     index: Int,
     str: String,
   ): Boolean {
@@ -268,9 +268,9 @@ internal object UriSpec {
     return str[index] == '%' && isHexDigit(str[index + 1]) && isHexDigit(str[index + 2])
   }
 
-  private fun isAlpha(c: Char): Boolean = c in 'a'..'z' || c in 'A'..'Z'
+  fun isAlpha(c: Char): Boolean = c in 'a'..'z' || c in 'A'..'Z'
 
-  private fun isDigit(c: Char): Boolean = c in '0'..'9'
+  fun isDigit(c: Char): Boolean = c in '0'..'9'
 
   private fun isPChar(c: Char): Boolean = isUnreserved(c) || isSubDelimiter(c) || c == ':' || c == '@'
 

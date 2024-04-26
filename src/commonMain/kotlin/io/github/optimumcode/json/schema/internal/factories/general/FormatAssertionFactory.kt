@@ -27,6 +27,7 @@ import io.github.optimumcode.json.schema.internal.formats.RelativeJsonPointerFor
 import io.github.optimumcode.json.schema.internal.formats.TimeFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.UriFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.UriReferenceFormatValidator
+import io.github.optimumcode.json.schema.internal.formats.UriTemplateFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.UuidFormatValidator
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
@@ -80,6 +81,7 @@ internal sealed class FormatAssertionFactory(
         "uri-reference" to UriReferenceFormatValidator,
         "iri" to IriFormatValidator,
         "iri-reference" to IriReferenceFormatValidator,
+        "uri-template" to UriTemplateFormatValidator,
       )
   }
 }

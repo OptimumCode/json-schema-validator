@@ -50,7 +50,6 @@ internal val COMMON_FORMAT_FILTER =
         "email" to emptySet(),
         "idn-email" to emptySet(),
         "regex" to emptySet(),
-        "uri-template" to emptySet(),
       ),
   )
 
