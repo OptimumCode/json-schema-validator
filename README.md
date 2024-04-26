@@ -332,7 +332,7 @@ val valid = schema.validate(elementToValidate, errors::add)
 
 ## Format assertion
 
-The library supports `format` assertion. For now only a few formats are supported:
+The library supports `format` assertion. Not all formats are supported yet. The supported formats are:
 * date
 * time
 * date-time
@@ -344,6 +344,11 @@ The library supports `format` assertion. For now only a few formats are supporte
 * uuid
 * hostname
 * idn-hostname
+* uri
+* uri-reference
+* uri-template
+* iri
+* iri-reference
 
 But there is an API to implement the user's defined format validation.
 The [FormatValidator](src/commonMain/kotlin/io/github/optimumcode/json/schema/ValidationError.kt) interface can be user for that.
