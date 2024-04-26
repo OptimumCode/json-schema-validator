@@ -11,7 +11,7 @@ internal object UriTemplateFormatValidator : AbstractStringFormatValidator() {
   private const val PCT_ENCODING_START = '%'.code
   private const val EXPLODE_MODIFIER = '*'
   private const val PREFIX_MODIFIER = ':'
-  private const val MAX_LENGTH_UPPER_LIMIT = 10_000
+  private const val MAX_LENGTH_UPPER_LIMIT = 4
 
   @Suppress("detekt:ReturnCount")
   override fun validate(value: String): FormatValidationResult {
@@ -170,15 +170,23 @@ internal object UriTemplateFormatValidator : AbstractStringFormatValidator() {
     }
 
     return eachSeparatedPart(varName, separator = '.') { part ->
-      UriSpec.hasValidCharsOrPctEncoded(part) {
-        UriSpec.isAlpha(it) || UriSpec.isDigit(it) || it == '_'
-      }
+      part.isNotEmpty() &&
+        UriSpec.hasValidCharsOrPctEncoded(part) {
+          UriSpec.isAlpha(it) || UriSpec.isDigit(it) || it == '_'
+        }
     }
   }
 
   private fun isValidMaxLength(maxLength: String): Boolean {
-    val maxLengthValue = maxLength.toIntOrNull() ?: return false
-    return maxLengthValue in 0..<MAX_LENGTH_UPPER_LIMIT
+    if (maxLength[0] == '0') {
+      // no leading zeroes allowed
+      return false
+    }
+    if (maxLength.length > MAX_LENGTH_UPPER_LIMIT) {
+      // to long value
+      return false
+    }
+    return maxLength.all(UriSpec::isDigit)
   }
 
   private fun isOperator(char: Char): Boolean =
