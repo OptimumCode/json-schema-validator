@@ -20,9 +20,14 @@ import io.github.optimumcode.json.schema.internal.formats.HostnameFormatValidato
 import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.IpV4FormatValidator
 import io.github.optimumcode.json.schema.internal.formats.IpV6FormatValidator
+import io.github.optimumcode.json.schema.internal.formats.IriFormatValidator
+import io.github.optimumcode.json.schema.internal.formats.IriReferenceFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.JsonPointerFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.RelativeJsonPointerFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.TimeFormatValidator
+import io.github.optimumcode.json.schema.internal.formats.UriFormatValidator
+import io.github.optimumcode.json.schema.internal.formats.UriReferenceFormatValidator
+import io.github.optimumcode.json.schema.internal.formats.UriTemplateFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.UuidFormatValidator
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
@@ -72,6 +77,11 @@ internal sealed class FormatAssertionFactory(
         "uuid" to UuidFormatValidator,
         "hostname" to HostnameFormatValidator,
         "idn-hostname" to IdnHostnameFormatValidator,
+        "uri" to UriFormatValidator,
+        "uri-reference" to UriReferenceFormatValidator,
+        "iri" to IriFormatValidator,
+        "iri-reference" to IriReferenceFormatValidator,
+        "uri-template" to UriTemplateFormatValidator,
       )
   }
 }
