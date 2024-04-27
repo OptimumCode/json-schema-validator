@@ -97,7 +97,8 @@ internal object EmailFormatValidator : AbstractStringFormatValidator() {
         // E.g.: "\"
         return false
       }
-      if (c !in ' '..'~') {
+      val nextChar = quotedContent[index]
+      if (nextChar !in ' '..'~') {
         // invalid quote pair
         return false
       }
@@ -106,5 +107,7 @@ internal object EmailFormatValidator : AbstractStringFormatValidator() {
     return true
   }
 
-  private fun isValidQText(c: Char): Boolean = c == ' ' || c == '!' || c in '#'..'[' || c in ']'..'~'
+  private fun isValidQText(c: Char): Boolean =
+    // \ is checked explicitly
+    c == ' ' || c == '!' || c in '#'..'~'
 }
