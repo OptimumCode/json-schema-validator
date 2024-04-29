@@ -15,7 +15,7 @@ class JsonSchemaUriTemplateFormatValidationTest : FunSpec() {
           "https://simple.uri",
           "https://test%20uri.com",
           "https://testname/{first%20name}",
-          "https://testname/{first.name}",
+          "https://testname/{name_1.name_2}",
           "https://\u00a0\ud7ff\uf900\ufdcf\ufdf0\uffef\uf8ff",
         ),
       invalidTestCases =
@@ -23,6 +23,7 @@ class JsonSchemaUriTemplateFormatValidationTest : FunSpec() {
           TestCase("https://example.com/{}", "empty expression"),
           TestCase("https://example.com/{,}", "empty expression with var delimiter"),
           TestCase("https://example.com/{test.}", "empty expression with name delimiter"),
+          TestCase("https://example.com/{te~st}", "invalid character in var name"),
           TestCase("https://example.com/}", "end expression without start"),
           TestCase("https://example.com/{t{e}st}", "expression inside expression"),
           TestCase("https://example.com/{test:0}", "leading zero"),
