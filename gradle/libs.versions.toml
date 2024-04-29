@@ -47,7 +47,7 @@ jackson-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-y
 networknt-validator = { group = "com.networknt", name = "json-schema-validator", version = "1.4.0" }
 kotlinpoet = { group = "com.squareup", name = "kotlinpoet", version = "1.16.0" }
 graphql-ktor = { group = "com.expediagroup", name = "graphql-kotlin-ktor-client", version.ref = "graphql" }
-clikt = { group = "com.github.ajalt.clikt", name = "clikt", version = "4.3.0" }
+clikt = { group = "com.github.ajalt.clikt", name = "clikt", version = "4.4.0" }
 kotlin-codepoints = { group = "de.cketti.unicode", name = "kotlin-codepoints", version = "0.7.0" }
 normalize = { group = "com.doist.x", name = "normalize", version = "1.0.5" }
 
