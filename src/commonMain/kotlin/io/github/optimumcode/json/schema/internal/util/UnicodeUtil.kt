@@ -44,3 +44,12 @@ internal inline fun CharSequence.forEachCodePointIndexed(
     block(startIndex, firstChar.code)
   }
 }
+
+internal fun CharSequence.allCodepoints(condition: (Int) -> Boolean): Boolean {
+  forEachCodePointIndexed { _, codePoint ->
+    if (!condition(codePoint)) {
+      return false
+    }
+  }
+  return true
+}
