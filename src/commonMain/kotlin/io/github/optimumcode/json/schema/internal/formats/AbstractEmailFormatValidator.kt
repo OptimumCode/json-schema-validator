@@ -12,6 +12,7 @@ private const val IP_PART_END = ']'
 private const val QUOTE = '"'
 private const val BACK_SLASH = '\\'.code
 private const val IPV6_PREFIX = "IPv6:"
+internal const val MAX_ASCII_CODEPOINT = 0x7F
 
 internal abstract class AbstractEmailFormatValidator(
   private val hostnameValidator: AbstractStringFormatValidator,
@@ -66,14 +67,19 @@ internal abstract class AbstractEmailFormatValidator(
   }
 
   protected open fun isAText(codepoint: Int): Boolean {
+    if (codepoint > MAX_ASCII_CODEPOINT) {
+      return false
+    }
     val asChar = codepoint.toChar()
-    return Validation.isAlpha(asChar) || Validation.isDigit(asChar) ||
-      codepoint == '!'.code || codepoint == '#'.code || codepoint == '$'.code || codepoint == '%'.code ||
-      codepoint == '&'.code || codepoint == '\''.code || codepoint == '*'.code || codepoint == '+'.code ||
-      codepoint == '-'.code || codepoint == '/'.code || codepoint == '='.code || codepoint == '?'.code ||
-      codepoint == '^'.code || codepoint == '_'.code || codepoint == '`'.code || codepoint == '{'.code ||
-      codepoint == '}'.code || codepoint == '~'.code || codepoint == '|'.code
+    return Validation.isAlpha(asChar) || Validation.isDigit(asChar) || isSpecialCharacter(asChar)
   }
+
+  private fun isSpecialCharacter(codepoint: Char): Boolean =
+    codepoint == '!' || codepoint == '#' || codepoint == '$' || codepoint == '%' ||
+      codepoint == '&' || codepoint == '\'' || codepoint == '*' || codepoint == '+' ||
+      codepoint == '-' || codepoint == '/' || codepoint == '=' || codepoint == '?' ||
+      codepoint == '^' || codepoint == '_' || codepoint == '`' || codepoint == '{' ||
+      codepoint == '}' || codepoint == '~' || codepoint == '|'
 
   private fun isValidQuotedString(localPart: String): Boolean {
     if (localPart.length <= 2) {
@@ -104,11 +110,12 @@ internal abstract class AbstractEmailFormatValidator(
         // E.g.: "\"
         return false
       }
-      val nextChar = quotedContent[index]
-      if (nextChar !in ' '..'~') {
+      val nextChar = quotedContent.codePointAt(index)
+      if (nextChar !in ' '.code..'~'.code) {
         // invalid quote pair
         return false
       }
+      // always one because of condition above
       index += 1
     }
     return true

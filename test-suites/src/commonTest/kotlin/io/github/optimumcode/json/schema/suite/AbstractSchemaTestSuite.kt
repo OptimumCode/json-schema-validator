@@ -47,7 +47,6 @@ internal val COMMON_FORMAT_FILTER =
   TestFilter(
     excludeSuites =
       mapOf(
-        "idn-email" to emptySet(),
         "regex" to emptySet(),
       ),
   )

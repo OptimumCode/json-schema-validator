@@ -18,6 +18,7 @@ import io.github.optimumcode.json.schema.internal.formats.DateTimeFormatValidato
 import io.github.optimumcode.json.schema.internal.formats.DurationFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.EmailFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.HostnameFormatValidator
+import io.github.optimumcode.json.schema.internal.formats.IdnEmailFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.IpV4FormatValidator
 import io.github.optimumcode.json.schema.internal.formats.IpV6FormatValidator
@@ -84,6 +85,7 @@ internal sealed class FormatAssertionFactory(
         "iri-reference" to IriReferenceFormatValidator,
         "uri-template" to UriTemplateFormatValidator,
         "email" to EmailFormatValidator,
+        "idn-email" to IdnEmailFormatValidator,
       )
   }
 }
