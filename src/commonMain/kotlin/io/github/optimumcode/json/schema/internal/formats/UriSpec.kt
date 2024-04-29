@@ -1,5 +1,8 @@
 package io.github.optimumcode.json.schema.internal.formats
 
+import io.github.optimumcode.json.schema.internal.formats.Validation.isAlpha
+import io.github.optimumcode.json.schema.internal.formats.Validation.isDigit
+
 internal object UriSpec {
   const val SCHEMA_DELIMITER = ':'
   const val QUERY_DELIMITER = '?'
@@ -267,10 +270,6 @@ internal object UriSpec {
     }
     return str[index] == '%' && isHexDigit(str[index + 1]) && isHexDigit(str[index + 2])
   }
-
-  fun isAlpha(c: Char): Boolean = c in 'a'..'z' || c in 'A'..'Z'
-
-  fun isDigit(c: Char): Boolean = c in '0'..'9'
 
   private fun isPChar(c: Char): Boolean = isUnreserved(c) || isSubDelimiter(c) || c == ':' || c == '@'
 

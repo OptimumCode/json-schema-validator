@@ -4,6 +4,7 @@ import de.cketti.codepoints.CodePoints
 import de.cketti.codepoints.codePointAt
 import io.github.optimumcode.json.schema.FormatValidationResult
 import io.github.optimumcode.json.schema.FormatValidator
+import io.github.optimumcode.json.schema.internal.formats.Validation.eachSeparatedPart
 
 internal object UriTemplateFormatValidator : AbstractStringFormatValidator() {
   private const val EXPRESSION_START = '{'.code
@@ -121,28 +122,6 @@ internal object UriTemplateFormatValidator : AbstractStringFormatValidator() {
     return eachSeparatedPart(varList, separator = ',', ::isValidVarSpec)
   }
 
-  private inline fun eachSeparatedPart(
-    value: String,
-    separator: Char,
-    isValid: (String) -> Boolean,
-  ): Boolean {
-    var lastSeparator = -1
-    do {
-      val separatorIndex = value.indexOf(separator, startIndex = lastSeparator + 1)
-      val part =
-        if (separatorIndex < 0) {
-          value.substring(lastSeparator + 1)
-        } else {
-          value.substring(lastSeparator + 1, separatorIndex)
-        }
-      if (!isValid(part)) {
-        return false
-      }
-      lastSeparator = separatorIndex
-    } while (separatorIndex > 0)
-    return true
-  }
-
   private fun isValidVarSpec(varSpec: String): Boolean {
     if (varSpec.isEmpty()) {
       return false
@@ -172,7 +151,7 @@ internal object UriTemplateFormatValidator : AbstractStringFormatValidator() {
     return eachSeparatedPart(varName, separator = '.') { part ->
       part.isNotEmpty() &&
         UriSpec.hasValidCharsOrPctEncoded(part) {
-          UriSpec.isAlpha(it) || UriSpec.isDigit(it) || it == '_'
+          Validation.isAlpha(it) || Validation.isDigit(it) || it == '_'
         }
     }
   }
@@ -186,7 +165,7 @@ internal object UriTemplateFormatValidator : AbstractStringFormatValidator() {
       // to long value
       return false
     }
-    return maxLength.all(UriSpec::isDigit)
+    return maxLength.all(Validation::isDigit)
   }
 
   private fun isOperator(char: Char): Boolean =
