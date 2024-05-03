@@ -608,6 +608,12 @@ private data class DefaultLoadingContext(
   ) {
     when {
       id.isAbsolute -> register(id.buildRefId(), assertion, dynamic) // register JSON schema by absolute URI
+      id.encodedPath.let { it != null && it.startsWith('/') } ->
+        register(
+          additionalIDs.resolvePath(id.encodedPath).buildRefId(),
+          assertion,
+          dynamic,
+        )
       id.isRelative ->
         when {
           // For root schema we should not apply any transformations to ID
@@ -650,6 +656,11 @@ private fun Set<IdWithLocation>.resolvePath(path: String?): Uri {
 }
 
 private fun Uri.appendPathToParent(path: String): Uri {
+  if (path.startsWith('/')) {
+    return buildUpon()
+      .encodedPath(path)
+      .build()
+  }
   val hasLastEmptySegment = toString().endsWith('/')
   return if (hasLastEmptySegment) {
     buildUpon() // don't need to drop anything. just add the path because / in the end means empty segment
