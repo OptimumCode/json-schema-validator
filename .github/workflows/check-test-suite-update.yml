@@ -1,0 +1,55 @@
+name: Checks JSON schema test suite for updates
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+    env:
+      SUITE_PATH: test-suites/schema-test-suite
+    steps:
+    - name: 'Checkout Repository'
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.PUSH_PAT }}
+        submodules: true
+    - name: Pull latest changes from JSON schema test suite
+      run: git submodule update --remote
+    - name: Check for updates
+      id: updates
+      run: |
+        DIFF=$(git diff)
+        HAS_UPDATES=false
+        if [[ "$DIFF" != "" ]]; then
+          HAS_UPDATES=true
+        else
+          echo "No updates"
+        fi
+        echo "has-updates=$HAS_UPDATES" >> $GITHUB_OUTPUT
+        cd ${SUITE_PATH}
+        SUITE_SHA=$(git rev-parse --short HEAD)
+        echo "branch=suite-${SUITE_SHA}"
+    - name: Commit changes to new branch
+      if: steps.updates.outputs.has-updates == 'true'
+      uses: EndBug/add-and-commit@v9
+      with:
+        add: "['${{ env.SUITE_PATH }}']"
+        default_author: github_actions
+        message: "Update JSON schema test-suite"
+        new_branch: ${{ steps.updates.outputs.branch }}
+    - name: Create PR for version update
+      if: steps.updates.outputs.has-updates == 'true'
+      env:
+        GH_TOKEN: ${{ secrets.PUSH_PAT }}
+      run: >
+        gh pr create --title "Update JSON schema test-suite"
+        --body "Automated update"
+        --head ${{ steps.updates.outputs.branch }}
+        --base main
+        --reviewer OptimumCode
+        --label ignore
+        --label tests
+
