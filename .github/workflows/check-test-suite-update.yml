@@ -31,7 +31,7 @@ jobs:
         echo "has-updates=$HAS_UPDATES" >> $GITHUB_OUTPUT
         cd ${SUITE_PATH}
         SUITE_SHA=$(git rev-parse --short HEAD)
-        echo "branch=suite-${SUITE_SHA}"
+        echo "branch=suite-${SUITE_SHA}" >> $GITHUB_OUTPUT
     - name: Commit changes to new branch
       if: steps.updates.outputs.has-updates == 'true'
       uses: EndBug/add-and-commit@v9
