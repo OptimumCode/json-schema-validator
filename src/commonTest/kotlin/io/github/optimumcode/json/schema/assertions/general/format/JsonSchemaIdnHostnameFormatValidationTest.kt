@@ -35,6 +35,7 @@ class JsonSchemaIdnHostnameFormatValidationTest : FunSpec() {
           // Not normalized \u4E3D. Example from https://unicode.org/Public/UNIDATA/NormalizationTest.txt
           TestCase(CodePoints.toChars(0x2F800).joinToString(separator = ""), "not normalized"),
           TestCase("\u0628\u0669\u06F9", "mixed arabic indic digits and extended arabic indict digits"),
+          TestCase("\u0660\u06f0", "invalid first character for RTL"),
           TestCase("\u0628\u0061", "invalid characters for RTL label"),
           TestCase("\u0628.\u06F9", "invalid first character for bidi domain names"),
           TestCase("\u0061\u0628", "invalid characters for LTR label"),
