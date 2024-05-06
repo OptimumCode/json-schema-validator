@@ -125,7 +125,7 @@ dependencies {
   kover(project(":"))
 }
 
-private val remotesFile = file("$buildDir/remotes.json")
+private val remotesFile = layout.buildDirectory.file("remotes.json").get().asFile
 
 val generateRemoteSchemas =
   tasks.register("generateRemoteSchemas") {
