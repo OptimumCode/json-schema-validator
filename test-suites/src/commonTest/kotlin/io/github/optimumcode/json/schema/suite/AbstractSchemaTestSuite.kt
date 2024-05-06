@@ -43,13 +43,7 @@ internal class TestFilter(
   val excludeTests: Map<String, Set<String>> = emptyMap(),
 )
 
-internal val COMMON_FORMAT_FILTER =
-  TestFilter(
-    excludeSuites =
-      mapOf(
-        "regex" to emptySet(),
-      ),
-  )
+internal val COMMON_FORMAT_FILTER = TestFilter()
 
 /**
  * This class is a base for creating a test suite run from https://github.com/json-schema-org/JSON-Schema-Test-Suite.

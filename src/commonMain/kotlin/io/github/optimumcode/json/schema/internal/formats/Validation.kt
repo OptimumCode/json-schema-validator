@@ -5,6 +5,8 @@ internal object Validation {
 
   fun isDigit(c: Char): Boolean = c in '0'..'9'
 
+  fun isHexDigit(c: Char): Boolean = c in '0'..'9' || c in 'a'..'f' || c in 'A'..'F'
+
   inline fun eachSeparatedPart(
     value: String,
     separator: Char,

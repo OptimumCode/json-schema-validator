@@ -2,6 +2,7 @@ package io.github.optimumcode.json.schema.internal.formats
 
 import io.github.optimumcode.json.schema.internal.formats.Validation.isAlpha
 import io.github.optimumcode.json.schema.internal.formats.Validation.isDigit
+import io.github.optimumcode.json.schema.internal.formats.Validation.isHexDigit
 
 internal object UriSpec {
   const val SCHEMA_DELIMITER = ':'
@@ -278,6 +279,4 @@ internal object UriSpec {
   private fun isSubDelimiter(c: Char): Boolean =
     c == '!' || c == '$' || c == '&' || c == '\'' || c == '(' || c == ')' ||
       c == '*' || c == '+' || c == ',' || c == ';' || c == '='
-
-  private fun isHexDigit(c: Char): Boolean = c in '0'..'9' || c in 'a'..'f' || c in 'A'..'F'
 }
