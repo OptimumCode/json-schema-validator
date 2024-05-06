@@ -5,7 +5,7 @@
     "ghcr.io/devcontainers/features/java:1" : {
       "version": "11",
       "installGradle": true,
-      "gradleVersion": "8.1"
+      "gradleVersion": "8.7"
     },
     "ghcr.io/devcontainers/features/python:1": {
       "version": "3.10",
