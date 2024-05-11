@@ -21,7 +21,6 @@ internal object ReferenceValidator {
     referencesWithPath: Map<RefId, PointerWithBaseId>,
     usedRef: Set<ReferenceLocation>,
   ) {
-    // TODO: test comment for reviewdog to detekt
     val missingRefs: Map<RefId, List<ReferenceLocation>> =
       usedRef.asSequence()
         .filter { it.refId !in referencesWithPath }
