@@ -333,11 +333,18 @@ val valid = schema.validate(elementToValidate, errors::add)
 ## Format assertion
 
 The library supports `format` assertion.
-Almost all formats from [JSON schema draft 2020-12](https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-validation-01#section-7.3) are supported.
-Unsupported formats:
-* regex
+All formats from [JSON schema draft 2020-12](https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-validation-01#section-7.3) are supported.
 
-But there is an API to implement the user's defined format validation.
+**_Implementation details:_**
+
++ **regex** - to implement regex format Kotlin `Regex` class is used.
+  Because of that, result might vary depending on the platform where validation is executed
+  ([KT-49557](https://youtrack.jetbrains.com/issue/KT-49557)).
+  Please, be aware of it when using this library.</p>
+  If you know a KMM library that provides support for ECMA-262 Regex format
+  I would appreciate it if you could find some time to create [an issue](https://github.com/OptimumCode/json-schema-validator/issues/new/choose) with information about that library.
+
+There is also an API to implement the user's defined format validation.
 The [FormatValidator](src/commonMain/kotlin/io/github/optimumcode/json/schema/ValidationError.kt) interface can be user for that.
 The custom format validators can be register in [JsonSchemaLoader](src/commonMain/kotlin/io/github/optimumcode/json/schema/JsonSchemaLoader.kt).
 

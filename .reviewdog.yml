@@ -1,12 +1,12 @@
 runner:
   detekt:
-    cmd: "./gradlew -q detekt detektAll --console plain"
+    cmd: "./gradlew -q detekt detektAll --console plain 2>&1"
     errorformat: # (optional if you use `format`)
       - "%f:%l:%c: %m"
     name: detekt
     level: error
   ktlint:
-    cmd: "./gradlew ktlintCheck --console plain"
+    cmd: "./gradlew ktlintCheck --console plain 2>&1"
     errorformat: # (optional if you use `format`)
       - "%f:%l:%c %m"
     name: ktlint
