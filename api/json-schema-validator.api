@@ -1,8 +1,8 @@
 public abstract class io/github/optimumcode/json/pointer/JsonPointer {
 	public static final field Companion Lio/github/optimumcode/json/pointer/JsonPointer$Companion;
 	public static final field ROOT Lio/github/optimumcode/json/pointer/JsonPointer;
-	public synthetic fun <init> (Ljava/lang/String;ILio/github/optimumcode/json/pointer/JsonPointer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/lang/String;ILio/github/optimumcode/json/pointer/JsonPointer;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lio/github/optimumcode/json/pointer/JsonPointer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lio/github/optimumcode/json/pointer/JsonPointer;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun atIndex (I)Lio/github/optimumcode/json/pointer/JsonPointer;
 	public final fun atProperty (Ljava/lang/String;)Lio/github/optimumcode/json/pointer/JsonPointer;
 	public static final fun compile (Ljava/lang/String;)Lio/github/optimumcode/json/pointer/JsonPointer;

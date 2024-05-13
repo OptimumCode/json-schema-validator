@@ -50,9 +50,10 @@ class JsonPointerTest : FunSpec() {
       val pointer = JsonPointer("/first/second")
       assertSoftly {
         pointer.assertSegment(property = "first")
-        pointer.next shouldNotBe null
-        pointer.next!!.assertSegment(property = "second")
-        pointer.next.next shouldBe EmptyPointer
+        val next = pointer.next
+        next shouldNotBe null
+        next!!.assertSegment(property = "second")
+        next.next shouldBe EmptyPointer
       }
     }
 
@@ -110,6 +111,39 @@ class JsonPointerTest : FunSpec() {
         next.assertSegment(property = "test2")
         pointer.toString() shouldBe "/test1//test2"
       }
+    }
+
+    listOf(
+      JsonPointer.ROOT to JsonPointer("/test"),
+      JsonPointer("/test") to JsonPointer.ROOT,
+      JsonPointer("/test1") to JsonPointer("/test2"),
+      JsonPointer("/test/another") to JsonPointer("/test"),
+      JsonPointer("/test") to JsonPointer("/test/another"),
+    ).forEach { (a, b) ->
+      test("'$a' not equal '$b'") {
+        a shouldNotBe b
+      }
+    }
+
+    test("negative index is not allowed") {
+      shouldThrow<IllegalArgumentException> {
+        JsonPointer.ROOT.atIndex(-1)
+      }.message shouldBe "negative index: -1"
+    }
+
+    test("~2 is not escaping") {
+      JsonPointer("/~2test")
+        .assertSegment("~2test")
+    }
+
+    test("~ in the end is not escaping") {
+      JsonPointer("/~")
+        .assertSegment("~")
+    }
+
+    test("property that starts with number does not result in index") {
+      JsonPointer("/1test")
+        .assertSegment("1test", index = -1)
     }
   }
 

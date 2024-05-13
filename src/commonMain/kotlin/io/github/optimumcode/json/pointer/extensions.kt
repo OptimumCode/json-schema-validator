@@ -55,12 +55,7 @@ public operator fun JsonPointer.plus(otherPointer: JsonPointer): JsonPointer {
   if (otherPointer is EmptyPointer) {
     return this
   }
-  return JsonPointer(
-    buildString {
-      append(this@plus.toString())
-      append(otherPointer.toString())
-    },
-  )
+  return this.insertLast(otherPointer as SegmentPointer)
 }
 
 /**
@@ -165,7 +160,7 @@ public tailrec fun JsonElement.at(pointer: JsonPointer): JsonElement? {
     is EmptyPointer -> this
     is SegmentPointer -> {
       val next = atPointer(pointer)
-      next?.at(pointer.next ?: error("pointer $pointer does not has next segment and is not EmptyPointer"))
+      next?.at(pointer.next)
     }
   }
 }

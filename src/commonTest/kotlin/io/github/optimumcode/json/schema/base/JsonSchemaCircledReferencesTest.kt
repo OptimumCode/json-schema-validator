@@ -5,10 +5,20 @@ import io.kotest.assertions.asClue
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.shouldBe
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.string.shouldStartWith
 
 class JsonSchemaCircledReferencesTest : FunSpec() {
   init {
+
+    fun String.shouldHaveExactReferences(vararg references: String) {
+      this shouldStartWith "circled references: "
+      this.removePrefix("circled references: ")
+        .split(',')
+        .flatMap { listOf(it.substringBefore(" and ").trim(), it.substringAfter(" and ").trim()) }
+        .shouldContainExactlyInAnyOrder(*references)
+    }
 
     listOf(
       "oneOf",
@@ -44,8 +54,10 @@ class JsonSchemaCircledReferencesTest : FunSpec() {
             }
             """.trimIndent(),
           )
-        }.message shouldBe "circled references: /definitions/alice/$it/0 ref to /definitions/bob" +
-          " and /definitions/bob/$it/0 ref to /definitions/alice"
+        }.message.shouldNotBeNull().shouldHaveExactReferences(
+          "/definitions/alice/$it/0 ref to /definitions/bob",
+          "/definitions/bob/$it/0 ref to /definitions/alice",
+        )
       }
     }
 
@@ -78,8 +90,10 @@ class JsonSchemaCircledReferencesTest : FunSpec() {
           }
           """.trimIndent(),
         )
-      }.message shouldBe "circled references: /definitions/alice/allOf/0 ref to /definitions/properties" +
-        " and /definitions/properties/allOf/0 ref to /definitions/alice"
+      }.message.shouldNotBeNull().shouldHaveExactReferences(
+        "/definitions/alice/allOf/0 ref to /definitions/properties",
+        "/definitions/properties/allOf/0 ref to /definitions/alice",
+      )
     }
 
     test("does not report circled references if definitions have similar names") {

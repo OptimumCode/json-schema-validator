@@ -47,7 +47,7 @@ internal object ReferenceValidator {
         schemaPath to refId
       }
 
-    val circledReferences = hashSetOf<CircledReference>()
+    val circledReferences = linkedSetOf<CircledReference>()
 
     val refsByBaseId: Map<Uri, Set<JsonPointer>> =
       referencesWithPath
