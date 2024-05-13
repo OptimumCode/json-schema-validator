@@ -14,10 +14,11 @@ public fun JsonPointer(path: String): JsonPointer = JsonPointer.compile(path)
  * [RFC6901](https://datatracker.ietf.org/doc/html/rfc6901).
  */
 public sealed class JsonPointer(
-  private val fullPath: String,
-  private val pathOffset: Int,
-  internal val next: JsonPointer? = null,
+  internal open val next: JsonPointer? = null,
 ) {
+  private var asString: String? = null
+  private var hash: Int = 0
+
   /**
    * Creates a new [JsonPointer] that points to an [index] in the array.
    *
@@ -26,15 +27,10 @@ public sealed class JsonPointer(
    * val pointer = JsonPointer("/test").atIndex(0) // "/test/0"
    * ```
    */
-  public fun atIndex(index: Int): JsonPointer =
-    JsonPointer(
-      buildString {
-        val pointer = this@JsonPointer.toString()
-        append(pointer)
-        append(SEPARATOR)
-        append(index)
-      },
-    )
+  public fun atIndex(index: Int): JsonPointer {
+    require(index >= 0) { "negative index: $index" }
+    return atProperty(index.toString())
+  }
 
   /**
    * Creates a new [JsonPointer] that points to a [property] passed as a parameter.
@@ -44,28 +40,58 @@ public sealed class JsonPointer(
    * val pointer = JsonPointer.ROOT.atProperty("prop1").atProperty("prop2")  // "/prop1/prop2"
    * ```
    */
-  public fun atProperty(property: String): JsonPointer =
-    JsonPointer(
-      buildString {
-        val pointer = this@JsonPointer.toString()
-        append(pointer)
+  public fun atProperty(property: String): JsonPointer = insertLast(SegmentPointer(property))
+
+  override fun toString(): String {
+    val str = asString
+    if (str != null) {
+      return str
+    }
+    if (this !is SegmentPointer) {
+      return ""
+    }
+    return buildString {
+      var node: JsonPointer = this@JsonPointer
+      while (node is SegmentPointer) {
         append(SEPARATOR)
-        for (ch in property) {
+        append(escapeJsonPointer(node.propertyName))
+        node = node.next
+      }
+    }.also {
+      asString = it
+    }
+  }
+
+  internal fun insertLast(last: SegmentPointer): JsonPointer {
+    if (this !is SegmentPointer) {
+      return last
+    }
+    var parent: PointerParent? = null
+    var node: JsonPointer = this
+    while (node is SegmentPointer) {
+      parent =
+        PointerParent(
+          parent,
+          node.propertyName,
+        )
+      node = node.next
+    }
+    return buildPath(last, parent)
+  }
+
+  private fun escapeJsonPointer(propertyName: String): String {
+    if (propertyName.contains(SEPARATOR) || propertyName.contains(QUOTATION)) {
+      return buildString(capacity = propertyName.length + 1) {
+        for (ch in propertyName) {
           when (ch) {
-            QUOTATION -> append(QUOTATION).append(QUOTATION_ESCAPE)
             SEPARATOR -> append(QUOTATION).append(SEPARATOR_ESCAPE)
+            QUOTATION -> append(QUOTATION).append(QUOTATION_ESCAPE)
             else -> append(ch)
           }
         }
-      },
-    )
-
-  override fun toString(): String {
-    return if (pathOffset <= 0) {
-      fullPath
-    } else {
-      fullPath.substring(pathOffset)
+      }
     }
+    return propertyName
   }
 
   override fun equals(other: Any?): Boolean {
@@ -74,13 +100,34 @@ public sealed class JsonPointer(
 
     other as JsonPointer
 
-    if (fullPath != other.fullPath) return false
-    return pathOffset == other.pathOffset
+    var node = this
+    var otherNode = other
+    while (node is SegmentPointer && otherNode is SegmentPointer) {
+      if (node.propertyName != otherNode.propertyName) {
+        return false
+      }
+      node = node.next
+      otherNode = otherNode.next
+    }
+    return node is EmptyPointer && otherNode is EmptyPointer
   }
 
   override fun hashCode(): Int {
-    var result = fullPath.hashCode()
-    result = 31 * result + pathOffset
+    if (hash != 0) {
+      return hash
+    }
+    var result = 31
+    var node = this
+    while (node is SegmentPointer) {
+      result = 31 * result + node.propertyName.hashCode()
+      node = node.next
+    }
+    if (result == 0) {
+      // just in case if for some reason the resulting has is zero
+      // this way we won't recalculate it again
+      result = 31
+    }
+    hash = result
     return result
   }
 
@@ -118,42 +165,32 @@ public sealed class JsonPointer(
       }
     }
 
+    private class PointerParent(
+      val parent: PointerParent?,
+      val segment: String,
+    )
+
+    private fun buildPath(
+      lastSegment: SegmentPointer,
+      parent: PointerParent?,
+    ): JsonPointer {
+      var curr = lastSegment
+      var parentValue = parent
+      while (parentValue != null) {
+        curr =
+          parentValue.run {
+            SegmentPointer(
+              segment,
+              curr,
+            )
+          }
+        parentValue = parentValue.parent
+      }
+      return curr
+    }
+
     @JvmStatic
     private fun parseExpression(expr: String): JsonPointer {
-      class PointerParent(
-        val parent: PointerParent?,
-        val startOffset: Int,
-        val segment: String,
-      )
-
-      fun buildPath(
-        start: Int,
-        lastSegment: String,
-        parent: PointerParent?,
-      ): JsonPointer {
-        var curr =
-          SegmentPointer(
-            expr,
-            start,
-            lastSegment,
-            EmptyPointer,
-          )
-        var parentValue = parent
-        while (parentValue != null) {
-          curr =
-            parentValue.run {
-              SegmentPointer(
-                expr,
-                startOffset,
-                segment,
-                curr,
-              )
-            }
-          parentValue = parentValue.parent
-        }
-        return curr
-      }
-
       var parent: PointerParent? = null
 
       var offset = 1 // skip contextual slash
@@ -162,7 +199,7 @@ public sealed class JsonPointer(
       while (offset < end) {
         val currentChar = expr[offset]
         if (currentChar == SEPARATOR) {
-          parent = PointerParent(parent, start, expr.substring(start + 1, offset))
+          parent = PointerParent(parent, expr.substring(start + 1, offset))
           start = offset
           offset++
           continue
@@ -173,15 +210,15 @@ public sealed class JsonPointer(
           offset = builder.appendEscapedSegment(expr, start + 1, offset)
           val segment = builder.toString()
           if (offset < 0) {
-            return buildPath(start, segment, parent)
+            return buildPath(SegmentPointer(segment), parent)
           }
-          parent = PointerParent(parent, start, segment)
+          parent = PointerParent(parent, segment)
           start = offset
           offset++
           continue
         }
       }
-      return buildPath(start, expr.substring(start + 1), parent)
+      return buildPath(SegmentPointer(expr.substring(start + 1)), parent)
     }
   }
 }
@@ -229,14 +266,12 @@ private fun StringBuilder.appendEscaped(ch: Char) {
   append(result)
 }
 
-internal object EmptyPointer : JsonPointer(fullPath = "", pathOffset = 0)
+internal object EmptyPointer : JsonPointer()
 
 internal class SegmentPointer(
-  fullPath: String,
-  pathOffset: Int,
   segment: String,
-  next: JsonPointer? = null,
-) : JsonPointer(fullPath, pathOffset, next) {
+  override val next: JsonPointer = EmptyPointer,
+) : JsonPointer(next) {
   val propertyName: String = segment
   val index: Int = parseIndex(segment)
 
