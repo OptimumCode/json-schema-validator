@@ -279,13 +279,15 @@ afterEvaluate {
   }
 }
 
-koverReport {
-  filters {
-    excludes {
-      packages(
-        "io.github.optimumcode.json.schema.internal.unicode.*",
-        "io.github.optimumcode.json.schema.internal.unicode",
-      )
+kover {
+  reports {
+    filters {
+      excludes {
+        packages(
+          "io.github.optimumcode.json.schema.internal.unicode.*",
+          "io.github.optimumcode.json.schema.internal.unicode",
+        )
+      }
     }
   }
 }
