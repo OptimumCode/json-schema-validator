@@ -16,7 +16,7 @@ internal class RecursiveRefSchemaAssertion(
     errorCollector: ErrorCollector,
   ): Boolean {
     return context.getRecursiveRoot()?.validate(element, context, errorCollector) ?: run {
-      val (refIdPath, refAssertion) = context.referenceResolver.dynamicRef(refId)
+      val (refIdPath, refAssertion, _) = context.referenceResolver.dynamicRef(refId)
       refAssertion.validate(element, context) {
         errorCollector.onError(
           it.copy(

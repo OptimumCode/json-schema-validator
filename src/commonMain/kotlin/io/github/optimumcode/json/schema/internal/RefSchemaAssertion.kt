@@ -20,8 +20,8 @@ internal class RefSchemaAssertion(
   ): Boolean {
     if (!::refAssertion.isInitialized) {
       val resolved = context.referenceResolver.ref(refId)
-      refIdPath = resolved.first
-      refAssertion = resolved.second
+      refIdPath = resolved.schemaPath
+      refAssertion = resolved.assertion
     }
     return refAssertion.validate(element, context) {
       errorCollector.onError(
