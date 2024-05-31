@@ -3,6 +3,7 @@ build/
 out/
 
 .gradle/
+.kotlin/
 
 # downloaded data for unicode characters
 unicode_dump/
