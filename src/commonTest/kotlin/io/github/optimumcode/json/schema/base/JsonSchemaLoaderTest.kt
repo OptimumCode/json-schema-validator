@@ -1,5 +1,6 @@
 package io.github.optimumcode.json.schema.base
 
+import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.FormatBehavior.ANNOTATION_AND_ASSERTION
@@ -73,7 +74,7 @@ class JsonSchemaLoaderTest : FunSpec() {
                 schemaPath = JsonPointer("/properties/anotherName/\$ref/type"),
                 objectPath = JsonPointer("/anotherName"),
                 message = "element is not a string",
-                absoluteLocation = JsonPointer("/properties/name/type"),
+                absoluteLocation = Uri.parse("https://test.com#/properties/name/type"),
               ),
             )
           }
@@ -349,7 +350,7 @@ class JsonSchemaLoaderTest : FunSpec() {
             schemaPath = JsonPointer("/properties/foobar/\$ref/type"),
             objectPath = JsonPointer("/foobar"),
             message = "element is not a integer",
-            absoluteLocation = JsonPointer("/type"),
+            absoluteLocation = Uri.parse("myproject/enums/foo#/type"),
           ),
         )
       }

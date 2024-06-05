@@ -1,6 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.condition
 
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.pointer.JsonPointer
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
@@ -14,20 +15,23 @@ internal object ThenAssertionFactory : AbstractAssertionFactory("then") {
   ): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val thenAssertion = context.schemaFrom(element)
-    return ThenAssertion(thenAssertion)
+    return ThenAssertion(context.schemaPath, thenAssertion)
   }
 }
 
 private class ThenAssertion(
+  private val location: JsonPointer,
   private val assertion: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     return if (context.annotationCollector.annotated(IfAssertionFactory.ANNOTATION) == true) {
-      assertion.validate(element, context, errorCollector)
+      errorCollector.updateKeywordLocation(location).use {
+        assertion.validate(element, context, this)
+      }
     } else {
       true
     }

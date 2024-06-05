@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.general
 
 import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -27,18 +27,20 @@ private class ConstAssertion(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     if (areEqual(element, constValue)) {
       return true
     }
-    errorCollector.onError(
-      ValidationError(
-        schemaPath = path,
-        objectPath = context.objectPath,
-        message = "element does not match constant definition",
-      ),
-    )
+    errorCollector.updateKeywordLocation(path).use {
+      onError(
+        ValidationError(
+          schemaPath = path,
+          objectPath = context.objectPath,
+          message = "element does not match constant definition",
+        ),
+      )
+    }
     return false
   }
 }

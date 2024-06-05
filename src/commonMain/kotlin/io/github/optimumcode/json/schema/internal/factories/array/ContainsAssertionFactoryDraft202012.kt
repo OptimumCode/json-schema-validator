@@ -2,7 +2,7 @@ package io.github.optimumcode.json.schema.internal.factories.array
 
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.AnnotationKey
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AnnotationKeyFactory
 import io.github.optimumcode.json.schema.internal.AssertionContext
@@ -60,7 +60,7 @@ private class ContainsAssertionDraft202012(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     if (element !is JsonArray) {
       return true
@@ -68,7 +68,7 @@ private class ContainsAssertionDraft202012(
     val foundElements =
       element.asSequence().withIndex().filter { (_, el) ->
         val childContext = context.childContext()
-        containsAssertion.validate(el, childContext, ErrorCollector.EMPTY).also { valid ->
+        containsAssertion.validate(el, childContext, OutputCollector.Empty).also { valid ->
           if (valid) {
             childContext.propagateToParent()
           }
@@ -79,13 +79,15 @@ private class ContainsAssertionDraft202012(
       return true
     }
 
-    errorCollector.onError(
-      ValidationError(
-        schemaPath = path,
-        objectPath = context.objectPath,
-        message = "array does not contain expected element",
-      ),
-    )
+    errorCollector.updateKeywordLocation(path).use {
+      onError(
+        ValidationError(
+          schemaPath = path,
+          objectPath = context.objectPath,
+          message = "array does not contain expected element",
+        ),
+      )
+    }
 
     return false
   }

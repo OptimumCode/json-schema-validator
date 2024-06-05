@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.general
 
 import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -35,18 +35,20 @@ private class EnumAssertion(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     if (possibleElements.any { areEqual(it, element) }) {
       return true
     }
-    errorCollector.onError(
-      ValidationError(
-        schemaPath = path,
-        objectPath = context.objectPath,
-        message = "element is not in enum",
-      ),
-    )
+    errorCollector.updateKeywordLocation(path).use {
+      onError(
+        ValidationError(
+          schemaPath = path,
+          objectPath = context.objectPath,
+          message = "element is not in enum",
+        ),
+      )
+    }
     return false
   }
 }

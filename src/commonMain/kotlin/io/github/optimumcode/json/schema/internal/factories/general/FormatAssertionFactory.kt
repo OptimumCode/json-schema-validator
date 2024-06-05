@@ -2,10 +2,10 @@ package io.github.optimumcode.json.schema.internal.factories.general
 
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.AnnotationKey
-import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.FormatValidationResult.Invalid
 import io.github.optimumcode.json.schema.FormatValidationResult.Valid
 import io.github.optimumcode.json.schema.FormatValidator
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AnnotationKeyFactory
 import io.github.optimumcode.json.schema.internal.AssertionContext
@@ -101,7 +101,7 @@ private class FormatAssertion(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     val result = validator.validate(element)
     return when (result) {
@@ -112,13 +112,15 @@ private class FormatAssertion(
 
       Invalid -> {
         if (assertion) {
-          errorCollector.onError(
-            ValidationError(
-              schemaPath = schemaPath,
-              objectPath = context.objectPath,
-              message = "value does not match '$formatKey' format",
-            ),
-          )
+          errorCollector.updateKeywordLocation(schemaPath).use {
+            onError(
+              ValidationError(
+                schemaPath = schemaPath,
+                objectPath = context.objectPath,
+                message = "value does not match '$formatKey' format",
+              ),
+            )
+          }
           false
         } else {
           // only annotation should return true if format does not match

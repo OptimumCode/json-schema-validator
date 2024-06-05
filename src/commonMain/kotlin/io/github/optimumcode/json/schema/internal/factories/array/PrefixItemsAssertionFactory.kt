@@ -22,6 +22,6 @@ internal object PrefixItemsAssertionFactory : AbstractAssertionFactory("prefixIt
       "all elements in $property must be a valid JSON schema"
     }
     val assertions = element.mapIndexed { index, item -> context.at(index).schemaFrom(item) }
-    return PrefixItemsAssertion(assertions, ANNOTATION)
+    return PrefixItemsAssertion(context.schemaPath, assertions, ANNOTATION)
   }
 }

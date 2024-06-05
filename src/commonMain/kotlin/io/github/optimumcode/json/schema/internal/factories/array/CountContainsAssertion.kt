@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.array
 
 import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -17,21 +17,23 @@ internal class CountContainsAssertion(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     val matchedElements = actualCount(context) ?: return true
     if (operation.invoke(expected, matchedElements)) {
       return true
     }
-    errorCollector.onError(
-      ValidationError(
-        schemaPath = path,
-        objectPath = context.objectPath,
-        message =
-          "array must contain $operationName $expected element(s) match the 'contains' schema" +
-            " but has $matchedElements",
-      ),
-    )
+    errorCollector.updateKeywordLocation(path).use {
+      onError(
+        ValidationError(
+          schemaPath = path,
+          objectPath = context.objectPath,
+          message =
+            "array must contain $operationName $expected element(s) match the 'contains' schema" +
+              " but has $matchedElements",
+        ),
+      )
+    }
     return false
   }
 }

@@ -1,6 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.`object`
 
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.pointer.JsonPointer
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
@@ -17,31 +18,38 @@ internal object PropertyNamesAssertionFactory : AbstractAssertionFactory("proper
   ): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val propertyNamesAssertion = context.schemaFrom(element)
-    return PropertyNamesAssertion(propertyNamesAssertion)
+    return PropertyNamesAssertion(context.schemaPath, propertyNamesAssertion)
   }
 }
 
 private class PropertyNamesAssertion(
+  private val location: JsonPointer,
   private val namesAssertion: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     if (element !is JsonObject) {
       return true
     }
     var valid = true
-    element.keys.forEach { property ->
-      val res =
-        namesAssertion.validate(
-          JsonPrimitive(property),
-          context.at(property),
-        ) {
-          errorCollector.onError(it.copy(message = "property $property: ${it.message}"))
-        }
-      valid = valid and res
+    errorCollector.updateKeywordLocation(location).use {
+      element.keys.forEach { property ->
+        val ctx = context.at(property)
+        val res =
+          updateLocation(ctx.objectPath).withErrorTransformer {
+            it.copy(message = "property $property: ${it.message}")
+          }.use {
+            namesAssertion.validate(
+              JsonPrimitive(property),
+              ctx,
+              this,
+            )
+          }
+        valid = valid and res
+      }
     }
     return valid
   }

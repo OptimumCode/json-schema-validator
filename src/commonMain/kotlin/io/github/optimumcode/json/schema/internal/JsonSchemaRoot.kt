@@ -2,7 +2,7 @@ package io.github.optimumcode.json.schema.internal
 
 import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import kotlinx.serialization.json.JsonElement
 
 internal class JsonSchemaRoot(
@@ -14,7 +14,7 @@ internal class JsonSchemaRoot(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     if (canBeReferencedRecursively) {
       context.setRecursiveRootIfAbsent(this)

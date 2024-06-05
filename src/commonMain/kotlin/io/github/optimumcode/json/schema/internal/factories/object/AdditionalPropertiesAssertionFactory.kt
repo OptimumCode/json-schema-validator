@@ -1,7 +1,8 @@
 package io.github.optimumcode.json.schema.internal.factories.`object`
 
+import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.AnnotationKey
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.internal.AnnotationCollector
 import io.github.optimumcode.json.schema.internal.AnnotationKeyFactory
 import io.github.optimumcode.json.schema.internal.AssertionContext
@@ -20,17 +21,18 @@ internal object AdditionalPropertiesAssertionFactory : AbstractAssertionFactory(
   ): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val schemaAssertion = context.schemaFrom(element)
-    return AdditionalPropertiesAssertion(schemaAssertion)
+    return AdditionalPropertiesAssertion(context.schemaPath, schemaAssertion)
   }
 }
 
 private class AdditionalPropertiesAssertion(
+  private val location: JsonPointer,
   private val assertion: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     if (element !is JsonObject) {
       return true
@@ -39,20 +41,25 @@ private class AdditionalPropertiesAssertion(
     val propertiesAnnotation: Set<String>? = annotationCollector.annotated(PropertiesAssertionFactory.ANNOTATION)
     val patternAnnotation: Set<String>? = annotationCollector.annotated(PatternPropertiesAssertionFactory.ANNOTATION)
     var result = true
-    for ((prop, value) in element) {
-      if (propertiesAnnotation?.contains(prop) == true) {
-        continue
+    errorCollector.updateKeywordLocation(location).use {
+      for ((prop, value) in element) {
+        if (propertiesAnnotation?.contains(prop) == true) {
+          continue
+        }
+        if (patternAnnotation?.contains(prop) == true) {
+          continue
+        }
+        val ctx = context.at(prop)
+        val valid =
+          updateLocation(ctx.objectPath).use {
+            assertion.validate(
+              value,
+              ctx,
+              this,
+            )
+          }
+        result = result && valid
       }
-      if (patternAnnotation?.contains(prop) == true) {
-        continue
-      }
-      val valid =
-        assertion.validate(
-          value,
-          context.at(prop),
-          errorCollector,
-        )
-      result = result && valid
     }
     if (result) {
       annotationCollector.annotate(AdditionalPropertiesAssertionFactory.ANNOTATION, true)

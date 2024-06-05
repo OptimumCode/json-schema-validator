@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.string
 
 import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -36,7 +36,7 @@ private class PatternAssertion(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     if (element !is JsonPrimitive || !element.isString) {
       return true
@@ -46,13 +46,15 @@ private class PatternAssertion(
     if (regex.find(content) != null) {
       return true
     }
-    errorCollector.onError(
-      ValidationError(
-        schemaPath = path,
-        objectPath = context.objectPath,
-        message = "string does not match pattern '${regex.pattern}'",
-      ),
-    )
+    errorCollector.updateKeywordLocation(path).use {
+      onError(
+        ValidationError(
+          schemaPath = path,
+          objectPath = context.objectPath,
+          message = "string does not match pattern '${regex.pattern}'",
+        ),
+      )
+    }
     return false
   }
 }

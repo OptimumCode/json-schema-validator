@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.condition
 
-import io.github.optimumcode.json.schema.ErrorCollector
-import io.github.optimumcode.json.schema.ValidationError
+import io.github.optimumcode.json.pointer.JsonPointer
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
@@ -12,30 +12,37 @@ internal object AnyOfAssertionFactory : AbstractAssertionsCollectionFactory("any
   override fun createAssertion(
     context: LoadingContext,
     assertions: List<JsonSchemaAssertion>,
-  ): JsonSchemaAssertion = AnyOfAssertion(assertions)
+  ): JsonSchemaAssertion = AnyOfAssertion(context.schemaPath, assertions)
 }
 
 private class AnyOfAssertion(
+  private val location: JsonPointer,
   private val assertions: List<JsonSchemaAssertion>,
 ) : JsonSchemaAssertion {
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
-    var valid = false
-    val tempHandler = mutableListOf<ValidationError>()
-    assertions.forEach {
-      val childContext = context.childContext()
-      val res = it.validate(element, childContext, tempHandler::add)
-      if (res) {
-        childContext.propagateToParent()
+    val valid =
+      errorCollector.updateKeywordLocation(location).use {
+        val tempHandler = mutableListOf<OutputCollector<*>>()
+        var valid = false
+        assertions.forEach {
+          val childContext = context.childContext()
+          val collector = childCollector()
+          tempHandler += collector
+          val res = it.validate(element, childContext, collector)
+          if (res) {
+            childContext.propagateToParent()
+          }
+          valid = valid or res
+        }
+        if (!valid) {
+          tempHandler.forEach(OutputCollector<*>::reportErrors)
+        }
+        valid
       }
-      valid = valid or res
-    }
-    if (!valid) {
-      tempHandler.forEach(errorCollector::onError)
-    }
     return valid
   }
 }

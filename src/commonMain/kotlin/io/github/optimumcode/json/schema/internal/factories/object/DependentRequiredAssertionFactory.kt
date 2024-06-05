@@ -22,6 +22,6 @@ internal object DependentRequiredAssertionFactory : AbstractAssertionFactory("de
         require(el is JsonArray) { "$prop dependency must be an array" }
         ConditionalRequiredPropertiesAssertion.createFromArray(prop, el, context.at(prop))
       }
-    return DependenciesAssertion(assertionsByProp)
+    return DependenciesAssertion(context.schemaPath, assertionsByProp)
   }
 }

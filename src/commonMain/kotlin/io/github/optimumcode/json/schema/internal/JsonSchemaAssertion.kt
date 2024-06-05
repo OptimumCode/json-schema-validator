@@ -1,6 +1,7 @@
 package io.github.optimumcode.json.schema.internal
 
 import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import kotlinx.serialization.json.JsonElement
 
 internal interface JsonSchemaAssertion {
@@ -18,6 +19,6 @@ internal interface JsonSchemaAssertion {
   fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean
 }

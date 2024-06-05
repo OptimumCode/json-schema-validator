@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.string
 
 import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -19,7 +19,7 @@ internal class LengthAssertion(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     if (element !is JsonPrimitive || !element.isString) {
       return true
@@ -29,13 +29,15 @@ internal class LengthAssertion(
     if (check(codePointCount, lengthValue)) {
       return true
     }
-    errorCollector.onError(
-      ValidationError(
-        schemaPath = path,
-        objectPath = context.objectPath,
-        message = "string length ($codePointCount) $errorMessage $lengthValue",
-      ),
-    )
+    errorCollector.updateKeywordLocation(path).use {
+      onError(
+        ValidationError(
+          schemaPath = path,
+          objectPath = context.objectPath,
+          message = "string length ($codePointCount) $errorMessage $lengthValue",
+        ),
+      )
+    }
     return false
   }
 }

@@ -1,7 +1,8 @@
 package io.github.optimumcode.json.schema.internal.factories.`object`
 
+import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.AnnotationKey
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.internal.AnnotationKeyFactory
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -23,17 +24,18 @@ internal object PropertiesAssertionFactory : AbstractAssertionFactory("propertie
         require(context.isJsonSchema(element)) { "$prop must be a valid JSON schema" }
         context.at(prop).schemaFrom(element)
       }
-    return PropertiesAssertion(propAssertions)
+    return PropertiesAssertion(context.schemaPath, propAssertions)
   }
 }
 
 private class PropertiesAssertion(
+  private val location: JsonPointer,
   private val assertionsByProperty: Map<String, JsonSchemaAssertion>,
 ) : JsonSchemaAssertion {
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     if (assertionsByProperty.isEmpty()) {
       return true
@@ -43,15 +45,20 @@ private class PropertiesAssertion(
     }
 
     var result = true
-    for ((prop, value) in element) {
-      val propAssertion = assertionsByProperty[prop] ?: continue
-      val valid =
-        propAssertion.validate(
-          value,
-          context.at(prop),
-          errorCollector,
-        )
-      result = result && valid
+    errorCollector.updateKeywordLocation(location).use {
+      for ((prop, value) in element) {
+        val propAssertion = assertionsByProperty[prop] ?: continue
+        val ctx = context.at(prop)
+        val valid =
+          updateLocation(ctx.objectPath).use {
+            propAssertion.validate(
+              value,
+              ctx,
+              this,
+            )
+          }
+        result = result && valid
+      }
     }
 
     context.annotationCollector.annotate(PropertiesAssertionFactory.ANNOTATION, assertionsByProperty.keys)

@@ -1,7 +1,8 @@
 package io.github.optimumcode.json.schema.internal.factories.`object`
 
+import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.AnnotationKey
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.internal.AnnotationKeyFactory
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -30,17 +31,18 @@ internal object PatternPropertiesAssertionFactory : AbstractAssertionFactory("pa
           }
         regex to context.at(prop).schemaFrom(element)
       }
-    return PatternAssertion(propAssertions)
+    return PatternAssertion(context.schemaPath, propAssertions)
   }
 }
 
 private class PatternAssertion(
+  private val location: JsonPointer,
   private val assertionsByRegex: Map<Regex, JsonSchemaAssertion>,
 ) : JsonSchemaAssertion {
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     if (element !is JsonObject) {
       return true
@@ -52,33 +54,37 @@ private class PatternAssertion(
 
     var result = true
     var checkedProps: MutableSet<String>? = null
-    for ((prop, value) in element) {
-      val matchedRegex =
-        assertionsByRegex.filter { (regex) ->
-          regex.find(prop) != null
+    errorCollector.updateKeywordLocation(location).use {
+      for ((prop, value) in element) {
+        val matchedRegex =
+          assertionsByRegex.filter { (regex) ->
+            regex.find(prop) != null
+          }
+        if (matchedRegex.isEmpty()) {
+          continue
         }
-      if (matchedRegex.isEmpty()) {
-        continue
-      }
-      if (checkedProps == null) {
-        // initialize props
-        checkedProps = hashSetOf()
-      }
-      checkedProps.add(prop)
-      val propContext = context.at(prop)
-      for ((_, assertion) in matchedRegex) {
-        val valid =
-          assertion.validate(
-            value,
-            propContext,
-            errorCollector,
-          )
-        result = result && valid
+        if (checkedProps == null) {
+          // initialize props
+          checkedProps = hashSetOf()
+        }
+        checkedProps!!.add(prop)
+        val propContext = context.at(prop)
+        updateLocation(propContext.objectPath).use {
+          for ((_, assertion) in matchedRegex) {
+            val valid =
+              assertion.validate(
+                value,
+                propContext,
+                this,
+              )
+            result = result && valid
+          }
+        }
       }
     }
 
-    if (checkedProps != null) {
-      context.annotationCollector.annotate(PatternPropertiesAssertionFactory.ANNOTATION, checkedProps)
+    checkedProps?.also {
+      context.annotationCollector.annotate(PatternPropertiesAssertionFactory.ANNOTATION, it)
     }
 
     return result

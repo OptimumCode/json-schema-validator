@@ -3,7 +3,7 @@ package io.github.optimumcode.json.schema.internal
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.pointer.plus
 import io.github.optimumcode.json.pointer.relative
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import kotlinx.serialization.json.JsonElement
 
 internal class RecursiveRefSchemaAssertion(
@@ -13,18 +13,27 @@ internal class RecursiveRefSchemaAssertion(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     return context.getRecursiveRoot()?.validate(element, context, errorCollector) ?: run {
-      val (refIdPath, refAssertion, _) = context.referenceResolver.dynamicRef(refId)
-      refAssertion.validate(element, context) {
-        errorCollector.onError(
+      val (refIdPath, refAssertion, absoluteLocation) = context.referenceResolver.dynamicRef(refId)
+      errorCollector.updateKeywordLocation(basePath)
+        .withErrorTransformer {
+          val relativePath = refIdPath.relative(it.schemaPath)
           it.copy(
-            schemaPath = basePath + refIdPath.relative(it.schemaPath),
-            absoluteLocation = it.absoluteLocation ?: it.schemaPath,
-          ),
-        )
-      }
+            schemaPath = basePath + relativePath,
+            absoluteLocation =
+              it.absoluteLocation ?: absoluteLocation.buildUpon()
+                .encodedFragment(it.schemaPath.toString())
+                .build(),
+          )
+        }.use {
+          refAssertion.validate(
+            element,
+            context,
+            this,
+          )
+        }
     }
   }
 }

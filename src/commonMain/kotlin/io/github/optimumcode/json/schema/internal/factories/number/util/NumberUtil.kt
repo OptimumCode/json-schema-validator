@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.number.util
 
 import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -51,7 +51,7 @@ internal class NumberComparisonAssertion(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     if (element !is JsonPrimitive || element.isString) {
       return true
@@ -60,13 +60,15 @@ internal class NumberComparisonAssertion(
     if (check(value, boundary)) {
       return true
     }
-    errorCollector.onError(
-      ValidationError(
-        schemaPath = path,
-        objectPath = context.objectPath,
-        message = "${element.content} $errorMessage $boundaryContent",
-      ),
-    )
+    errorCollector.updateKeywordLocation(path).use {
+      onError(
+        ValidationError(
+          schemaPath = path,
+          objectPath = context.objectPath,
+          message = "${element.content} $errorMessage $boundaryContent",
+        ),
+      )
+    }
     return false
   }
 }

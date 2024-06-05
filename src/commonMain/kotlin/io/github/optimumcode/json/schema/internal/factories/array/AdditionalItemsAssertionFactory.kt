@@ -16,6 +16,12 @@ internal object AdditionalItemsAssertionFactory : AbstractAssertionFactory("addi
   ): JsonSchemaAssertion {
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val assertion = context.schemaFrom(element)
-    return AdditionalItemsAssertion(assertion, ItemsAssertionFactory.ANNOTATION, ANNOTATION, returnIfNoIndex = true)
+    return AdditionalItemsAssertion(
+      context.schemaPath,
+      assertion,
+      ItemsAssertionFactory.ANNOTATION,
+      ANNOTATION,
+      returnIfNoIndex = true,
+    )
   }
 }

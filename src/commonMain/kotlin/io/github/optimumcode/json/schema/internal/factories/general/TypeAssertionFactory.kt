@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.general
 
 import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -82,21 +82,23 @@ private class TypeAssertion(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     val match = validations.any { it.check(element) }
     if (!match) {
-      errorCollector.onError(
-        ValidationError(
-          schemaPath = path,
-          objectPath = context.objectPath,
-          message =
-            when (validations.size) {
-              1 -> "element is not a ${validations.first().name}"
-              else -> "element is none of ${validations.joinToString(prefix = "[", postfix = "]") { it.name }}"
-            },
-        ),
-      )
+      errorCollector.updateKeywordLocation(path).use {
+        onError(
+          ValidationError(
+            schemaPath = path,
+            objectPath = context.objectPath,
+            message =
+              when (validations.size) {
+                1 -> "element is not a ${validations.first().name}"
+                else -> "element is none of ${validations.joinToString(prefix = "[", postfix = "]") { it.name }}"
+              },
+          ),
+        )
+      }
     }
     return match
   }

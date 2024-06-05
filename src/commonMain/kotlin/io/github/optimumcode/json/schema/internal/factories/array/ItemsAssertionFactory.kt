@@ -23,10 +23,10 @@ internal object ItemsAssertionFactory : AbstractAssertionFactory("items") {
         "all elements in $property must be a valid JSON schema"
       }
       val assertions = element.mapIndexed { index, item -> context.at(index).schemaFrom(item) }
-      PrefixItemsAssertion(assertions, ANNOTATION)
+      PrefixItemsAssertion(context.schemaPath, assertions, ANNOTATION)
     } else {
       require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
-      AllItemsAssertion(context.schemaFrom(element), ANNOTATION)
+      AllItemsAssertion(context.schemaPath, context.schemaFrom(element), ANNOTATION)
     }
   }
 }

@@ -17,6 +17,7 @@ internal object UnevaluatedItemsAssertionFactoryDraft202012 : AbstractAssertionF
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val assertion = context.schemaFrom(element)
     return UnevaluatedItemsAssertion(
+      context.schemaPath,
       assertion,
       PrefixItemsAssertionFactory.ANNOTATION,
       ItemsAssertionFactoryDraft202012.ANNOTATION,
