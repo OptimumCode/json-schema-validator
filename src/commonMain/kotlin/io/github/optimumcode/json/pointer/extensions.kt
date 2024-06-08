@@ -72,17 +72,23 @@ public operator fun JsonPointer.plus(otherPointer: JsonPointer): JsonPointer {
  * @throws IllegalArgumentException when [other] is an empty pointer
  */
 public fun JsonPointer.relative(other: JsonPointer): JsonPointer {
-  if (this is EmptyPointer) {
+  if (this !is SegmentPointer) {
     return other
   }
-  require(other !is EmptyPointer) { "empty pointer is not relative to any" }
-  val currentValue = this.toString()
-  val otherValue = other.toString()
-  val relative = otherValue.substringAfter(currentValue)
-  return if (relative == otherValue) {
-    other
+  require(other is SegmentPointer) { "empty pointer is not relative to any" }
+  var currentValue: JsonPointer = this
+  var otherValue: JsonPointer = other
+  while (currentValue is SegmentPointer && otherValue is SegmentPointer) {
+    if (currentValue.propertyName != otherValue.propertyName) {
+      return other
+    }
+    currentValue = currentValue.next
+    otherValue = otherValue.next
+  }
+  return if (currentValue is EmptyPointer) {
+    otherValue
   } else {
-    JsonPointer(relative)
+    other
   }
 }
 
