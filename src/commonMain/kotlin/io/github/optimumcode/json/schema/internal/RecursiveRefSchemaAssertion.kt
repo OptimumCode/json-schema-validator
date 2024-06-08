@@ -3,6 +3,7 @@ package io.github.optimumcode.json.schema.internal
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.pointer.plus
 import io.github.optimumcode.json.pointer.relative
+import io.github.optimumcode.json.schema.AbsoluteLocation
 import io.github.optimumcode.json.schema.OutputCollector
 import kotlinx.serialization.json.JsonElement
 
@@ -23,9 +24,7 @@ internal class RecursiveRefSchemaAssertion(
           it.copy(
             schemaPath = basePath + relativePath,
             absoluteLocation =
-              it.absoluteLocation ?: absoluteLocation.buildUpon()
-                .encodedFragment(it.schemaPath.toString())
-                .build(),
+              it.absoluteLocation ?: AbsoluteLocation(absoluteLocation, it.schemaPath),
           )
         }.use {
           refAssertion.validate(

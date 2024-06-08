@@ -6,11 +6,29 @@ import io.github.optimumcode.json.schema.ValidationOutput.Verbose
 
 internal typealias OutputErrorTransformer<T> = OutputCollector<T>.(ValidationError) -> ValidationError?
 
+private val NO_TRANSFORMATION: OutputErrorTransformer<*> = { it }
+
 public sealed class OutputCollector<T> private constructor(
-  protected open val parent: OutputCollector<T>? = null,
-  protected val transformer: OutputErrorTransformer<T> = { it },
+  parent: OutputCollector<T>? = null,
+  transformer: OutputErrorTransformer<T> = NO_TRANSFORMATION,
 ) : ErrorCollector {
   public abstract val output: T
+  private val transformerFunc: OutputErrorTransformer<T> =
+    parent?.let { p ->
+      when {
+        transformer === NO_TRANSFORMATION && p.transformerFunc === NO_TRANSFORMATION
+        -> NO_TRANSFORMATION
+        transformer === NO_TRANSFORMATION
+        -> p.transformerFunc
+        p.transformerFunc === NO_TRANSFORMATION
+        -> transformer
+        else -> {
+          { err ->
+            transformer(err)?.let { p.transformError(it) }
+          }
+        }
+      }
+    } ?: transformer
 
   internal abstract fun updateLocation(path: JsonPointer): OutputCollector<T>
 
@@ -29,17 +47,7 @@ public sealed class OutputCollector<T> private constructor(
       reportErrors()
     }
 
-  internal fun transformError(error: ValidationError): ValidationError? {
-    return transformer(error)?.let {
-      parent.let { p ->
-        if (p == null) {
-          it
-        } else {
-          p.transformError(it)
-        }
-      }
-    }
-  }
+  protected fun transformError(error: ValidationError): ValidationError? = transformerFunc(error)
 
   internal data object Empty : OutputCollector<Nothing>() {
     override val output: Nothing
@@ -58,8 +66,8 @@ public sealed class OutputCollector<T> private constructor(
 
   internal class DelegateOutputCollector(
     private val errorCollector: ErrorCollector,
-    override val parent: DelegateOutputCollector? = null,
-    transformer: OutputErrorTransformer<Nothing> = { it },
+    private val parent: DelegateOutputCollector? = null,
+    transformer: OutputErrorTransformer<Nothing> = NO_TRANSFORMATION,
   ) : OutputCollector<Nothing>(parent, transformer) {
     private val reportedErrors = mutableListOf<ValidationError>()
 
@@ -85,12 +93,12 @@ public sealed class OutputCollector<T> private constructor(
         ?: reportedErrors.forEach(errorCollector::onError)
     }
 
-    override fun childCollector(): OutputCollector<Nothing> = DelegateOutputCollector(errorCollector, this, transformer)
+    override fun childCollector(): OutputCollector<Nothing> = DelegateOutputCollector(errorCollector, this)
   }
 
   public class Flag private constructor(
-    override val parent: Flag? = null,
-    transformer: OutputErrorTransformer<ValidationOutput.Flag> = { it },
+    private val parent: Flag? = null,
+    transformer: OutputErrorTransformer<ValidationOutput.Flag> = NO_TRANSFORMATION,
   ) : OutputCollector<ValidationOutput.Flag>(parent, transformer) {
     private var valid: Boolean = true
     override val output: ValidationOutput.Flag
@@ -128,8 +136,8 @@ public sealed class OutputCollector<T> private constructor(
   public class Detailed private constructor(
     private val location: JsonPointer = JsonPointer.ROOT,
     private val keywordLocation: JsonPointer = JsonPointer.ROOT,
-    override val parent: Detailed? = null,
-    transformer: OutputErrorTransformer<ValidationOutput.Detailed> = { it },
+    private val parent: Detailed? = null,
+    transformer: OutputErrorTransformer<ValidationOutput.Detailed> = NO_TRANSFORMATION,
   ) : OutputCollector<ValidationOutput.Detailed>(parent, transformer) {
     private val errors: MutableList<ValidationOutput.Detailed> = mutableListOf()
 
@@ -189,8 +197,8 @@ public sealed class OutputCollector<T> private constructor(
   public class Verbose private constructor(
     private val location: JsonPointer = JsonPointer.ROOT,
     private val keywordLocation: JsonPointer = JsonPointer.ROOT,
-    override val parent: Verbose? = null,
-    transformer: OutputErrorTransformer<ValidationOutput.Verbose> = { it },
+    private val parent: Verbose? = null,
+    transformer: OutputErrorTransformer<ValidationOutput.Verbose> = NO_TRANSFORMATION,
   ) : OutputCollector<ValidationOutput.Verbose>(parent, transformer) {
     private val errors: MutableList<ValidationOutput.Verbose> = mutableListOf()
 

@@ -1,6 +1,5 @@
 package io.github.optimumcode.json.schema
 
-import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
 import kotlin.jvm.JvmField
 
@@ -21,7 +20,7 @@ public sealed class ValidationOutput private constructor(
     valid: Boolean,
     public val keywordLocation: JsonPointer,
     public val instanceLocation: JsonPointer,
-    public val absoluteKeywordLocation: Uri? = null,
+    public val absoluteKeywordLocation: AbsoluteLocation? = null,
     public val error: String? = null,
     public val errors: List<Detailed> = emptyList(),
   ) : ValidationOutput(valid)
@@ -30,7 +29,7 @@ public sealed class ValidationOutput private constructor(
     valid: Boolean,
     public val keywordLocation: JsonPointer,
     public val instanceLocation: JsonPointer,
-    public val absoluteKeywordLocation: Uri? = null,
+    public val absoluteKeywordLocation: AbsoluteLocation? = null,
     public val error: String? = null,
     public val errors: List<Verbose> = emptyList(),
     public val annotations: List<Verbose> = emptyList(),

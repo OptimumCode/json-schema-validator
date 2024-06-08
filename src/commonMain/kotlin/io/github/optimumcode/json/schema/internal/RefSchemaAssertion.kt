@@ -4,6 +4,7 @@ import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.pointer.plus
 import io.github.optimumcode.json.pointer.relative
+import io.github.optimumcode.json.schema.AbsoluteLocation
 import io.github.optimumcode.json.schema.OutputCollector
 import kotlinx.serialization.json.JsonElement
 
@@ -30,9 +31,7 @@ internal class RefSchemaAssertion(
       it.copy(
         schemaPath = basePath + refIdPath.relative(it.schemaPath),
         absoluteLocation =
-          it.absoluteLocation ?: refAbsolutePath.buildUpon()
-            .encodedFragment(it.schemaPath.toString())
-            .build(),
+          it.absoluteLocation ?: AbsoluteLocation(refAbsolutePath, it.schemaPath),
       )
     }.use {
       refAssertion.validate(
