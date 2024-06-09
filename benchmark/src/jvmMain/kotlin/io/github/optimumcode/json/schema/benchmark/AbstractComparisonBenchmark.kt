@@ -6,9 +6,14 @@ import com.networknt.schema.JsonSchemaFactory
 import com.networknt.schema.OutputFormat
 import com.networknt.schema.SchemaValidatorsConfig
 import com.networknt.schema.SpecVersion.VersionFlag.V7
+import com.networknt.schema.output.OutputFlag
+import com.networknt.schema.output.OutputUnit
 import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
+import io.github.optimumcode.json.schema.ValidationOutput.Detailed
+import io.github.optimumcode.json.schema.ValidationOutput.Flag
+import io.github.optimumcode.json.schema.ValidationOutput.Verbose
 import io.github.optimumcode.json.schema.fromStream
 import io.openapiprocessor.jackson.JacksonConverter
 import io.openapiprocessor.jsonschema.reader.UriReader
@@ -19,8 +24,8 @@ import io.openapiprocessor.jsonschema.schema.Output.FLAG
 import io.openapiprocessor.jsonschema.schema.SchemaStore
 import io.openapiprocessor.jsonschema.validator.Validator
 import io.openapiprocessor.jsonschema.validator.ValidatorSettings
+import io.openapiprocessor.jsonschema.validator.steps.ValidationStep
 import kotlinx.benchmark.Benchmark
-import kotlinx.benchmark.Blackhole
 import kotlinx.benchmark.Setup
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -96,49 +101,49 @@ abstract class AbstractComparisonBenchmark {
   }
 
   @Benchmark
-  fun validateOpenApi(bh: Blackhole) {
-    bh.consume(openapiValidator.validate(openapiSchema, openapiDocument))
+  fun validateOpenApi(): ValidationStep {
+    return openapiValidator.validate(openapiSchema, openapiDocument)
   }
 
   @Benchmark
-  fun validateNetworkntFlag(bh: Blackhole) {
-    bh.consume(networkntSchema.validate(networkntDocument, OutputFormat.FLAG))
+  fun validateNetworkntFlag(): OutputFlag? {
+    return networkntSchema.validate(networkntDocument, OutputFormat.FLAG)
   }
 
   @Benchmark
-  fun validateNetworkntDetailed(bh: Blackhole) {
-    bh.consume(networkntSchema.validate(networkntDocument, OutputFormat.LIST))
+  fun validateNetworkntDetailed(): OutputUnit {
+    return networkntSchema.validate(networkntDocument, OutputFormat.LIST)
   }
 
   @Benchmark
-  fun validateNetworkntVerbose(bh: Blackhole) {
-    bh.consume(networkntSchema.validate(networkntDocument, OutputFormat.HIERARCHICAL))
+  fun validateNetworkntVerbose(): OutputUnit {
+    return networkntSchema.validate(networkntDocument, OutputFormat.HIERARCHICAL)
   }
 
   @Benchmark
-  fun validateKmpEmptyCollector(bh: Blackhole) {
-    bh.consume(schema.validate(document, ErrorCollector.EMPTY))
+  fun validateKmpEmptyCollector(): Boolean {
+    return schema.validate(document, ErrorCollector.EMPTY)
   }
 
   @Benchmark
-  fun validateKmpCollectErrors(bh: Blackhole) {
+  fun validateKmpCollectErrors(): List<ValidationError> {
     val errors = arrayListOf<ValidationError>()
     schema.validate(document, errors::add)
-    bh.consume(errors)
+    return errors
   }
 
   @Benchmark
-  fun validateKmpFlag(bh: Blackhole) {
-    bh.consume(schema.validate(document, OutputCollector.flag()))
+  fun validateKmpFlag(): Flag {
+    return schema.validate(document, OutputCollector.flag())
   }
 
   @Benchmark
-  fun validateKmpDetailed(bh: Blackhole) {
-    bh.consume(schema.validate(document, OutputCollector.detailed()))
+  fun validateKmpDetailed(): Detailed {
+    return schema.validate(document, OutputCollector.detailed())
   }
 
   @Benchmark
-  fun validateKmpVerbose(bh: Blackhole) {
-    bh.consume(schema.validate(document, OutputCollector.verbose()))
+  fun validateKmpVerbose(): Verbose {
+    return schema.validate(document, OutputCollector.verbose())
   }
 }
