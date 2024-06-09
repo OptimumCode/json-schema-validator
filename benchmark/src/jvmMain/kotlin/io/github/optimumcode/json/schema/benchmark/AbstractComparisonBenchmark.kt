@@ -7,6 +7,7 @@ import com.networknt.schema.OutputFormat
 import com.networknt.schema.SchemaValidatorsConfig
 import com.networknt.schema.SpecVersion.VersionFlag.V7
 import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.fromStream
 import io.openapiprocessor.jackson.JacksonConverter
@@ -105,13 +106,18 @@ abstract class AbstractComparisonBenchmark {
   }
 
   @Benchmark
-  fun validateKmpFlag(bh: Blackhole) {
-    bh.consume(schema.validate(document, ErrorCollector.EMPTY))
+  fun validateNetworkntDetailed(bh: Blackhole) {
+    bh.consume(networkntSchema.validate(networkntDocument, OutputFormat.LIST))
   }
 
   @Benchmark
-  fun validateNetworkntCollectErrors(bh: Blackhole) {
-    bh.consume(networkntSchema.validate(networkntDocument, OutputFormat.LIST))
+  fun validateNetworkntVerbose(bh: Blackhole) {
+    bh.consume(networkntSchema.validate(networkntDocument, OutputFormat.HIERARCHICAL))
+  }
+
+  @Benchmark
+  fun validateKmpEmptyCollector(bh: Blackhole) {
+    bh.consume(schema.validate(document, ErrorCollector.EMPTY))
   }
 
   @Benchmark
@@ -119,5 +125,20 @@ abstract class AbstractComparisonBenchmark {
     val errors = arrayListOf<ValidationError>()
     schema.validate(document, errors::add)
     bh.consume(errors)
+  }
+
+  @Benchmark
+  fun validateKmpFlag(bh: Blackhole) {
+    bh.consume(schema.validate(document, OutputCollector.flag()))
+  }
+
+  @Benchmark
+  fun validateKmpDetailed(bh: Blackhole) {
+    bh.consume(schema.validate(document, OutputCollector.detailed()))
+  }
+
+  @Benchmark
+  fun validateKmpVerbose(bh: Blackhole) {
+    bh.consume(schema.validate(document, OutputCollector.verbose()))
   }
 }

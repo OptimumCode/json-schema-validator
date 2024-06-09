@@ -2,6 +2,7 @@ package io.github.optimumcode.json.schema.benchmark
 
 import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.JsonSchema
+import io.github.optimumcode.json.schema.OutputCollector
 import kotlinx.benchmark.Benchmark
 import kotlinx.benchmark.Blackhole
 import kotlinx.benchmark.Setup
@@ -48,5 +49,25 @@ abstract class AbstractCommonBenchmark {
   @Benchmark
   fun validate(bh: Blackhole) {
     bh.consume(schema.validate(document, ErrorCollector.EMPTY))
+  }
+
+  @Benchmark
+  fun validateFlag(bh: Blackhole) {
+    bh.consume(schema.validate(document, OutputCollector.flag()))
+  }
+
+  @Benchmark
+  fun validateBasic(bh: Blackhole) {
+    bh.consume(schema.validate(document, OutputCollector.basic()))
+  }
+
+  @Benchmark
+  fun validateDetailed(bh: Blackhole) {
+    bh.consume(schema.validate(document, OutputCollector.detailed()))
+  }
+
+  @Benchmark
+  fun validateVerbose(bh: Blackhole) {
+    bh.consume(schema.validate(document, OutputCollector.verbose()))
   }
 }
