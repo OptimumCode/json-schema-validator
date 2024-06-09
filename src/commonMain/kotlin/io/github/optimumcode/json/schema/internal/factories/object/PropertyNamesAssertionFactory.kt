@@ -31,11 +31,11 @@ private class PropertyNamesAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonObject) {
-      return true
-    }
-    var valid = true
-    errorCollector.updateKeywordLocation(location).use {
+    return errorCollector.updateKeywordLocation(location).use {
+      if (element !is JsonObject) {
+        return@use true
+      }
+      var valid = true
       element.keys.forEach { property ->
         val ctx = context.at(property)
         val res =
@@ -50,7 +50,7 @@ private class PropertyNamesAssertion(
           }
         valid = valid and res
       }
+      valid
     }
-    return valid
   }
 }

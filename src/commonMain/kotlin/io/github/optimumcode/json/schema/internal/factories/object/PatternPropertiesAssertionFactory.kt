@@ -44,17 +44,17 @@ private class PatternAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonObject) {
-      return true
-    }
+    return errorCollector.updateKeywordLocation(location).use {
+      if (element !is JsonObject) {
+        return@use true
+      }
 
-    if (assertionsByRegex.isEmpty()) {
-      return true
-    }
+      if (assertionsByRegex.isEmpty()) {
+        return@use true
+      }
 
-    var result = true
-    var checkedProps: MutableSet<String>? = null
-    errorCollector.updateKeywordLocation(location).use {
+      var result = true
+      var checkedProps: MutableSet<String>? = null
       for ((prop, value) in element) {
         val matchedRegex =
           assertionsByRegex.filter { (regex) ->
@@ -67,7 +67,7 @@ private class PatternAssertion(
           // initialize props
           checkedProps = hashSetOf()
         }
-        checkedProps!!.add(prop)
+        checkedProps.add(prop)
         val propContext = context.at(prop)
         updateLocation(propContext.objectPath).use {
           for ((_, assertion) in matchedRegex) {
@@ -81,12 +81,12 @@ private class PatternAssertion(
           }
         }
       }
-    }
 
-    checkedProps?.also {
-      context.annotationCollector.annotate(PatternPropertiesAssertionFactory.ANNOTATION, it)
-    }
+      checkedProps?.also {
+        context.annotationCollector.annotate(PatternPropertiesAssertionFactory.ANNOTATION, it)
+      }
 
-    return result
+      result
+    }
   }
 }

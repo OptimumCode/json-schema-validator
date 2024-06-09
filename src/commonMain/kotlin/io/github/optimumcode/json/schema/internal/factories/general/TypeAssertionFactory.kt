@@ -84,9 +84,9 @@ private class TypeAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    val match = validations.any { it.check(element) }
-    if (!match) {
-      errorCollector.updateKeywordLocation(path).use {
+    return errorCollector.updateKeywordLocation(path).use {
+      val match = validations.any { it.check(element) }
+      if (!match) {
         onError(
           ValidationError(
             schemaPath = path,
@@ -99,7 +99,7 @@ private class TypeAssertion(
           ),
         )
       }
+      match
     }
-    return match
   }
 }

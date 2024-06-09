@@ -25,7 +25,7 @@ private class OneOfAssertion(
     errorCollector: OutputCollector<*>,
   ): Boolean {
     val matched: MutableList<Int> = ArrayList(1)
-    errorCollector.updateKeywordLocation(path).use {
+    errorCollector.updateKeywordLocation(path, canCollapse = false).use {
       val childCollectors = mutableListOf<OutputCollector<*>>()
       for ((index, assertion) in assertions.withIndex()) {
         val childContext = context.childContext()

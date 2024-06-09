@@ -40,17 +40,17 @@ private class RequiredAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonObject) {
-      return true
-    }
-    val missingProperties =
-      requiredProperties.asSequence()
-        .filter { !element.containsKey(it) }
-        .toSet()
-    if (missingProperties.isEmpty()) {
-      return true
-    }
-    errorCollector.updateKeywordLocation(path).use {
+    return errorCollector.updateKeywordLocation(path).use {
+      if (element !is JsonObject) {
+        return@use true
+      }
+      val missingProperties =
+        requiredProperties.asSequence()
+          .filter { !element.containsKey(it) }
+          .toSet()
+      if (missingProperties.isEmpty()) {
+        return@use true
+      }
       onError(
         ValidationError(
           schemaPath = path,
@@ -58,7 +58,7 @@ private class RequiredAssertion(
           message = "missing required properties: $missingProperties",
         ),
       )
+      false
     }
-    return false
   }
 }

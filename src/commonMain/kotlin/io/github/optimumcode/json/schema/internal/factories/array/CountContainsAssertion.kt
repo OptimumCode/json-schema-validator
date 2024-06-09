@@ -19,11 +19,12 @@ internal class CountContainsAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    val matchedElements = actualCount(context) ?: return true
-    if (operation.invoke(expected, matchedElements)) {
-      return true
-    }
-    errorCollector.updateKeywordLocation(path).use {
+    return errorCollector.updateKeywordLocation(path).use {
+      val matchedElements = actualCount(context) ?: return true
+      if (operation.invoke(expected, matchedElements)) {
+        return@use true
+      }
+
       onError(
         ValidationError(
           schemaPath = path,
@@ -33,7 +34,7 @@ internal class CountContainsAssertion(
               " but has $matchedElements",
         ),
       )
+      false
     }
-    return false
   }
 }

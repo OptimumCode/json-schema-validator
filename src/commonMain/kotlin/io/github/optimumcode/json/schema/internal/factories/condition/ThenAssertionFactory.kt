@@ -28,12 +28,12 @@ private class ThenAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    return if (context.annotationCollector.annotated(IfAssertionFactory.ANNOTATION) == true) {
-      errorCollector.updateKeywordLocation(location).use {
+    return errorCollector.updateKeywordLocation(location, canCollapse = false).use {
+      if (context.annotationCollector.annotated(IfAssertionFactory.ANNOTATION) == true) {
         assertion.validate(element, context, this)
+      } else {
+        true
       }
-    } else {
-      true
     }
   }
 }

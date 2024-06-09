@@ -35,6 +35,17 @@ public class JsonSchema internal constructor(
     }
   }
 
+  public fun <T> validate(
+    value: JsonElement,
+    outputCollector: OutputCollector<T>,
+  ): T {
+    val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolver)
+    outputCollector.use {
+      assertion.validate(value, context, this)
+    }
+    return outputCollector.output
+  }
+
   public companion object {
     /**
      * Loads JSON schema from the [schema] definition

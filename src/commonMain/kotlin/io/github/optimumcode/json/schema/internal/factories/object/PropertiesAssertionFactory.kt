@@ -37,15 +37,15 @@ private class PropertiesAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (assertionsByProperty.isEmpty()) {
-      return true
-    }
-    if (element !is JsonObject) {
-      return true
-    }
+    return errorCollector.updateKeywordLocation(location).use {
+      if (assertionsByProperty.isEmpty()) {
+        return@use true
+      }
+      if (element !is JsonObject) {
+        return@use true
+      }
 
-    var result = true
-    errorCollector.updateKeywordLocation(location).use {
+      var result = true
       for ((prop, value) in element) {
         val propAssertion = assertionsByProperty[prop] ?: continue
         val ctx = context.at(prop)
@@ -59,10 +59,10 @@ private class PropertiesAssertion(
           }
         result = result && valid
       }
+
+      context.annotationCollector.annotate(PropertiesAssertionFactory.ANNOTATION, assertionsByProperty.keys)
+
+      result
     }
-
-    context.annotationCollector.annotate(PropertiesAssertionFactory.ANNOTATION, assertionsByProperty.keys)
-
-    return result
   }
 }

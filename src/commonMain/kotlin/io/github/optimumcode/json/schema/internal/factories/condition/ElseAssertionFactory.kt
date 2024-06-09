@@ -28,12 +28,12 @@ private class ElseAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    return if (context.annotationCollector.annotated(IfAssertionFactory.ANNOTATION) == false) {
-      errorCollector.updateKeywordLocation(location).use {
+    return errorCollector.updateKeywordLocation(location, canCollapse = false).use {
+      if (context.annotationCollector.annotated(IfAssertionFactory.ANNOTATION) == false) {
         assertion.validate(element, context, this)
+      } else {
+        true
       }
-    } else {
-      true
     }
   }
 }

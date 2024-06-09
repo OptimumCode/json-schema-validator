@@ -18,35 +18,33 @@ internal class PrefixItemsAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonArray) {
-      return true
-    }
-    val (valid, lastProcessedIndex) =
-      errorCollector.updateKeywordLocation(location).use {
-        var valid = true
-        var lastProcessedIndex = -1
-        for ((index, item) in element.withIndex()) {
-          if (index < prefixAssertions.size) {
-            val ctx = context.at(index)
-            val result: Boolean =
-              updateLocation(ctx.objectPath).use {
-                prefixAssertions[index].validate(
-                  item,
-                  ctx,
-                  this,
-                )
-              }
-            valid = valid && result
-            lastProcessedIndex = index
-          } else {
-            break
-          }
-        }
-        valid to lastProcessedIndex
+    return errorCollector.updateKeywordLocation(location).use {
+      if (element !is JsonArray) {
+        return@use true
       }
-    if (valid) {
-      context.annotationCollector.annotate(annotationKey, lastProcessedIndex)
+      var valid = true
+      var lastProcessedIndex = -1
+      for ((index, item) in element.withIndex()) {
+        if (index < prefixAssertions.size) {
+          val ctx = context.at(index)
+          val result: Boolean =
+            updateLocation(ctx.objectPath).use {
+              prefixAssertions[index].validate(
+                item,
+                ctx,
+                this,
+              )
+            }
+          valid = valid && result
+          lastProcessedIndex = index
+        } else {
+          break
+        }
+      }
+      if (valid) {
+        context.annotationCollector.annotate(annotationKey, lastProcessedIndex)
+      }
+      valid
     }
-    return valid
   }
 }

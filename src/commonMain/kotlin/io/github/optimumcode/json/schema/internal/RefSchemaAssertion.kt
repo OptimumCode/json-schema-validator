@@ -27,7 +27,10 @@ internal class RefSchemaAssertion(
       refAssertion = resolved.assertion
       refAbsolutePath = resolved.scopeId
     }
-    return errorCollector.updateLocation(basePath).withErrorTransformer {
+    return errorCollector.updateKeywordLocation(
+      basePath,
+      AbsoluteLocation(refAbsolutePath, refIdPath),
+    ).withErrorTransformer {
       it.copy(
         schemaPath = basePath + refIdPath.relative(it.schemaPath),
         absoluteLocation =

@@ -29,10 +29,10 @@ private class ConstAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (areEqual(element, constValue)) {
-      return true
-    }
     errorCollector.updateKeywordLocation(path).use {
+      if (areEqual(element, constValue)) {
+        return true
+      }
       onError(
         ValidationError(
           schemaPath = path,

@@ -25,7 +25,7 @@ private class AnyOfAssertion(
     errorCollector: OutputCollector<*>,
   ): Boolean {
     val valid =
-      errorCollector.updateKeywordLocation(location).use {
+      errorCollector.updateKeywordLocation(location, canCollapse = false).use {
         val tempHandler = mutableListOf<OutputCollector<*>>()
         var valid = false
         assertions.forEach {

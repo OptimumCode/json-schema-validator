@@ -31,11 +31,12 @@ private class NotAssertion(
     errorCollector: OutputCollector<*>,
   ): Boolean {
     val childContext = context.childContext()
-    if (!delegate.validate(element, childContext, OutputCollector.Empty)) {
-      childContext.propagateToParent()
-      return true
-    }
     errorCollector.updateKeywordLocation(path).use {
+      if (!delegate.validate(element, childContext, OutputCollector.Empty)) {
+        childContext.propagateToParent()
+        return true
+      }
+
       onError(
         ValidationError(
           schemaPath = path,

@@ -23,9 +23,11 @@ internal class JsonSchemaRoot(
     }
     var result = true
     context.pushSchemaPath(schemaPath, scopeId)
-    assertions.forEach {
-      val valid = it.validate(element, context, errorCollector)
-      result = result and valid
+    errorCollector.updateKeywordLocation(schemaPath).use {
+      assertions.forEach {
+        val valid = it.validate(element, context, this)
+        result = result and valid
+      }
     }
     context.popSchemaPath()
     // According to spec the annotations should not be applied if element does not match the schema

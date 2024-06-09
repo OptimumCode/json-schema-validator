@@ -62,24 +62,24 @@ private class ContainsAssertionDraft202012(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonArray) {
-      return true
-    }
-    val foundElements =
-      element.asSequence().withIndex().filter { (_, el) ->
-        val childContext = context.childContext()
-        containsAssertion.validate(el, childContext, OutputCollector.Empty).also { valid ->
-          if (valid) {
-            childContext.propagateToParent()
+    return errorCollector.updateKeywordLocation(path).use {
+      if (element !is JsonArray) {
+        return@use true
+      }
+      val foundElements =
+        element.asSequence().withIndex().filter { (_, el) ->
+          val childContext = context.childContext()
+          containsAssertion.validate(el, childContext, OutputCollector.Empty).also { valid ->
+            if (valid) {
+              childContext.propagateToParent()
+            }
           }
-        }
-      }.mapTo(hashSetOf(), IndexedValue<*>::index)
-    context.annotationCollector.annotate(ContainsAssertionFactoryDraft202012.ANNOTATION, foundElements)
-    if (foundElements.isNotEmpty() || allowNoMatch) {
-      return true
-    }
+        }.mapTo(hashSetOf(), IndexedValue<*>::index)
+      context.annotationCollector.annotate(ContainsAssertionFactoryDraft202012.ANNOTATION, foundElements)
+      if (foundElements.isNotEmpty() || allowNoMatch) {
+        return@use true
+      }
 
-    errorCollector.updateKeywordLocation(path).use {
       onError(
         ValidationError(
           schemaPath = path,
@@ -87,8 +87,8 @@ private class ContainsAssertionDraft202012(
           message = "array does not contain expected element",
         ),
       )
-    }
 
-    return false
+      false
+    }
   }
 }

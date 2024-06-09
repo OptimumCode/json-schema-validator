@@ -35,19 +35,19 @@ private class ContainsAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonArray) {
-      return true
-    }
-    val foundElements =
-      element.count {
-        containsAssertion.validate(it, context, OutputCollector.Empty)
+    return errorCollector.updateKeywordLocation(path).use {
+      if (element !is JsonArray) {
+        return@use true
       }
-    context.annotationCollector.annotate(ContainsAssertionFactory.ANNOTATION, foundElements)
-    if (foundElements != 0) {
-      return true
-    }
+      val foundElements =
+        element.count {
+          containsAssertion.validate(it, context, OutputCollector.Empty)
+        }
+      context.annotationCollector.annotate(ContainsAssertionFactory.ANNOTATION, foundElements)
+      if (foundElements != 0) {
+        return@use true
+      }
 
-    errorCollector.updateKeywordLocation(path).use {
       onError(
         ValidationError(
           schemaPath = path,
@@ -55,8 +55,8 @@ private class ContainsAssertion(
           message = "array does not contain expected element",
         ),
       )
-    }
 
-    return false
+      false
+    }
   }
 }

@@ -1,8 +1,12 @@
 package io.github.optimumcode.json.schema
 
 import io.github.optimumcode.json.pointer.JsonPointer
+import io.github.optimumcode.json.pointer.plus
+import io.github.optimumcode.json.pointer.relative
+import io.github.optimumcode.json.schema.ValidationOutput.BasicError
 import io.github.optimumcode.json.schema.ValidationOutput.Detailed
 import io.github.optimumcode.json.schema.ValidationOutput.Verbose
+import kotlin.jvm.JvmStatic
 
 internal typealias OutputErrorTransformer<T> = OutputCollector<T>.(ValidationError) -> ValidationError?
 
@@ -12,6 +16,20 @@ public sealed class OutputCollector<T> private constructor(
   parent: OutputCollector<T>? = null,
   transformer: OutputErrorTransformer<T> = NO_TRANSFORMATION,
 ) : ErrorCollector {
+  public companion object {
+    @JvmStatic
+    public fun flag(): Flag = Flag()
+
+    @JvmStatic
+    public fun basic(): Basic = Basic()
+
+    @JvmStatic
+    public fun detailed(): Detailed = Detailed()
+
+    @JvmStatic
+    public fun verbose(): Verbose = Verbose()
+  }
+
   public abstract val output: T
   private val transformerFunc: OutputErrorTransformer<T> =
     parent?.let { p ->
@@ -32,7 +50,11 @@ public sealed class OutputCollector<T> private constructor(
 
   internal abstract fun updateLocation(path: JsonPointer): OutputCollector<T>
 
-  internal abstract fun updateKeywordLocation(path: JsonPointer): OutputCollector<T>
+  internal abstract fun updateKeywordLocation(
+    path: JsonPointer,
+    absoluteLocation: AbsoluteLocation? = null,
+    canCollapse: Boolean = true,
+  ): OutputCollector<T>
 
   internal abstract fun withErrorTransformer(transformer: OutputErrorTransformer<T>): OutputCollector<T>
 
@@ -55,7 +77,11 @@ public sealed class OutputCollector<T> private constructor(
 
     override fun updateLocation(path: JsonPointer): OutputCollector<Nothing> = this
 
-    override fun updateKeywordLocation(path: JsonPointer): OutputCollector<Nothing> = this
+    override fun updateKeywordLocation(
+      path: JsonPointer,
+      absoluteLocation: AbsoluteLocation?,
+      canCollapse: Boolean,
+    ): OutputCollector<Nothing> = this
 
     override fun withErrorTransformer(transformer: OutputErrorTransformer<Nothing>): OutputCollector<Nothing> = this
 
@@ -81,14 +107,20 @@ public sealed class OutputCollector<T> private constructor(
     override fun updateLocation(path: JsonPointer): OutputCollector<Nothing> =
       DelegateOutputCollector(errorCollector, this)
 
-    override fun updateKeywordLocation(path: JsonPointer): OutputCollector<Nothing> =
-      DelegateOutputCollector(errorCollector, this)
+    override fun updateKeywordLocation(
+      path: JsonPointer,
+      absoluteLocation: AbsoluteLocation?,
+      canCollapse: Boolean,
+    ): OutputCollector<Nothing> = DelegateOutputCollector(errorCollector, this)
 
     override fun withErrorTransformer(transformer: OutputErrorTransformer<Nothing>): OutputCollector<Nothing> {
       return DelegateOutputCollector(errorCollector, parent, transformer)
     }
 
     override fun reportErrors() {
+      if (reportedErrors.isEmpty()) {
+        return
+      }
       parent?.also { it.reportedErrors.addAll(reportedErrors) }
         ?: reportedErrors.forEach(errorCollector::onError)
     }
@@ -96,11 +128,12 @@ public sealed class OutputCollector<T> private constructor(
     override fun childCollector(): OutputCollector<Nothing> = DelegateOutputCollector(errorCollector, this)
   }
 
-  public class Flag private constructor(
+  public class Flag internal constructor(
     private val parent: Flag? = null,
     transformer: OutputErrorTransformer<ValidationOutput.Flag> = NO_TRANSFORMATION,
   ) : OutputCollector<ValidationOutput.Flag>(parent, transformer) {
     private var valid: Boolean = true
+    private var hasErrors: Boolean = false
     override val output: ValidationOutput.Flag
       get() =
         if (valid) {
@@ -109,7 +142,11 @@ public sealed class OutputCollector<T> private constructor(
           ValidationOutput.Flag.INVALID
         }
 
-    override fun updateKeywordLocation(path: JsonPointer): Flag = childCollector()
+    override fun updateKeywordLocation(
+      path: JsonPointer,
+      absoluteLocation: AbsoluteLocation?,
+      canCollapse: Boolean,
+    ): Flag = childCollector()
 
     override fun updateLocation(path: JsonPointer): Flag = childCollector()
 
@@ -117,6 +154,7 @@ public sealed class OutputCollector<T> private constructor(
       Flag(parent, transformer)
 
     override fun reportErrors() {
+      valid = valid && !hasErrors
       parent?.also {
         it.valid = it.valid && valid
       }
@@ -124,57 +162,132 @@ public sealed class OutputCollector<T> private constructor(
 
     override fun onError(error: ValidationError) {
       transformError(error) ?: return
-      if (!valid) {
+      if (hasErrors) {
         return
       }
-      valid = false
+      hasErrors = true
     }
 
     override fun childCollector(): Flag = Flag(this)
   }
 
-  public class Detailed private constructor(
+  public class Basic internal constructor(
+    private val parent: Basic? = null,
+    transformer: OutputErrorTransformer<ValidationOutput.Basic> = NO_TRANSFORMATION,
+  ) : OutputCollector<ValidationOutput.Basic>(parent, transformer) {
+    private val errors = mutableListOf<BasicError>()
+
+    override fun onError(error: ValidationError) {
+      val err = transformError(error) ?: return
+      errors +=
+        BasicError(
+          keywordLocation = err.schemaPath,
+          instanceLocation = err.objectPath,
+          absoluteKeywordLocation = err.absoluteLocation,
+          error = err.message,
+        )
+    }
+
+    override val output: ValidationOutput.Basic
+      get() =
+        ValidationOutput.Basic(
+          valid = errors.isEmpty(),
+          errors = errors.toSet(),
+        )
+
+    override fun updateLocation(path: JsonPointer): OutputCollector<ValidationOutput.Basic> = childCollector()
+
+    override fun updateKeywordLocation(
+      path: JsonPointer,
+      absoluteLocation: AbsoluteLocation?,
+      canCollapse: Boolean,
+    ): OutputCollector<ValidationOutput.Basic> = childCollector()
+
+    override fun withErrorTransformer(
+      transformer: OutputErrorTransformer<ValidationOutput.Basic>,
+    ): OutputCollector<ValidationOutput.Basic> = Basic(parent, transformer)
+
+    override fun childCollector(): OutputCollector<ValidationOutput.Basic> = Basic(this)
+
+    override fun reportErrors() {
+      parent?.errors?.addAll(errors)
+    }
+  }
+
+  public class Detailed internal constructor(
     private val location: JsonPointer = JsonPointer.ROOT,
     private val keywordLocation: JsonPointer = JsonPointer.ROOT,
     private val parent: Detailed? = null,
+    private val absoluteLocation: AbsoluteLocation? = null,
+    private val collapse: Boolean = true,
     transformer: OutputErrorTransformer<ValidationOutput.Detailed> = NO_TRANSFORMATION,
   ) : OutputCollector<ValidationOutput.Detailed>(parent, transformer) {
     private val errors: MutableList<ValidationOutput.Detailed> = mutableListOf()
 
     override val output: ValidationOutput.Detailed
-      get() =
-        if (errors.size == 1) {
-          errors.single()
-        } else {
-          Detailed(
-            valid = errors.any { !it.valid },
+      get() {
+        val valid = errors.none { !it.valid }
+        if (valid) {
+          return Detailed(
+            valid = true,
             keywordLocation = keywordLocation,
-            absoluteKeywordLocation = null,
             instanceLocation = location,
-            errors = errors.toList(),
+            absoluteKeywordLocation = absoluteLocation,
+            errors = emptySet(),
           )
         }
+        val failed = errors.filterTo(hashSetOf()) { it.error != null || it.errors.isNotEmpty() }
+        return if (failed.size == 1 && collapse) {
+          failed.single()
+        } else {
+          Detailed(
+            valid = false,
+            keywordLocation = keywordLocation,
+            absoluteKeywordLocation = absoluteLocation,
+            instanceLocation = location,
+            errors = failed,
+          )
+        }
+      }
 
     override fun updateLocation(path: JsonPointer): Detailed =
       Detailed(
         location = path,
         keywordLocation = keywordLocation,
+        absoluteLocation = absoluteLocation,
         parent = this,
       )
 
-    override fun updateKeywordLocation(path: JsonPointer): Detailed =
-      Detailed(
+    override fun updateKeywordLocation(
+      path: JsonPointer,
+      absoluteLocation: AbsoluteLocation?,
+      canCollapse: Boolean,
+    ): Detailed {
+      val newKeywordLocation =
+        if (this.absoluteLocation == null) {
+          path
+        } else {
+          this.keywordLocation + this.absoluteLocation.path.relative(path)
+        }
+      if (keywordLocation == newKeywordLocation) {
+        return this
+      }
+      return Detailed(
         location = location,
-        keywordLocation = path,
+        keywordLocation = newKeywordLocation,
+        absoluteLocation = absoluteLocation ?: this.absoluteLocation?.copy(path = path),
         parent = this,
+        collapse = absoluteLocation == null && canCollapse,
       )
+    }
 
     override fun childCollector(): OutputCollector<ValidationOutput.Detailed> =
-      Detailed(location, keywordLocation, this)
+      Detailed(location, keywordLocation, this, absoluteLocation)
 
     override fun withErrorTransformer(
       transformer: OutputErrorTransformer<ValidationOutput.Detailed>,
-    ): OutputCollector<ValidationOutput.Detailed> = Detailed(location, keywordLocation, parent, transformer)
+    ): OutputCollector<ValidationOutput.Detailed> =
+      Detailed(location, keywordLocation, parent, absoluteLocation, collapse, transformer = transformer)
 
     override fun reportErrors() {
       parent?.errors?.add(output)
@@ -194,45 +307,78 @@ public sealed class OutputCollector<T> private constructor(
     }
   }
 
-  public class Verbose private constructor(
+  public class Verbose internal constructor(
     private val location: JsonPointer = JsonPointer.ROOT,
     private val keywordLocation: JsonPointer = JsonPointer.ROOT,
     private val parent: Verbose? = null,
+    private val absoluteLocation: AbsoluteLocation? = null,
     transformer: OutputErrorTransformer<ValidationOutput.Verbose> = NO_TRANSFORMATION,
   ) : OutputCollector<ValidationOutput.Verbose>(parent, transformer) {
     private val errors: MutableList<ValidationOutput.Verbose> = mutableListOf()
 
     override val output: ValidationOutput.Verbose
-      get() =
-        Verbose(
-          valid = errors.any { !it.valid },
+      get() {
+        if (errors.size == 1) {
+          // when this is a leaf we should return the reported error
+          // instead of creating a new node
+          val childError = errors.single()
+          if (
+            childError.errors.isEmpty() &&
+            childError.let {
+              it.keywordLocation == keywordLocation && it.instanceLocation == it.instanceLocation
+            }
+          ) {
+            return childError
+          }
+        }
+        return Verbose(
+          valid = errors.none { !it.valid },
           keywordLocation = keywordLocation,
-          absoluteKeywordLocation = null,
+          absoluteKeywordLocation = absoluteLocation,
           instanceLocation = location,
-          errors = errors.toList(),
+          errors = errors.toSet(),
         )
+      }
 
-    override fun updateLocation(path: JsonPointer): Verbose =
-      Verbose(
+    override fun updateLocation(path: JsonPointer): Verbose {
+      return Verbose(
         location = path,
         keywordLocation = keywordLocation,
+        absoluteLocation = absoluteLocation,
         parent = this,
       )
+    }
 
-    override fun updateKeywordLocation(path: JsonPointer): Verbose =
-      Verbose(
+    override fun updateKeywordLocation(
+      path: JsonPointer,
+      absoluteLocation: AbsoluteLocation?,
+      canCollapse: Boolean,
+    ): Verbose {
+      val newKeywordLocation =
+        if (this.absoluteLocation == null) {
+          path
+        } else {
+          this.keywordLocation + this.absoluteLocation.path.relative(path)
+        }
+      if (keywordLocation == newKeywordLocation) {
+        return this
+      }
+      return Verbose(
         location = location,
-        keywordLocation = path,
+        keywordLocation = newKeywordLocation,
+        absoluteLocation = absoluteLocation ?: this.absoluteLocation?.copy(path = path),
         parent = this,
       )
+    }
 
     override fun childCollector(): OutputCollector<ValidationOutput.Verbose> {
-      return Verbose(location, keywordLocation, this)
+      return Verbose(location, keywordLocation, this, absoluteLocation)
     }
 
     override fun withErrorTransformer(
       transformer: OutputErrorTransformer<ValidationOutput.Verbose>,
-    ): OutputCollector<ValidationOutput.Verbose> = Verbose(location, keywordLocation, parent, transformer)
+    ): OutputCollector<ValidationOutput.Verbose> =
+      Verbose(location, keywordLocation, parent, absoluteLocation, transformer)
 
     override fun reportErrors() {
       parent?.errors?.add(output)

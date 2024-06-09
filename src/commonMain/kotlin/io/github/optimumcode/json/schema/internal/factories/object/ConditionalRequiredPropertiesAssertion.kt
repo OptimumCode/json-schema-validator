@@ -23,17 +23,17 @@ internal class ConditionalRequiredPropertiesAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonObject) {
-      return true
-    }
-    val missingProperties =
-      dependencies.asSequence()
-        .filter { !element.containsKey(it) }
-        .toSet()
-    if (missingProperties.isEmpty()) {
-      return true
-    }
-    errorCollector.updateKeywordLocation(path).use {
+    return errorCollector.updateKeywordLocation(path).use {
+      if (element !is JsonObject) {
+        return@use true
+      }
+      val missingProperties =
+        dependencies.asSequence()
+          .filter { !element.containsKey(it) }
+          .toSet()
+      if (missingProperties.isEmpty()) {
+        return@use true
+      }
       onError(
         ValidationError(
           schemaPath = path,
@@ -41,8 +41,8 @@ internal class ConditionalRequiredPropertiesAssertion(
           message = "has '$property' property but missing required dependencies: $missingProperties",
         ),
       )
+      false
     }
-    return false
   }
 
   companion object {

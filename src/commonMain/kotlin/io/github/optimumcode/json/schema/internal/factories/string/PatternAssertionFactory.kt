@@ -38,15 +38,15 @@ private class PatternAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonPrimitive || !element.isString) {
-      return true
-    }
+    return errorCollector.updateKeywordLocation(path).use {
+      if (element !is JsonPrimitive || !element.isString) {
+        return@use true
+      }
 
-    val content = element.contentOrNull ?: return true
-    if (regex.find(content) != null) {
-      return true
-    }
-    errorCollector.updateKeywordLocation(path).use {
+      val content = element.contentOrNull ?: return true
+      if (regex.find(content) != null) {
+        return@use true
+      }
       onError(
         ValidationError(
           schemaPath = path,
@@ -54,7 +54,7 @@ private class PatternAssertion(
           message = "string does not match pattern '${regex.pattern}'",
         ),
       )
+      false
     }
-    return false
   }
 }

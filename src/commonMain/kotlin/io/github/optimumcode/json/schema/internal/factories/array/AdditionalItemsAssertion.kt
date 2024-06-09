@@ -20,46 +20,44 @@ internal class AdditionalItemsAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonArray) {
-      return true
-    }
-    val lastProcessedIndex: Int =
-      context.annotationCollector.annotated(indexAnnotationKey)
-        ?: if (returnIfNoIndex) {
-          return true // items assertion is not used so this one should be ignored
-        } else {
-          -1
-        }
-
-    if (lastProcessedIndex == element.lastIndex) {
-      // we have nothing to process here
-      return true
-    }
-    val valid =
-      errorCollector.updateKeywordLocation(location).use {
-        var valid = true
-        for ((index, el) in element.withIndex()) {
-          if (index <= lastProcessedIndex) {
-            continue
+    return errorCollector.updateKeywordLocation(location).use {
+      if (element !is JsonArray) {
+        return@use true
+      }
+      val lastProcessedIndex: Int =
+        context.annotationCollector.annotated(indexAnnotationKey)
+          ?: if (returnIfNoIndex) {
+            return@use true // items assertion is not used so this one should be ignored
+          } else {
+            -1
           }
-          val ctx = context.at(index)
-          val res =
-            updateLocation(ctx.objectPath).use {
-              assertion.validate(
-                el,
-                ctx,
-                this,
-              )
-            }
-          valid = valid && res
+
+      if (lastProcessedIndex == element.lastIndex) {
+        // we have nothing to process here
+        return@use true
+      }
+      var valid = true
+      for ((index, el) in element.withIndex()) {
+        if (index <= lastProcessedIndex) {
+          continue
         }
-        valid
+        val ctx = context.at(index)
+        val res =
+          updateLocation(ctx.objectPath).use {
+            assertion.validate(
+              el,
+              ctx,
+              this,
+            )
+          }
+        valid = valid && res
       }
 
-    if (valid) {
-      context.annotationCollector.annotate(annotationKey, true)
-    }
+      if (valid) {
+        context.annotationCollector.annotate(annotationKey, true)
+      }
 
-    return valid
+      return@use valid
+    }
   }
 }

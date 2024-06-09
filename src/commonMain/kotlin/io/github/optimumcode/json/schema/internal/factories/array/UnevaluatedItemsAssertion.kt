@@ -22,45 +22,43 @@ internal class UnevaluatedItemsAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonArray) {
-      return true
-    }
-    val annotationCollector: AnnotationCollector = context.annotationCollector
-    val startIndex: Int = annotationCollector.aggregatedAnnotation(indexAnnotationKey) ?: -1
-    if (startIndex == element.lastIndex) {
-      // all items were evaluated
-      return true
-    }
-    if (
-      annotationCollector.aggregatedAnnotation(itemsAnnotationKey) == true ||
-      annotationCollector.aggregatedAnnotation(selfAnnotationKey) == true
-    ) {
-      // all items evaluated by additional items
-      return true
-    }
-
-    val processedIndexes: Set<Int> = processedIndexesKey?.let(annotationCollector::aggregatedAnnotation) ?: emptySet()
-
-    val valid =
-      errorCollector.updateKeywordLocation(location).use {
-        var valid = true
-        element.forEachIndexed { index, jsonElement ->
-          if (index <= startIndex) {
-            return@forEachIndexed
-          }
-          if (processedIndexes.contains(index)) {
-            return@forEachIndexed
-          }
-          val ctx = context.at(index)
-          val result =
-            updateLocation(ctx.objectPath).use {
-              assertion.validate(jsonElement, ctx, this)
-            }
-          valid = valid and result
-        }
-        valid
+    return errorCollector.updateKeywordLocation(location).use {
+      if (element !is JsonArray) {
+        return@use true
       }
-    annotationCollector.annotate(selfAnnotationKey, true)
-    return valid
+      val annotationCollector: AnnotationCollector = context.annotationCollector
+      val startIndex: Int = annotationCollector.aggregatedAnnotation(indexAnnotationKey) ?: -1
+      if (startIndex == element.lastIndex) {
+        // all items were evaluated
+        return@use true
+      }
+      if (
+        annotationCollector.aggregatedAnnotation(itemsAnnotationKey) == true ||
+        annotationCollector.aggregatedAnnotation(selfAnnotationKey) == true
+      ) {
+        // all items evaluated by additional items
+        return@use true
+      }
+
+      val processedIndexes: Set<Int> = processedIndexesKey?.let(annotationCollector::aggregatedAnnotation) ?: emptySet()
+
+      var valid = true
+      element.forEachIndexed { index, jsonElement ->
+        if (index <= startIndex) {
+          return@forEachIndexed
+        }
+        if (processedIndexes.contains(index)) {
+          return@forEachIndexed
+        }
+        val ctx = context.at(index)
+        val result =
+          updateLocation(ctx.objectPath).use {
+            assertion.validate(jsonElement, ctx, this)
+          }
+        valid = valid and result
+      }
+      annotationCollector.annotate(selfAnnotationKey, true)
+      valid
+    }
   }
 }

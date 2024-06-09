@@ -18,21 +18,23 @@ internal class RecursiveRefSchemaAssertion(
   ): Boolean {
     return context.getRecursiveRoot()?.validate(element, context, errorCollector) ?: run {
       val (refIdPath, refAssertion, absoluteLocation) = context.referenceResolver.dynamicRef(refId)
-      errorCollector.updateKeywordLocation(basePath)
-        .withErrorTransformer {
-          val relativePath = refIdPath.relative(it.schemaPath)
-          it.copy(
-            schemaPath = basePath + relativePath,
-            absoluteLocation =
-              it.absoluteLocation ?: AbsoluteLocation(absoluteLocation, it.schemaPath),
-          )
-        }.use {
-          refAssertion.validate(
-            element,
-            context,
-            this,
-          )
-        }
+      errorCollector.updateKeywordLocation(
+        basePath,
+        AbsoluteLocation(absoluteLocation, refIdPath),
+      ).withErrorTransformer {
+        val relativePath = refIdPath.relative(it.schemaPath)
+        it.copy(
+          schemaPath = basePath + relativePath,
+          absoluteLocation =
+            it.absoluteLocation ?: AbsoluteLocation(absoluteLocation, it.schemaPath),
+        )
+      }.use {
+        refAssertion.validate(
+          element,
+          context,
+          this,
+        )
+      }
     }
   }
 }

@@ -19,13 +19,13 @@ internal class ArrayLengthAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonArray) {
-      return true
-    }
-    if (check(element.size, length)) {
-      return true
-    }
-    errorCollector.updateKeywordLocation(path).use {
+    return errorCollector.updateKeywordLocation(path).use {
+      if (element !is JsonArray) {
+        return@use true
+      }
+      if (check(element.size, length)) {
+        return@use true
+      }
       onError(
         ValidationError(
           schemaPath = path,
@@ -33,7 +33,7 @@ internal class ArrayLengthAssertion(
           message = "array length $errorMessage $length",
         ),
       )
+      false
     }
-    return false
   }
 }

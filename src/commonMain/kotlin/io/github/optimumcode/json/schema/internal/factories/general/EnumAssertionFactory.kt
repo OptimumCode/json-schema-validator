@@ -37,10 +37,11 @@ private class EnumAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (possibleElements.any { areEqual(it, element) }) {
-      return true
-    }
     errorCollector.updateKeywordLocation(path).use {
+      if (possibleElements.any { areEqual(it, element) }) {
+        return true
+      }
+
       onError(
         ValidationError(
           schemaPath = path,

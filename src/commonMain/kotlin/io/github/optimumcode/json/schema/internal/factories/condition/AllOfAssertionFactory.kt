@@ -25,7 +25,7 @@ private class AllOfAssertion(
     errorCollector: OutputCollector<*>,
   ): Boolean {
     val valid =
-      errorCollector.updateKeywordLocation(location).use {
+      errorCollector.updateKeywordLocation(location, canCollapse = false).use {
         var valid = true
         assertions.forEach {
           val childContext = context.childContext()

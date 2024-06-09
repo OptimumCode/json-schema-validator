@@ -104,15 +104,15 @@ private class FormatAssertion(
     errorCollector: OutputCollector<*>,
   ): Boolean {
     val result = validator.validate(element)
-    return when (result) {
-      Valid -> {
-        context.annotationCollector.annotate(FormatAssertionFactory.ANNOTATION, formatKey)
-        true
-      }
+    return errorCollector.updateKeywordLocation(schemaPath).use {
+      when (result) {
+        Valid -> {
+          context.annotationCollector.annotate(FormatAssertionFactory.ANNOTATION, formatKey)
+          true
+        }
 
-      Invalid -> {
-        if (assertion) {
-          errorCollector.updateKeywordLocation(schemaPath).use {
+        Invalid -> {
+          if (assertion) {
             onError(
               ValidationError(
                 schemaPath = schemaPath,
@@ -120,11 +120,11 @@ private class FormatAssertion(
                 message = "value does not match '$formatKey' format",
               ),
             )
+            false
+          } else {
+            // only annotation should return true if format does not match
+            true
           }
-          false
-        } else {
-          // only annotation should return true if format does not match
-          true
         }
       }
     }

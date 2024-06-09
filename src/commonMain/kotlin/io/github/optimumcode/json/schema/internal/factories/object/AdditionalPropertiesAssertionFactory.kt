@@ -34,14 +34,14 @@ private class AdditionalPropertiesAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonObject) {
-      return true
-    }
-    val annotationCollector: AnnotationCollector = context.annotationCollector
-    val propertiesAnnotation: Set<String>? = annotationCollector.annotated(PropertiesAssertionFactory.ANNOTATION)
-    val patternAnnotation: Set<String>? = annotationCollector.annotated(PatternPropertiesAssertionFactory.ANNOTATION)
-    var result = true
-    errorCollector.updateKeywordLocation(location).use {
+    return errorCollector.updateKeywordLocation(location).use {
+      if (element !is JsonObject) {
+        return@use true
+      }
+      val annotationCollector: AnnotationCollector = context.annotationCollector
+      val propertiesAnnotation: Set<String>? = annotationCollector.annotated(PropertiesAssertionFactory.ANNOTATION)
+      val patternAnnotation: Set<String>? = annotationCollector.annotated(PatternPropertiesAssertionFactory.ANNOTATION)
+      var result = true
       for ((prop, value) in element) {
         if (propertiesAnnotation?.contains(prop) == true) {
           continue
@@ -60,10 +60,10 @@ private class AdditionalPropertiesAssertion(
           }
         result = result && valid
       }
+      if (result) {
+        annotationCollector.annotate(AdditionalPropertiesAssertionFactory.ANNOTATION, true)
+      }
+      result
     }
-    if (result) {
-      annotationCollector.annotate(AdditionalPropertiesAssertionFactory.ANNOTATION, true)
-    }
-    return result
   }
 }

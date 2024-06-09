@@ -21,15 +21,15 @@ internal class LengthAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonPrimitive || !element.isString) {
-      return true
-    }
-    val content = element.contentOrNull ?: return true
-    val codePointCount = content.codePointCount()
-    if (check(codePointCount, lengthValue)) {
-      return true
-    }
-    errorCollector.updateKeywordLocation(path).use {
+    return errorCollector.updateKeywordLocation(path).use {
+      if (element !is JsonPrimitive || !element.isString) {
+        return@use true
+      }
+      val content = element.contentOrNull ?: return true
+      val codePointCount = content.codePointCount()
+      if (check(codePointCount, lengthValue)) {
+        return@use true
+      }
       onError(
         ValidationError(
           schemaPath = path,
@@ -37,7 +37,7 @@ internal class LengthAssertion(
           message = "string length ($codePointCount) $errorMessage $lengthValue",
         ),
       )
+      false
     }
-    return false
   }
 }

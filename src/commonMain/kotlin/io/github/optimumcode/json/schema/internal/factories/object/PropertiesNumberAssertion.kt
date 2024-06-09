@@ -19,13 +19,13 @@ internal class PropertiesNumberAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonObject) {
-      return true
-    }
-    if (check(element.size, length)) {
-      return true
-    }
-    errorCollector.updateKeywordLocation(path).use {
+    return errorCollector.updateKeywordLocation(path).use {
+      if (element !is JsonObject) {
+        return@use true
+      }
+      if (check(element.size, length)) {
+        return@use true
+      }
       onError(
         ValidationError(
           schemaPath = path,
@@ -33,7 +33,7 @@ internal class PropertiesNumberAssertion(
           message = "number of properties $errorMessage $length",
         ),
       )
+      false
     }
-    return false
   }
 }

@@ -16,11 +16,11 @@ internal class DependenciesAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonObject) {
-      return true
-    }
-    var valid = true
-    errorCollector.updateKeywordLocation(location).use {
+    return errorCollector.updateKeywordLocation(location).use {
+      if (element !is JsonObject) {
+        return@use true
+      }
+      var valid = true
       for ((dependency, assertion) in dependenciesAssertions) {
         if (dependency !in element) {
           continue
@@ -32,7 +32,7 @@ internal class DependenciesAssertion(
         }
         valid = valid and res
       }
+      valid
     }
-    return valid
   }
 }

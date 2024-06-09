@@ -38,31 +38,31 @@ private class UniqueItemsAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonArray) {
-      return true
-    }
-    if (element.size < 2) {
-      return true
-    }
-    var duplicates: MutableList<JsonElement>? = null
-    val uniqueItems =
-      buildList {
-        element.forEach { el ->
-          if (none { areEqual(it, el) }) {
-            add(el)
-          } else {
-            if (duplicates == null) {
-              duplicates = mutableListOf()
+    return errorCollector.updateKeywordLocation(path).use {
+      if (element !is JsonArray) {
+        return@use true
+      }
+      if (element.size < 2) {
+        return@use true
+      }
+      var duplicates: MutableList<JsonElement>? = null
+      val uniqueItems =
+        buildList {
+          element.forEach { el ->
+            if (none { areEqual(it, el) }) {
+              add(el)
+            } else {
+              if (duplicates == null) {
+                duplicates = mutableListOf()
+              }
+              duplicates?.add(el)
             }
-            duplicates?.add(el)
           }
         }
+      val uniqueItemsCount = uniqueItems.size
+      if (uniqueItemsCount == element.size) {
+        return@use true
       }
-    val uniqueItemsCount = uniqueItems.size
-    if (uniqueItemsCount == element.size) {
-      return true
-    }
-    errorCollector.updateKeywordLocation(path).use {
       onError(
         ValidationError(
           schemaPath = path,
@@ -76,7 +76,7 @@ private class UniqueItemsAssertion(
           }",
         ),
       )
+      false
     }
-    return false
   }
 }

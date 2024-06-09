@@ -53,14 +53,15 @@ internal class NumberComparisonAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonPrimitive || element.isString) {
-      return true
-    }
-    val value: Number = element.number ?: return true
-    if (check(value, boundary)) {
-      return true
-    }
-    errorCollector.updateKeywordLocation(path).use {
+    return errorCollector.updateKeywordLocation(path).use {
+      if (element !is JsonPrimitive || element.isString) {
+        return@use true
+      }
+      val value: Number = element.number ?: return true
+      if (check(value, boundary)) {
+        return@use true
+      }
+
       onError(
         ValidationError(
           schemaPath = path,
@@ -68,7 +69,7 @@ internal class NumberComparisonAssertion(
           message = "${element.content} $errorMessage $boundaryContent",
         ),
       )
+      false
     }
-    return false
   }
 }

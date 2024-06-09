@@ -18,29 +18,28 @@ internal class AllItemsAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonArray) {
-      return true
-    }
-    val valid =
-      errorCollector.updateKeywordLocation(location).use {
-        var valid = true
-        element.forEachIndexed { index, item ->
-          val ctx = context.at(index)
-          val result =
-            updateLocation(ctx.objectPath).use {
-              itemAssertion.validate(
-                item,
-                ctx,
-                this,
-              )
-            }
-          valid = valid && result
-        }
-        valid
+    return errorCollector.updateKeywordLocation(location).use {
+      if (element !is JsonArray) {
+        return@use true
       }
-    if (valid) {
-      context.annotationCollector.annotate(annotationKey, element.lastIndex)
+
+      var valid = true
+      element.forEachIndexed { index, item ->
+        val ctx = context.at(index)
+        val result =
+          updateLocation(ctx.objectPath).use {
+            itemAssertion.validate(
+              item,
+              ctx,
+              this,
+            )
+          }
+        valid = valid && result
+      }
+      if (valid) {
+        context.annotationCollector.annotate(annotationKey, element.lastIndex)
+      }
+      return@use valid
     }
-    return valid
   }
 }

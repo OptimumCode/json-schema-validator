@@ -33,24 +33,24 @@ private class UnevaluatedPropertiesAssertion(
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonObject) {
-      return true
-    }
-    val annotationCollector: AnnotationCollector = context.annotationCollector
-    if (annotationCollector.aggregatedAnnotation(AdditionalPropertiesAssertionFactory.ANNOTATION) == true) {
-      // all properties are evaluated
-      return true
-    }
-    if (annotationCollector.aggregatedAnnotation(UnevaluatedPropertiesAssertionFactory.ANNOTATION) == true) {
-      // all properties are evaluated by another unevaluatedProperties assertion
-      return true
-    }
-    val evaluatedByProperties: Set<String>? =
-      annotationCollector.aggregatedAnnotation(PropertiesAssertionFactory.ANNOTATION)
-    val evaluatedByPatternProps: Set<String>? =
-      annotationCollector.aggregatedAnnotation(PatternPropertiesAssertionFactory.ANNOTATION)
-    var valid = true
-    errorCollector.updateKeywordLocation(location).use {
+    return errorCollector.updateKeywordLocation(location).use {
+      if (element !is JsonObject) {
+        return@use true
+      }
+      val annotationCollector: AnnotationCollector = context.annotationCollector
+      if (annotationCollector.aggregatedAnnotation(AdditionalPropertiesAssertionFactory.ANNOTATION) == true) {
+        // all properties are evaluated
+        return@use true
+      }
+      if (annotationCollector.aggregatedAnnotation(UnevaluatedPropertiesAssertionFactory.ANNOTATION) == true) {
+        // all properties are evaluated by another unevaluatedProperties assertion
+        return@use true
+      }
+      val evaluatedByProperties: Set<String>? =
+        annotationCollector.aggregatedAnnotation(PropertiesAssertionFactory.ANNOTATION)
+      val evaluatedByPatternProps: Set<String>? =
+        annotationCollector.aggregatedAnnotation(PatternPropertiesAssertionFactory.ANNOTATION)
+      var valid = true
       for ((prop, el) in element) {
         if (evaluatedByProperties?.contains(prop) == true) {
           continue
@@ -65,10 +65,10 @@ private class UnevaluatedPropertiesAssertion(
           }
         valid = valid and result
       }
+      if (valid) {
+        annotationCollector.annotate(UnevaluatedPropertiesAssertionFactory.ANNOTATION, true)
+      }
+      valid
     }
-    if (valid) {
-      annotationCollector.annotate(UnevaluatedPropertiesAssertionFactory.ANNOTATION, true)
-    }
-    return valid
   }
 }
