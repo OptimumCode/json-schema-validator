@@ -28,7 +28,7 @@ public sealed class OutputCollector<T> private constructor(
     public fun verbose(): OutputCollector<OutputUnit> = Verbose()
   }
 
-  public abstract val output: T
+  internal abstract val output: T
   private val transformerFunc: OutputErrorTransformer<T> =
     parent?.let { p ->
       when {

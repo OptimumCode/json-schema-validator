@@ -159,7 +159,6 @@ public abstract class io/github/optimumcode/json/schema/OutputCollector {
 	public static final fun basic ()Lio/github/optimumcode/json/schema/OutputCollector;
 	public static final fun detailed ()Lio/github/optimumcode/json/schema/OutputCollector;
 	public static final fun flag ()Lio/github/optimumcode/json/schema/OutputCollector;
-	public abstract fun getOutput ()Ljava/lang/Object;
 	protected final fun transformError (Lio/github/optimumcode/json/schema/ValidationError;)Lio/github/optimumcode/json/schema/ValidationError;
 	public static final fun verbose ()Lio/github/optimumcode/json/schema/OutputCollector;
 }
