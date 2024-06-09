@@ -391,7 +391,7 @@ The update to Kotlin 1.9.22 came with an issue for JS incremental compilation.
 In case you see an error about main function that already bind please execute `clean` task.
 
 When you build project for **linux** target you might get an error about missing native library.
-This is because `de.cketti.unicode:kotlin-codepoints` requires this library to perform string normalization.
+This is because `com.doist.x:normalize` requires this library to perform string normalization.
 This is needed to support `idn-hostname` format. Install this library with the following command:
 
 ```bash
