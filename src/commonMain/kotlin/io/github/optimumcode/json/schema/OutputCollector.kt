@@ -185,7 +185,10 @@ public sealed class OutputCollector<T> private constructor(
       hasErrors = true
     }
 
-    override fun childCollector(): Flag = Flag(this)
+    override fun childCollector(): Flag =
+      // once `valid` flag is set to false we can avoid creating child collectors
+      // because the validation result won't be changed
+      if (valid) Flag(this) else this
   }
 
   private class Basic(
