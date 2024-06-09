@@ -95,10 +95,25 @@ public sealed class OutputCollector<T> private constructor(
     private val parent: DelegateOutputCollector? = null,
     transformer: OutputErrorTransformer<Nothing> = NO_TRANSFORMATION,
   ) : OutputCollector<Nothing>(parent, transformer) {
-    private val reportedErrors = mutableListOf<ValidationError>()
+    private lateinit var reportedErrors: MutableList<ValidationError>
+
+    private fun addError(error: ValidationError) {
+      if (!::reportedErrors.isInitialized) {
+        reportedErrors = ArrayList(1)
+      }
+      reportedErrors.add(error)
+    }
+
+    private fun addErrors(errors: MutableList<ValidationError>) {
+      if (::reportedErrors.isInitialized) {
+        reportedErrors.addAll(errors)
+      } else {
+        reportedErrors = errors
+      }
+    }
 
     override fun onError(error: ValidationError) {
-      transformError(error)?.also(reportedErrors::add)
+      transformError(error)?.also { addError(it) }
     }
 
     override val output: Nothing
@@ -118,10 +133,10 @@ public sealed class OutputCollector<T> private constructor(
     }
 
     override fun reportErrors() {
-      if (reportedErrors.isEmpty()) {
+      if (!::reportedErrors.isInitialized) {
         return
       }
-      parent?.also { it.reportedErrors.addAll(reportedErrors) }
+      parent?.also { it.addErrors(reportedErrors) }
         ?: reportedErrors.forEach(errorCollector::onError)
     }
 
@@ -175,25 +190,43 @@ public sealed class OutputCollector<T> private constructor(
     private val parent: Basic? = null,
     transformer: OutputErrorTransformer<ValidationOutput.Basic> = NO_TRANSFORMATION,
   ) : OutputCollector<ValidationOutput.Basic>(parent, transformer) {
-    private val errors = mutableListOf<BasicError>()
+    private lateinit var errors: MutableSet<BasicError>
+
+    private fun addError(error: BasicError) {
+      if (!::errors.isInitialized) {
+        errors = linkedSetOf()
+      }
+      errors.add(error)
+    }
+
+    private fun addErrors(errors: MutableSet<BasicError>) {
+      if (::errors.isInitialized) {
+        this.errors.addAll(errors)
+      } else {
+        this.errors = errors
+      }
+    }
 
     override fun onError(error: ValidationError) {
       val err = transformError(error) ?: return
-      errors +=
+      addError(
         BasicError(
           keywordLocation = err.schemaPath,
           instanceLocation = err.objectPath,
           absoluteKeywordLocation = err.absoluteLocation,
           error = err.message,
-        )
+        ),
+      )
     }
 
     override val output: ValidationOutput.Basic
-      get() =
-        ValidationOutput.Basic(
+      get() {
+        val errors = if (::errors.isInitialized) errors else emptySet()
+        return ValidationOutput.Basic(
           valid = errors.isEmpty(),
-          errors = errors.toSet(),
+          errors = errors,
         )
+      }
 
     override fun updateLocation(path: JsonPointer): OutputCollector<ValidationOutput.Basic> = childCollector()
 
@@ -210,7 +243,10 @@ public sealed class OutputCollector<T> private constructor(
     override fun childCollector(): OutputCollector<ValidationOutput.Basic> = Basic(this)
 
     override fun reportErrors() {
-      parent?.errors?.addAll(errors)
+      if (!::errors.isInitialized) {
+        return
+      }
+      parent?.addErrors(errors)
     }
   }
 
