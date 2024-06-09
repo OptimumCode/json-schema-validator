@@ -66,19 +66,29 @@ public sealed class JsonPointer(
     if (this !is SegmentPointer) {
       return last
     }
-    var parent: PointerParent? = null
-    var node: JsonPointer = this
-    while (node is SegmentPointer) {
-      parent =
-        PointerParent(
-          parent,
-          node.propertyName,
-          node.index,
-        )
-      node = node.next
-    }
-    return buildPath(last, parent)
+    return insertLastDeepCopy(this, last)
   }
+
+  // there might be an issue with stack in case this function is called deep on the stack
+  private fun insertLastDeepCopy(
+    pointer: SegmentPointer,
+    last: SegmentPointer,
+  ): JsonPointer =
+    with(pointer) {
+      if (next is SegmentPointer) {
+        SegmentPointer(
+          propertyName = propertyName,
+          index = index,
+          next = insertLastDeepCopy(next, last),
+        )
+      } else {
+        SegmentPointer(
+          propertyName = propertyName,
+          index = index,
+          next = last,
+        )
+      }
+    }
 
   private fun escapeJsonPointer(propertyName: String): String {
     if (propertyName.contains(SEPARATOR) || propertyName.contains(QUOTATION)) {
