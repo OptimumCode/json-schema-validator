@@ -6,10 +6,7 @@ import io.github.optimumcode.json.schema.AbsoluteLocation
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationOutput
-import io.github.optimumcode.json.schema.ValidationOutput.Basic
-import io.github.optimumcode.json.schema.ValidationOutput.BasicError
-import io.github.optimumcode.json.schema.ValidationOutput.Detailed
-import io.github.optimumcode.json.schema.ValidationOutput.Verbose
+import io.github.optimumcode.json.schema.ValidationOutput.OutputUnit
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.JsonPrimitive
@@ -84,7 +81,7 @@ class OutputCollectorsTest : FunSpec() {
       test("basic output for valid object") {
         val res = schema.validate(validObject, OutputCollector.basic())
         res shouldBe
-          Basic(
+          ValidationOutput.Basic(
             valid = true,
           )
       }
@@ -92,11 +89,12 @@ class OutputCollectorsTest : FunSpec() {
       test("basic output for invalid object") {
         val res = schema.validate(invalidObject, OutputCollector.basic())
         res shouldBe
-          Basic(
+          ValidationOutput.Basic(
             valid = false,
             errors =
               setOf(
-                BasicError(
+                OutputUnit(
+                  valid = false,
                   keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames/minLength"),
                   instanceLocation = JsonPointer("/a"),
                   error = "property a: string length (1) must be greater or equal to 3",
@@ -106,12 +104,14 @@ class OutputCollectorsTest : FunSpec() {
                       path = JsonPointer("/\$defs/reference/propertyNames/minLength"),
                     ),
                 ),
-                BasicError(
+                OutputUnit(
+                  valid = false,
                   keywordLocation = JsonPointer("/allOf/1/properties/collection/items/type"),
                   instanceLocation = JsonPointer("/collection/0"),
                   error = "element is not a string",
                 ),
-                BasicError(
+                OutputUnit(
+                  valid = false,
                   keywordLocation = JsonPointer("/allOf/1/properties/collection/items/type"),
                   instanceLocation = JsonPointer("/collection/2"),
                   error = "element is not a string",
@@ -120,26 +120,26 @@ class OutputCollectorsTest : FunSpec() {
           )
       }
 
-      test("detailed output for valid object") {
+      test("OutputUnit output for valid object") {
         val res = schema.validate(validObject, OutputCollector.detailed())
         res shouldBe
-          Detailed(
+          OutputUnit(
             valid = true,
             keywordLocation = JsonPointer.ROOT,
             instanceLocation = JsonPointer.ROOT,
           )
       }
 
-      test("detailed output for invalid object") {
+      test("OutputUnit output for invalid object") {
         val res = schema.validate(invalidObject, OutputCollector.detailed())
         res shouldBe
-          Detailed(
+          OutputUnit(
             valid = false,
             keywordLocation = JsonPointer("/allOf"),
             instanceLocation = JsonPointer.ROOT,
             errors =
               setOf(
-                Detailed(
+                OutputUnit(
                   valid = false,
                   keywordLocation = JsonPointer("/allOf/0/\$ref"),
                   instanceLocation = JsonPointer.ROOT,
@@ -150,7 +150,7 @@ class OutputCollectorsTest : FunSpec() {
                     ),
                   errors =
                     setOf(
-                      Detailed(
+                      OutputUnit(
                         valid = false,
                         keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames/minLength"),
                         instanceLocation = JsonPointer("/a"),
@@ -163,19 +163,19 @@ class OutputCollectorsTest : FunSpec() {
                       ),
                     ),
                 ),
-                Detailed(
+                OutputUnit(
                   valid = false,
                   keywordLocation = JsonPointer("/allOf/1/properties/collection/items"),
                   instanceLocation = JsonPointer("/collection"),
                   errors =
                     setOf(
-                      Detailed(
+                      OutputUnit(
                         valid = false,
                         keywordLocation = JsonPointer("/allOf/1/properties/collection/items/type"),
                         instanceLocation = JsonPointer("/collection/0"),
                         error = "element is not a string",
                       ),
-                      Detailed(
+                      OutputUnit(
                         valid = false,
                         keywordLocation = JsonPointer("/allOf/1/properties/collection/items/type"),
                         instanceLocation = JsonPointer("/collection/2"),
@@ -191,30 +191,30 @@ class OutputCollectorsTest : FunSpec() {
         val res = schema.validate(validObject, OutputCollector.verbose())
         val expected =
           //region Expected result
-          Verbose(
+          OutputUnit(
             valid = true,
             keywordLocation = JsonPointer.ROOT,
             instanceLocation = JsonPointer.ROOT,
             errors =
               setOf(
-                Verbose(
+                OutputUnit(
                   valid = true,
                   keywordLocation = JsonPointer("/type"),
                   instanceLocation = JsonPointer.ROOT,
                 ),
-                Verbose(
+                OutputUnit(
                   valid = true,
                   keywordLocation = JsonPointer("/allOf"),
                   instanceLocation = JsonPointer.ROOT,
                   errors =
                     setOf(
-                      Verbose(
+                      OutputUnit(
                         valid = true,
                         keywordLocation = JsonPointer("/allOf/0"),
                         instanceLocation = JsonPointer.ROOT,
                         errors =
                           setOf(
-                            Verbose(
+                            OutputUnit(
                               valid = true,
                               keywordLocation = JsonPointer("/allOf/0/\$ref"),
                               instanceLocation = JsonPointer.ROOT,
@@ -222,14 +222,14 @@ class OutputCollectorsTest : FunSpec() {
                                 AbsoluteLocation(Uri.EMPTY, JsonPointer("/\$defs/reference")),
                               errors =
                                 setOf(
-                                  Verbose(
+                                  OutputUnit(
                                     valid = true,
                                     keywordLocation = JsonPointer("/allOf/0/\$ref/type"),
                                     instanceLocation = JsonPointer.ROOT,
                                     absoluteKeywordLocation =
                                       AbsoluteLocation(Uri.EMPTY, JsonPointer("/\$defs/reference/type")),
                                   ),
-                                  Verbose(
+                                  OutputUnit(
                                     valid = true,
                                     keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames"),
                                     instanceLocation = JsonPointer.ROOT,
@@ -237,7 +237,7 @@ class OutputCollectorsTest : FunSpec() {
                                       AbsoluteLocation(Uri.EMPTY, JsonPointer("/\$defs/reference/propertyNames")),
                                     errors =
                                       setOf(
-                                        Verbose(
+                                        OutputUnit(
                                           valid = true,
                                           keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames"),
                                           instanceLocation = JsonPointer("/collection"),
@@ -245,7 +245,7 @@ class OutputCollectorsTest : FunSpec() {
                                             AbsoluteLocation(Uri.EMPTY, JsonPointer("/\$defs/reference/propertyNames")),
                                           errors =
                                             setOf(
-                                              Verbose(
+                                              OutputUnit(
                                                 valid = true,
                                                 keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames/type"),
                                                 instanceLocation = JsonPointer("/collection"),
@@ -255,7 +255,7 @@ class OutputCollectorsTest : FunSpec() {
                                                     JsonPointer("/\$defs/reference/propertyNames/type"),
                                                   ),
                                               ),
-                                              Verbose(
+                                              OutputUnit(
                                                 valid = true,
                                                 keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames/minLength"),
                                                 instanceLocation = JsonPointer("/collection"),
@@ -267,7 +267,7 @@ class OutputCollectorsTest : FunSpec() {
                                               ),
                                             ),
                                         ),
-                                        Verbose(
+                                        OutputUnit(
                                           valid = true,
                                           keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames"),
                                           instanceLocation = JsonPointer("/ano"),
@@ -275,7 +275,7 @@ class OutputCollectorsTest : FunSpec() {
                                             AbsoluteLocation(Uri.EMPTY, JsonPointer("/\$defs/reference/propertyNames")),
                                           errors =
                                             setOf(
-                                              Verbose(
+                                              OutputUnit(
                                                 valid = true,
                                                 keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames/type"),
                                                 instanceLocation = JsonPointer("/ano"),
@@ -285,7 +285,7 @@ class OutputCollectorsTest : FunSpec() {
                                                     JsonPointer("/\$defs/reference/propertyNames/type"),
                                                   ),
                                               ),
-                                              Verbose(
+                                              OutputUnit(
                                                 valid = true,
                                                 keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames/minLength"),
                                                 instanceLocation = JsonPointer("/ano"),
@@ -303,42 +303,42 @@ class OutputCollectorsTest : FunSpec() {
                             ),
                           ),
                       ),
-                      Verbose(
+                      OutputUnit(
                         valid = true,
                         keywordLocation = JsonPointer("/allOf/1"),
                         instanceLocation = JsonPointer.ROOT,
                         errors =
                           setOf(
-                            Verbose(
+                            OutputUnit(
                               valid = true,
                               keywordLocation = JsonPointer("/allOf/1/properties"),
                               instanceLocation = JsonPointer.ROOT,
                               errors =
                                 setOf(
-                                  Verbose(
+                                  OutputUnit(
                                     valid = true,
                                     keywordLocation = JsonPointer("/allOf/1/properties"),
                                     instanceLocation = JsonPointer("/collection"),
                                     errors =
                                       setOf(
-                                        Verbose(
+                                        OutputUnit(
                                           valid = true,
                                           keywordLocation = JsonPointer("/allOf/1/properties/collection"),
                                           instanceLocation = JsonPointer("/collection"),
                                           errors =
                                             setOf(
-                                              Verbose(
+                                              OutputUnit(
                                                 valid = true,
                                                 keywordLocation = JsonPointer("/allOf/1/properties/collection/type"),
                                                 instanceLocation = JsonPointer("/collection"),
                                               ),
-                                              Verbose(
+                                              OutputUnit(
                                                 valid = true,
                                                 keywordLocation = JsonPointer("/allOf/1/properties/collection/items"),
                                                 instanceLocation = JsonPointer("/collection"),
                                                 errors =
                                                   setOf(
-                                                    Verbose(
+                                                    OutputUnit(
                                                       valid = true,
                                                       keywordLocation =
                                                         JsonPointer(
@@ -347,7 +347,7 @@ class OutputCollectorsTest : FunSpec() {
                                                       instanceLocation = JsonPointer("/collection/0"),
                                                       errors =
                                                         setOf(
-                                                          Verbose(
+                                                          OutputUnit(
                                                             valid = true,
                                                             keywordLocation =
                                                               JsonPointer(
@@ -357,7 +357,7 @@ class OutputCollectorsTest : FunSpec() {
                                                           ),
                                                         ),
                                                     ),
-                                                    Verbose(
+                                                    OutputUnit(
                                                       valid = true,
                                                       keywordLocation =
                                                         JsonPointer(
@@ -366,7 +366,7 @@ class OutputCollectorsTest : FunSpec() {
                                                       instanceLocation = JsonPointer("/collection/1"),
                                                       errors =
                                                         setOf(
-                                                          Verbose(
+                                                          OutputUnit(
                                                             valid = true,
                                                             keywordLocation =
                                                               JsonPointer(
@@ -398,30 +398,30 @@ class OutputCollectorsTest : FunSpec() {
         val res = schema.validate(invalidObject, OutputCollector.verbose())
         val expected =
           //region Expected result
-          Verbose(
+          OutputUnit(
             valid = false,
             keywordLocation = JsonPointer.ROOT,
             instanceLocation = JsonPointer.ROOT,
             errors =
               setOf(
-                Verbose(
+                OutputUnit(
                   valid = true,
                   keywordLocation = JsonPointer("/type"),
                   instanceLocation = JsonPointer.ROOT,
                 ),
-                Verbose(
+                OutputUnit(
                   valid = false,
                   keywordLocation = JsonPointer("/allOf"),
                   instanceLocation = JsonPointer.ROOT,
                   errors =
                     setOf(
-                      Verbose(
+                      OutputUnit(
                         valid = false,
                         keywordLocation = JsonPointer("/allOf/0"),
                         instanceLocation = JsonPointer.ROOT,
                         errors =
                           setOf(
-                            Verbose(
+                            OutputUnit(
                               valid = false,
                               keywordLocation = JsonPointer("/allOf/0/\$ref"),
                               instanceLocation = JsonPointer.ROOT,
@@ -429,14 +429,14 @@ class OutputCollectorsTest : FunSpec() {
                                 AbsoluteLocation(Uri.EMPTY, JsonPointer("/\$defs/reference")),
                               errors =
                                 setOf(
-                                  Verbose(
+                                  OutputUnit(
                                     valid = true,
                                     keywordLocation = JsonPointer("/allOf/0/\$ref/type"),
                                     instanceLocation = JsonPointer.ROOT,
                                     absoluteKeywordLocation =
                                       AbsoluteLocation(Uri.EMPTY, JsonPointer("/\$defs/reference/type")),
                                   ),
-                                  Verbose(
+                                  OutputUnit(
                                     valid = false,
                                     keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames"),
                                     instanceLocation = JsonPointer.ROOT,
@@ -444,7 +444,7 @@ class OutputCollectorsTest : FunSpec() {
                                       AbsoluteLocation(Uri.EMPTY, JsonPointer("/\$defs/reference/propertyNames")),
                                     errors =
                                       setOf(
-                                        Verbose(
+                                        OutputUnit(
                                           valid = true,
                                           keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames"),
                                           instanceLocation = JsonPointer("/collection"),
@@ -452,7 +452,7 @@ class OutputCollectorsTest : FunSpec() {
                                             AbsoluteLocation(Uri.EMPTY, JsonPointer("/\$defs/reference/propertyNames")),
                                           errors =
                                             setOf(
-                                              Verbose(
+                                              OutputUnit(
                                                 valid = true,
                                                 keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames/type"),
                                                 instanceLocation = JsonPointer("/collection"),
@@ -462,7 +462,7 @@ class OutputCollectorsTest : FunSpec() {
                                                     JsonPointer("/\$defs/reference/propertyNames/type"),
                                                   ),
                                               ),
-                                              Verbose(
+                                              OutputUnit(
                                                 valid = true,
                                                 keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames/minLength"),
                                                 instanceLocation = JsonPointer("/collection"),
@@ -474,7 +474,7 @@ class OutputCollectorsTest : FunSpec() {
                                               ),
                                             ),
                                         ),
-                                        Verbose(
+                                        OutputUnit(
                                           valid = false,
                                           keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames"),
                                           instanceLocation = JsonPointer("/a"),
@@ -482,7 +482,7 @@ class OutputCollectorsTest : FunSpec() {
                                             AbsoluteLocation(Uri.EMPTY, JsonPointer("/\$defs/reference/propertyNames")),
                                           errors =
                                             setOf(
-                                              Verbose(
+                                              OutputUnit(
                                                 valid = true,
                                                 keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames/type"),
                                                 instanceLocation = JsonPointer("/a"),
@@ -492,7 +492,7 @@ class OutputCollectorsTest : FunSpec() {
                                                     JsonPointer("/\$defs/reference/propertyNames/type"),
                                                   ),
                                               ),
-                                              Verbose(
+                                              OutputUnit(
                                                 valid = false,
                                                 keywordLocation = JsonPointer("/allOf/0/\$ref/propertyNames/minLength"),
                                                 instanceLocation = JsonPointer("/a"),
@@ -511,42 +511,42 @@ class OutputCollectorsTest : FunSpec() {
                             ),
                           ),
                       ),
-                      Verbose(
+                      OutputUnit(
                         valid = false,
                         keywordLocation = JsonPointer("/allOf/1"),
                         instanceLocation = JsonPointer.ROOT,
                         errors =
                           setOf(
-                            Verbose(
+                            OutputUnit(
                               valid = false,
                               keywordLocation = JsonPointer("/allOf/1/properties"),
                               instanceLocation = JsonPointer.ROOT,
                               errors =
                                 setOf(
-                                  Verbose(
+                                  OutputUnit(
                                     valid = false,
                                     keywordLocation = JsonPointer("/allOf/1/properties"),
                                     instanceLocation = JsonPointer("/collection"),
                                     errors =
                                       setOf(
-                                        Verbose(
+                                        OutputUnit(
                                           valid = false,
                                           keywordLocation = JsonPointer("/allOf/1/properties/collection"),
                                           instanceLocation = JsonPointer("/collection"),
                                           errors =
                                             setOf(
-                                              Verbose(
+                                              OutputUnit(
                                                 valid = true,
                                                 keywordLocation = JsonPointer("/allOf/1/properties/collection/type"),
                                                 instanceLocation = JsonPointer("/collection"),
                                               ),
-                                              Verbose(
+                                              OutputUnit(
                                                 valid = false,
                                                 keywordLocation = JsonPointer("/allOf/1/properties/collection/items"),
                                                 instanceLocation = JsonPointer("/collection"),
                                                 errors =
                                                   setOf(
-                                                    Verbose(
+                                                    OutputUnit(
                                                       valid = false,
                                                       keywordLocation =
                                                         JsonPointer(
@@ -555,7 +555,7 @@ class OutputCollectorsTest : FunSpec() {
                                                       instanceLocation = JsonPointer("/collection/0"),
                                                       errors =
                                                         setOf(
-                                                          Verbose(
+                                                          OutputUnit(
                                                             valid = false,
                                                             keywordLocation =
                                                               JsonPointer(
@@ -566,7 +566,7 @@ class OutputCollectorsTest : FunSpec() {
                                                           ),
                                                         ),
                                                     ),
-                                                    Verbose(
+                                                    OutputUnit(
                                                       valid = true,
                                                       keywordLocation =
                                                         JsonPointer(
@@ -575,7 +575,7 @@ class OutputCollectorsTest : FunSpec() {
                                                       instanceLocation = JsonPointer("/collection/1"),
                                                       errors =
                                                         setOf(
-                                                          Verbose(
+                                                          OutputUnit(
                                                             valid = true,
                                                             keywordLocation =
                                                               JsonPointer(
@@ -585,7 +585,7 @@ class OutputCollectorsTest : FunSpec() {
                                                           ),
                                                         ),
                                                     ),
-                                                    Verbose(
+                                                    OutputUnit(
                                                       valid = false,
                                                       keywordLocation =
                                                         JsonPointer(
@@ -594,7 +594,7 @@ class OutputCollectorsTest : FunSpec() {
                                                       instanceLocation = JsonPointer("/collection/2"),
                                                       errors =
                                                         setOf(
-                                                          Verbose(
+                                                          OutputUnit(
                                                             valid = false,
                                                             keywordLocation =
                                                               JsonPointer(
@@ -627,8 +627,8 @@ class OutputCollectorsTest : FunSpec() {
   }
 
   private fun compare(
-    expected: Verbose,
-    actual: Verbose,
+    expected: OutputUnit,
+    actual: OutputUnit,
   ): Boolean {
     if (expected.valid != actual.valid) {
       println("diff valid flag: $expected and $actual")

@@ -11,9 +11,7 @@ import com.networknt.schema.output.OutputUnit
 import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
-import io.github.optimumcode.json.schema.ValidationOutput.Detailed
-import io.github.optimumcode.json.schema.ValidationOutput.Flag
-import io.github.optimumcode.json.schema.ValidationOutput.Verbose
+import io.github.optimumcode.json.schema.ValidationOutput
 import io.github.optimumcode.json.schema.fromStream
 import io.openapiprocessor.jackson.JacksonConverter
 import io.openapiprocessor.jsonschema.reader.UriReader
@@ -133,17 +131,17 @@ abstract class AbstractComparisonBenchmark {
   }
 
   @Benchmark
-  fun validateKmpFlag(): Flag {
+  fun validateKmpFlag(): ValidationOutput.Flag {
     return schema.validate(document, OutputCollector.flag())
   }
 
   @Benchmark
-  fun validateKmpDetailed(): Detailed {
+  fun validateKmpDetailed(): ValidationOutput.OutputUnit {
     return schema.validate(document, OutputCollector.detailed())
   }
 
   @Benchmark
-  fun validateKmpVerbose(): Verbose {
+  fun validateKmpVerbose(): ValidationOutput.OutputUnit {
     return schema.validate(document, OutputCollector.verbose())
   }
 }

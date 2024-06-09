@@ -232,46 +232,6 @@ public final class io/github/optimumcode/json/schema/ValidationOutput$Basic : io
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/optimumcode/json/schema/ValidationOutput$BasicError {
-	public fun <init> (Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;Lio/github/optimumcode/json/schema/AbsoluteLocation;)V
-	public synthetic fun <init> (Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;Lio/github/optimumcode/json/schema/AbsoluteLocation;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lio/github/optimumcode/json/pointer/JsonPointer;
-	public final fun component2 ()Lio/github/optimumcode/json/pointer/JsonPointer;
-	public final fun component3 ()Ljava/lang/String;
-	public final fun component4 ()Lio/github/optimumcode/json/schema/AbsoluteLocation;
-	public final fun copy (Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;Lio/github/optimumcode/json/schema/AbsoluteLocation;)Lio/github/optimumcode/json/schema/ValidationOutput$BasicError;
-	public static synthetic fun copy$default (Lio/github/optimumcode/json/schema/ValidationOutput$BasicError;Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Ljava/lang/String;Lio/github/optimumcode/json/schema/AbsoluteLocation;ILjava/lang/Object;)Lio/github/optimumcode/json/schema/ValidationOutput$BasicError;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getAbsoluteKeywordLocation ()Lio/github/optimumcode/json/schema/AbsoluteLocation;
-	public final fun getError ()Ljava/lang/String;
-	public final fun getInstanceLocation ()Lio/github/optimumcode/json/pointer/JsonPointer;
-	public final fun getKeywordLocation ()Lio/github/optimumcode/json/pointer/JsonPointer;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/optimumcode/json/schema/ValidationOutput$Detailed : io/github/optimumcode/json/schema/ValidationOutput {
-	public fun <init> (ZLio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/schema/AbsoluteLocation;Ljava/lang/String;Ljava/util/Set;)V
-	public synthetic fun <init> (ZLio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/schema/AbsoluteLocation;Ljava/lang/String;Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Z
-	public final fun component2 ()Lio/github/optimumcode/json/pointer/JsonPointer;
-	public final fun component3 ()Lio/github/optimumcode/json/pointer/JsonPointer;
-	public final fun component4 ()Lio/github/optimumcode/json/schema/AbsoluteLocation;
-	public final fun component5 ()Ljava/lang/String;
-	public final fun component6 ()Ljava/util/Set;
-	public final fun copy (ZLio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/schema/AbsoluteLocation;Ljava/lang/String;Ljava/util/Set;)Lio/github/optimumcode/json/schema/ValidationOutput$Detailed;
-	public static synthetic fun copy$default (Lio/github/optimumcode/json/schema/ValidationOutput$Detailed;ZLio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/schema/AbsoluteLocation;Ljava/lang/String;Ljava/util/Set;ILjava/lang/Object;)Lio/github/optimumcode/json/schema/ValidationOutput$Detailed;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getAbsoluteKeywordLocation ()Lio/github/optimumcode/json/schema/AbsoluteLocation;
-	public final fun getError ()Ljava/lang/String;
-	public final fun getErrors ()Ljava/util/Set;
-	public final fun getInstanceLocation ()Lio/github/optimumcode/json/pointer/JsonPointer;
-	public final fun getKeywordLocation ()Lio/github/optimumcode/json/pointer/JsonPointer;
-	public fun getValid ()Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class io/github/optimumcode/json/schema/ValidationOutput$Flag : io/github/optimumcode/json/schema/ValidationOutput {
 	public static final field Companion Lio/github/optimumcode/json/schema/ValidationOutput$Flag$Companion;
 	public static final field INVALID Lio/github/optimumcode/json/schema/ValidationOutput$Flag;
@@ -289,7 +249,7 @@ public final class io/github/optimumcode/json/schema/ValidationOutput$Flag : io/
 public final class io/github/optimumcode/json/schema/ValidationOutput$Flag$Companion {
 }
 
-public final class io/github/optimumcode/json/schema/ValidationOutput$Verbose : io/github/optimumcode/json/schema/ValidationOutput {
+public final class io/github/optimumcode/json/schema/ValidationOutput$OutputUnit : io/github/optimumcode/json/schema/ValidationOutput {
 	public fun <init> (ZLio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/schema/AbsoluteLocation;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;)V
 	public synthetic fun <init> (ZLio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/schema/AbsoluteLocation;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Z
@@ -299,8 +259,8 @@ public final class io/github/optimumcode/json/schema/ValidationOutput$Verbose : 
 	public final fun component5 ()Ljava/lang/String;
 	public final fun component6 ()Ljava/util/Set;
 	public final fun component7 ()Ljava/util/Set;
-	public final fun copy (ZLio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/schema/AbsoluteLocation;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;)Lio/github/optimumcode/json/schema/ValidationOutput$Verbose;
-	public static synthetic fun copy$default (Lio/github/optimumcode/json/schema/ValidationOutput$Verbose;ZLio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/schema/AbsoluteLocation;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;ILjava/lang/Object;)Lio/github/optimumcode/json/schema/ValidationOutput$Verbose;
+	public final fun copy (ZLio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/schema/AbsoluteLocation;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;)Lio/github/optimumcode/json/schema/ValidationOutput$OutputUnit;
+	public static synthetic fun copy$default (Lio/github/optimumcode/json/schema/ValidationOutput$OutputUnit;ZLio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/schema/AbsoluteLocation;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;ILjava/lang/Object;)Lio/github/optimumcode/json/schema/ValidationOutput$OutputUnit;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAbsoluteKeywordLocation ()Lio/github/optimumcode/json/schema/AbsoluteLocation;
 	public final fun getAnnotations ()Ljava/util/Set;

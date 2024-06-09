@@ -3,9 +3,7 @@ package io.github.optimumcode.json.schema
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.pointer.plus
 import io.github.optimumcode.json.pointer.relative
-import io.github.optimumcode.json.schema.ValidationOutput.BasicError
-import io.github.optimumcode.json.schema.ValidationOutput.Detailed
-import io.github.optimumcode.json.schema.ValidationOutput.Verbose
+import io.github.optimumcode.json.schema.ValidationOutput.OutputUnit
 import kotlin.jvm.JvmStatic
 
 internal typealias OutputErrorTransformer<T> = OutputCollector<T>.(ValidationError) -> ValidationError?
@@ -24,10 +22,10 @@ public sealed class OutputCollector<T> private constructor(
     public fun basic(): OutputCollector<ValidationOutput.Basic> = Basic()
 
     @JvmStatic
-    public fun detailed(): OutputCollector<ValidationOutput.Detailed> = Detailed()
+    public fun detailed(): OutputCollector<OutputUnit> = Detailed()
 
     @JvmStatic
-    public fun verbose(): OutputCollector<ValidationOutput.Verbose> = Verbose()
+    public fun verbose(): OutputCollector<OutputUnit> = Verbose()
   }
 
   public abstract val output: T
@@ -195,16 +193,16 @@ public sealed class OutputCollector<T> private constructor(
     private val parent: Basic? = null,
     transformer: OutputErrorTransformer<ValidationOutput.Basic> = NO_TRANSFORMATION,
   ) : OutputCollector<ValidationOutput.Basic>(parent, transformer) {
-    private lateinit var errors: MutableSet<BasicError>
+    private lateinit var errors: MutableSet<OutputUnit>
 
-    private fun addError(error: BasicError) {
+    private fun addError(error: OutputUnit) {
       if (!::errors.isInitialized) {
         errors = linkedSetOf()
       }
       errors.add(error)
     }
 
-    private fun addErrors(errors: MutableSet<BasicError>) {
+    private fun addErrors(errors: MutableSet<OutputUnit>) {
       if (::errors.isInitialized) {
         this.errors.addAll(errors)
       } else {
@@ -215,7 +213,8 @@ public sealed class OutputCollector<T> private constructor(
     override fun onError(error: ValidationError) {
       val err = transformError(error) ?: return
       addError(
-        BasicError(
+        OutputUnit(
+          valid = false,
           keywordLocation = err.schemaPath,
           instanceLocation = err.objectPath,
           absoluteKeywordLocation = err.absoluteLocation,
@@ -261,11 +260,11 @@ public sealed class OutputCollector<T> private constructor(
     private val parent: Detailed? = null,
     private val absoluteLocation: AbsoluteLocation? = null,
     private val collapse: Boolean = true,
-    transformer: OutputErrorTransformer<ValidationOutput.Detailed> = NO_TRANSFORMATION,
-  ) : OutputCollector<ValidationOutput.Detailed>(parent, transformer) {
-    private lateinit var results: MutableSet<ValidationOutput.Detailed>
+    transformer: OutputErrorTransformer<OutputUnit> = NO_TRANSFORMATION,
+  ) : OutputCollector<OutputUnit>(parent, transformer) {
+    private lateinit var results: MutableSet<OutputUnit>
 
-    private fun addResult(result: ValidationOutput.Detailed) {
+    private fun addResult(result: OutputUnit) {
       if (result.valid) {
         // do not add valid
         return
@@ -276,11 +275,11 @@ public sealed class OutputCollector<T> private constructor(
       results.add(result)
     }
 
-    override val output: ValidationOutput.Detailed
+    override val output: OutputUnit
       get() {
         if (!::results.isInitialized) {
           // variable is uninitialized only if all results are valid
-          return Detailed(
+          return OutputUnit(
             valid = true,
             keywordLocation = keywordLocation,
             instanceLocation = location,
@@ -292,7 +291,7 @@ public sealed class OutputCollector<T> private constructor(
         return if (failed.size == 1 && collapse) {
           failed.single()
         } else {
-          Detailed(
+          OutputUnit(
             valid = false,
             keywordLocation = keywordLocation,
             absoluteKeywordLocation = absoluteLocation,
@@ -333,12 +332,10 @@ public sealed class OutputCollector<T> private constructor(
       )
     }
 
-    override fun childCollector(): OutputCollector<ValidationOutput.Detailed> =
+    override fun childCollector(): OutputCollector<OutputUnit> =
       Detailed(location, keywordLocation, this, absoluteLocation)
 
-    override fun withErrorTransformer(
-      transformer: OutputErrorTransformer<ValidationOutput.Detailed>,
-    ): OutputCollector<ValidationOutput.Detailed> =
+    override fun withErrorTransformer(transformer: OutputErrorTransformer<OutputUnit>): OutputCollector<OutputUnit> =
       Detailed(location, keywordLocation, parent, absoluteLocation, collapse, transformer = transformer)
 
     override fun reportErrors() {
@@ -348,7 +345,7 @@ public sealed class OutputCollector<T> private constructor(
     override fun onError(error: ValidationError) {
       val err = transformError(error) ?: return
       addResult(
-        Detailed(
+        OutputUnit(
           valid = false,
           instanceLocation = err.objectPath,
           keywordLocation = err.schemaPath,
@@ -364,22 +361,22 @@ public sealed class OutputCollector<T> private constructor(
     private val keywordLocation: JsonPointer = JsonPointer.ROOT,
     private val parent: Verbose? = null,
     private val absoluteLocation: AbsoluteLocation? = null,
-    transformer: OutputErrorTransformer<ValidationOutput.Verbose> = NO_TRANSFORMATION,
-  ) : OutputCollector<ValidationOutput.Verbose>(parent, transformer) {
-    private val results: MutableList<ValidationOutput.Verbose> = ArrayList(1)
+    transformer: OutputErrorTransformer<OutputUnit> = NO_TRANSFORMATION,
+  ) : OutputCollector<OutputUnit>(parent, transformer) {
+    private val errors: MutableList<OutputUnit> = ArrayList(1)
 
-    private fun addResult(result: ValidationOutput.Verbose) {
+    private fun addResult(result: OutputUnit) {
       // init hashCode to reduce overhead in future
       result.hashCode()
-      results.add(result)
+      errors.add(result)
     }
 
-    override val output: ValidationOutput.Verbose
+    override val output: OutputUnit
       get() {
-        if (results.size == 1) {
+        if (errors.size == 1) {
           // when this is a leaf we should return the reported error
           // instead of creating a new node
-          val childError = results.single()
+          val childError = errors.single()
           if (
             childError.errors.isEmpty() &&
             childError.let {
@@ -389,12 +386,12 @@ public sealed class OutputCollector<T> private constructor(
             return childError
           }
         }
-        return Verbose(
-          valid = results.none { !it.valid },
+        return OutputUnit(
+          valid = errors.none { !it.valid },
           keywordLocation = keywordLocation,
           absoluteKeywordLocation = absoluteLocation,
           instanceLocation = location,
-          errors = results.toSet(),
+          errors = errors.toSet(),
         )
       }
 
@@ -429,13 +426,11 @@ public sealed class OutputCollector<T> private constructor(
       )
     }
 
-    override fun childCollector(): OutputCollector<ValidationOutput.Verbose> {
+    override fun childCollector(): OutputCollector<OutputUnit> {
       return Verbose(location, keywordLocation, this, absoluteLocation)
     }
 
-    override fun withErrorTransformer(
-      transformer: OutputErrorTransformer<ValidationOutput.Verbose>,
-    ): OutputCollector<ValidationOutput.Verbose> =
+    override fun withErrorTransformer(transformer: OutputErrorTransformer<OutputUnit>): OutputCollector<OutputUnit> =
       Verbose(location, keywordLocation, parent, absoluteLocation, transformer)
 
     override fun reportErrors() {
@@ -445,7 +440,7 @@ public sealed class OutputCollector<T> private constructor(
     override fun onError(error: ValidationError) {
       val err = transformError(error) ?: return
       addResult(
-        Verbose(
+        OutputUnit(
           valid = false,
           instanceLocation = err.objectPath,
           keywordLocation = err.schemaPath,
