@@ -14,6 +14,7 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v4
         with:
           configuration: changelog_config.json
+          toTag: ${{ githubg.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Dump changelog
