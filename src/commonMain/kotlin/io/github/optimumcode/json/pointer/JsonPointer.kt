@@ -73,6 +73,7 @@ public sealed class JsonPointer(
         PointerParent(
           parent,
           node.propertyName,
+          node.index,
         )
       node = node.next
     }
@@ -168,6 +169,7 @@ public sealed class JsonPointer(
     private class PointerParent(
       val parent: PointerParent?,
       val segment: String,
+      val index: Int? = null,
     )
 
     private fun buildPath(
@@ -179,10 +181,18 @@ public sealed class JsonPointer(
       while (parentValue != null) {
         curr =
           parentValue.run {
-            SegmentPointer(
-              segment,
-              curr,
-            )
+            if (index == null) {
+              SegmentPointer(
+                segment,
+                curr,
+              )
+            } else {
+              SegmentPointer(
+                segment,
+                curr,
+                index,
+              )
+            }
           }
         parentValue = parentValue.parent
       }
@@ -269,12 +279,10 @@ private fun StringBuilder.appendEscaped(ch: Char) {
 internal object EmptyPointer : JsonPointer()
 
 internal class SegmentPointer(
-  segment: String,
+  val propertyName: String,
   override val next: JsonPointer = EmptyPointer,
+  val index: Int = parseIndex(propertyName),
 ) : JsonPointer(next) {
-  val propertyName: String = segment
-  val index: Int = parseIndex(segment)
-
   companion object {
     private const val NO_INDEX: Int = -1
     private const val LONG_LENGTH_THRESHOLD = 10
