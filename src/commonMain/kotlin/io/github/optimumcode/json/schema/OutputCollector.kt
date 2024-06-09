@@ -15,19 +15,19 @@ private val NO_TRANSFORMATION: OutputErrorTransformer<*> = { it }
 public sealed class OutputCollector<T> private constructor(
   parent: OutputCollector<T>? = null,
   transformer: OutputErrorTransformer<T> = NO_TRANSFORMATION,
-) : ErrorCollector {
+) {
   public companion object {
     @JvmStatic
-    public fun flag(): Flag = Flag()
+    public fun flag(): OutputCollector<ValidationOutput.Flag> = Flag()
 
     @JvmStatic
-    public fun basic(): Basic = Basic()
+    public fun basic(): OutputCollector<ValidationOutput.Basic> = Basic()
 
     @JvmStatic
-    public fun detailed(): Detailed = Detailed()
+    public fun detailed(): OutputCollector<ValidationOutput.Detailed> = Detailed()
 
     @JvmStatic
-    public fun verbose(): Verbose = Verbose()
+    public fun verbose(): OutputCollector<ValidationOutput.Verbose> = Verbose()
   }
 
   public abstract val output: T
@@ -61,6 +61,8 @@ public sealed class OutputCollector<T> private constructor(
   internal abstract fun childCollector(): OutputCollector<T>
 
   internal open fun reportErrors() = Unit
+
+  internal abstract fun onError(error: ValidationError)
 
   internal inline fun <OUT> use(block: OutputCollector<T>.() -> OUT): OUT =
     try {
@@ -143,7 +145,7 @@ public sealed class OutputCollector<T> private constructor(
     override fun childCollector(): OutputCollector<Nothing> = DelegateOutputCollector(errorCollector, this)
   }
 
-  public class Flag internal constructor(
+  private class Flag(
     private val parent: Flag? = null,
     transformer: OutputErrorTransformer<ValidationOutput.Flag> = NO_TRANSFORMATION,
   ) : OutputCollector<ValidationOutput.Flag>(parent, transformer) {
@@ -186,7 +188,7 @@ public sealed class OutputCollector<T> private constructor(
     override fun childCollector(): Flag = Flag(this)
   }
 
-  public class Basic internal constructor(
+  private class Basic(
     private val parent: Basic? = null,
     transformer: OutputErrorTransformer<ValidationOutput.Basic> = NO_TRANSFORMATION,
   ) : OutputCollector<ValidationOutput.Basic>(parent, transformer) {
@@ -250,7 +252,7 @@ public sealed class OutputCollector<T> private constructor(
     }
   }
 
-  public class Detailed internal constructor(
+  private class Detailed(
     private val location: JsonPointer = JsonPointer.ROOT,
     private val keywordLocation: JsonPointer = JsonPointer.ROOT,
     private val parent: Detailed? = null,
@@ -343,7 +345,7 @@ public sealed class OutputCollector<T> private constructor(
     }
   }
 
-  public class Verbose internal constructor(
+  private class Verbose(
     private val location: JsonPointer = JsonPointer.ROOT,
     private val keywordLocation: JsonPointer = JsonPointer.ROOT,
     private val parent: Verbose? = null,

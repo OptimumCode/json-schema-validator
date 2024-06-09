@@ -30,6 +30,6 @@ private class ExternalAssertionAdapter(
     errorCollector: OutputCollector<*>,
   ): Boolean =
     errorCollector.updateKeywordLocation(location).use {
-      externalAssertion.validate(element, context, this)
+      externalAssertion.validate(element, context, this::onError)
     }
 }
