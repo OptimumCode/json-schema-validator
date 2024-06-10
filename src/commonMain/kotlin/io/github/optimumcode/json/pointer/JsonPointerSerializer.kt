@@ -7,7 +7,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-public object JsonPointerSerializer : KSerializer<JsonPointer> {
+internal object JsonPointerSerializer : KSerializer<JsonPointer> {
   override val descriptor: SerialDescriptor =
     PrimitiveSerialDescriptor(
       "io.github.optimumcode.json.pointer.JsonPointer",

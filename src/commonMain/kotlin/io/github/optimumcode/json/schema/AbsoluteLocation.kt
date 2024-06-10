@@ -16,7 +16,7 @@ public data class AbsoluteLocation(
   val path: JsonPointer,
 )
 
-public object AbsoluteLocationSerializer : KSerializer<AbsoluteLocation> {
+internal object AbsoluteLocationSerializer : KSerializer<AbsoluteLocation> {
   override val descriptor: SerialDescriptor =
     PrimitiveSerialDescriptor(
       "com.optimumcode.json.schema.AbsoluteLocation",
