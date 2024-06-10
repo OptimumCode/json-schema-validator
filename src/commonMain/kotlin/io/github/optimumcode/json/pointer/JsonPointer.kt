@@ -181,7 +181,6 @@ public sealed class JsonPointer(
     private class PointerParent(
       val parent: PointerParent?,
       val segment: String,
-      val index: Int? = null,
     )
 
     private fun buildPath(
@@ -193,18 +192,10 @@ public sealed class JsonPointer(
       while (parentValue != null) {
         curr =
           parentValue.run {
-            if (index == null) {
-              SegmentPointer(
-                segment,
-                curr,
-              )
-            } else {
-              SegmentPointer(
-                segment,
-                curr,
-                index,
-              )
-            }
+            SegmentPointer(
+              segment,
+              curr,
+            )
           }
         parentValue = parentValue.parent
       }
