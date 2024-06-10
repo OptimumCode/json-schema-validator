@@ -1,11 +1,13 @@
 package io.github.optimumcode.json.schema
 
 import io.github.optimumcode.json.pointer.JsonPointer
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmField
 
 public sealed class ValidationOutput private constructor() {
   public abstract val valid: Boolean
 
+  @Serializable
   public data class Flag(override val valid: Boolean) : ValidationOutput() {
     public companion object {
       @JvmField
@@ -16,11 +18,13 @@ public sealed class ValidationOutput private constructor() {
     }
   }
 
+  @Serializable
   public data class Basic(
     override val valid: Boolean,
     public val errors: Set<OutputUnit> = emptySet(),
   ) : ValidationOutput()
 
+  @Serializable
   public data class OutputUnit(
     override val valid: Boolean,
     public val keywordLocation: JsonPointer,
