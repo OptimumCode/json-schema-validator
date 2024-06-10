@@ -124,6 +124,11 @@ class JsonPointerExtensionsTest : FunSpec() {
         JsonPointer("/test//data"),
         JsonPointer("//data"),
       ),
+      TestCase(
+        JsonPointer("/test/data"),
+        JsonPointer("/test"),
+        JsonPointer("/test"),
+      ),
     ).forEach { (base, relativeToBase, relativePath) ->
       test("relative path from '$base' to '$relativeToBase' is '$relativePath'") {
         base.relative(relativeToBase) shouldBe relativePath
