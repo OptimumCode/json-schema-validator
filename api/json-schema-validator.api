@@ -13,6 +13,7 @@ public abstract class io/github/optimumcode/json/pointer/JsonPointer {
 
 public final class io/github/optimumcode/json/pointer/JsonPointer$Companion {
 	public final fun compile (Ljava/lang/String;)Lio/github/optimumcode/json/pointer/JsonPointer;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class io/github/optimumcode/json/pointer/JsonPointerExtensions {
@@ -30,6 +31,7 @@ public final class io/github/optimumcode/json/pointer/JsonPointerKt {
 }
 
 public final class io/github/optimumcode/json/schema/AbsoluteLocation {
+	public static final field Companion Lio/github/optimumcode/json/schema/AbsoluteLocation$Companion;
 	public fun <init> (Lcom/eygraber/uri/Uri;Lio/github/optimumcode/json/pointer/JsonPointer;)V
 	public final fun component1 ()Lcom/eygraber/uri/Uri;
 	public final fun component2 ()Lio/github/optimumcode/json/pointer/JsonPointer;
@@ -40,6 +42,10 @@ public final class io/github/optimumcode/json/schema/AbsoluteLocation {
 	public final fun getUri ()Lcom/eygraber/uri/Uri;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/optimumcode/json/schema/AbsoluteLocation$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public abstract class io/github/optimumcode/json/schema/AnnotationKey {
@@ -218,6 +224,7 @@ public abstract class io/github/optimumcode/json/schema/ValidationOutput {
 }
 
 public final class io/github/optimumcode/json/schema/ValidationOutput$Basic : io/github/optimumcode/json/schema/ValidationOutput {
+	public static final field Companion Lio/github/optimumcode/json/schema/ValidationOutput$Basic$Companion;
 	public fun <init> (ZLjava/util/Set;)V
 	public synthetic fun <init> (ZLjava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Z
@@ -229,6 +236,21 @@ public final class io/github/optimumcode/json/schema/ValidationOutput$Basic : io
 	public fun getValid ()Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/optimumcode/json/schema/ValidationOutput$Basic$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/optimumcode/json/schema/ValidationOutput$Basic$$serializer;
+	public fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/optimumcode/json/schema/ValidationOutput$Basic;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/optimumcode/json/schema/ValidationOutput$Basic;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/optimumcode/json/schema/ValidationOutput$Basic$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class io/github/optimumcode/json/schema/ValidationOutput$Flag : io/github/optimumcode/json/schema/ValidationOutput {
@@ -245,10 +267,23 @@ public final class io/github/optimumcode/json/schema/ValidationOutput$Flag : io/
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/github/optimumcode/json/schema/ValidationOutput$Flag$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/optimumcode/json/schema/ValidationOutput$Flag$$serializer;
+	public fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/optimumcode/json/schema/ValidationOutput$Flag;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/optimumcode/json/schema/ValidationOutput$Flag;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
 public final class io/github/optimumcode/json/schema/ValidationOutput$Flag$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class io/github/optimumcode/json/schema/ValidationOutput$OutputUnit : io/github/optimumcode/json/schema/ValidationOutput {
+	public static final field Companion Lio/github/optimumcode/json/schema/ValidationOutput$OutputUnit$Companion;
 	public fun <init> (ZLio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/schema/AbsoluteLocation;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;)V
 	public synthetic fun <init> (ZLio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/pointer/JsonPointer;Lio/github/optimumcode/json/schema/AbsoluteLocation;Ljava/lang/String;Ljava/util/Set;Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Z
@@ -270,6 +305,21 @@ public final class io/github/optimumcode/json/schema/ValidationOutput$OutputUnit
 	public fun getValid ()Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/optimumcode/json/schema/ValidationOutput$OutputUnit$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/optimumcode/json/schema/ValidationOutput$OutputUnit$$serializer;
+	public fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/optimumcode/json/schema/ValidationOutput$OutputUnit;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/optimumcode/json/schema/ValidationOutput$OutputUnit;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/optimumcode/json/schema/ValidationOutput$OutputUnit$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public abstract interface class io/github/optimumcode/json/schema/extension/ExternalAnnotationCollector {
