@@ -1,5 +1,6 @@
 package io.github.optimumcode.json.pointer
 
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmField
 import kotlin.jvm.JvmStatic
 
@@ -13,6 +14,7 @@ public fun JsonPointer(path: String): JsonPointer = JsonPointer.compile(path)
  * Implementation of a JSON pointer described in the specification
  * [RFC6901](https://datatracker.ietf.org/doc/html/rfc6901).
  */
+@Serializable(JsonPointerSerializer::class)
 public sealed class JsonPointer(
   internal open val next: JsonPointer? = null,
 ) {
