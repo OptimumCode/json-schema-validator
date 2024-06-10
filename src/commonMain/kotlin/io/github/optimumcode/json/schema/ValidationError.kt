@@ -1,6 +1,5 @@
 package io.github.optimumcode.json.schema
 
-import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
 
 /**
@@ -27,9 +26,4 @@ public data class ValidationError(
    * The absolute path to triggered assertion if the $ref was used
    */
   val absoluteLocation: AbsoluteLocation? = null,
-)
-
-public data class AbsoluteLocation(
-  val uri: Uri,
-  val path: JsonPointer,
 )
