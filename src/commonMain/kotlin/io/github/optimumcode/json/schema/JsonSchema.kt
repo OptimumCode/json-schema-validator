@@ -35,6 +35,12 @@ public class JsonSchema internal constructor(
     }
   }
 
+  /**
+   * Validates [value] against this [JsonSchema].
+   * The provided [outputCollector] will be used to collect the validation result.
+   *
+   * @return validation result depending on [outputCollector]
+   */
   public fun <T> validate(
     value: JsonElement,
     outputCollector: OutputCollector<T>,

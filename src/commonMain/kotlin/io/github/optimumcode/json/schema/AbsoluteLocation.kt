@@ -10,6 +10,10 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
+/**
+ * Class represents absolute location in JSON schema.
+ * Serialized to a [String] like `https://schema.org#/path/in/schema`
+ */
 @Serializable(AbsoluteLocationSerializer::class)
 public data class AbsoluteLocation(
   val uri: Uri,

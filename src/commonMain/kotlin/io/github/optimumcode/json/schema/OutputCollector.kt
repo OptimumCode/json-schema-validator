@@ -10,6 +10,9 @@ internal typealias OutputErrorTransformer<T> = OutputCollector<T>.(ValidationErr
 
 private val NO_TRANSFORMATION: OutputErrorTransformer<*> = { it }
 
+/**
+ * Provides collectors' implementations defined in [draft 2020-12](https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-01#section-12.4)
+ */
 public sealed class OutputCollector<T> private constructor(
   parent: OutputCollector<T>? = null,
   transformer: OutputErrorTransformer<T> = NO_TRANSFORMATION,
@@ -46,22 +49,46 @@ public sealed class OutputCollector<T> private constructor(
       }
     } ?: transformer
 
+  /**
+   * Sets current instance location to specified [path].
+   * Returns an [OutputCollector] with updated location information.
+   */
   internal abstract fun updateLocation(path: JsonPointer): OutputCollector<T>
 
+  /**
+   * Sets current keyword location to specified [path].
+   * Updates absolute keyword location information to [absoluteLocation].
+   * If [canCollapse] is `false` that will indicate the output node cannot be collapsed
+   * (format might ignore this if it does not support collapsing).
+   */
   internal abstract fun updateKeywordLocation(
     path: JsonPointer,
     absoluteLocation: AbsoluteLocation? = null,
     canCollapse: Boolean = true,
   ): OutputCollector<T>
 
+  /**
+   * Add a transformation that should be applied to a reported [ValidationError].
+   * The specified [transformer] will be combined with earlier specified transformations (if any were provided).
+   * The transformation are applied in LIFO order.
+   */
   internal abstract fun withErrorTransformer(transformer: OutputErrorTransformer<T>): OutputCollector<T>
 
+  /**
+   * Creates a child [OutputCollector] that has exactly same instance, keyword and absolute locations information.
+   */
   internal abstract fun childCollector(): OutputCollector<T>
 
+  /**
+   * Commits the collected errors. Used to allow late error commit to support applicators like `oneOf`, `anyOf` etc.
+   */
   internal open fun reportErrors() = Unit
 
   internal abstract fun onError(error: ValidationError)
 
+  /**
+   * A utility method that allows to call [reportErrors] method after the [block] has been executed
+   */
   internal inline fun <OUT> use(block: OutputCollector<T>.() -> OUT): OUT =
     try {
       block(this)
@@ -71,6 +98,9 @@ public sealed class OutputCollector<T> private constructor(
 
   protected fun transformError(error: ValidationError): ValidationError? = transformerFunc(error)
 
+  /**
+   * Placeholder collector when no errors should be reported
+   */
   internal data object Empty : OutputCollector<Nothing>() {
     override val output: Nothing
       get() = throw UnsupportedOperationException("no output in empty collector")
@@ -90,6 +120,9 @@ public sealed class OutputCollector<T> private constructor(
     override fun onError(error: ValidationError) = Unit
   }
 
+  /**
+   * Collector to pass all the collected errors to the provided [ErrorCollector]
+   */
   internal class DelegateOutputCollector(
     private val errorCollector: ErrorCollector,
     private val parent: DelegateOutputCollector? = null,
