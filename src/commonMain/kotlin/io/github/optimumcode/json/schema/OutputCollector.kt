@@ -287,6 +287,7 @@ public sealed class OutputCollector<T> private constructor(
     }
   }
 
+  @Suppress("detekt:LongParameterList")
   private class Detailed(
     private val location: JsonPointer = JsonPointer.ROOT,
     private val keywordLocation: JsonPointer = JsonPointer.ROOT,
