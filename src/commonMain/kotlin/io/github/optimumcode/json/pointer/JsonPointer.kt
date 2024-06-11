@@ -31,7 +31,13 @@ public sealed class JsonPointer(
    */
   public fun atIndex(index: Int): JsonPointer {
     require(index >= 0) { "negative index: $index" }
-    return atProperty(index.toString())
+    return insertLast(
+      SegmentPointer(
+        propertyName = index.toString(),
+        depth = 1,
+        index = index,
+      ),
+    )
   }
 
   /**
@@ -42,7 +48,10 @@ public sealed class JsonPointer(
    * val pointer = JsonPointer.ROOT.atProperty("prop1").atProperty("prop2")  // "/prop1/prop2"
    * ```
    */
-  public fun atProperty(property: String): JsonPointer = insertLast(SegmentPointer(property))
+  public fun atProperty(property: String): JsonPointer =
+    insertLast(
+      SegmentPointer(depth = 1, propertyName = property),
+    )
 
   override fun toString(): String {
     val str = asString
@@ -68,7 +77,33 @@ public sealed class JsonPointer(
     if (this !is SegmentPointer) {
       return last
     }
-    return insertLastDeepCopy(this, last)
+    if (depth < MAX_POINTER_DEPTH_FOR_RECURSIVE_INSERT) {
+      return insertLastDeepCopy(this, last)
+    }
+    // avoid recursion when pointer depth is greater than a specified limit
+    // this should help with avoiding stack-overflow error
+    // when this method called for a pointer that has too many segments
+    //
+    // Using queue is less efficient than recursion (around 10%) but saves us from crash
+    val queue = ArrayDeque<SegmentPointer>(depth)
+    var cur: JsonPointer = this
+    while (cur is SegmentPointer) {
+      queue.add(cur)
+      cur = cur.next
+    }
+    val additionalDepth = last.depth
+    var result = last
+    while (queue.isNotEmpty()) {
+      val segment = queue.removeLast()
+      result =
+        SegmentPointer(
+          propertyName = segment.propertyName,
+          depth = segment.depth + additionalDepth,
+          index = segment.index,
+          next = result,
+        )
+    }
+    return result
   }
 
   // there might be an issue with stack in case this function is called deep on the stack
@@ -77,15 +112,18 @@ public sealed class JsonPointer(
     last: SegmentPointer,
   ): JsonPointer =
     with(pointer) {
+      val additionalDepth = last.depth
       if (next is SegmentPointer) {
         SegmentPointer(
           propertyName = propertyName,
+          depth = depth + additionalDepth,
           index = index,
           next = insertLastDeepCopy(next, last),
         )
       } else {
         SegmentPointer(
           propertyName = propertyName,
+          depth = depth + additionalDepth,
           index = index,
           next = last,
         )
@@ -145,6 +183,7 @@ public sealed class JsonPointer(
   }
 
   public companion object {
+    private const val MAX_POINTER_DEPTH_FOR_RECURSIVE_INSERT = 20
     internal const val SEPARATOR: Char = '/'
     internal const val QUOTATION: Char = '~'
     internal const val QUOTATION_ESCAPE: Char = '0'
@@ -187,6 +226,7 @@ public sealed class JsonPointer(
       lastSegment: SegmentPointer,
       parent: PointerParent?,
     ): JsonPointer {
+      var depth = lastSegment.depth
       var curr = lastSegment
       var parentValue = parent
       while (parentValue != null) {
@@ -194,6 +234,7 @@ public sealed class JsonPointer(
           parentValue.run {
             SegmentPointer(
               segment,
+              ++depth,
               curr,
             )
           }
@@ -283,6 +324,7 @@ internal object EmptyPointer : JsonPointer()
 
 internal class SegmentPointer(
   val propertyName: String,
+  val depth: Int = 1,
   override val next: JsonPointer = EmptyPointer,
   val index: Int = parseIndex(propertyName),
 ) : JsonPointer(next) {

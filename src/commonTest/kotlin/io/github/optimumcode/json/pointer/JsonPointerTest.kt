@@ -49,7 +49,7 @@ class JsonPointerTest : FunSpec() {
     test("extracts segment path") {
       val pointer = JsonPointer("/first/second")
       assertSoftly {
-        pointer.assertSegment(property = "first")
+        pointer.assertSegment(property = "first", depth = 2)
         val next = pointer.next
         next shouldNotBe null
         next!!.assertSegment(property = "second")
@@ -68,7 +68,7 @@ class JsonPointerTest : FunSpec() {
 
       test("parses several escaped characters '$escaped' as '$actual'") {
         val pointer = JsonPointer("/${escaped}and$escaped/test")
-        pointer.assertSegment("${actual}and$actual")
+        pointer.assertSegment("${actual}and$actual", depth = 2)
         pointer.next.apply {
           shouldNotBe(null)
           this!!.assertSegment("test")
@@ -84,7 +84,7 @@ class JsonPointerTest : FunSpec() {
     test("empty segment in the end") {
       val pointer = JsonPointer("/test/")
       assertSoftly {
-        pointer.assertSegment(property = "test")
+        pointer.assertSegment(property = "test", depth = 2)
         pointer.next
           .shouldNotBeNull()
           .assertSegment(property = "")
@@ -104,9 +104,9 @@ class JsonPointerTest : FunSpec() {
     test("empty segment in the middle") {
       val pointer = JsonPointer("/test1//test2")
       assertSoftly {
-        pointer.assertSegment(property = "test1")
+        pointer.assertSegment(property = "test1", depth = 3)
         var next = pointer.next.shouldNotBeNull()
-        next.assertSegment(property = "")
+        next.assertSegment(property = "", depth = 2)
         next = next.next.shouldNotBeNull()
         next.assertSegment(property = "test2")
         pointer.toString() shouldBe "/test1//test2"
@@ -150,12 +150,14 @@ class JsonPointerTest : FunSpec() {
   private fun JsonPointer.assertSegment(
     property: String,
     index: Int = -1,
+    depth: Int = 1,
   ) {
     asClue {
       this should beOfType<SegmentPointer>()
       this as SegmentPointer
       this.propertyName shouldBe property
       this.index shouldBe index
+      this.depth shouldBe depth
     }
   }
 }
