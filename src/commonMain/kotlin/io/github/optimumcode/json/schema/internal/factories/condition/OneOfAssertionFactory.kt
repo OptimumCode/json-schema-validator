@@ -34,6 +34,7 @@ private class OneOfAssertion(
         val res = assertion.validate(element, childContext, childCollector)
         if (res) {
           childContext.propagateToParent()
+          childCollector.reportErrors()
           matched += index
         }
       }

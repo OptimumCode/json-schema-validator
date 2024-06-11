@@ -620,49 +620,155 @@ class OutputCollectorsTest : FunSpec() {
               ),
           )
         //endregion
-        compare(expected, res)
         res shouldBe expected
       }
     }
-  }
 
-  private fun compare(
-    expected: OutputUnit,
-    actual: OutputUnit,
-  ): Boolean {
-    if (expected.valid != actual.valid) {
-      println("diff valid flag: $expected and $actual")
-      return false
+    JsonSchema.fromDefinition(
+      """
+      {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "object"
+          }
+        ]
+      }
+      """.trimIndent(),
+    ).also { schema ->
+      test("verbose output with oneOf for string") {
+        val res =
+          schema.validate(
+            JsonPrimitive("test"),
+            OutputCollector.verbose(),
+          )
+
+        res shouldBe
+          OutputUnit(
+            valid = true,
+            keywordLocation = JsonPointer.ROOT,
+            instanceLocation = JsonPointer.ROOT,
+            errors =
+              setOf(
+                OutputUnit(
+                  valid = true,
+                  keywordLocation = JsonPointer("/oneOf"),
+                  instanceLocation = JsonPointer.ROOT,
+                  errors =
+                    setOf(
+                      OutputUnit(
+                        valid = true,
+                        keywordLocation = JsonPointer("/oneOf/0"),
+                        instanceLocation = JsonPointer.ROOT,
+                        errors =
+                          setOf(
+                            OutputUnit(
+                              valid = true,
+                              keywordLocation = JsonPointer("/oneOf/0/type"),
+                              instanceLocation = JsonPointer.ROOT,
+                            ),
+                          ),
+                      ),
+                    ),
+                ),
+              ),
+          )
+      }
+
+      test("verbose output with oneOf for object") {
+        val res =
+          schema.validate(
+            buildJsonObject { },
+            OutputCollector.verbose(),
+          )
+
+        res shouldBe
+          OutputUnit(
+            valid = true,
+            keywordLocation = JsonPointer.ROOT,
+            instanceLocation = JsonPointer.ROOT,
+            errors =
+              setOf(
+                OutputUnit(
+                  valid = true,
+                  keywordLocation = JsonPointer("/oneOf"),
+                  instanceLocation = JsonPointer.ROOT,
+                  errors =
+                    setOf(
+                      OutputUnit(
+                        valid = true,
+                        keywordLocation = JsonPointer("/oneOf/1"),
+                        instanceLocation = JsonPointer.ROOT,
+                        errors =
+                          setOf(
+                            OutputUnit(
+                              valid = true,
+                              keywordLocation = JsonPointer("/oneOf/1/type"),
+                              instanceLocation = JsonPointer.ROOT,
+                            ),
+                          ),
+                      ),
+                    ),
+                ),
+              ),
+          )
+      }
+
+      test("verbose output with oneOf for invalid") {
+        val res =
+          schema.validate(
+            JsonPrimitive(42),
+            OutputCollector.verbose(),
+          )
+
+        res shouldBe
+          OutputUnit(
+            valid = false,
+            keywordLocation = JsonPointer.ROOT,
+            instanceLocation = JsonPointer.ROOT,
+            errors =
+              setOf(
+                OutputUnit(
+                  valid = false,
+                  keywordLocation = JsonPointer("/oneOf"),
+                  instanceLocation = JsonPointer.ROOT,
+                  errors =
+                    setOf(
+                      OutputUnit(
+                        valid = false,
+                        keywordLocation = JsonPointer("/oneOf/0"),
+                        instanceLocation = JsonPointer.ROOT,
+                        errors =
+                          setOf(
+                            OutputUnit(
+                              valid = false,
+                              keywordLocation = JsonPointer("/oneOf/0/type"),
+                              instanceLocation = JsonPointer.ROOT,
+                              error = "element is not a string",
+                            ),
+                          ),
+                      ),
+                      OutputUnit(
+                        valid = false,
+                        keywordLocation = JsonPointer("/oneOf/1"),
+                        instanceLocation = JsonPointer.ROOT,
+                        errors =
+                          setOf(
+                            OutputUnit(
+                              valid = false,
+                              keywordLocation = JsonPointer("/oneOf/1/type"),
+                              instanceLocation = JsonPointer.ROOT,
+                              error = "element is not a object",
+                            ),
+                          ),
+                      ),
+                    ),
+                ),
+              ),
+          )
+      }
     }
-    if (expected.keywordLocation != actual.keywordLocation) {
-      println("diff keyword location: $expected and $actual")
-      return false
-    }
-    if (expected.instanceLocation != actual.instanceLocation) {
-      println("diff instance location: $expected and $actual")
-      return false
-    }
-    if (expected.absoluteKeywordLocation != actual.absoluteKeywordLocation) {
-      println("diff absolute keyword location: $expected and $actual")
-      return false
-    }
-    if (expected.errors.isEmpty() xor actual.errors.isEmpty()) {
-      println("diff number of errors: $expected and $actual")
-      return false
-    }
-    var match = true
-    expected.errors.forEach { expectedErr ->
-      val actualErr =
-        actual.errors.find {
-          it.keywordLocation == expectedErr.keywordLocation &&
-            it.instanceLocation == expectedErr.instanceLocation
-        } ?: run {
-          println("no match for $expectedErr")
-          match = false
-          return@forEach
-        }
-      match = compare(expectedErr, actualErr)
-    }
-    return match
   }
 }

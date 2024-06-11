@@ -35,6 +35,7 @@ private class AnyOfAssertion(
           val res = it.validate(element, childContext, collector)
           if (res) {
             childContext.propagateToParent()
+            collector.reportErrors()
           }
           valid = valid or res
         }

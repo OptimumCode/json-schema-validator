@@ -75,7 +75,7 @@ public sealed class OutputCollector<T> private constructor(
   internal abstract fun withErrorTransformer(transformer: OutputErrorTransformer<T>): OutputCollector<T>
 
   /**
-   * Creates a child [OutputCollector] that has exactly same instance, keyword and absolute locations information.
+   * Creates a child [OutputCollector] that has exactly same instance, keyword and absolute locations' information.
    */
   internal abstract fun childCollector(): OutputCollector<T>
 
@@ -293,6 +293,7 @@ public sealed class OutputCollector<T> private constructor(
     private val parent: Detailed? = null,
     private val absoluteLocation: AbsoluteLocation? = null,
     private val collapse: Boolean = true,
+    private val child: Boolean = false,
     transformer: OutputErrorTransformer<OutputUnit> = NO_TRANSFORMATION,
   ) : OutputCollector<OutputUnit>(parent, transformer) {
     private lateinit var results: MutableSet<OutputUnit>
@@ -306,6 +307,17 @@ public sealed class OutputCollector<T> private constructor(
         results = linkedSetOf()
       }
       results.add(result)
+    }
+
+    private fun addResults(results: MutableSet<OutputUnit>) {
+      if (results.all { it.valid }) {
+        return
+      }
+      if (::results.isInitialized) {
+        results.addAll(results)
+      } else {
+        this.results = results
+      }
     }
 
     override val output: OutputUnit
@@ -366,13 +378,22 @@ public sealed class OutputCollector<T> private constructor(
     }
 
     override fun childCollector(): OutputCollector<OutputUnit> =
-      Detailed(location, keywordLocation, this, absoluteLocation)
+      Detailed(location, keywordLocation, this, absoluteLocation, child = true)
 
     override fun withErrorTransformer(transformer: OutputErrorTransformer<OutputUnit>): OutputCollector<OutputUnit> =
       Detailed(location, keywordLocation, parent, absoluteLocation, collapse, transformer = transformer)
 
     override fun reportErrors() {
-      parent?.addResult(output)
+      if (parent == null) {
+        return
+      }
+      if (child) {
+        if (::results.isInitialized) {
+          parent.addResults(results)
+        }
+      } else {
+        parent.addResult(output)
+      }
     }
 
     override fun onError(error: ValidationError) {
@@ -394,6 +415,7 @@ public sealed class OutputCollector<T> private constructor(
     private val keywordLocation: JsonPointer = JsonPointer.ROOT,
     private val parent: Verbose? = null,
     private val absoluteLocation: AbsoluteLocation? = null,
+    private val child: Boolean = false,
     transformer: OutputErrorTransformer<OutputUnit> = NO_TRANSFORMATION,
   ) : OutputCollector<OutputUnit>(parent, transformer) {
     private val errors: MutableList<OutputUnit> = ArrayList(1)
@@ -402,6 +424,10 @@ public sealed class OutputCollector<T> private constructor(
       // init hashCode to reduce overhead in future
       result.hashCode()
       errors.add(result)
+    }
+
+    private fun addResults(results: MutableList<OutputUnit>) {
+      errors.addAll(results)
     }
 
     override val output: OutputUnit
@@ -460,14 +486,21 @@ public sealed class OutputCollector<T> private constructor(
     }
 
     override fun childCollector(): OutputCollector<OutputUnit> {
-      return Verbose(location, keywordLocation, this, absoluteLocation)
+      return Verbose(location, keywordLocation, this, absoluteLocation, child = true)
     }
 
     override fun withErrorTransformer(transformer: OutputErrorTransformer<OutputUnit>): OutputCollector<OutputUnit> =
-      Verbose(location, keywordLocation, parent, absoluteLocation, transformer)
+      Verbose(location, keywordLocation, parent, absoluteLocation, transformer = transformer)
 
     override fun reportErrors() {
-      parent?.addResult(output)
+      if (parent == null) {
+        return
+      }
+      if (child) {
+        parent.addResults(errors)
+      } else {
+        parent.addResult(output)
+      }
     }
 
     override fun onError(error: ValidationError) {

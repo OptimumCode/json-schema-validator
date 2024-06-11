@@ -2,6 +2,7 @@ package io.github.optimumcode.json.schema
 
 import io.github.optimumcode.json.pointer.JsonPointer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import kotlin.jvm.JvmField
 
 public sealed class ValidationOutput private constructor() {
@@ -35,6 +36,7 @@ public sealed class ValidationOutput private constructor() {
     public val annotations: Set<OutputUnit> = emptySet(),
   ) : ValidationOutput() {
     // hashcode is stored to avoid recursive recalculation for each error in `errors` property
+    @Transient
     private var hash = 0
 
     override fun equals(other: Any?): Boolean {
