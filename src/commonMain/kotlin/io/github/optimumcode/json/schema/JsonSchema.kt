@@ -37,7 +37,8 @@ public class JsonSchema internal constructor(
 
   /**
    * Validates [value] against this [JsonSchema].
-   * The provided [outputCollectorProvider] will be used to create [OutputCollector] which collects the validation result.
+   * The provided [outputCollectorProvider] will be used to create [OutputCollector]
+   * which collects the validation result.
    *
    * @return validation result depending on [outputCollectorProvider]
    */
