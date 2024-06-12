@@ -97,6 +97,11 @@ class JsonPointerExtensionsTest : FunSpec() {
         JsonPointer("/test2"),
         JsonPointer("/test1//test2"),
       ),
+      TestCase(
+        JsonPointer("/a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s/t/v"),
+        JsonPointer("/w/x/y/z"),
+        JsonPointer("/a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s/t/v/w/x/y/z"),
+      ),
     ).forEach { (init, append, result) ->
       test("$init + $append => $result") {
         (init + append) shouldBe result
