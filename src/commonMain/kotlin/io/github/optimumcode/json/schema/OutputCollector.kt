@@ -319,7 +319,7 @@ public sealed class OutputCollector<T> private constructor(
         return
       }
       if (::results.isInitialized) {
-        results.addAll(results)
+        this.results.addAll(results)
       } else {
         this.results = results
       }
