@@ -131,6 +131,8 @@ public abstract interface class io/github/optimumcode/json/schema/JsonSchemaLoad
 	public abstract fun register (Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun register (Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun register (Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Lcom/eygraber/uri/Uri;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Lcom/eygraber/uri/Uri;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
@@ -151,7 +153,9 @@ public final class io/github/optimumcode/json/schema/JsonSchemaLoader$DefaultImp
 	public static fun fromJsonElement (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchema;
 	public static fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public static fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public static fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lkotlinx/serialization/json/JsonElement;Lcom/eygraber/uri/Uri;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public static fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public static fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public static fun registerWellKnown (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 }
 
