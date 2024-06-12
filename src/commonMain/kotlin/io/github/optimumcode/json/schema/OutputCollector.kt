@@ -6,7 +6,7 @@ import io.github.optimumcode.json.pointer.relative
 import io.github.optimumcode.json.schema.ValidationOutput.OutputUnit
 import kotlin.jvm.JvmStatic
 
-internal typealias OutputErrorTransformer<T> = OutputCollector<T>.(ValidationError) -> ValidationError?
+internal typealias OutputErrorTransformer<T> = OutputCollector<T>.(ValidationError) -> ValidationError
 
 private val NO_TRANSFORMATION: OutputErrorTransformer<*> = { it }
 
@@ -44,7 +44,7 @@ public sealed class OutputCollector<T> private constructor(
         -> transformer
         else -> {
           { err ->
-            transformer(err)?.let { p.transformError(it) }
+            p.transformError(transformer(err))
           }
         }
       }
@@ -97,7 +97,12 @@ public sealed class OutputCollector<T> private constructor(
       reportErrors()
     }
 
-  protected fun transformError(error: ValidationError): ValidationError? = transformerFunc(error)
+  protected fun transformError(error: ValidationError): ValidationError =
+    if (transformerFunc === NO_TRANSFORMATION) {
+      error
+    } else {
+      transformerFunc(error)
+    }
 
   /**
    * Placeholder collector when no errors should be reported
@@ -147,7 +152,7 @@ public sealed class OutputCollector<T> private constructor(
     }
 
     override fun onError(error: ValidationError) {
-      transformError(error)?.also { addError(it) }
+      addError(transformError(error))
     }
 
     override val output: Nothing
@@ -209,7 +214,6 @@ public sealed class OutputCollector<T> private constructor(
     }
 
     override fun onError(error: ValidationError) {
-      transformError(error) ?: return
       if (hasErrors) {
         return
       }
@@ -244,7 +248,7 @@ public sealed class OutputCollector<T> private constructor(
     }
 
     override fun onError(error: ValidationError) {
-      val err = transformError(error) ?: return
+      val err = transformError(error)
       addError(
         OutputUnit(
           valid = false,
@@ -398,7 +402,7 @@ public sealed class OutputCollector<T> private constructor(
     }
 
     override fun onError(error: ValidationError) {
-      val err = transformError(error) ?: return
+      val err = transformError(error)
       addResult(
         OutputUnit(
           valid = false,
@@ -503,7 +507,7 @@ public sealed class OutputCollector<T> private constructor(
     }
 
     override fun onError(error: ValidationError) {
-      val err = transformError(error) ?: return
+      val err = transformError(error)
       addResult(
         OutputUnit(
           valid = false,
