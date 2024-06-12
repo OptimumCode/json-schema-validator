@@ -134,6 +134,25 @@ val elementToValidate: JsonElement = loadJsonToValidate()
 val valid = schema.validate(elementToValidate, errors::add)
 ```
 
+You can also use predefined `ValidationOutput`s to collect the results.
+Output formats are defined in [draft 2020-12](https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-01#section-12.4).
+The most performance can be achieved by using either `flag` or `basic` collectors.
+The `detailed` and `verbose` provide more structured information but this adds additional cost to the validation process
+(because they collect hierarchical output).
+
+```kotlin
+import io.github.optimumcode.json.schema.JsonSchema
+import io.github.optimumcode.json.schema.OutputCollector
+import io.github.optimumcode.json.schema.ValidationOutput.Flag
+import io.github.optimumcode.json.schema.ValidationOutput.Basic
+import io.github.optimumcode.json.schema.ValidationOutput.OutputUnit
+
+val flag: Flag = schema.validate(elementToValidate, OutputCollector.flag())
+val basic: Basic = schema.validate(elementToValidate, OutputCollector.basic())
+val detailed: OutputUnit = schema.validate(elementToValidate, OutputCollector.detailed())
+val verbose: OutputUnit = schema.validate(elementToValidate, OutputCollector.verbose())
+```
+
 If you need to use more than one schema, and they have references to other schemas you should use `JsonSchemaLoader` class.
 
 ```kotlin
