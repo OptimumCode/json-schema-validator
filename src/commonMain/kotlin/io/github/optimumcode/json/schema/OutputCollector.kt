@@ -11,7 +11,8 @@ internal typealias OutputErrorTransformer<T> = OutputCollector<T>.(ValidationErr
 private val NO_TRANSFORMATION: OutputErrorTransformer<*> = { it }
 
 /**
- * Provides collectors' implementations defined in [draft 2020-12](https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-01#section-12.4)
+ * Provides collectors' implementations for outputs
+ * defined in [draft 2020-12](https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-01#section-12.4)
  */
 public sealed class OutputCollector<T> private constructor(
   parent: OutputCollector<T>? = null,
@@ -161,9 +162,8 @@ public sealed class OutputCollector<T> private constructor(
       canCollapse: Boolean,
     ): OutputCollector<Nothing> = DelegateOutputCollector(errorCollector, this)
 
-    override fun withErrorTransformer(transformer: OutputErrorTransformer<Nothing>): OutputCollector<Nothing> {
-      return DelegateOutputCollector(errorCollector, parent, transformer)
-    }
+    override fun withErrorTransformer(transformer: OutputErrorTransformer<Nothing>): OutputCollector<Nothing> =
+      DelegateOutputCollector(errorCollector, parent, transformer)
 
     override fun reportErrors() {
       if (!::reportedErrors.isInitialized) {
@@ -455,14 +455,13 @@ public sealed class OutputCollector<T> private constructor(
         )
       }
 
-    override fun updateLocation(path: JsonPointer): Verbose {
-      return Verbose(
+    override fun updateLocation(path: JsonPointer): Verbose =
+      Verbose(
         location = path,
         keywordLocation = keywordLocation,
         absoluteLocation = absoluteLocation,
         parent = this,
       )
-    }
 
     override fun updateKeywordLocation(
       path: JsonPointer,
@@ -486,9 +485,8 @@ public sealed class OutputCollector<T> private constructor(
       )
     }
 
-    override fun childCollector(): OutputCollector<OutputUnit> {
-      return Verbose(location, keywordLocation, this, absoluteLocation, child = true)
-    }
+    override fun childCollector(): OutputCollector<OutputUnit> =
+      Verbose(location, keywordLocation, this, absoluteLocation, child = true)
 
     override fun withErrorTransformer(transformer: OutputErrorTransformer<OutputUnit>): OutputCollector<OutputUnit> =
       Verbose(location, keywordLocation, parent, absoluteLocation, transformer = transformer)
