@@ -1,6 +1,8 @@
 package io.github.optimumcode.json.schema.assertions.ref
 
+import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
+import io.github.optimumcode.json.schema.AbsoluteLocation
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.base.KEY
@@ -59,9 +61,7 @@ class JsonSchemaRefValidationTest : FunSpec() {
               objectPath = JsonPointer("/size"),
               message = "-1 must be greater or equal to 0",
               absoluteLocation =
-                JsonPointer(
-                  "/definitions/positiveInteger/minimum",
-                ),
+                AbsoluteLocation(Uri.EMPTY, JsonPointer("/definitions/positiveInteger/minimum")),
             ),
           )
         }
@@ -128,9 +128,7 @@ class JsonSchemaRefValidationTest : FunSpec() {
               objectPath = JsonPointer("/other/size"),
               message = "-1 must be greater or equal to 0",
               absoluteLocation =
-                JsonPointer(
-                  "/definitions/positiveInteger/minimum",
-                ),
+                AbsoluteLocation(Uri.EMPTY, JsonPointer("/definitions/positiveInteger/minimum")),
             ),
           )
         }
@@ -171,9 +169,7 @@ class JsonSchemaRefValidationTest : FunSpec() {
               objectPath = JsonPointer("/size"),
               message = "element is not a integer",
               absoluteLocation =
-                JsonPointer(
-                  "/definitions/A/definitions/B/type",
-                ),
+                AbsoluteLocation(Uri.EMPTY, JsonPointer("/definitions/A/definitions/B/type")),
             ),
           )
         }

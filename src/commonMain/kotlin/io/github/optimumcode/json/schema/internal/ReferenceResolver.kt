@@ -5,24 +5,36 @@ import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.pointer.internal.length
 
 internal interface ReferenceResolver {
-  fun ref(refId: RefId): Pair<JsonPointer, JsonSchemaAssertion>
+  fun ref(refId: RefId): ReferenceHolder
 
-  fun dynamicRef(refId: RefId): Pair<JsonPointer, JsonSchemaAssertion>
+  fun dynamicRef(refId: RefId): ReferenceHolder
+}
+
+internal class ReferenceHolder(
+  val schemaPath: JsonPointer,
+  val assertion: JsonSchemaAssertion,
+  val scopeId: Uri,
+) {
+  operator fun component1(): JsonPointer = schemaPath
+
+  operator fun component2(): JsonSchemaAssertion = assertion
+
+  operator fun component3(): Uri = scopeId
 }
 
 internal class DefaultReferenceResolver(
   private val references: Map<RefId, AssertionWithPath>,
   private val schemaPathsStack: ArrayDeque<Pair<JsonPointer, Uri>> = ArrayDeque(),
 ) : ReferenceResolver {
-  override fun ref(refId: RefId): Pair<JsonPointer, JsonSchemaAssertion> {
+  override fun ref(refId: RefId): ReferenceHolder {
     val resolvedRef = requireNotNull(references[refId]) { "$refId is not found" }
-    return resolvedRef.schemaPath to resolvedRef.assertion
+    return resolvedRef.toRefHolder()
   }
 
-  override fun dynamicRef(refId: RefId): Pair<JsonPointer, JsonSchemaAssertion> {
+  override fun dynamicRef(refId: RefId): ReferenceHolder {
     val originalRef = requireNotNull(references[refId]) { "$refId is not found" }
     if (!originalRef.dynamic) {
-      return originalRef.schemaPath to originalRef.assertion
+      return originalRef.toRefHolder()
     }
 
     val fragment = refId.fragment
@@ -39,7 +51,7 @@ internal class DefaultReferenceResolver(
       }
         // If no outer anchor found use the original ref
         ?: originalRef
-    return resolvedDynamicRef.schemaPath to resolvedDynamicRef.assertion
+    return resolvedDynamicRef.toRefHolder()
   }
 
   fun pushSchemaPath(
@@ -52,4 +64,11 @@ internal class DefaultReferenceResolver(
   fun popSchemaPath() {
     schemaPathsStack.removeLast()
   }
+
+  private fun AssertionWithPath.toRefHolder(): ReferenceHolder =
+    ReferenceHolder(
+      schemaPath = schemaPath,
+      assertion = assertion,
+      scopeId = scopeId,
+    )
 }

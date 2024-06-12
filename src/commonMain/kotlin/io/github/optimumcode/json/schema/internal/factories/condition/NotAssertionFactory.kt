@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.condition
 
 import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -28,20 +28,23 @@ private class NotAssertion(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     val childContext = context.childContext()
-    if (!delegate.validate(element, childContext, ErrorCollector.EMPTY)) {
-      childContext.propagateToParent()
-      return true
+    errorCollector.updateKeywordLocation(path).use {
+      if (!delegate.validate(element, childContext, OutputCollector.Empty)) {
+        childContext.propagateToParent()
+        return true
+      }
+
+      onError(
+        ValidationError(
+          schemaPath = path,
+          objectPath = context.objectPath,
+          message = "element must not be valid against child JSON schema but was",
+        ),
+      )
     }
-    errorCollector.onError(
-      ValidationError(
-        schemaPath = path,
-        objectPath = context.objectPath,
-        message = "element must not be valid against child JSON schema but was",
-      ),
-    )
     return false
   }
 }

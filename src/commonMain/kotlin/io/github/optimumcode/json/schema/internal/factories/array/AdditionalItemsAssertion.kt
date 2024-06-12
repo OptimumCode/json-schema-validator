@@ -1,13 +1,15 @@
 package io.github.optimumcode.json.schema.internal.factories.array
 
+import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.AnnotationKey
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 
 internal class AdditionalItemsAssertion(
+  private val location: JsonPointer,
   private val assertion: JsonSchemaAssertion,
   private val indexAnnotationKey: AnnotationKey<Int>,
   private val annotationKey: AnnotationKey<Boolean>,
@@ -16,41 +18,46 @@ internal class AdditionalItemsAssertion(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonArray) {
-      return true
-    }
-    val lastProcessedIndex: Int =
-      context.annotationCollector.annotated(indexAnnotationKey)
-        ?: if (returnIfNoIndex) {
-          return true // items assertion is not used so this one should be ignored
-        } else {
-          -1
-        }
-
-    if (lastProcessedIndex == element.lastIndex) {
-      // we have nothing to process here
-      return true
-    }
-    var valid = true
-    for ((index, el) in element.withIndex()) {
-      if (index <= lastProcessedIndex) {
-        continue
+    return errorCollector.updateKeywordLocation(location).use {
+      if (element !is JsonArray) {
+        return@use true
       }
-      val res =
-        assertion.validate(
-          el,
-          context.at(index),
-          errorCollector,
-        )
-      valid = valid && res
-    }
+      val lastProcessedIndex: Int =
+        context.annotationCollector.annotated(indexAnnotationKey)
+          ?: if (returnIfNoIndex) {
+            return@use true // items assertion is not used so this one should be ignored
+          } else {
+            -1
+          }
 
-    if (valid) {
-      context.annotationCollector.annotate(annotationKey, true)
-    }
+      if (lastProcessedIndex == element.lastIndex) {
+        // we have nothing to process here
+        return@use true
+      }
+      var valid = true
+      for ((index, el) in element.withIndex()) {
+        if (index <= lastProcessedIndex) {
+          continue
+        }
+        val ctx = context.at(index)
+        val res =
+          updateLocation(ctx.objectPath).use {
+            assertion.validate(
+              el,
+              ctx,
+              this,
+            )
+          }
+        valid = valid && res
+      }
 
-    return valid
+      if (valid) {
+        context.annotationCollector.annotate(annotationKey, true)
+      }
+
+      return@use valid
+    }
   }
 }

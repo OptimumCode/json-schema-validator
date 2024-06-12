@@ -17,6 +17,7 @@ internal object ItemsAssertionFactoryDraft202012 : AbstractAssertionFactory("ite
     require(context.isJsonSchema(element)) { "$property must be a valid JSON schema" }
     val assertion = context.schemaFrom(element)
     return AdditionalItemsAssertion(
+      context.schemaPath,
       assertion,
       PrefixItemsAssertionFactory.ANNOTATION,
       ANNOTATION,

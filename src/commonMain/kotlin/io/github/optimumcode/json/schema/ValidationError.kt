@@ -25,5 +25,5 @@ public data class ValidationError(
   /**
    * The absolute path to triggered assertion if the $ref was used
    */
-  val absoluteLocation: JsonPointer? = null,
+  val absoluteLocation: AbsoluteLocation? = null,
 )

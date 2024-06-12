@@ -1,6 +1,7 @@
 package io.github.optimumcode.json.schema
 
 import io.github.optimumcode.json.pointer.JsonPointer
+import io.github.optimumcode.json.schema.OutputCollector.DelegateOutputCollector
 import io.github.optimumcode.json.schema.internal.DefaultAssertionContext
 import io.github.optimumcode.json.schema.internal.DefaultReferenceResolver
 import io.github.optimumcode.json.schema.internal.IsolatedLoader
@@ -29,7 +30,28 @@ public class JsonSchema internal constructor(
     errorCollector: ErrorCollector,
   ): Boolean {
     val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolver)
-    return assertion.validate(value, context, errorCollector)
+    return DelegateOutputCollector(errorCollector).use {
+      assertion.validate(value, context, this)
+    }
+  }
+
+  /**
+   * Validates [value] against this [JsonSchema].
+   * The provided [outputCollectorProvider] will be used to create [OutputCollector]
+   * which collects the validation result.
+   *
+   * @return validation result depending on [outputCollectorProvider]
+   */
+  public fun <T> validate(
+    value: JsonElement,
+    outputCollectorProvider: OutputCollector.Provider<T>,
+  ): T {
+    val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolver)
+    val collector = outputCollectorProvider.get()
+    collector.use {
+      assertion.validate(value, context, this)
+    }
+    return collector.output
   }
 
   public companion object {

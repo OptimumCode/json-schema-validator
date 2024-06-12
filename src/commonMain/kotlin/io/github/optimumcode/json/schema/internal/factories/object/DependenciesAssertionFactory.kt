@@ -19,7 +19,7 @@ internal object DependenciesAssertionFactory : AbstractAssertionFactory("depende
       return TrueSchemaAssertion
     }
     val assertions = loadAssertions(element, context)
-    return DependenciesAssertion(assertions)
+    return DependenciesAssertion(context.schemaPath, assertions)
   }
 
   private fun loadAssertions(

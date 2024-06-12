@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.condition
 
 import io.github.optimumcode.json.schema.AnnotationKey
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.internal.AnnotationKeyFactory
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -28,11 +28,11 @@ private class IfAssertion(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     context.annotationCollector.annotate(
       IfAssertionFactory.ANNOTATION,
-      condition.validate(element, context, ErrorCollector.EMPTY),
+      condition.validate(element, context, OutputCollector.Empty),
     )
     return true
   }

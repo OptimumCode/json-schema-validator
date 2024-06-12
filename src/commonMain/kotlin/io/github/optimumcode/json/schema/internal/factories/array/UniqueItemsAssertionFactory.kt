@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.internal.factories.array
 
 import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
@@ -36,45 +36,47 @@ private class UniqueItemsAssertion(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonArray) {
-      return true
-    }
-    if (element.size < 2) {
-      return true
-    }
-    var duplicates: MutableList<JsonElement>? = null
-    val uniqueItems =
-      buildList {
-        element.forEach { el ->
-          if (none { areEqual(it, el) }) {
-            add(el)
-          } else {
-            if (duplicates == null) {
-              duplicates = mutableListOf()
+    return errorCollector.updateKeywordLocation(path).use {
+      if (element !is JsonArray) {
+        return@use true
+      }
+      if (element.size < 2) {
+        return@use true
+      }
+      var duplicates: MutableList<JsonElement>? = null
+      val uniqueItems =
+        buildList {
+          element.forEach { el ->
+            if (none { areEqual(it, el) }) {
+              add(el)
+            } else {
+              if (duplicates == null) {
+                duplicates = mutableListOf()
+              }
+              duplicates?.add(el)
             }
-            duplicates?.add(el)
           }
         }
+      val uniqueItemsCount = uniqueItems.size
+      if (uniqueItemsCount == element.size) {
+        return@use true
       }
-    val uniqueItemsCount = uniqueItems.size
-    if (uniqueItemsCount == element.size) {
-      return true
+      onError(
+        ValidationError(
+          schemaPath = path,
+          objectPath = context.objectPath,
+          message = "array contains duplicate values: ${
+            duplicates?.joinToString(
+              prefix = "[",
+              postfix = "]",
+              separator = ",",
+            )
+          }",
+        ),
+      )
+      false
     }
-    errorCollector.onError(
-      ValidationError(
-        schemaPath = path,
-        objectPath = context.objectPath,
-        message = "array contains duplicate values: ${
-          duplicates?.joinToString(
-            prefix = "[",
-            postfix = "]",
-            separator = ",",
-          )
-        }",
-      ),
-    )
-    return false
   }
 }

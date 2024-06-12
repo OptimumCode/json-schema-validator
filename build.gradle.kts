@@ -179,7 +179,7 @@ kotlin {
 
       dependencies {
         api(libs.kotlin.serialization.json)
-        implementation(libs.uri)
+        api(libs.uri)
         // When using approach like above you won't be able to add because block
         implementation(libs.kotlin.codepoints.get().toString()) {
           because("simplifies work with unicode codepoints")

@@ -21,6 +21,6 @@ internal object DependentSchemasAssertionFactory : AbstractAssertionFactory("dep
         require(context.isJsonSchema(el)) { "$prop dependency must be a valid JSON schema" }
         context.at(prop).schemaFrom(el)
       }
-    return DependenciesAssertion(dependentSchemas)
+    return DependenciesAssertion(context.schemaPath, dependentSchemas)
   }
 }

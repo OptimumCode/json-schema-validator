@@ -2,7 +2,7 @@ package io.github.optimumcode.json.schema.internal
 
 import com.eygraber.uri.Uri
 import io.github.optimumcode.json.pointer.JsonPointer
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import kotlinx.serialization.json.JsonElement
 
 internal class JsonSchemaRoot(
@@ -14,7 +14,7 @@ internal class JsonSchemaRoot(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     if (canBeReferencedRecursively) {
       context.setRecursiveRootIfAbsent(this)
@@ -23,9 +23,11 @@ internal class JsonSchemaRoot(
     }
     var result = true
     context.pushSchemaPath(schemaPath, scopeId)
-    assertions.forEach {
-      val valid = it.validate(element, context, errorCollector)
-      result = result and valid
+    errorCollector.updateKeywordLocation(schemaPath).use {
+      assertions.forEach {
+        val valid = it.validate(element, context, this)
+        result = result and valid
+      }
     }
     context.popSchemaPath()
     // According to spec the annotations should not be applied if element does not match the schema

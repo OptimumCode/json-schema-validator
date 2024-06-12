@@ -2,7 +2,7 @@ package io.github.optimumcode.json.schema.internal.factories.array
 
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.AnnotationKey
-import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AnnotationKeyFactory
 import io.github.optimumcode.json.schema.internal.AssertionContext
@@ -60,33 +60,35 @@ private class ContainsAssertionDraft202012(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
-    if (element !is JsonArray) {
-      return true
-    }
-    val foundElements =
-      element.asSequence().withIndex().filter { (_, el) ->
-        val childContext = context.childContext()
-        containsAssertion.validate(el, childContext, ErrorCollector.EMPTY).also { valid ->
-          if (valid) {
-            childContext.propagateToParent()
+    return errorCollector.updateKeywordLocation(path).use {
+      if (element !is JsonArray) {
+        return@use true
+      }
+      val foundElements =
+        element.asSequence().withIndex().filter { (_, el) ->
+          val childContext = context.childContext()
+          containsAssertion.validate(el, childContext, OutputCollector.Empty).also { valid ->
+            if (valid) {
+              childContext.propagateToParent()
+            }
           }
-        }
-      }.mapTo(hashSetOf(), IndexedValue<*>::index)
-    context.annotationCollector.annotate(ContainsAssertionFactoryDraft202012.ANNOTATION, foundElements)
-    if (foundElements.isNotEmpty() || allowNoMatch) {
-      return true
+        }.mapTo(hashSetOf(), IndexedValue<*>::index)
+      context.annotationCollector.annotate(ContainsAssertionFactoryDraft202012.ANNOTATION, foundElements)
+      if (foundElements.isNotEmpty() || allowNoMatch) {
+        return@use true
+      }
+
+      onError(
+        ValidationError(
+          schemaPath = path,
+          objectPath = context.objectPath,
+          message = "array does not contain expected element",
+        ),
+      )
+
+      false
     }
-
-    errorCollector.onError(
-      ValidationError(
-        schemaPath = path,
-        objectPath = context.objectPath,
-        message = "array does not contain expected element",
-      ),
-    )
-
-    return false
   }
 }

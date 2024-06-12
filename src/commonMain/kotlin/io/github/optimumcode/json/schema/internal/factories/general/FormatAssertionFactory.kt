@@ -2,10 +2,10 @@ package io.github.optimumcode.json.schema.internal.factories.general
 
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.AnnotationKey
-import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.FormatValidationResult.Invalid
 import io.github.optimumcode.json.schema.FormatValidationResult.Valid
 import io.github.optimumcode.json.schema.FormatValidator
+import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AnnotationKeyFactory
 import io.github.optimumcode.json.schema.internal.AssertionContext
@@ -101,28 +101,30 @@ private class FormatAssertion(
   override fun validate(
     element: JsonElement,
     context: AssertionContext,
-    errorCollector: ErrorCollector,
+    errorCollector: OutputCollector<*>,
   ): Boolean {
     val result = validator.validate(element)
-    return when (result) {
-      Valid -> {
-        context.annotationCollector.annotate(FormatAssertionFactory.ANNOTATION, formatKey)
-        true
-      }
-
-      Invalid -> {
-        if (assertion) {
-          errorCollector.onError(
-            ValidationError(
-              schemaPath = schemaPath,
-              objectPath = context.objectPath,
-              message = "value does not match '$formatKey' format",
-            ),
-          )
-          false
-        } else {
-          // only annotation should return true if format does not match
+    return errorCollector.updateKeywordLocation(schemaPath).use {
+      when (result) {
+        Valid -> {
+          context.annotationCollector.annotate(FormatAssertionFactory.ANNOTATION, formatKey)
           true
+        }
+
+        Invalid -> {
+          if (assertion) {
+            onError(
+              ValidationError(
+                schemaPath = schemaPath,
+                objectPath = context.objectPath,
+                message = "value does not match '$formatKey' format",
+              ),
+            )
+            false
+          } else {
+            // only annotation should return true if format does not match
+            true
+          }
         }
       }
     }

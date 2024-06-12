@@ -165,7 +165,6 @@ internal object Punycode {
     "detekt:CyclomaticComplexMethod",
     "detekt:ReturnCount",
     "detekt:LongMethod",
-    "detekt:NestedBlockDepth",
   )
   private fun StringBuilder.decodeLabel(
     string: String,
