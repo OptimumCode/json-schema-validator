@@ -58,14 +58,14 @@ internal class SchemaLoader : JsonSchemaLoader {
 
   override fun register(
     schema: JsonElement,
-    remoteUri: String,
+    remoteUri: Uri,
     draft: SchemaType?,
   ): JsonSchemaLoader =
     apply {
       loadSchemaData(
         schema,
         createParameters(draft),
-        Uri.parse(remoteUri),
+        remoteUri,
       )
     }
 
@@ -268,13 +268,15 @@ private fun validateReferences(
 
 private fun createSchema(result: LoadResult): JsonSchema {
   val dynamicRefs =
-    result.references.asSequence()
+    result.references
+      .asSequence()
       .filter { it.value.dynamic }
       .map { it.key }
       .toSet()
   // pre-filter references to get rid of unused references
   val usedReferencesWithPath: Map<RefId, AssertionWithPath> =
-    result.references.asSequence()
+    result.references
+      .asSequence()
       .filter { it.key in result.usedRefs || it.key in dynamicRefs }
       .associate { it.key to it.value }
   return JsonSchema(result.assertion, DefaultReferenceResolver(usedReferencesWithPath))
@@ -300,8 +302,8 @@ private fun resolveSchemaType(
   return schemaType ?: defaultType ?: SchemaType.entries.last()
 }
 
-private fun extractSchema(schemaDefinition: JsonElement): String? {
-  return if (schemaDefinition is JsonObject) {
+private fun extractSchema(schemaDefinition: JsonElement): String? =
+  if (schemaDefinition is JsonObject) {
     schemaDefinition[SCHEMA_PROPERTY]?.let {
       require(it is JsonPrimitive && it.isString) { "$SCHEMA_PROPERTY must be a string" }
       it.content
@@ -309,7 +311,6 @@ private fun extractSchema(schemaDefinition: JsonElement): String? {
   } else {
     null
   }
-}
 
 private fun loadDefinitions(
   schemaDefinition: JsonElement,
@@ -436,7 +437,8 @@ private fun loadJsonSchemaRoot(
   refAssertion: JsonSchemaAssertion?,
 ): JsonSchemaRoot {
   val assertions =
-    context.assertionFactories.filter { it.isApplicable(schemaDefinition) }
+    context.assertionFactories
+      .filter { it.isApplicable(schemaDefinition) }
       .map {
         it.create(
           schemaDefinition,
@@ -460,8 +462,8 @@ private fun loadJsonSchemaRoot(
 private fun loadRefAssertion(
   refHolder: RefHolder,
   context: DefaultLoadingContext,
-): JsonSchemaAssertion {
-  return when (refHolder) {
+): JsonSchemaAssertion =
+  when (refHolder) {
     is Simple -> RefSchemaAssertion(context.schemaPath / refHolder.property, refHolder.refId)
     is Recursive ->
       RecursiveRefSchemaAssertion(
@@ -469,7 +471,6 @@ private fun loadRefAssertion(
         refHolder.refId,
       )
   }
-}
 
 /**
  * Used to identify the [location] where this [id] was defined
@@ -499,14 +500,11 @@ private data class DefaultLoadingContext(
   val config: SchemaLoaderConfig,
   val assertionFactories: List<AssertionFactory>,
   override val customFormatValidators: Map<String, FormatValidator>,
-) : LoadingContext, SchemaLoaderContext {
-  override fun at(property: String): DefaultLoadingContext {
-    return copy(schemaPath = schemaPath / property)
-  }
+) : LoadingContext,
+  SchemaLoaderContext {
+  override fun at(property: String): DefaultLoadingContext = copy(schemaPath = schemaPath / property)
 
-  override fun at(index: Int): DefaultLoadingContext {
-    return copy(schemaPath = schemaPath[index])
-  }
+  override fun at(index: Int): DefaultLoadingContext = copy(schemaPath = schemaPath[index])
 
   override fun schemaFrom(element: JsonElement): JsonSchemaAssertion = loadSchema(element, this)
 
@@ -527,7 +525,8 @@ private data class DefaultLoadingContext(
     for ((baseId, location) in additionalIDs) {
       val relativePointer = location.relative(schemaPath)
       val referenceId: RefId =
-        baseId.buildUpon()
+        baseId
+          .buildUpon()
           .encodedFragment(relativePointer.toString())
           .buildRefId()
       if (referenceId.uri == id) {
@@ -549,12 +548,18 @@ private data class DefaultLoadingContext(
     dynamic: Boolean,
   ) {
     require(ANCHOR_REGEX.matches(anchor)) { "$anchor must match the format ${ANCHOR_REGEX.pattern}" }
-    val refId = additionalIDs.last().id.buildUpon().fragment(anchor).buildRefId()
+    val refId =
+      additionalIDs
+        .last()
+        .id
+        .buildUpon()
+        .fragment(anchor)
+        .buildRefId()
     register(refId, assertion, dynamic)
   }
 
-  fun addId(additionalId: Uri): DefaultLoadingContext {
-    return when {
+  fun addId(additionalId: Uri): DefaultLoadingContext =
+    when {
       additionalId.isAbsolute -> copy(additionalIDs = additionalIDs + IdWithLocation(additionalId, schemaPath))
       additionalId.isRelative && !additionalId.path.isNullOrBlank() ->
         copy(
@@ -570,7 +575,6 @@ private data class DefaultLoadingContext(
 
       else -> this
     }
-  }
 
   override fun ref(refId: String): RefId {
     // library parsed fragment as empty if # is in the URI
@@ -581,18 +585,32 @@ private data class DefaultLoadingContext(
     return when {
       refUri.isAbsolute -> refUri.buildRefId()
       // the ref is absolute and should be resolved from current base URI host:port part
-      refId.startsWith('/') -> additionalIDs.last().id.buildUpon().encodedPath(refUri.path).buildRefId()
+      refId.startsWith('/') ->
+        additionalIDs
+          .last()
+          .id
+          .buildUpon()
+          .encodedPath(refUri.path)
+          .buildRefId()
       // in this case the ref must be resolved from the current base ID
       !refUri.path.isNullOrBlank() ->
-        additionalIDs.resolvePath(refUri.path).run {
-          if (refUri.fragment.isNullOrBlank()) {
-            this
-          } else {
-            buildUpon().encodedFragment(refUri.fragment).build()
-          }
-        }.buildRefId()
+        additionalIDs
+          .resolvePath(refUri.path)
+          .run {
+            if (refUri.fragment.isNullOrBlank()) {
+              this
+            } else {
+              buildUpon().encodedFragment(refUri.fragment).build()
+            }
+          }.buildRefId()
 
-      refUri.fragment != null -> additionalIDs.last().id.buildUpon().encodedFragment(refUri.fragment).buildRefId()
+      refUri.fragment != null ->
+        additionalIDs
+          .last()
+          .id
+          .buildUpon()
+          .encodedFragment(refUri.fragment)
+          .buildRefId()
       else -> throw IllegalArgumentException("invalid reference '$refId'")
     }.also { usedRef += ReferenceLocation(schemaPath, it) }
   }
@@ -632,7 +650,12 @@ private data class DefaultLoadingContext(
           !id.fragment.isNullOrBlank() ->
             register(
               // register JSON schema by fragment
-              additionalIDs.last().id.buildUpon().encodedFragment(id.fragment).buildRefId(),
+              additionalIDs
+                .last()
+                .id
+                .buildUpon()
+                .encodedFragment(id.fragment)
+                .buildRefId(),
               assertion,
               dynamic,
             )
@@ -651,9 +674,12 @@ private data class DefaultLoadingContext(
   }
 }
 
-private fun Set<IdWithLocation>.resolvePath(path: String?): Uri {
-  return last().id.appendPathToParent(requireNotNull(path) { "path is null" })
-}
+private fun Set<IdWithLocation>.resolvePath(path: String?): Uri =
+  last().id.appendPathToParent(
+    requireNotNull(path) {
+      "path is null"
+    },
+  )
 
 private fun Uri.appendPathToParent(path: String): Uri {
   if (path.startsWith('/')) {
@@ -669,7 +695,8 @@ private fun Uri.appendPathToParent(path: String): Uri {
       .path(null) // reset path in builder
       .apply {
         if (pathSegments.isEmpty()) return@apply
-        pathSegments.asSequence()
+        pathSegments
+          .asSequence()
           .take(pathSegments.size - 1) // drop last path segment
           .forEach(this::appendPath)
       }

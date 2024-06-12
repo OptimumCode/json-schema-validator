@@ -1,5 +1,6 @@
 package io.github.optimumcode.json.schema.suite
 
+import com.eygraber.uri.Uri
 import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.FormatBehavior
 import io.github.optimumcode.json.schema.FormatBehavior.ANNOTATION_AND_ASSERTION
@@ -13,10 +14,16 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.mpp.env
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
@@ -93,7 +100,7 @@ internal fun FunSpec.runTestSuites(
 
   require(fs.exists(remoteSchemasDefinitions)) { "file $remoteSchemasDefinitions with remote schemas does not exist" }
 
-  val remoteSchemas: Map<String, JsonElement> = loadRemoteSchemas(fs, remoteSchemasDefinitions)
+  val remoteSchemas: Map<Uri, JsonElement> = loadRemoteSchemas(fs, remoteSchemasDefinitions)
 
   require(fs.exists(testSuiteDir)) { "folder $testSuiteDir does not exist" }
 
@@ -131,15 +138,33 @@ internal fun FunSpec.runTestSuites(
 private fun loadRemoteSchemas(
   fs: FileSystem,
   remoteSchemasDefinitions: Path,
-): Map<String, JsonElement> =
+): Map<Uri, JsonElement> =
   fs.openReadOnly(remoteSchemasDefinitions).use { fh ->
     fh.source().use {
       Json.decodeFromBufferedSource(
-        MapSerializer(String.serializer(), JsonElement.serializer()),
+        MapSerializer(UriSerializer, JsonElement.serializer()),
         it.buffer(),
       )
     }
   }
+
+private object UriSerializer : KSerializer<Uri> {
+  override val descriptor: SerialDescriptor
+    get() =
+      PrimitiveSerialDescriptor(
+        "com.eygraber.uri.Uri",
+        kind = PrimitiveKind.STRING,
+      )
+
+  override fun deserialize(decoder: Decoder): Uri = Uri.parse(decoder.decodeString())
+
+  override fun serialize(
+    encoder: Encoder,
+    value: Uri,
+  ) {
+    encoder.encodeString(value.toString())
+  }
+}
 
 @OptIn(ExperimentalSerializationApi::class)
 private fun FunSpec.executeFromDirectory(
@@ -148,7 +173,7 @@ private fun FunSpec.executeFromDirectory(
   excludeSuites: Map<String, Set<String>>,
   excludeTests: Map<String, Set<String>>,
   schemaType: SchemaType?,
-  remoteSchemas: Map<String, JsonElement> = emptyMap(),
+  remoteSchemas: Map<Uri, JsonElement> = emptyMap(),
   formatBehavior: FormatBehavior? = null,
 ) {
   fs.list(testSuiteDir).forEach { testSuiteFile ->
@@ -170,14 +195,15 @@ private fun FunSpec.executeFromDirectory(
         }
       }
     val schemaLoader =
-      JsonSchemaLoader.create()
+      JsonSchemaLoader
+        .create()
         .apply {
           formatBehavior?.also {
             withSchemaOption(SchemaOption.FORMAT_BEHAVIOR_OPTION, it)
           }
           SchemaType.entries.forEach(::registerWellKnown)
           for ((uri, schema) in remoteSchemas) {
-            if (uri.contains("draft4", ignoreCase = true)) {
+            if (uri.toString().contains("draft4", ignoreCase = true)) {
               // skip draft4 schemas
               continue
             }
