@@ -20,16 +20,22 @@ public sealed class OutputCollector<T> private constructor(
 ) {
   public companion object {
     @JvmStatic
-    public fun flag(): OutputCollector<ValidationOutput.Flag> = Flag()
+    public fun flag(): Provider<ValidationOutput.Flag> = Provider(::Flag)
 
     @JvmStatic
-    public fun basic(): OutputCollector<ValidationOutput.Basic> = Basic()
+    public fun basic(): Provider<ValidationOutput.Basic> = Provider(::Basic)
 
     @JvmStatic
-    public fun detailed(): OutputCollector<OutputUnit> = Detailed()
+    public fun detailed(): Provider<OutputUnit> = Provider(::Detailed)
 
     @JvmStatic
-    public fun verbose(): OutputCollector<OutputUnit> = Verbose()
+    public fun verbose(): Provider<OutputUnit> = Provider(::Verbose)
+  }
+
+  public class Provider<T> internal constructor(
+    private val supplier: () -> OutputCollector<T>,
+  ) {
+    internal fun get(): OutputCollector<T> = supplier()
   }
 
   internal abstract val output: T

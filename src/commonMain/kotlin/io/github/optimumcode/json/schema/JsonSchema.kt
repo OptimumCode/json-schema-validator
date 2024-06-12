@@ -37,19 +37,20 @@ public class JsonSchema internal constructor(
 
   /**
    * Validates [value] against this [JsonSchema].
-   * The provided [outputCollector] will be used to collect the validation result.
+   * The provided [outputCollectorProvider] will be used to create [OutputCollector] which collects the validation result.
    *
-   * @return validation result depending on [outputCollector]
+   * @return validation result depending on [outputCollectorProvider]
    */
   public fun <T> validate(
     value: JsonElement,
-    outputCollector: OutputCollector<T>,
+    outputCollectorProvider: OutputCollector.Provider<T>,
   ): T {
     val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolver)
-    outputCollector.use {
+    val collector = outputCollectorProvider.get()
+    collector.use {
       assertion.validate(value, context, this)
     }
-    return outputCollector.output
+    return collector.output
   }
 
   public companion object {

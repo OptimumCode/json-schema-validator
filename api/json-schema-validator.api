@@ -109,7 +109,7 @@ public final class io/github/optimumcode/json/schema/JsonSchema {
 	public static final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchema;
 	public static final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchema;
 	public final fun validate (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
-	public final fun validate (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/OutputCollector;)Ljava/lang/Object;
+	public final fun validate (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/OutputCollector$Provider;)Ljava/lang/Object;
 }
 
 public final class io/github/optimumcode/json/schema/JsonSchema$Companion {
@@ -162,18 +162,21 @@ public final class io/github/optimumcode/json/schema/JsonSchemaStream {
 public abstract class io/github/optimumcode/json/schema/OutputCollector {
 	public static final field Companion Lio/github/optimumcode/json/schema/OutputCollector$Companion;
 	public synthetic fun <init> (Lio/github/optimumcode/json/schema/OutputCollector;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public static final fun basic ()Lio/github/optimumcode/json/schema/OutputCollector;
-	public static final fun detailed ()Lio/github/optimumcode/json/schema/OutputCollector;
-	public static final fun flag ()Lio/github/optimumcode/json/schema/OutputCollector;
+	public static final fun basic ()Lio/github/optimumcode/json/schema/OutputCollector$Provider;
+	public static final fun detailed ()Lio/github/optimumcode/json/schema/OutputCollector$Provider;
+	public static final fun flag ()Lio/github/optimumcode/json/schema/OutputCollector$Provider;
 	protected final fun transformError (Lio/github/optimumcode/json/schema/ValidationError;)Lio/github/optimumcode/json/schema/ValidationError;
-	public static final fun verbose ()Lio/github/optimumcode/json/schema/OutputCollector;
+	public static final fun verbose ()Lio/github/optimumcode/json/schema/OutputCollector$Provider;
 }
 
 public final class io/github/optimumcode/json/schema/OutputCollector$Companion {
-	public final fun basic ()Lio/github/optimumcode/json/schema/OutputCollector;
-	public final fun detailed ()Lio/github/optimumcode/json/schema/OutputCollector;
-	public final fun flag ()Lio/github/optimumcode/json/schema/OutputCollector;
-	public final fun verbose ()Lio/github/optimumcode/json/schema/OutputCollector;
+	public final fun basic ()Lio/github/optimumcode/json/schema/OutputCollector$Provider;
+	public final fun detailed ()Lio/github/optimumcode/json/schema/OutputCollector$Provider;
+	public final fun flag ()Lio/github/optimumcode/json/schema/OutputCollector$Provider;
+	public final fun verbose ()Lio/github/optimumcode/json/schema/OutputCollector$Provider;
+}
+
+public final class io/github/optimumcode/json/schema/OutputCollector$Provider {
 }
 
 public final class io/github/optimumcode/json/schema/SchemaOption {
