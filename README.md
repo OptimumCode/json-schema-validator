@@ -438,4 +438,4 @@ Please, read details [here](docs/codespaces_for_jetbrains.md).
 - [x] Add support for schemas from external documents
   - [x] Load schemas from local sources
   - [ ] Load schemas from remote sources
-- [ ] Formalize error output as it is defined in the latest drafts (have not fully decided if it should be done)
+- [x] Formalize error output as it is defined in the latest drafts
