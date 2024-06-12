@@ -1,5 +1,6 @@
 package io.github.optimumcode.json.schema
 
+import com.eygraber.uri.Uri
 import io.github.optimumcode.json.schema.SchemaType.DRAFT_2019_09
 import io.github.optimumcode.json.schema.SchemaType.DRAFT_2020_12
 import io.github.optimumcode.json.schema.SchemaType.DRAFT_7
@@ -36,14 +37,43 @@ public interface JsonSchemaLoader {
     draft: SchemaType?,
   ): JsonSchemaLoader
 
+  @Deprecated(
+    message = "This method will be removed in a future release. Please use the alternative that accepts Uri type",
+    level = DeprecationLevel.WARNING,
+    replaceWith =
+      ReplaceWith(
+        imports = ["com.eygraber.uri.Uri"],
+        expression = "register(schema, Uri.parse(remoteUri))",
+      ),
+  )
   public fun register(
     schema: JsonElement,
     remoteUri: String,
-  ): JsonSchemaLoader = register(schema, remoteUri, null)
+  ): JsonSchemaLoader = register(schema, Uri.parse(remoteUri), null)
 
   public fun register(
     schema: JsonElement,
+    remoteUri: Uri,
+  ): JsonSchemaLoader = register(schema, remoteUri, null)
+
+  @Deprecated(
+    message = "This method will be removed in a future release. Please use the alternative that accepts Uri type",
+    level = DeprecationLevel.WARNING,
+    replaceWith =
+      ReplaceWith(
+        imports = ["com.eygraber.uri.Uri"],
+        expression = "register(schema, Uri.parse(remoteUri), draft)",
+      ),
+  )
+  public fun register(
+    schema: JsonElement,
     remoteUri: String,
+    draft: SchemaType?,
+  ): JsonSchemaLoader = register(schema, Uri.parse(remoteUri), draft)
+
+  public fun register(
+    schema: JsonElement,
+    remoteUri: Uri,
     draft: SchemaType?,
   ): JsonSchemaLoader
 
