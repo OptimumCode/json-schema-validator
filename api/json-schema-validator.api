@@ -245,13 +245,13 @@ public final class io/github/optimumcode/json/schema/ValidationOutput$Basic : io
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/optimumcode/json/schema/ValidationOutput$Basic$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public synthetic class io/github/optimumcode/json/schema/ValidationOutput$Basic$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lio/github/optimumcode/json/schema/ValidationOutput$Basic$$serializer;
-	public fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/optimumcode/json/schema/ValidationOutput$Basic;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/optimumcode/json/schema/ValidationOutput$Basic;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/optimumcode/json/schema/ValidationOutput$Basic;)V
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/optimumcode/json/schema/ValidationOutput$Basic;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
@@ -274,13 +274,13 @@ public final class io/github/optimumcode/json/schema/ValidationOutput$Flag : io/
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/optimumcode/json/schema/ValidationOutput$Flag$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public synthetic class io/github/optimumcode/json/schema/ValidationOutput$Flag$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lio/github/optimumcode/json/schema/ValidationOutput$Flag$$serializer;
-	public fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/optimumcode/json/schema/ValidationOutput$Flag;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/optimumcode/json/schema/ValidationOutput$Flag;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/optimumcode/json/schema/ValidationOutput$Flag;)V
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/optimumcode/json/schema/ValidationOutput$Flag;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
@@ -314,13 +314,13 @@ public final class io/github/optimumcode/json/schema/ValidationOutput$OutputUnit
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/optimumcode/json/schema/ValidationOutput$OutputUnit$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public synthetic class io/github/optimumcode/json/schema/ValidationOutput$OutputUnit$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lio/github/optimumcode/json/schema/ValidationOutput$OutputUnit$$serializer;
-	public fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/optimumcode/json/schema/ValidationOutput$OutputUnit;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/optimumcode/json/schema/ValidationOutput$OutputUnit;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/optimumcode/json/schema/ValidationOutput$OutputUnit;)V
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/optimumcode/json/schema/ValidationOutput$OutputUnit;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
