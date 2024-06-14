@@ -4,5 +4,8 @@ out/
 
 .gradle/
 
+# downloaded data for unicode characters
+unicode_dump/
+
 # to keep the local secrets from been published
 local.properties

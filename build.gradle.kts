@@ -35,11 +35,11 @@ dependencies {
   generatorConfiguration(project(":generator"))
 }
 
-val dumpDir: Provider<Directory> = layout.buildDirectory.dir("unicode_dump")
+val dumpDir: File = layout.projectDirectory.dir("unicode_dump").asFile
 
 val dumpCharacterData by tasks.register<JavaExec>("dumpCharacterData") {
   onlyIf {
-    dumpDir.get().asFile.run { !exists() || listFiles().isNullOrEmpty() }
+    dumpDir.run { !exists() || listFiles().isNullOrEmpty() }
   }
   outputs.dir(dumpDir)
   classpath(generatorConfiguration)
@@ -47,7 +47,7 @@ val dumpCharacterData by tasks.register<JavaExec>("dumpCharacterData") {
   args(
     "dump",
     "-o",
-    dumpDir.get(),
+    dumpDir,
   )
 }
 
@@ -66,7 +66,7 @@ val generateCharacterDirectionData by tasks.register<JavaExec>("generateCharacte
     "-o",
     generatedSourceDirectory.get(),
     "-d",
-    dumpDir.get(),
+    dumpDir,
   )
 }
 
@@ -85,12 +85,16 @@ val generateCharacterCategoryData by tasks.register<JavaExec>("generateCharacter
     "-o",
     generatedSourceDirectory.get(),
     "-d",
-    dumpDir.get(),
+    dumpDir,
   )
 }
 
 val generateDerivedProperties by tasks.register<JavaExec>("generateDerivedProperties") {
-  val dataFile = layout.projectDirectory.dir("generator").dir("data").file("rfc5895_appendix_b_1.txt")
+  val dataFile =
+    layout.projectDirectory
+      .dir("generator")
+      .dir("data")
+      .file("rfc5895_appendix_b_1.txt")
   inputs.file(dataFile)
   outputs.dir(generatedSourceDirectory)
 
@@ -108,7 +112,11 @@ val generateDerivedProperties by tasks.register<JavaExec>("generateDerivedProper
 }
 
 val generateJoiningTypes by tasks.register<JavaExec>("generateJoiningTypes") {
-  val dataFile = layout.projectDirectory.dir("generator").dir("data").file("DerivedJoiningType.txt")
+  val dataFile =
+    layout.projectDirectory
+      .dir("generator")
+      .dir("data")
+      .file("DerivedJoiningType.txt")
   inputs.file(dataFile)
   outputs.dir(generatedSourceDirectory)
 
@@ -181,7 +189,11 @@ kotlin {
         api(libs.kotlin.serialization.json)
         api(libs.uri)
         // When using approach like above you won't be able to add because block
-        implementation(libs.kotlin.codepoints.get().toString()) {
+        implementation(
+          libs.kotlin.codepoints
+            .get()
+            .toString(),
+        ) {
           because("simplifies work with unicode codepoints")
         }
         implementation(libs.normalize.get().toString()) {
