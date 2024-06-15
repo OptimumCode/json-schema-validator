@@ -112,6 +112,7 @@ jobs:
           name: Release ${{ needs.version.outputs.RELEASE_VERSION }}
           tag: ${{ needs.version.outputs.RELEASE_VERSION }}
           token: ${{ secrets.PUSH_PAT }}
+          makeLatest: ${{ github.ref == 'refs/heads/main' }}
   update-version:
     runs-on: ubuntu-latest
     needs:
