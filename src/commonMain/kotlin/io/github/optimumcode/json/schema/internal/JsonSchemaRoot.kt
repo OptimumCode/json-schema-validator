@@ -24,9 +24,13 @@ internal class JsonSchemaRoot(
     var result = true
     context.pushSchemaPath(schemaPath, scopeId)
     errorCollector.updateKeywordLocation(schemaPath).use {
+      val failFast = isFailFast
       assertions.forEach {
         val valid = it.validate(element, context, this)
         result = result and valid
+        if (!result && failFast) {
+          return@use
+        }
       }
     }
     context.popSchemaPath()

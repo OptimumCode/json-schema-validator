@@ -93,6 +93,9 @@ public sealed class OutputCollector<T> private constructor(
 
   internal abstract fun onError(error: ValidationError)
 
+  internal open val isFailFast: Boolean
+    get() = false
+
   /**
    * A utility method that allows to call [reportErrors] method after the [block] has been executed
    */
@@ -116,6 +119,9 @@ public sealed class OutputCollector<T> private constructor(
   internal data object Empty : OutputCollector<Nothing>() {
     override val output: Nothing
       get() = throw UnsupportedOperationException("no output in empty collector")
+
+    override val isFailFast: Boolean
+      get() = true
 
     override fun updateLocation(path: JsonPointer): OutputCollector<Nothing> = this
 
@@ -193,6 +199,8 @@ public sealed class OutputCollector<T> private constructor(
   ) : OutputCollector<ValidationOutput.Flag>(parent, transformer) {
     private var valid: Boolean = true
     private var hasErrors: Boolean = false
+    override val isFailFast: Boolean
+      get() = true
     override val output: ValidationOutput.Flag
       get() =
         if (valid) {
