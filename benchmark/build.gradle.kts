@@ -61,7 +61,7 @@ benchmark {
       iterationTime = properties["benchmark_iteration_time"]?.takeIfNotBlank()?.toLong() ?: 1L
       iterationTimeUnit = properties["benchmark_iteration_time_unit"]?.takeIfNotBlank() ?: "s"
       reportFormat = properties["benchmark_report_format"]?.takeIfNotBlank() ?: "json"
-      param("objectPath", "$projectDir/data/openapi.json")
+      param("objectPath", "$projectDir/data/openapi.json", "$projectDir/data/openapi-invalid.json")
       param("schemaPath", "$projectDir/data/schemas/openapi_schema.json")
     }
   }
