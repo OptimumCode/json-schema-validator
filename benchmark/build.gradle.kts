@@ -13,9 +13,8 @@ allOpen {
 }
 
 kotlin {
-  jvm {
-    jvmToolchain(11)
-  }
+  jvmToolchain(11)
+  jvm()
   macosX64()
   macosArm64()
   iosX64()

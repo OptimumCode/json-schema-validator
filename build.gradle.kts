@@ -141,9 +141,8 @@ kotlin {
   compilerOptions {
     freeCompilerArgs.add("-opt-in=io.github.optimumcode.json.schema.ExperimentalApi")
   }
+  jvmToolchain(11)
   jvm {
-    jvmToolchain(11)
-    withJava()
     testRuns["test"].executionTask.configure {
       useJUnitPlatform()
     }
