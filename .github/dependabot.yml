@@ -17,3 +17,11 @@ updates:
     directory: '/'
     schedule:
       interval: daily
+  - package-ecosystem: "devcontainers"
+    labels:
+      - dependencies
+    assignees:
+      - 'OptimumCode'
+    directory: '/'
+    schedule:
+      interval: daily
