@@ -22,14 +22,16 @@ class JsonSchemaExtensionTest : FunSpec() {
   init {
     test("reports keyword that matches one of the existing keywords") {
       shouldThrow<IllegalStateException> {
-        JsonSchemaLoader.create()
+        JsonSchemaLoader
+          .create()
           .withExtensions(DuplicatedAssertionFactory)
-      }.message shouldBe "external factory with keyword 'type' overlaps with 'type' keyword from DRAFT_7"
+      }.message shouldBe "external factory with keyword 'type' overlaps with 'type' keyword from DRAFT_6"
     }
 
     test("reports duplicated extension keywords") {
       shouldThrow<IllegalStateException> {
-        JsonSchemaLoader.create()
+        JsonSchemaLoader
+          .create()
           .withExtensions(SimpleDateFormatAssertionFactory, SimpleDateFormatAssertionFactory)
       }.message shouldBe "duplicated extension factory with keyword 'dateFormat'"
     }
@@ -93,7 +95,8 @@ class JsonSchemaExtensionTest : FunSpec() {
     test("registers all extensions with varargs") {
       val schema =
         shouldNotThrowAny {
-          JsonSchemaLoader.create()
+          JsonSchemaLoader
+            .create()
             .withExtensions(SimpleTimeFormatAssertionFactory, SimpleDateFormatAssertionFactory)
             .fromDefinition(schemaDef)
         }
@@ -103,7 +106,8 @@ class JsonSchemaExtensionTest : FunSpec() {
     test("registers all extensions with iterable") {
       val schema =
         shouldNotThrowAny {
-          JsonSchemaLoader.create()
+          JsonSchemaLoader
+            .create()
             .withExtensions(listOf(SimpleTimeFormatAssertionFactory, SimpleDateFormatAssertionFactory))
             .fromDefinition(schemaDef)
         }
