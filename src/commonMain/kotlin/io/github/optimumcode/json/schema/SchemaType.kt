@@ -4,6 +4,7 @@ import com.eygraber.uri.Uri
 import io.github.optimumcode.json.schema.internal.SchemaLoaderConfig
 import io.github.optimumcode.json.schema.internal.config.Draft201909SchemaLoaderConfig
 import io.github.optimumcode.json.schema.internal.config.Draft202012SchemaLoaderConfig
+import io.github.optimumcode.json.schema.internal.config.Draft6SchemaLoaderConfig
 import io.github.optimumcode.json.schema.internal.config.Draft7SchemaLoaderConfig
 import kotlin.jvm.JvmStatic
 
@@ -11,6 +12,7 @@ public enum class SchemaType(
   internal val schemaId: Uri,
   internal val config: SchemaLoaderConfig,
 ) {
+  DRAFT_6(Uri.parse("http://json-schema.org/draft-06/schema"), Draft6SchemaLoaderConfig),
   DRAFT_7(Uri.parse("http://json-schema.org/draft-07/schema"), Draft7SchemaLoaderConfig),
   DRAFT_2019_09(Uri.parse("https://json-schema.org/draft/2019-09/schema"), Draft201909SchemaLoaderConfig),
   DRAFT_2020_12(Uri.parse("https://json-schema.org/draft/2020-12/schema"), Draft202012SchemaLoaderConfig),
