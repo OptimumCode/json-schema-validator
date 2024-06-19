@@ -15,6 +15,7 @@ plugins {
   alias(libs.plugins.kotlin.binaryCompatibility)
   alias(libs.plugins.kotlin.dokka)
   alias(libs.plugins.nexus.publish)
+  id("convention.properties")
   id("convention.publication")
 }
 
