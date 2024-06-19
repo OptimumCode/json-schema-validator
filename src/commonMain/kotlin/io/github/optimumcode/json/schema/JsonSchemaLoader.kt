@@ -3,12 +3,14 @@ package io.github.optimumcode.json.schema
 import com.eygraber.uri.Uri
 import io.github.optimumcode.json.schema.SchemaType.DRAFT_2019_09
 import io.github.optimumcode.json.schema.SchemaType.DRAFT_2020_12
+import io.github.optimumcode.json.schema.SchemaType.DRAFT_4
 import io.github.optimumcode.json.schema.SchemaType.DRAFT_6
 import io.github.optimumcode.json.schema.SchemaType.DRAFT_7
 import io.github.optimumcode.json.schema.extension.ExternalAssertionFactory
 import io.github.optimumcode.json.schema.internal.SchemaLoader
 import io.github.optimumcode.json.schema.internal.wellknown.Draft201909
 import io.github.optimumcode.json.schema.internal.wellknown.Draft202012
+import io.github.optimumcode.json.schema.internal.wellknown.Draft4
 import io.github.optimumcode.json.schema.internal.wellknown.Draft6
 import io.github.optimumcode.json.schema.internal.wellknown.Draft7
 import kotlinx.serialization.json.JsonElement
@@ -19,6 +21,7 @@ public interface JsonSchemaLoader {
   public fun registerWellKnown(draft: SchemaType): JsonSchemaLoader =
     apply {
       when (draft) {
+        DRAFT_4 -> Draft4.entries.forEach { register(it.content) }
         DRAFT_6 -> Draft6.entries.forEach { register(it.content) }
         DRAFT_7 -> Draft7.entries.forEach { register(it.content) }
         DRAFT_2019_09 -> Draft201909.entries.forEach { register(it.content) }

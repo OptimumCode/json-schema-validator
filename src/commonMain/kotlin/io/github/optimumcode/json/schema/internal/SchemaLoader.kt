@@ -157,15 +157,25 @@ internal class SchemaLoader : JsonSchemaLoader {
     )
 
   private fun addExtensionFactory(extensionFactory: ExternalAssertionFactory) {
+    val matchedDrafts = mutableMapOf<String, MutableList<SchemaType>>()
     for (schemaType in SchemaType.entries) {
       val match =
         schemaType.config.allFactories.find { it.property.equals(extensionFactory.keywordName, ignoreCase = true) }
       if (match == null) {
         continue
       }
+      matchedDrafts
+        .getOrPut(
+          match.property,
+          ::ArrayList,
+        ).add(schemaType)
+    }
+    if (matchedDrafts.isNotEmpty()) {
       error(
         "external factory with keyword '${extensionFactory.keywordName}' " +
-          "overlaps with '${match.property}' keyword from $schemaType",
+          "overlaps with ${matchedDrafts.entries.joinToString { (property, drafts) ->
+            "'$property' keyword in $drafts draft(s)"
+          }}",
       )
     }
     val duplicate = extensionFactories.keys.find { it.equals(extensionFactory.keywordName, ignoreCase = true) }
