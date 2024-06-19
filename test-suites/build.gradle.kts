@@ -15,10 +15,6 @@ plugins {
   alias(libs.plugins.ktlint)
 }
 
-repositories {
-  mavenCentral()
-}
-
 kotlin {
   explicitApi()
   jvmToolchain(11)
@@ -56,7 +52,7 @@ kotlin {
   sourceSets {
     commonTest {
       dependencies {
-        implementation(project(":"))
+        implementation(project(":json-schema-validator"))
         implementation(libs.kotest.assertions.core)
         implementation(libs.kotest.framework.engine)
         implementation(kotlin("test-common"))
@@ -122,10 +118,14 @@ kotlin {
 }
 
 dependencies {
-  kover(project(":"))
+  kover(project(":json-schema-validator"))
 }
 
-private val remotesFile = layout.buildDirectory.file("remotes.json").get().asFile
+private val remotesFile =
+  layout.buildDirectory
+    .file("remotes.json")
+    .get()
+    .asFile
 
 val generateRemoteSchemas =
   tasks.register("generateRemoteSchemas") {

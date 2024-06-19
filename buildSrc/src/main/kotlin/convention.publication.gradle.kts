@@ -1,31 +1,6 @@
-import java.util.Properties
-
 plugins {
   `maven-publish`
   signing
-}
-
-ext["signing.keyId"] = ""
-ext["signing.password"] = ""
-ext["signing.key"] = ""
-ext["ossrhUsername"] = ""
-ext["ossrhPassword"] = ""
-
-val secretPropsFile: File = project.rootProject.file("local.properties")
-if (secretPropsFile.exists()) {
-  secretPropsFile.reader().use {
-    Properties().apply {
-      load(it)
-    }
-  }.onEach { (name, value) ->
-    ext[name.toString()] = value
-  }
-} else {
-  ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID") ?: ""
-  ext["signing.password"] = System.getenv("SIGNING_PASSWORD") ?: ""
-  ext["signing.keys"] = System.getenv("SIGNING_SECRET_KEY") ?: ""
-  ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME") ?: ""
-  ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD") ?: ""
 }
 
 val javadocJar by tasks.registering(Jar::class) {
@@ -74,13 +49,16 @@ afterEvaluate {
 
   // Call toList to prevent concurrent modification exception
   signTasks.toList().forEach {
-    val platform = it.name.substring(
-      "sign".length,
-      it.name.length - "Publication".length
-    )
-    tasks.findByName("linkDebugTest$platform")
+    val platform =
+      it.name.substring(
+        "sign".length,
+        it.name.length - "Publication".length,
+      )
+    tasks
+      .findByName("linkDebugTest$platform")
       ?.mustRunAfter(it)
-    tasks.findByName("compileTestKotlin$platform")
+    tasks
+      .findByName("compileTestKotlin$platform")
       ?.mustRunAfter(it)
   }
 }
