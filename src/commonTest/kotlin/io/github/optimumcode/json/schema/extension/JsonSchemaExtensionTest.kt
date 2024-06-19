@@ -25,7 +25,9 @@ class JsonSchemaExtensionTest : FunSpec() {
         JsonSchemaLoader
           .create()
           .withExtensions(DuplicatedAssertionFactory)
-      }.message shouldBe "external factory with keyword 'type' overlaps with 'type' keyword from DRAFT_6"
+      }.message shouldBe
+        "external factory with keyword 'type' overlaps with " +
+        "'type' keyword in [DRAFT_4, DRAFT_6, DRAFT_7, DRAFT_2019_09, DRAFT_2020_12] draft(s)"
     }
 
     test("reports duplicated extension keywords") {

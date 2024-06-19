@@ -202,9 +202,10 @@ private fun FunSpec.executeFromDirectory(
           }
           SchemaType.entries.forEach(::registerWellKnown)
           for ((uri, schema) in remoteSchemas) {
+            var remoteSchemaType: SchemaType? = null
+            // schema for draft 4 does not have $schema inside the definition
             if (uri.toString().contains("draft4", ignoreCase = true)) {
-              // skip draft4 schemas
-              continue
+              remoteSchemaType = SchemaType.DRAFT_4
             }
             if (schema is JsonObject &&
               schema["\$schema"]?.jsonPrimitive?.content.let { it != null && SchemaType.find(it) == null }
@@ -212,7 +213,7 @@ private fun FunSpec.executeFromDirectory(
               continue
             }
             try {
-              register(schema, uri)
+              register(schema, uri, remoteSchemaType)
             } catch (ex: Exception) {
               throw IllegalStateException("cannot load schema with uri '$uri'", ex)
             }
