@@ -5,16 +5,16 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 plugins {
   // otherwise there is Gradle exception
   // https://github.com/gradle/gradle/issues/20084
-  id(libs.plugins.kotlin.jvm.get().pluginId)
+  id(
+    libs.plugins.kotlin.jvm
+      .get()
+      .pluginId,
+  )
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.expediagroup.graphql)
 
   alias(libs.plugins.detekt)
   alias(libs.plugins.ktlint)
-}
-
-repositories {
-  mavenCentral()
 }
 
 kotlin {

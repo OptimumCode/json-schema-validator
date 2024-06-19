@@ -4,10 +4,6 @@ plugins {
   alias(libs.plugins.kotlin.allopen)
 }
 
-repositories {
-  mavenCentral()
-}
-
 allOpen {
   annotation("org.openjdk.jmh.annotations.State")
 }
@@ -30,7 +26,7 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
-        implementation(project(":"))
+        implementation(project(":json-schema-validator"))
         implementation(libs.kotlin.benchmark)
         implementation(libs.okio.common)
         implementation(libs.kotlin.serialization.json.okio)
