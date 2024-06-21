@@ -44,7 +44,7 @@ openapi-jackson = { module = "io.openapiprocessor:io-jackson" }
 jackson-bom = { group = "com.fasterxml.jackson", name = "jackson-bom", version.ref = "jackson" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind" }
 jackson-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml" }
-networknt-validator = { group = "com.networknt", name = "json-schema-validator", version = "1.4.0" }
+networknt-validator = { group = "com.networknt", name = "json-schema-validator", version = "1.4.2" }
 kotlinpoet = { group = "com.squareup", name = "kotlinpoet", version = "1.17.0" }
 graphql-ktor = { group = "com.expediagroup", name = "graphql-kotlin-ktor-client", version.ref = "graphql" }
 clikt = { group = "com.github.ajalt.clikt", name = "clikt", version = "4.4.0" }
