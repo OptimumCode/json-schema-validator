@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.networknt.schema.JsonSchemaFactory
 import com.networknt.schema.OutputFormat
+import com.networknt.schema.PathType
 import com.networknt.schema.SchemaValidatorsConfig
 import com.networknt.schema.SpecVersion.VersionFlag.V7
 import com.networknt.schema.output.OutputFlag
@@ -65,7 +66,15 @@ abstract class AbstractComparisonBenchmark {
     val factory = JsonSchemaFactory.getInstance(V7)
     networkntSchema =
       Path.of(schemaPath).inputStream().use {
-        factory.getSchema(it, SchemaValidatorsConfig())
+        factory.getSchema(
+          it,
+          SchemaValidatorsConfig
+            .builder()
+            .pathType(PathType.JSON_POINTER)
+            .errorMessageKeyword("message")
+            .nullableKeywordEnabled(false)
+            .build(),
+        )
       }
     networkntDocument =
       Path.of(objectPath).inputStream().use {
@@ -77,7 +86,8 @@ abstract class AbstractComparisonBenchmark {
   private fun setupKmp() {
     schema =
       Path.of(schemaPath).inputStream().use {
-        io.github.optimumcode.json.schema.JsonSchema.fromStream(it)
+        io.github.optimumcode.json.schema.JsonSchema
+          .fromStream(it)
       }
     document =
       Path.of(objectPath).inputStream().use {
@@ -94,34 +104,30 @@ abstract class AbstractComparisonBenchmark {
     openapiSchema = store.getSchema(uri)
     openapiDocument =
       JsonInstance(
-        converter.convert(Path.of(objectPath).inputStream().use { it.readAllBytes() }.toString(Charsets.UTF_8)),
+        converter.convert(
+          Path
+            .of(objectPath)
+            .inputStream()
+            .use { it.readAllBytes() }
+            .toString(Charsets.UTF_8),
+        ),
       )
   }
 
   @Benchmark
-  fun validateOpenApi(): ValidationStep {
-    return openapiValidator.validate(openapiSchema, openapiDocument)
-  }
+  fun validateOpenApi(): ValidationStep = openapiValidator.validate(openapiSchema, openapiDocument)
 
   @Benchmark
-  fun validateNetworkntFlag(): OutputFlag? {
-    return networkntSchema.validate(networkntDocument, OutputFormat.FLAG)
-  }
+  fun validateNetworkntFlag(): OutputFlag? = networkntSchema.validate(networkntDocument, OutputFormat.FLAG)
 
   @Benchmark
-  fun validateNetworkntDetailed(): OutputUnit {
-    return networkntSchema.validate(networkntDocument, OutputFormat.LIST)
-  }
+  fun validateNetworkntDetailed(): OutputUnit = networkntSchema.validate(networkntDocument, OutputFormat.LIST)
 
   @Benchmark
-  fun validateNetworkntVerbose(): OutputUnit {
-    return networkntSchema.validate(networkntDocument, OutputFormat.HIERARCHICAL)
-  }
+  fun validateNetworkntVerbose(): OutputUnit = networkntSchema.validate(networkntDocument, OutputFormat.HIERARCHICAL)
 
   @Benchmark
-  fun validateKmpEmptyCollector(): Boolean {
-    return schema.validate(document, ErrorCollector.EMPTY)
-  }
+  fun validateKmpEmptyCollector(): Boolean = schema.validate(document, ErrorCollector.EMPTY)
 
   @Benchmark
   fun validateKmpCollectErrors(): List<ValidationError> {
@@ -131,17 +137,11 @@ abstract class AbstractComparisonBenchmark {
   }
 
   @Benchmark
-  fun validateKmpFlag(): ValidationOutput.Flag {
-    return schema.validate(document, OutputCollector.flag())
-  }
+  fun validateKmpFlag(): ValidationOutput.Flag = schema.validate(document, OutputCollector.flag())
 
   @Benchmark
-  fun validateKmpDetailed(): ValidationOutput.OutputUnit {
-    return schema.validate(document, OutputCollector.detailed())
-  }
+  fun validateKmpDetailed(): ValidationOutput.OutputUnit = schema.validate(document, OutputCollector.detailed())
 
   @Benchmark
-  fun validateKmpVerbose(): ValidationOutput.OutputUnit {
-    return schema.validate(document, OutputCollector.verbose())
-  }
+  fun validateKmpVerbose(): ValidationOutput.OutputUnit = schema.validate(document, OutputCollector.verbose())
 }
