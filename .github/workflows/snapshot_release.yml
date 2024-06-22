@@ -4,12 +4,13 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - 'changelog_config.json'
-      - 'README.md'
-      - 'benchmark/*'
-      - '.github/workflows/platform-benchmark.yml'
-      - '.github/workflows/benchmark.yml'
+    paths:
+      - 'build.gradle.kts'
+      - 'gradle.properties'
+      - 'json-schema-validator/*'
+      - 'gradle/*'
+      - 'generator/*'
+      - '.github/workflows/snapshot_release.yml'
 
 jobs:
   build-and-test:
