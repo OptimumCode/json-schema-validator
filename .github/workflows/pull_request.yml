@@ -58,6 +58,8 @@ jobs:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   danger-check:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
