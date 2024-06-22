@@ -60,6 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+      statuses: write
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
