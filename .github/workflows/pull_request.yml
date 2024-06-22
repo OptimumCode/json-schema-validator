@@ -59,7 +59,7 @@ jobs:
   danger-check:
     runs-on: ubuntu-latest
     permissions:
-      pull-requests: read
+      pull-requests: write
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
