@@ -66,6 +66,7 @@ jobs:
         with:
           run-mode: pr
           dangerfile: Dangerfile.df.kts
+          args: '${{ github.event.pull_request.url }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
