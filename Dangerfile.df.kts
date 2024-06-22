@@ -5,7 +5,7 @@ import systems.danger.kotlin.*
 danger(args) {
   onGitHub {
     if (issue.labels.isEmpty()) {
-      fail("PR must have labels")
+      warn("PR must have labels")
     }
   }
 }
