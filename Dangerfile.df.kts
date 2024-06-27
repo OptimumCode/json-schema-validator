@@ -6,7 +6,7 @@ import systems.danger.kotlin.models.github.GitHubIssueLabel
 danger(args) {
   if (git.modifiedFiles.any { it.contains("json-schema-validator/api/") }) {
     markdown(
-      "## PR introduces changes to the public API<br/>" +
+      "## PR introduces changes to the public API<br/>\n" +
         "Please add **\"ABI breaking\"** label if **any line** in API file was changed or deleted.<br/>" +
         "Please add **\"API breaking\"** label if **any public method** in API file was changed or deleted.",
     )
