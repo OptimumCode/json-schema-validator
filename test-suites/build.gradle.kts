@@ -52,7 +52,7 @@ kotlin {
   sourceSets {
     commonTest {
       dependencies {
-        implementation(project(":json-schema-validator"))
+        implementation(projects.jsonSchemaValidator)
         implementation(libs.kotest.assertions.core)
         implementation(libs.kotest.framework.engine)
         implementation(kotlin("test-common"))

@@ -26,7 +26,7 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
-        implementation(project(":json-schema-validator"))
+        implementation(projects.jsonSchemaValidator)
         implementation(libs.kotlin.benchmark)
         implementation(libs.okio.common)
         implementation(libs.kotlin.serialization.json.okio)

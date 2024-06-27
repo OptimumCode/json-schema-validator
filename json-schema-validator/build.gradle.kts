@@ -22,7 +22,7 @@ val generatedSourceDirectory: Provider<Directory> = layout.buildDirectory.dir("g
 val generatorConfiguration: Configuration by configurations.creating
 
 dependencies {
-  generatorConfiguration(project(":generator"))
+  generatorConfiguration(projects.generator)
 }
 
 val dumpDir: File =
