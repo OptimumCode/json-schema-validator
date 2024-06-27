@@ -25,4 +25,4 @@ jobs:
         env:
           GITHUB_DEPENDENCY_GRAPH_REF: ${{ github.ref }}
           DEPENDENCY_GRAPH_EXCLUDE_PROJECTS: ':buildSrc'
-          DEPENDENCY_GRAPH_EXCLUDE_CONFIGURATIONS: '.*[Tt]est(Compile|Runtime)Classpath'
+          DEPENDENCY_GRAPH_EXCLUDE_CONFIGURATIONS: '(.*[Tt]est(Compile|Runtime)Classpath)|(dokka.*)'
