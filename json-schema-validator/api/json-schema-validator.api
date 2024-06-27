@@ -9,6 +9,7 @@ public abstract class io/github/optimumcode/json/pointer/JsonPointer {
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+
 }
 
 public final class io/github/optimumcode/json/pointer/JsonPointer$Companion {
