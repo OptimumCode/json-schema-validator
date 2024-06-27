@@ -11,9 +11,6 @@ danger(args) {
         "Please add **\"API breaking\"** label if **any public method** in API file was changed or deleted.",
     )
   }
-  warn("test warning")
-  message("test message")
-  fail("test fail")
   onGitHub {
     val prLabels = issue.labels
     checkPrLabels(prLabels)
