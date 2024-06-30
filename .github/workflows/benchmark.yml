@@ -153,11 +153,12 @@ jobs:
           do
             file_name=$(basename "$report")
             platform="${file_name%.*}"
-            jq ".[] | .benchmark |= \"${platform}.\" + ltrimstr(\"io.github.optimumcode.json.schema.benchmark.\")" $report > ${{ env.RESULTS_DIR }}/$platfrom.json
+            jq ".[] | .benchmark |= \"${platform}.\" + ltrimstr(\"io.github.optimumcode.json.schema.benchmark.\")" $report > ${{ env.RESULTS_DIR }}/$platform.json
           done
           AGGREGATED_REPORT=aggregated.json
           # Joinded reports looks like this: [[{},{}], [{},{}]]
           # We need to transform them into this: [{},{}]
+          ls ${{ env.RESULTS_DIR }}/*.json
           jq -s '[ .[] | .[] ]' ${{ env.RESULTS_DIR }}/*.json > $AGGREGATED_REPORT
           echo "report=$AGGREGATED_REPORT" >> $GITHUB_OUTPUT
       - name: Store benchmark result
