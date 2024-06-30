@@ -42,8 +42,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
-            additional-task: ''
+          # - os: ubuntu-latest
+          #   additional-task: ''
           - os: macos-latest
             additional-task: '-x :benchmark:jvmBenchmark'
           - os: windows-latest
