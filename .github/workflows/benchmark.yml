@@ -94,6 +94,7 @@ jobs:
           -Pbenchmark_iteration_time_unit=${{ inputs.iteration-time-unit }}
           -Pbenchmark_report_format=${{ env.REPORT_FORMAT }}
       - name: Install CSV to MD converter
+        if: env.REPORT_FORMAT == 'csv'
         run: pip install csv2md
       - name: Add benchmark results to summary
         shell: bash
