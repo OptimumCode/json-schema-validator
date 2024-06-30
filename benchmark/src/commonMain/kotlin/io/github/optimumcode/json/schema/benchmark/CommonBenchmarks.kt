@@ -1,8 +1,7 @@
 package io.github.optimumcode.json.schema.benchmark
 
 import kotlinx.benchmark.BenchmarkMode
-import kotlinx.benchmark.BenchmarkTimeUnit.MILLISECONDS
-import kotlinx.benchmark.BenchmarkTimeUnit.SECONDS
+import kotlinx.benchmark.BenchmarkTimeUnit
 import kotlinx.benchmark.Mode.AverageTime
 import kotlinx.benchmark.Mode.Throughput
 import kotlinx.benchmark.OutputTimeUnit
@@ -11,7 +10,7 @@ import kotlinx.benchmark.Scope
 import kotlinx.benchmark.State
 
 @State(Scope.Benchmark)
-@OutputTimeUnit(SECONDS)
+@OutputTimeUnit(BenchmarkTimeUnit.SECONDS)
 @BenchmarkMode(Throughput)
 class CommonThroughputBench : AbstractCommonBenchmark() {
   @Param("object")
@@ -22,7 +21,7 @@ class CommonThroughputBench : AbstractCommonBenchmark() {
 }
 
 @State(Scope.Benchmark)
-@OutputTimeUnit(MILLISECONDS)
+@OutputTimeUnit(BenchmarkTimeUnit.MICROSECONDS)
 @BenchmarkMode(AverageTime)
 class CommonAvgTimeBench : AbstractCommonBenchmark() {
   @Param("object")
