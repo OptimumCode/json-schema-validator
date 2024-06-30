@@ -11,7 +11,7 @@ on:
       iterations:
         description: 'number of iterations in the benchmark'
         type: number
-        default: 3
+        default: 10
         required: false
       iteration-time:
         description: 'duration of individual integration in benchmark'
@@ -25,31 +25,143 @@ on:
         required: false
   schedule:
     - cron: "0 2 * * 1"
+  push:
+    branches:
+      - main
+
+env:
+  REPORT_FORMAT: ${{ (github.event_name == 'push' || github.event_name == 'pull_request' ) && 'json' || 'csv' }}
 
 jobs:
-  check-linux:
-    uses: ./.github/workflows/platform-benchmark.yml
-    with:
-      run-on: ubuntu-latest
-      warmups: ${{ inputs.warmups }}
-      iterations: ${{ inputs.iterations }}
-      iteration-time: ${{ inputs.iteration-time }}
-      iteration-time-unit: ${{ inputs.iteration-time-unit }}
-  check-macos:
-    uses: ./.github/workflows/platform-benchmark.yml
-    with:
-      run-on: macos-latest
-      additional-task: "-x :benchmark:jvmBenchmark"
-      warmups: ${{ inputs.warmups }}
-      iterations: ${{ inputs.iterations }}
-      iteration-time: ${{ inputs.iteration-time }}
-      iteration-time-unit: ${{ inputs.iteration-time-unit }}
-  check-windows:
-    uses: ./.github/workflows/platform-benchmark.yml
-    with:
-      run-on: windows-latest
-      additional-task: "-x :benchmark:jvmBenchmark"
-      warmups: ${{ inputs.warmups }}
-      iterations: ${{ inputs.iterations }}
-      iteration-time: ${{ inputs.iteration-time }}
-      iteration-time-unit: ${{ inputs.iteration-time-unit }}
+  benchmark-matrix:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            additional-task: ''
+          - os: macos-latest
+            additional-task: '-x :benchmark:jvmBenchmark'
+          - os: windows-latest
+            additional-task: '-x :benchmark:jvmBenchmark'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: 'Install native dependencies'
+        run: sudo apt-get install -y libunistring-dev
+        if: matrix.os == 'ubuntu-latest'
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version-file: .java-version
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v3
+      - name: Cache konan
+        uses: actions/cache@v4
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts') }}
+          restore-keys: |
+              ${{ runner.os }}-gradle-
+      - name: Cache unicode data
+        uses: actions/cache@v4
+        with:
+          path: unicode_dump
+          key: unicode-dump-${{ hashFiles('unicode_dump/*') }}
+          restore-keys: |
+            unicode-dump-
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: wrapper
+      - name: Run benchmarks
+        run: >
+          ./gradlew --no-daemon :benchmark:benchmark ${{ matrix.additional-task }}
+          -Pbenchmark_warmups=${{ inputs.warmups }}
+          -Pbenchmark_iterations=${{ inputs.iterations }}
+          -Pbenchmark_iteration_time=${{ inputs.iteration-time }}
+          -Pbenchmark_iteration_time_unit=${{ inputs.iteration-time-unit }}
+          -Pbenchmark_report_format=${{ env.REPORT_FORMAT }}
+      - name: Install CSV to MD converter
+        run: pip install csv2md
+      - name: Add benchmark results to summary
+        shell: bash
+        if: env.REPORT_FORMAT == 'csv'
+        run: |
+          for report in $(find ./benchmark/build/reports/benchmarks/main -type f -name "*.csv")
+          do
+            file_name=$(basename "$report")
+            platform="${file_name%.*}"
+            echo "File $file_name"
+            # remove empty lines
+            sed -i -e '/^[[:space:]]*$/d' $report
+            echo "::group::Report CSV"
+            cat "$report"
+            echo "::endgroup::"
+            markdown_table=$(csv2md "$report")
+            echo "::group::Report Markdown"
+            echo "$markdown_table"
+            echo "::endgroup::"
+            echo "# Platform ${platform}" >> $GITHUB_STEP_SUMMARY
+            echo "$markdown_table" >> $GITHUB_STEP_SUMMARY
+          done
+      - name: Store results as artifact
+        if: env.REPORT_FORMAT == 'json'
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-result-${{ matrix.os }}
+          path: benchmark/build/reports/benchmarks/main/**/*.json
+
+  upload-benchmark-results:
+    if: (github.event_name == 'push' || github.event_name == 'pull_request') && github.repository == 'OptimumCode/json-schema-validator'
+    needs:
+      - benchmark-matrix
+    runs-on: ubuntu-latest
+    env:
+      RESULTS_DIR: bench-results
+    permissions:
+      # deployments permission to deploy GitHub pages website
+      deployments: write
+      # contents permission to update benchmark contents in gh-pages branch
+      contents: write
+      # pull-requests permission to create comments on PR in case of alert
+      pull-requests: write
+    steps:
+      - name: Download benchmark results
+        uses: actions/download-artifact@v4
+        with:
+          path: ${{ env.RESULTS_DIR }}
+          merge-multiple: true
+      - name: Show downloaded artifacts
+        run: tree ${{ env.RESULTS_DIR }}
+      - name: Prepare and join benchmark reports
+        id: prep
+        run: |
+          for report in $(find ./${{ env.RESULTS_DIR }}/build/reports/benchmarks/main -type f -name "*.json")
+          do
+            file_name=$(basename "$report")
+            platform="${file_name%.*}"
+            jq '.[] | .benchmark |= "$platform." + ltrimstr("io.github.optimumcode.json.schema.benchmark.")' $report > $report
+          done
+          AGGREGATED_REPORT=aggregated.json
+          # Joinded reports looks like this: [[{},{}], [{},{}]]
+          # We need to transform them into this: [{},{}]
+          jq -s '[ .[] | .[] ]' ${{ env.RESULTS_DIR }}/build/reports/benchmarks/main/**/*.json > $AGGREGATED_REPORT
+          echo "report=$AGGREGATED_REPORT" >> $GITHUB_OUTPUT
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          name: KMP JSON schema validator
+          tool: 'jmh'
+          output-file-path: ${{ steps.prep.outputs.report }}
+          alert-comment-cc-users: "@OptimumCode"
+          comment-on-alert: true
+          summary-always: true
+          alert-threshold: '50%'
+          fail-threshold: '100%'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # Push and deploy GitHub pages branch automatically only if run in main repo and not in PR
+          auto-push: ${{ github.event_name != 'pull_request' }}
