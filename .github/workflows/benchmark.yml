@@ -46,6 +46,8 @@ jobs:
           #   additional-task: ''
           - os: macos-latest
             additional-task: '-x :benchmark:jvmBenchmark'
+          - os: macos-13 # for macosX64
+            additional-task: '-x :benchmark:jvmBenchmark'
           - os: windows-latest
             additional-task: '-x :benchmark:jvmBenchmark'
     runs-on: ${{ matrix.os }}
@@ -146,7 +148,7 @@ jobs:
       - name: Prepare and join benchmark reports
         id: prep
         run: |
-          for report in $(find ./${{ env.RESULTS_DIR }}/build/reports/benchmarks/main -type f -name "*.json")
+          for report in $(find ./${{ env.RESULTS_DIR }} -type f -name "*.json")
           do
             file_name=$(basename "$report")
             platform="${file_name%.*}"
@@ -155,7 +157,7 @@ jobs:
           AGGREGATED_REPORT=aggregated.json
           # Joinded reports looks like this: [[{},{}], [{},{}]]
           # We need to transform them into this: [{},{}]
-          jq -s '[ .[] | .[] ]' ${{ env.RESULTS_DIR }}/build/reports/benchmarks/main/**/*.json > $AGGREGATED_REPORT
+          jq -s '[ .[] | .[] ]' ${{ env.RESULTS_DIR }}/**/*.json > $AGGREGATED_REPORT
           echo "report=$AGGREGATED_REPORT" >> $GITHUB_OUTPUT
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
