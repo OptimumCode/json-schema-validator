@@ -6,7 +6,7 @@ import kotlinx.benchmark.OutputTimeUnit
 import kotlinx.benchmark.Param
 import kotlinx.benchmark.Scope
 import kotlinx.benchmark.State
-import java.util.concurrent.TimeUnit.MILLISECONDS
+import java.util.concurrent.TimeUnit.MICROSECONDS
 import java.util.concurrent.TimeUnit.SECONDS
 
 @State(Scope.Benchmark)
@@ -21,7 +21,7 @@ class ComparisonThroughputBenchmark : AbstractComparisonBenchmark() {
 }
 
 @State(Scope.Benchmark)
-@OutputTimeUnit(MILLISECONDS)
+@OutputTimeUnit(MICROSECONDS)
 @BenchmarkMode(Mode.AverageTime)
 class ComparisonAvgTimeBenchmark : AbstractComparisonBenchmark() {
   @Param("object")
