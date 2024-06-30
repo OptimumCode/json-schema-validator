@@ -28,6 +28,12 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'build.gradle.kts'
+      - 'gradle.properties'
+      - 'json-schema-validator/*'
+      - 'gradle/*'
+      - 'generator/*'
   pull_request:
 
 env:
