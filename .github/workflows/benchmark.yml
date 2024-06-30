@@ -33,6 +33,14 @@ on:
 env:
   REPORT_FORMAT: ${{ (github.event_name == 'push' || github.event_name == 'pull_request' ) && 'json' || 'csv' }}
 
+permissions:
+  # deployments permission to deploy GitHub pages website
+  deployments: write
+  # contents permission to update benchmark contents in gh-pages branch
+  contents: write
+  # pull-requests permission to create comments on PR in case of alert
+  pull-requests: write
+
 concurrency:
   cancel-in-progress: true
   group: bench-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.after }}
@@ -131,13 +139,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RESULTS_DIR: bench-results
-    permissions:
-      # deployments permission to deploy GitHub pages website
-      deployments: write
-      # contents permission to update benchmark contents in gh-pages branch
-      contents: write
-      # pull-requests permission to create comments on PR in case of alert
-      pull-requests: write
     steps:
       - name: Download benchmark results
         uses: actions/download-artifact@v4
