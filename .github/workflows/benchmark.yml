@@ -49,6 +49,7 @@ jobs:
           - os: windows-latest
             additional-task: '-x :benchmark:jvmBenchmark'
     runs-on: ${{ matrix.os }}
+    name: Run benchmarks on ${{ matrix.os }}
     steps:
       - name: 'Install native dependencies'
         run: sudo apt-get install -y libunistring-dev
