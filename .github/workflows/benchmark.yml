@@ -28,9 +28,14 @@ on:
   push:
     branches:
       - main
+  pull_request:
 
 env:
   REPORT_FORMAT: ${{ (github.event_name == 'push' || github.event_name == 'pull_request' ) && 'json' || 'csv' }}
+
+concurrency:
+  cancel-in-progress: true
+  group: bench-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.after }}
 
 jobs:
   benchmark-matrix:
