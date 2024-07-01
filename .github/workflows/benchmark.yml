@@ -181,6 +181,7 @@ jobs:
           summary-always: true
           alert-threshold: '50%'
           fail-threshold: '100%'
+          max-items-in-chart: 50
           github-token: ${{ secrets.GITHUB_TOKEN }}
           # Push and deploy GitHub pages branch automatically only if run in main repo and not in PR
           auto-push: ${{ github.event_name != 'pull_request' }}
