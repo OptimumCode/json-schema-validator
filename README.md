@@ -404,6 +404,9 @@ There is a benchmark project that compares this library with some other ones:
 The benchmark is scheduled to run every night on Monday.
 You can see the results in the latest workflow execution.
 
+Also, benchmark results are available [here](https://optimumcode.github.io/json-schema-validator/dev/bench/) in nice charts.
+Many thanks to maintainers of [github-action-benchmark](https://github.com/benchmark-action/github-action-benchmark) repo.
+
 ## Developer notes
 
 ### Build process
