@@ -59,6 +59,8 @@ jobs:
             additional-task: '-x :benchmark:jvmBenchmark'
     runs-on: ${{ matrix.os }}
     name: Run benchmarks on ${{ matrix.os }}
+    env:
+      BENCHMARK_RESULTS: 'benchmark/build/reports/benchmarks'
     steps:
       - name: 'Install native dependencies'
         run: sudo apt-get install -y libunistring-dev
@@ -107,7 +109,7 @@ jobs:
         shell: bash
         if: env.REPORT_FORMAT == 'csv'
         run: |
-          for report in $(find ./benchmark/build/reports/benchmarks -type f -name "*.csv")
+          for report in $(find ./${{ env.BENCHMARK_RESULTS }} -type f -name "*.csv")
           do
             file_name=$(basename "$report")
             platform="${file_name%.*}"
@@ -129,13 +131,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bench-result-${{ matrix.os }}
-          path: benchmark/build/reports/benchmarks/main/**/*.json
+          path: ${{ env.BENCHMARK_RESULTS }}/main/**/*.json
       - name: Store comparison results as artifact
         if: env.REPORT_FORMAT == 'json' && matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v4
         with:
           name: bench-comparison-result-${{ matrix.os }}
-          path: benchmark/build/reports/benchmarks/comparison/**/*.json
+          path: ${{ env.BENCHMARK_RESULTS }}/comparison/**/*.json
 
   upload-benchmark-results:
     if: (github.event_name == 'push' || github.event_name == 'pull_request') && github.repository == 'OptimumCode/json-schema-validator'
