@@ -50,7 +50,7 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            additional-task: ''
+            additional-task: ':benchmark:jvmComparisonBenchmark'
           - os: macos-latest
             additional-task: '-x :benchmark:jvmBenchmark'
           - os: macos-13 # for macosX64
@@ -59,6 +59,8 @@ jobs:
             additional-task: '-x :benchmark:jvmBenchmark'
     runs-on: ${{ matrix.os }}
     name: Run benchmarks on ${{ matrix.os }}
+    env:
+      BENCHMARK_RESULTS: 'benchmark/build/reports/benchmarks'
     steps:
       - name: 'Install native dependencies'
         run: sudo apt-get install -y libunistring-dev
@@ -107,7 +109,7 @@ jobs:
         shell: bash
         if: env.REPORT_FORMAT == 'csv'
         run: |
-          for report in $(find ./benchmark/build/reports/benchmarks/main -type f -name "*.csv")
+          for report in $(find ./${{ env.BENCHMARK_RESULTS }} -type f -name "*.csv")
           do
             file_name=$(basename "$report")
             platform="${file_name%.*}"
@@ -129,7 +131,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bench-result-${{ matrix.os }}
-          path: benchmark/build/reports/benchmarks/main/**/*.json
+          path: ${{ env.BENCHMARK_RESULTS }}/main/**/*.json
+      - name: Store comparison results as artifact
+        if: env.REPORT_FORMAT == 'json' && matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-comparison-result-${{ matrix.os }}
+          path: ${{ env.BENCHMARK_RESULTS }}/comparison/**/*.json
 
   upload-benchmark-results:
     if: (github.event_name == 'push' || github.event_name == 'pull_request') && github.repository == 'OptimumCode/json-schema-validator'
@@ -145,12 +153,25 @@ jobs:
       contents: write
       # pull-requests permission to create comments on PR in case of alert
       pull-requests: write
+    strategy:
+      # to make sure results are submitted one by one
+      max-parallel: 1
+      matrix:
+        include:
+          - artifact-pattern: 'bench-result-*'
+            results-name: KMP JSON schema validator
+            alert: true
+          - artifact-pattern: 'bench-comparison-result-*'
+            results-name: Compare KMP JSON schema validator
+            alert: false
+    name: 'Process benchmark results for ${{ matrix.results-name }}'
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
       - name: Download benchmark results
         uses: actions/download-artifact@v4
         with:
+          pattern: ${{ matrix.artifact-pattern }}
           path: ${{ env.RESULTS_DIR }}
           merge-multiple: true
       - name: Show downloaded artifacts
@@ -173,14 +194,14 @@ jobs:
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
         with:
-          name: KMP JSON schema validator
+          name: ${{ matrix.results-name }}
           tool: 'jmh'
           output-file-path: ${{ steps.prep.outputs.report }}
           alert-comment-cc-users: "@OptimumCode"
-          comment-on-alert: true
+          comment-on-alert: ${{ matrix.alert }}
           summary-always: true
-          alert-threshold: '50%'
-          fail-threshold: '100%'
+          alert-threshold: '150%'
+          fail-threshold: '200%'
           max-items-in-chart: 50
           github-token: ${{ secrets.GITHUB_TOKEN }}
           # Push and deploy GitHub pages branch automatically only if run in main repo and not in PR

@@ -50,7 +50,7 @@ fun Any?.takeIfNotBlank(): String? = this?.toString()?.takeUnless(String::isBlan
 
 benchmark {
   configurations {
-    getByName("main") {
+    configureEach {
       warmups = properties["benchmark_warmups"]?.takeIfNotBlank()?.toInt() ?: 5
       iterations = properties["benchmark_iterations"]?.takeIfNotBlank()?.toInt() ?: 10
       iterationTime = properties["benchmark_iteration_time"]?.takeIfNotBlank()?.toLong() ?: 1L
@@ -58,6 +58,12 @@ benchmark {
       reportFormat = properties["benchmark_report_format"]?.takeIfNotBlank() ?: "json"
       param("objectPath", "$projectDir/data/openapi.json", "$projectDir/data/openapi-invalid.json")
       param("schemaPath", "$projectDir/data/schemas/openapi_schema.json")
+    }
+    getByName("main") {
+      include(".*Common.*Bench.*")
+    }
+    create("comparison") {
+      include(".*Comparison.*Benchmark.*")
     }
   }
   targets {
