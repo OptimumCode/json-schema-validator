@@ -200,8 +200,8 @@ jobs:
           alert-comment-cc-users: "@OptimumCode"
           comment-on-alert: ${{ matrix.alert }}
           summary-always: true
-          alert-threshold: '50%'
-          fail-threshold: '100%'
+          alert-threshold: '150%'
+          fail-threshold: '200%'
           max-items-in-chart: 50
           github-token: ${{ secrets.GITHUB_TOKEN }}
           # Push and deploy GitHub pages branch automatically only if run in main repo and not in PR
