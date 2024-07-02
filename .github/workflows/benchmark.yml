@@ -162,7 +162,7 @@ jobs:
           - artifact-pattern: 'bench-comparison-result-.*'
             results-name: Compare KMP JSON schema validator
             alert: false
-
+    name: 'Process benchmark results for ${{ matrix.results-name }}'
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
