@@ -158,10 +158,10 @@ jobs:
       max-parallel: 1
       matrix:
         include:
-          - artifact-pattern: 'bench-result-.*'
+          - artifact-pattern: 'bench-result-*'
             results-name: KMP JSON schema validator
             alert: true
-          - artifact-pattern: 'bench-comparison-result-.*'
+          - artifact-pattern: 'bench-comparison-result-*'
             results-name: Compare KMP JSON schema validator
             alert: false
     name: 'Process benchmark results for ${{ matrix.results-name }}'
