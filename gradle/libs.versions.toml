@@ -45,7 +45,7 @@ jackson-bom = { group = "com.fasterxml.jackson", name = "jackson-bom", version.r
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind" }
 jackson-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml" }
 networknt-validator = { group = "com.networknt", name = "json-schema-validator", version = "1.4.3" }
-kotlinpoet = { group = "com.squareup", name = "kotlinpoet", version = "1.17.0" }
+kotlinpoet = { group = "com.squareup", name = "kotlinpoet", version = "1.18.0" }
 graphql-ktor = { group = "com.expediagroup", name = "graphql-kotlin-ktor-client", version.ref = "graphql" }
 clikt = { group = "com.github.ajalt.clikt", name = "clikt", version = "4.4.0" }
 kotlin-codepoints = { group = "de.cketti.unicode", name = "kotlin-codepoints", version = "0.9.0" }
