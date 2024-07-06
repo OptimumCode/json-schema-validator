@@ -13,7 +13,7 @@ plugins {
   alias(libs.plugins.detekt)
   alias(libs.plugins.ktlint)
   alias(libs.plugins.kotlin.dokka)
-  id("convention.publication")
+  convention.publication
 }
 
 val generatedSourceDirectory: Provider<Directory> = layout.buildDirectory.dir("generated/source/unicode")
@@ -141,13 +141,7 @@ kotlin {
     }
   }
   js(IR) {
-    browser {
-      commonWebpackConfig {
-        cssSupport {
-          enabled.set(true)
-        }
-      }
-    }
+    browser()
     generateTypeScriptDefinitions()
     nodejs()
   }

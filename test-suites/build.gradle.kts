@@ -71,22 +71,6 @@ kotlin {
         implementation(libs.kotest.runner.junit5)
       }
     }
-
-    // in order to support test suites for all targets I have to use the expect/actual functionality
-    // but some of the targets does not have test tasks (but they are in the sources)
-    // so I remove them to let the compiler check that all actual implementations are in place
-    listOf(
-      macOsTargets,
-      linuxTargets,
-      windowsTargets,
-    ).asSequence().flatten().forEach {
-      if (it is KotlinTargetWithTests<*, *>) {
-        // don't need to remove test sources from targets with tests
-        return@forEach
-      }
-      val sourceSetForTarget = getByName("${it.name}Test")
-      remove(sourceSetForTarget)
-    }
   }
 
   afterEvaluate {
@@ -118,7 +102,7 @@ kotlin {
 }
 
 dependencies {
-  kover(project(":json-schema-validator"))
+  kover(projects.jsonSchemaValidator)
 }
 
 private val remotesFile =

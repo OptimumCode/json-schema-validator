@@ -39,7 +39,6 @@ graphql {
 
 ktlint {
   version.set(libs.versions.ktlint)
-  debug.set(true)
   reporters {
     reporter(ReporterType.HTML)
   }

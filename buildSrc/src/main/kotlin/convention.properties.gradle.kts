@@ -8,7 +8,6 @@ allprojects {
   ext["ossrhPassword"] = ""
 
   val secretPropsFile: File = project.rootProject.file("local.properties")
-  @Suppress("IMPLICIT_CAST_TO_ANY")
   if (secretPropsFile.exists()) {
     secretPropsFile
       .reader()
