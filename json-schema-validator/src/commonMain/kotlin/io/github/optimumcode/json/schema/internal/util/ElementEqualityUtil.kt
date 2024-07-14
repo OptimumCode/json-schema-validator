@@ -6,9 +6,6 @@ import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 
 internal fun areEqual(
   first: JsonElement,
@@ -18,9 +15,9 @@ internal fun areEqual(
     return false
   }
   return when (first) {
-    is JsonObject -> areEqualObjects(first, second.jsonObject)
-    is JsonArray -> areEqualArrays(first, second.jsonArray)
-    is JsonPrimitive -> areEqualPrimitives(first, second.jsonPrimitive)
+    is JsonObject -> areEqualObjects(first, second as JsonObject)
+    is JsonArray -> areEqualArrays(first, second as JsonArray)
+    is JsonPrimitive -> areEqualPrimitives(first, second as JsonPrimitive)
   }
 }
 

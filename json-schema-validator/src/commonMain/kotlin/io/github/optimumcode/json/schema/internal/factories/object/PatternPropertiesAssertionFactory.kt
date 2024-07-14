@@ -58,7 +58,7 @@ private class PatternAssertion(
       for ((prop, value) in element) {
         val matchedRegex =
           assertionsByRegex.filter { (regex) ->
-            regex.find(prop) != null
+            regex.containsMatchIn(prop)
           }
         if (matchedRegex.isEmpty()) {
           continue

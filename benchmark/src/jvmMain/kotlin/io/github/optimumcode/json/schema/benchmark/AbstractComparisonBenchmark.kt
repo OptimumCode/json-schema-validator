@@ -137,6 +137,9 @@ abstract class AbstractComparisonBenchmark {
   }
 
   @Benchmark
+  fun validateKmpBasic(): ValidationOutput.Basic = schema.validate(document, OutputCollector.basic())
+
+  @Benchmark
   fun validateKmpFlag(): ValidationOutput.Flag = schema.validate(document, OutputCollector.flag())
 
   @Benchmark

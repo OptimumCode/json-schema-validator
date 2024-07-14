@@ -12,6 +12,7 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
+import kotlin.math.max
 
 @Suppress("unused")
 internal object RequiredAssertionFactory : AbstractAssertionFactory("required") {
@@ -45,9 +46,13 @@ private class RequiredAssertion(
         return@use true
       }
       val missingProperties =
-        requiredProperties.asSequence()
-          .filter { !element.containsKey(it) }
-          .toSet()
+        if (element.isEmpty()) {
+          requiredProperties
+        } else {
+          val keys = element.keys
+          requiredProperties
+            .filterNotTo(HashSet(max(requiredProperties.size / 2, 1))) { it in keys }
+        }
       if (missingProperties.isEmpty()) {
         return@use true
       }

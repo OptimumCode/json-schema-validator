@@ -174,7 +174,7 @@ public sealed class JsonPointer(
       node = node.next
     }
     if (result == 0) {
-      // just in case if for some reason the resulting has is zero
+      // just in case if for some reason the resulting hash is zero
       // this way we won't recalculate it again
       result = 31
     }
