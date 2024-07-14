@@ -31,9 +31,9 @@ on:
     paths:
       - 'build.gradle.kts'
       - 'gradle.properties'
-      - 'json-schema-validator/*'
-      - 'gradle/*'
-      - 'generator/*'
+      - 'json-schema-validator/**'
+      - 'gradle/**'
+      - 'generator/**'
       - '.github/workflows/benchmark.yml'
   pull_request:
 
