@@ -13,6 +13,7 @@ jobs:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
         with:
+          repository: ${{ github.event.workflow_run.head_repository.full_name }}
           ref: ${{ github.event.workflow_run.head_sha }}
       - name: Download benchmark results
         uses: dawidd6/action-download-artifact@v6
@@ -29,7 +30,7 @@ jobs:
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
         with:
-          override_branch: ${{ github.event.workflow_run.pull_requests.head.ref }}
-          override_commit: ${{ github.event.workflow_run.pull_requests.head.sha }}
-          override_pr: ${{ github.event.workflow_run.pull_requests.number }}
+          override_branch: ${{ github.event.workflow_run.pull_requests[0].head.ref }}
+          override_commit: ${{ github.event.workflow_run.pull_requests[0].head.sha }}
+          override_pr: ${{ github.event.workflow_run.pull_requests[0].number }}
           token: ${{ secrets.CODECOV_TOKEN }}
