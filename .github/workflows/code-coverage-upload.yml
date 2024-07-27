@@ -33,5 +33,7 @@ jobs:
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
         with:
+          override_branch: ${{ github.event.workflow_run.head_branch }}
+          override_commit: ${{ github.event.workflow_run.head_sha }}
           override_pr: ${{ steps.trigger.outputs.pr-number }}
           token: ${{ secrets.CODECOV_TOKEN }}
