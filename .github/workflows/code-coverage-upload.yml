@@ -8,7 +8,7 @@ on:
 jobs:
   upload:
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.actor.name != 'dependabot[bot]'
+    if: github.event.workflow_run.actor.name != 'dependabot[bot]' && github.repository == 'OptimumCode/json-schema-validator'
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
