@@ -16,6 +16,11 @@ on:
         description: "enabled uploading coverage report to codecov"
         required: false
         default: false
+      collect-code-coverage:
+        type: boolean
+        description: "enables collecting coverage reports and uploading them as artifacts"
+        required: false
+        default: false
     secrets:
       CODECOV_TOKEN:
         description: "token to upload codecov report"
@@ -66,3 +71,9 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Collect coverage reports
+        if: inputs.collect-code-coverage && github.actor != 'dependabot[bot]'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: '**/build/reports/kover/report.xml'
