@@ -29,7 +29,7 @@ jobs:
       - id: trigger
         run: echo "pr-number=$(cat pr_number)" >> GITHUB_OUTPUT
       - name: Test pull_requests objects
-        run: echo ${{ github.event.workflow_run.pull_requests }}
+        run: echo ${{ toJson(github.event.workflow_run.pull_requests) }}
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
         with:
