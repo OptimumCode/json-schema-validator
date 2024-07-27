@@ -23,10 +23,10 @@ jobs:
       max-parallel: 1
       matrix:
         include:
-          - artifact-pattern: 'bench-result-*'
+          - artifact-pattern: 'bench-result-.*'
             results-name: KMP JSON schema validator
             alert: true
-          - artifact-pattern: 'bench-comparison-result-*'
+          - artifact-pattern: 'bench-comparison-result-.*'
             results-name: Compare KMP JSON schema validator
             alert: false
     name: 'Process benchmark results for ${{ matrix.results-name }}'
@@ -34,12 +34,12 @@ jobs:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
       - name: Download benchmark results
-        uses: actions/download-artifact@v4
+        uses: dawidd6/action-download-artifact@v6
         with:
-          pattern: ${{ matrix.artifact-pattern }}
+          name: ${{ matrix.artifact-pattern }}
+          name_is_regexp: true
           path: ${{ env.RESULTS_DIR }}
-          merge-multiple: true
-          run-id: ${{ github.event.workflow_run.id }}
+          run_id: ${{ github.event.workflow_run.id }}
       - name: Show downloaded artifacts
         run: tree ${{ env.RESULTS_DIR }}
       - name: Prepare and join benchmark reports
