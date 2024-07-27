@@ -13,7 +13,7 @@ jobs:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_branch }}
+          ref: ${{ github.event.workflow_run.head_sha }}
       - name: Download benchmark results
         uses: actions/download-artifact@v4
         with:
