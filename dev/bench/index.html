@@ -109,22 +109,6 @@
     <script id="main-script">
       'use strict';
       (function() {
-        // Colors from https://github.com/github/linguist/blob/master/lib/linguist/languages.yml
-        const toolColors = {
-          cargo: '#dea584',
-          go: '#00add8',
-          benchmarkjs: '#f1e05a',
-          benchmarkluau: '#000080',
-          pytest: '#3572a5',
-          googlecpp: '#f34b7d',
-          catch2: '#f34b7d',
-          julia: '#a270ba',
-          jmh: '#b07219',
-          benchmarkdotnet: '#178600',
-          customBiggerIsBetter: '#38ff38',
-          customSmallerIsBetter: '#ff3838',
-          _: '#333333'
-        };
 
         function init() {
           function collectBenchesPerTestCase(entries) {
@@ -133,9 +117,11 @@
               const {commit, date, tool, benches} = entry;
               for (const bench of benches) {
                 const result = { commit, date, tool, bench };
-                const arr = map.get(bench.name);
+                const parametersStart = bench.name.indexOf('(') - 1
+                const benchName = bench.name.substring(bench.name.indexOf('.') + 1, parametersStart)
+                const arr = map.get(benchName);
                 if (arr === undefined) {
-                  map.set(bench.name, [result]);
+                  map.set(benchName, [result]);
                 } else {
                   arr.push(result);
                 }
@@ -175,17 +161,26 @@
             canvas.className = 'benchmark-chart';
             parent.appendChild(canvas);
 
-            const color = toolColors[dataset.length > 0 ? dataset[0].tool : '_'];
+            const groupedData = Object.groupBy(dataset, ({ bench }) => bench.name)
+            const groupedEntries = Object.entries(groupedData)
+            const platformColors = groupedEntries.map((d, index) => {
+              const randomColor = Math.floor((index + 42) / 100.0 * 16777215).toString(16);
+              return '#' + randomColor
+            })
             const data = {
-              labels: dataset.map(d => d.commit.id.slice(0, 7)),
-              datasets: [
-                {
+              labels: groupedEntries[0][1].map(d => d.commit.id.slice(0, 7)),
+              datasets: groupedEntries.map((g, index) => {
+                const name = g[0]
+                const data = g[1]
+                const color = platformColors[index];
+                return {
                   label: name,
-                  data: dataset.map(d => d.bench.value),
+                  data: data.map(d => d.bench.value),
                   borderColor: color,
-                  backgroundColor: color + '60', // Add alpha for #rrggbbaa
+                  backgroundColor: color + '40', // Add alpha for #rrggbbaa
                 }
-              ],
+              }
+              ),
             };
             const options = {
               scales: {
@@ -212,13 +207,13 @@
               tooltips: {
                 callbacks: {
                   afterTitle: items => {
-                    const {index} = items[0];
-                    const data = dataset[index];
-                    return '\n' + data.commit.message + '\n\n' + data.commit.timestamp + ' committed by @' + data.commit.committer.username + '\n';
+                    const {datasetIndex, index} = items[0];
+                    const data = groupedEntries[datasetIndex][1][index];
+                    return '\n' + data.bench.name + '\n\n' + data.commit.message + '\n\n' + data.commit.timestamp + ' committed by @' + data.commit.committer.username + '\n';
                   },
                   label: item => {
                     let label = item.value;
-                    const { range, unit } = dataset[item.index].bench;
+                    const { range, unit } = groupedEntries[item.datasetIndex][1][item.index].bench;
                     label += ' ' + unit;
                     if (range) {
                       label += ' (' + range + ')';
@@ -226,7 +221,7 @@
                     return label;
                   },
                   afterLabel: item => {
-                    const { extra } = dataset[item.index].bench;
+                    const { extra } = groupedEntries[item.datasetIndex][1][item.index].bench;
                     return extra ? '\n' + extra : '';
                   }
                 }
