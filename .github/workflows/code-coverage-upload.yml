@@ -26,14 +26,10 @@ jobs:
           name: pr-number
           path: '.'
           run_id: ${{ github.event.workflow_run.id }}
-      - id: trigger
-        run: echo "pr-number=$(cat pr_number)" >> GITHUB_OUTPUT
-      - name: Test pull_requests objects
-        run: echo ${{ toJson(github.event.workflow_run.pull_requests) }}
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
         with:
-          override_branch: ${{ github.event.workflow_run.head_branch }}
-          override_commit: ${{ github.event.workflow_run.head_sha }}
-          override_pr: ${{ steps.trigger.outputs.pr-number }}
+          override_branch: ${{ github.event.workflow_run.pull_requests.head.ref }}
+          override_commit: ${{ github.event.workflow_run.pull_requests.head.sha }}
+          override_pr: ${{ github.event.workflow_run.pull_requests.number }}
           token: ${{ secrets.CODECOV_TOKEN }}
