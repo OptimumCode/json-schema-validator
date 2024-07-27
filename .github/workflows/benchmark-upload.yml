@@ -9,7 +9,6 @@ jobs:
   upload-benchmark-results:
     if: (github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'pull_request') && github.repository == 'OptimumCode/json-schema-validator'
     runs-on: ubuntu-latest
-    environment: contribution
     env:
       RESULTS_DIR: bench-results
     permissions:
