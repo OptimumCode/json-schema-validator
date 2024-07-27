@@ -53,9 +53,7 @@ jobs:
   check-pr:
     uses: ./.github/workflows/build-and-test.yml
     with:
-      upload-code-coverage: true
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      collect-code-coverage: true
   danger-check:
     runs-on: ubuntu-latest
     permissions:
@@ -71,4 +69,17 @@ jobs:
           dangerfile: Dangerfile.df.kts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  store-pr-number:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Save PR number
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+        run: |
+          mkdir -p ./pr
+          echo $PR_NUMBER > ./pr/pr_number
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pr-number
+          path: pr/
 

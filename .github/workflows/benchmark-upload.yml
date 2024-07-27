@@ -1,0 +1,76 @@
+name: Upload and compare benchmark results
+
+on:
+  workflow_run:
+    types: [completed]
+    workflows: ['Running benchmark']
+
+jobs:
+  upload-benchmark-results:
+    if: (github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'pull_request') && github.repository == 'OptimumCode/json-schema-validator'
+    runs-on: ubuntu-latest
+    env:
+      RESULTS_DIR: bench-results
+    permissions:
+      # deployments permission to deploy GitHub pages website
+      deployments: write
+      # contents permission to update benchmark contents in gh-pages branch
+      contents: write
+      # pull-requests permission to create comments on PR in case of alert
+      pull-requests: write
+    strategy:
+      # to make sure results are submitted one by one
+      max-parallel: 1
+      matrix:
+        include:
+          - artifact-pattern: 'bench-result-*'
+            results-name: KMP JSON schema validator
+            alert: true
+          - artifact-pattern: 'bench-comparison-result-*'
+            results-name: Compare KMP JSON schema validator
+            alert: false
+    name: 'Process benchmark results for ${{ matrix.results-name }}'
+    steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v4
+      - name: Download benchmark results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ${{ matrix.artifact-pattern }}
+          path: ${{ env.RESULTS_DIR }}
+          merge-multiple: true
+          run-id: ${{ github.event.workflow_run.id }}
+      - name: Show downloaded artifacts
+        run: tree ${{ env.RESULTS_DIR }}
+      - name: Prepare and join benchmark reports
+        id: prep
+        run: |
+          for report in $(find ./${{ env.RESULTS_DIR }} -type f -name "*.json")
+          do
+            file_name=$(basename "$report")
+            platform="${file_name%.*}"
+            jq "[ .[] | .benchmark |= \"${platform}.\" + ltrimstr(\"io.github.optimumcode.json.schema.benchmark.\") | .params |= map_values(. |= split(\"/\")[-1]) ]" $report > ${{ env.RESULTS_DIR }}/$platform.json
+          done
+          AGGREGATED_REPORT=aggregated.json
+          # Joined reports looks like this: [[{},{}], [{},{}]]
+          # We need to transform them into this: [{},{}]
+          ls ${{ env.RESULTS_DIR }}/*.json
+          jq -s '[ .[] | .[] ]' ${{ env.RESULTS_DIR }}/*.json > $AGGREGATED_REPORT
+          echo "report=$AGGREGATED_REPORT" >> $GITHUB_OUTPUT
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          name: ${{ matrix.results-name }}
+          tool: 'jmh'
+          output-file-path: ${{ steps.prep.outputs.report }}
+          alert-comment-cc-users: "@OptimumCode"
+          comment-on-alert: ${{ matrix.alert }}
+          summary-always: true
+          alert-threshold: '150%'
+          fail-threshold: '200%'
+          max-items-in-chart: 50
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # Push and deploy GitHub pages branch automatically only if run in main repo and not in PR
+          auto-push: ${{ github.event.workflow_run.event == 'push' }}
+
+
