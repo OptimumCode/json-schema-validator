@@ -354,6 +354,26 @@ val valid = schema.validate(elementToValidate, errors::add)
 The library supports `format` assertion.
 All formats from [JSON schema draft 2020-12](https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-validation-01#section-7.3) are supported.
 
+According to JSON schema specification the `format` keyword produces **assertion by default** for all drafts **before draft 2019-09**.
+Starting **from draft 2019-09** the `format` keyword produces only **annotation by default**.
+
+You can change the default behaviour by specifying the corresponding option in `JsonSchemaLoader`.
+```kotlin
+import io.github.optimumcode.json.schema.FormatBehavior.ANNOTATION_AND_ASSERTION
+import io.github.optimumcode.json.schema.JsonSchemaLoader
+import io.github.optimumcode.json.schema.SchemaOption
+
+val schema = JsonSchemaLoader.create()
+       // option to change the default behavior
+      .withSchemaOption(SchemaOption.FORMAT_BEHAVIOR_OPTION, ANNOTATION_AND_ASSERTION)
+      // or
+      .withSchemaOption(SchemaOption.FORMAT_BEHAVIOR_OPTION, ANNOTATION_ONLY)
+      .fromDefinition(schemaDefinition)
+```
+
+Alternatively, for drafts starting from the draft 2019-09 you can either use a custom meta-schema with format-assertion vocabulary enabled
+and use this meta-schema in `$schema` property or define `$vocabulary` block with enabled format assertion in your schema.
+
 **_Implementation details:_**
 
 + **regex** - to implement regex format Kotlin `Regex` class is used.
