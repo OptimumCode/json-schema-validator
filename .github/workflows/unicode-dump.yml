@@ -20,6 +20,7 @@ jobs:
       with:
         gradle-version: wrapper
     - name: Cache unicode data
+      id: cache
       uses: actions/cache@v4
       with:
         path: unicode_dump
@@ -27,4 +28,5 @@ jobs:
         restore-keys: |
             unicode-dump-
     - name: Build
+      if: ${{ !steps.cache.outputs.cache-hit }}
       run: ./gradlew :json-schema-validator:dumpCharacterData
