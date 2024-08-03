@@ -1,24 +1,23 @@
 name: Execute FOSSA analyze action
 
 on:
-  workflow_run:
-    workflows: ['Check the PR']
-    types: [completed]
+  pull_request_target:
+    branches:
+      - main
 
 jobs:
   dump-unicode-data:
     uses: ./.github/workflows/unicode-dump.yml
   fossa-scan:
     runs-on: ubuntu-latest
-    if: github.repository == 'OptimumCode/json-schema-validator' && github.event.workflow_run.conclusion == 'success'
     needs:
       - dump-unicode-data
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.event.workflow_run.head_repository.full_name }}
-          ref: ${{ github.event.workflow_run.head_sha }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -47,5 +46,5 @@ jobs:
       - uses: fossas/fossa-action@v1
         with:
           api-key: ${{secrets.FOSSA_API_KEY}}
-          branch: ${{ github.event.workflow_run.head_branch }}
+          branch: ${{ github.event.pull_request.head.ref }}
           run-tests: true
