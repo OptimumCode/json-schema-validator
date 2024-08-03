@@ -1,0 +1,51 @@
+name: Execute FOSSA analyze action
+
+on:
+  workflow_run:
+    workflows: ['Check the PR']
+    types: [completed]
+
+jobs:
+  dump-unicode-data:
+    uses: ./.github/workflows/unicode-dump.yml
+  fossa-scan:
+    runs-on: ubuntu-latest
+    if: github.repository == 'OptimumCode/json-schema-validator' && github.event.workflow_run.conclusion == 'success'
+    needs:
+      - dump-unicode-data
+    steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.workflow_run.head_repository.full_name }}
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version-file: .java-version
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v3
+      - name: Cache konan
+        uses: actions/cache@v4
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache unicode data
+        uses: actions/cache@v4
+        with:
+          fail-on-cache-miss: true
+          path: unicode_dump
+          key: unicode-dump-${{ hashFiles('unicode_dump/*') }}
+          restore-keys: |
+            unicode-dump-
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: wrapper
+      - uses: fossas/fossa-action@v1
+        with:
+          api-key: ${{secrets.FOSSA_API_KEY}}
+          branch: ${{ github.event.workflow_run.head_branch }}
+          run-tests: true
