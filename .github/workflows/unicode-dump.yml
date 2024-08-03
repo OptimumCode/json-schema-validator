@@ -13,12 +13,6 @@ jobs:
       with:
         distribution: temurin
         java-version-file: .java-version
-    - name: Validate Gradle Wrapper
-      uses: gradle/actions/wrapper-validation@v3
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        gradle-version: wrapper
     - name: Cache unicode data
       id: cache
       uses: actions/cache@v4
@@ -27,6 +21,14 @@ jobs:
         key: unicode-dump-${{ hashFiles('unicode_dump/*') }}
         restore-keys: |
             unicode-dump-
+    - name: Validate Gradle Wrapper
+      if: ${{ !steps.cache.outputs.cache-hit }}
+      uses: gradle/actions/wrapper-validation@v3
+    - name: Setup Gradle
+      if: ${{ !steps.cache.outputs.cache-hit }}
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-version: wrapper
     - name: Build
       if: ${{ !steps.cache.outputs.cache-hit }}
       run: ./gradlew :json-schema-validator:dumpCharacterData
