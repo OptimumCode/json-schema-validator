@@ -11,7 +11,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  dump-unicode-data:
+    uses: ./.github/workflows/unicode-dump.yml
   reviewdog:
+    needs:
+      - dump-unicode-data
     permissions:
       pull-requests: write
     runs-on: ubuntu-latest
@@ -34,6 +38,7 @@ jobs:
     - name: Cache unicode data
       uses: actions/cache@v4
       with:
+        fail-on-cache-miss: true
         path: unicode_dump
         key: unicode-dump-${{ hashFiles('unicode_dump/*') }}
         restore-keys: |
@@ -51,6 +56,8 @@ jobs:
         REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: reviewdog -tee -reporter=github-pr-review
   check-pr:
+    needs:
+      - dump-unicode-data
     uses: ./.github/workflows/build-and-test.yml
     with:
       collect-code-coverage: true
@@ -69,17 +76,3 @@ jobs:
           dangerfile: Dangerfile.df.kts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  store-pr-number:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Save PR number
-        env:
-          PR_NUMBER: ${{ github.event.number }}
-        run: |
-          mkdir -p ./pr
-          echo $PR_NUMBER > ./pr/pr_number
-      - uses: actions/upload-artifact@v4
-        with:
-          name: pr-number
-          path: pr/
-

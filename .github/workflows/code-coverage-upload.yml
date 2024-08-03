@@ -21,12 +21,6 @@ jobs:
           name: coverage-reports
           path: reports/
           run_id: ${{ github.event.workflow_run.id }}
-      - name: Download PR number
-        uses: dawidd6/action-download-artifact@v6
-        with:
-          name: pr-number
-          path: '.'
-          run_id: ${{ github.event.workflow_run.id }}
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
         with:
