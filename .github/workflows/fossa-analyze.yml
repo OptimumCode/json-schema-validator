@@ -46,5 +46,5 @@ jobs:
       - uses: fossas/fossa-action@v1
         with:
           api-key: ${{secrets.FOSSA_API_KEY}}
-          branch: ${{ github.event.pull_request.head.ref }}
+          # branch: ${{ github.event.pull_request.head.ref }}
           run-tests: true
