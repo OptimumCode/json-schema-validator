@@ -3,6 +3,7 @@
 [![Licence](https://img.shields.io/github/license/OptimumCode/json-schema-validator)](https://opensource.org/license/mit/)
 [![Supported-drafts](https://img.shields.io/endpoint?url=https://bowtie-json-schema.github.io/bowtie/badges/kotlin-kmp-json-schema-validator/supported_versions.json)](https://json-schema.org/specification)
 ![Codecov](https://img.shields.io/codecov/c/github/optimumcode/json-schema-validator)
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B46664%2Fgithub.com%2FOptimumCode%2Fjson-schema-validator.svg?type=shield&issueType=license)](https://app.fossa.com/projects/custom%2B46664%2Fgithub.com%2FOptimumCode%2Fjson-schema-validator?ref=badge_shield&issueType=license)
 
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.optimumcode/json-schema-validator)
 ![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/io.github.optimumcode/json-schema-validator?server=https%3A%2F%2Fs01.oss.sonatype.org)
@@ -464,3 +465,7 @@ Please, read details [here](docs/codespaces_for_jetbrains.md).
   - [x] Load schemas from local sources
   - [ ] Load schemas from remote sources
 - [x] Formalize error output as it is defined in the latest drafts
+
+## License
+
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B46664%2Fgithub.com%2FOptimumCode%2Fjson-schema-validator.svg?type=large&issueType=license)](https://app.fossa.com/projects/custom%2B46664%2Fgithub.com%2FOptimumCode%2Fjson-schema-validator?ref=badge_large&issueType=license)
