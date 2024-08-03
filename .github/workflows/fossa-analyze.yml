@@ -43,11 +43,13 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: wrapper
-      - uses: fossas/fossa-action@v1
-        with:
-          api-key: ${{secrets.FOSSA_API_KEY}}
-          branch: ${{ github.event.pull_request.head.ref }}
-      - uses: fossas/fossa-action@v1
-        with:
-          api-key: ${{secrets.FOSSA_API_KEY}}
-          run-tests: true
+      - name: Install fossa cli
+        run: "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install-latest.sh | bash"
+      - name: Run FOSSA analyze
+        run: fossa analyze --project git+github.com/OptimumCode/json-schema-validator --branch ${{ github.event.pull_request.head.ref }}
+        env:
+          FOSSA_API_KEY: ${{secrets.FOSSA_API_KEY}}
+      - name: Run FOSSA analyze
+        run: fossa test --project git+github.com/OptimumCode/json-schema-validator
+        env:
+          FOSSA_API_KEY: ${{secrets.FOSSA_API_KEY}}
