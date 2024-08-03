@@ -1,0 +1,6 @@
+version: 3
+targets:
+  only:
+    - type: gradle
+      path: ./
+      target: ':json-schema-validator'

@@ -4,11 +4,13 @@ on:
   pull_request_target:
     branches:
       - main
+    paths:
+      - 'gradle/**'
   push:
     branches:
       - main
     paths:
-      - 'gradle/libs.versions.toml'
+      - 'gradle/**'
   workflow_dispatch:
 
 jobs:
