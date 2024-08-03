@@ -13,7 +13,11 @@ on:
       - '.github/workflows/snapshot_release.yml'
 
 jobs:
+  dump-unicode-data:
+    uses: ./.github/workflows/unicode-dump.yml
   build-and-test:
+    needs:
+      - dump-unicode-data
     uses: ./.github/workflows/build-and-test.yml
     with:
       upload-code-coverage: true
@@ -47,6 +51,7 @@ jobs:
       - name: Cache unicode data
         uses: actions/cache@v4
         with:
+          fail-on-cache-miss: true
           path: unicode_dump
           key: unicode-dump-${{ hashFiles('unicode_dump/*') }}
           restore-keys: |
