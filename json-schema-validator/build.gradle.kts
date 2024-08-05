@@ -189,7 +189,6 @@ kotlin {
     }
 
     val wasmJsMain by getting {
-
     }
 
     val nonWasmJsMain by creating {
