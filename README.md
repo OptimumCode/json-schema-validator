@@ -25,6 +25,7 @@ from [kotlinx.serialization-json](https://github.com/Kotlin/kotlinx.serializatio
 |-------------------|
 | jvm               |
 | js                |
+| wasmJs            |
 | macosX64          |
 | macosArm64        |
 | iosArm64          |

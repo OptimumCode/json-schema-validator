@@ -1,7 +1,10 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import java.util.Locale
 
@@ -145,6 +148,13 @@ kotlin {
     generateTypeScriptDefinitions()
     nodejs()
   }
+  wasmJs {
+    // The wasmJsBrowserTest prints all executed tests as one unformatted string
+    // Have not found a way to suppress printing all this into console
+    browser()
+    nodejs()
+  }
+
   applyDefaultHierarchyTemplate()
 
   val macOsTargets =
@@ -168,7 +178,7 @@ kotlin {
     )
 
   sourceSets {
-    commonMain {
+    val commonMain by getting {
       kotlin.srcDirs(generatedSourceDirectory)
 
       dependencies {
@@ -182,11 +192,31 @@ kotlin {
         ) {
           because("simplifies work with unicode codepoints")
         }
+      }
+    }
+
+    val wasmJsMain by getting
+
+    val nonWasmJsMain by creating {
+      dependsOn(commonMain)
+
+      dependencies {
         implementation(libs.normalize.get().toString()) {
           because("provides normalization required by IDN-hostname format")
         }
       }
     }
+
+    val jvmMain by getting {
+      dependsOn(nonWasmJsMain)
+    }
+    val jsMain by getting {
+      dependsOn(nonWasmJsMain)
+    }
+    val nativeMain by getting {
+      dependsOn(nonWasmJsMain)
+    }
+
     commonTest {
       dependencies {
         implementation(libs.kotest.assertions.core)
@@ -253,6 +283,7 @@ kotlin {
       dependsOnTargetTests(linuxTargets)
       dependsOn(tasks.getByName("jvmTest"))
       dependsOn(tasks.getByName("jsTest"))
+      dependsOn(tasks.getByName("wasmJsTest"))
     }
   }
 }

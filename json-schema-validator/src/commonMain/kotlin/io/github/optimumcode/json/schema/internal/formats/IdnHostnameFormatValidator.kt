@@ -7,8 +7,8 @@ import io.github.optimumcode.json.schema.FormatValidator
 import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValidator.BidiLabelType.LTR
 import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValidator.BidiLabelType.NONE
 import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValidator.BidiLabelType.RTL
-import io.github.optimumcode.json.schema.internal.hostname.Normalizer
 import io.github.optimumcode.json.schema.internal.hostname.Punycode
+import io.github.optimumcode.json.schema.internal.hostname.isNormalized
 import io.github.optimumcode.json.schema.internal.unicode.CharacterCategory
 import io.github.optimumcode.json.schema.internal.unicode.CharacterCategory.ENCLOSING_MARK
 import io.github.optimumcode.json.schema.internal.unicode.CharacterCategory.NONSPACING_MARK
@@ -108,7 +108,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
         label
       }
 
-    if (!Normalizer.isNormalized(unicode)) {
+    if (!isNormalized(unicode)) {
       return false
     }
 
