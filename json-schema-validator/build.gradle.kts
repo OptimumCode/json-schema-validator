@@ -145,6 +145,9 @@ kotlin {
     generateTypeScriptDefinitions()
     nodejs()
   }
+  wasmJs {
+    nodejs()
+  }
   applyDefaultHierarchyTemplate()
 
   val macOsTargets =
@@ -168,7 +171,7 @@ kotlin {
     )
 
   sourceSets {
-    commonMain {
+    val commonMain by getting {
       kotlin.srcDirs(generatedSourceDirectory)
 
       dependencies {
@@ -182,11 +185,33 @@ kotlin {
         ) {
           because("simplifies work with unicode codepoints")
         }
+      }
+    }
+
+    val wasmJsMain by getting {
+
+    }
+
+    val nonWasmJsMain by creating {
+      dependsOn(commonMain)
+
+      dependencies {
         implementation(libs.normalize.get().toString()) {
           because("provides normalization required by IDN-hostname format")
         }
       }
     }
+
+    val jvmMain by getting {
+      dependsOn(nonWasmJsMain)
+    }
+    val jsMain by getting {
+      dependsOn(nonWasmJsMain)
+    }
+    val nativeMain by getting {
+      dependsOn(nonWasmJsMain)
+    }
+
     commonTest {
       dependencies {
         implementation(libs.kotest.assertions.core)

@@ -27,6 +27,9 @@ kotlin {
   js(IR) {
     nodejs()
   }
+  wasmJs {
+    nodejs()
+  }
   applyDefaultHierarchyTemplate()
 
   val macOsTargets =
