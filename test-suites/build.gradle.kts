@@ -30,9 +30,7 @@ kotlin {
   js(IR) {
     nodejs()
   }
-  wasmJs {
-    nodejs()
-  }
+  // wasmJs target is not added because the okio does not provide a dependency to use FileSystem API in wasmJs target
   applyDefaultHierarchyTemplate()
 
   val macOsTargets =
