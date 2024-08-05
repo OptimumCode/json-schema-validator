@@ -70,10 +70,6 @@ kotlin {
         implementation(libs.okio.nodefilesystem)
       }
     }
-    wasmJsTest {
-      dependencies {
-      }
-    }
     jvmTest {
       dependencies {
         implementation(libs.kotest.runner.junit5)
