@@ -1,7 +1,10 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import java.util.Locale
 
@@ -146,8 +149,10 @@ kotlin {
     nodejs()
   }
   wasmJs {
+    browser()
     nodejs()
   }
+
   applyDefaultHierarchyTemplate()
 
   val macOsTargets =

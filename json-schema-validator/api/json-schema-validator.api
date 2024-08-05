@@ -354,7 +354,3 @@ public abstract interface class io/github/optimumcode/json/schema/extension/Exte
 	public abstract fun getSchemaPath ()Lio/github/optimumcode/json/pointer/JsonPointer;
 }
 
-public final class io/github/optimumcode/json/schema/internal/hostname/Normalizer_nonWasmJsKt {
-	public static final fun isNormalized (Ljava/lang/String;)Z
-}
-

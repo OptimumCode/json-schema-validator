@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
@@ -67,6 +70,10 @@ kotlin {
     jsTest {
       dependencies {
         implementation(libs.okio.nodefilesystem)
+      }
+    }
+    wasmJsTest {
+      dependencies {
       }
     }
     jvmTest {
