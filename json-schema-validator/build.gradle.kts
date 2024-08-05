@@ -149,6 +149,8 @@ kotlin {
     nodejs()
   }
   wasmJs {
+    // The wasmJsBrowserTest prints all executed tests as one unformatted string
+    // Have not found a way to suppress printing all this into console
     browser()
     nodejs()
   }
@@ -193,8 +195,7 @@ kotlin {
       }
     }
 
-    val wasmJsMain by getting {
-    }
+    val wasmJsMain by getting
 
     val nonWasmJsMain by creating {
       dependsOn(commonMain)
@@ -282,6 +283,7 @@ kotlin {
       dependsOnTargetTests(linuxTargets)
       dependsOn(tasks.getByName("jvmTest"))
       dependsOn(tasks.getByName("jsTest"))
+      dependsOn(tasks.getByName("wasmJsTest"))
     }
   }
 }
