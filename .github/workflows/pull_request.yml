@@ -38,6 +38,7 @@ jobs:
     - name: Cache unicode data
       uses: actions/cache@v4
       with:
+        enableCrossOsArchive: true
         fail-on-cache-miss: true
         path: unicode_dump
         key: unicode-dump-${{ hashFiles('unicode_dump/*') }}
