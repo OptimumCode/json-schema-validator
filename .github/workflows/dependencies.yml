@@ -20,8 +20,8 @@ jobs:
         uses: gradle/actions/dependency-submission@v4
         with:
           build-scan-publish: true
-          build-scan-terms-of-service-url: 'https://gradle.com/terms-of-service'
-          build-scan-terms-of-service-agree: 'yes'
+          build-scan-terms-of-use-url: 'https://gradle.com/terms-of-service'
+          build-scan-terms-of-use-agree: 'yes'
         env:
           GITHUB_DEPENDENCY_GRAPH_REF: ${{ github.ref }}
           DEPENDENCY_GRAPH_EXCLUDE_PROJECTS: ':buildSrc'
