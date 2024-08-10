@@ -17,7 +17,9 @@ jobs:
       matrix:
         include:
           - tool: ktlint
+            error-format: "%f:%l:%c %m"
           - tool: detekt
+            error-format: "%f:%l:%c: %m"
     permissions:
       pull-requests: write
     runs-on: ubuntu-latest
@@ -41,7 +43,7 @@ jobs:
         CI_REPO_OWNER: ${{ github.repository_owner }}
         CI_REPO_NAME: ${{ github.event.repository.name }}
         CI_COMMIT: ${{ github.event.workflow_run.pull_requests[0].head.repo }}
-      run: echo reports/${{ matrix.tool }}-reviewdog.out | reviewdog -tee -reporter=github-pr-review
+      run: echo reports/${{ matrix.tool }}-reviewdog.out | reviewdog -tee -reporter=github-pr-review -name=${{ matrix.tool }} -efm="${{ matrix.error-format }}"
   danger-check:
     if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
