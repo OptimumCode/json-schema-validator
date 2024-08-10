@@ -55,6 +55,7 @@ jobs:
         reviewdog_version: latest
     - name: Run reviewdog ${{ matrix.tool }}
       env:
+        GITHUB_ACTIONS: "" # make reviewdog think that we are not in GitHub
         REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         CI_PULL_REQUEST: ${{ needs.restore-pr.outputs.pr-number }}
         CI_REPO_OWNER: ${{ github.repository_owner }}
