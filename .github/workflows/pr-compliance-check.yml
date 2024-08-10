@@ -4,15 +4,32 @@ on:
   pull_request_target:
   workflow_run:
     workflows: ['Run tests for PR']
-    types: [requested, completed]
+    types: [completed]
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.workflow_run.pull_requests[0].number }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.workflow_run.head_branch }}
   cancel-in-progress: true
 
 jobs:
+  restore-pr:
+    if: github.event_name == 'workflow_run'
+    runs-on: ubuntu-latest
+    outputs:
+      pr-number: ${{ steps.pr-info.outputs.pr-number }}
+    steps:
+    - name: Download PR info
+      uses: dawidd6/action-download-artifact@v6
+      with:
+        name: pr_number
+        path: pr/
+        run_id: ${{ github.event.workflow_run.id }}
+    - name: Store PR number
+      id: pr-info
+      run: echo "pr-number=$(cat pr/pr_number)" >> $GITHUB_OUTPUT
   reviewdog:
     if: github.event_name == 'workflow_run'
+    needs:
+      - restore-pr
     strategy:
       matrix:
         include:
@@ -26,8 +43,7 @@ jobs:
     steps:
     - name: 'Checkout Repository'
       uses: actions/checkout@v4
-    - run: echo "${{ toJson(github.event) }}"
-    - name: Download benchmark results
+    - name: Download style reports
       uses: dawidd6/action-download-artifact@v6
       with:
         name: style-reports
@@ -40,10 +56,10 @@ jobs:
     - name: Run reviewdog ${{ matrix.tool }}
       env:
         REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        CI_PULL_REQUEST: ${{ github.event.workflow_run.pull_requests[0].number }}
+        CI_PULL_REQUEST: ${{ needs.restore-pr.outputs.pr-number }}
         CI_REPO_OWNER: ${{ github.repository_owner }}
         CI_REPO_NAME: ${{ github.event.repository.name }}
-        CI_COMMIT: ${{ github.event.workflow_run.pull_requests[0].head.sha }}
+        CI_COMMIT: ${{ github.event.workflow_run.head_sha }}
       run: echo reports/${{ matrix.tool }}-reviewdog.out | reviewdog -tee -reporter=github-pr-review -name=${{ matrix.tool }} -efm="${{ matrix.error-format }}"
   danger-check:
     if: github.event_name == 'pull_request_target'
@@ -64,6 +80,8 @@ jobs:
   upload-coverage:
     runs-on: ubuntu-latest
     if: github.event.workflow_run.actor.name != 'dependabot[bot]' && github.event.workflow_run.conclusion == 'success'
+    needs:
+      - restore-pr
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
@@ -79,7 +97,7 @@ jobs:
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
         with:
-          override_branch: ${{ github.event.workflow_run.pull_requests[0].head.ref }}
-          override_commit: ${{ github.event.workflow_run.pull_requests[0].head.sha }}
-          override_pr: ${{ github.event.workflow_run.pull_requests[0].number }}
+          override_branch: ${{ github.event.workflow_run.head_branch }}
+          override_commit: ${{ github.event.workflow_run.head_sha }}
+          override_pr: ${{ needs.restore-pr.outputs.pr-number }}
           token: ${{ secrets.CODECOV_TOKEN }}
