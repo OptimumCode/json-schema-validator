@@ -62,7 +62,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   upload-coverage:
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.actor.name != 'dependabot[bot]' && github.repository == 'OptimumCode/json-schema-validator' && github.event.workflow_run.conclusion == 'success'
+    if: github.event.workflow_run.actor.name != 'dependabot[bot]' && github.event.workflow_run.conclusion == 'success'
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
