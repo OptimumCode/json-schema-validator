@@ -1,4 +1,7 @@
 version: 3
+project:
+  locator: custom+46664/github.com/OptimumCode/json-schema-validator
+  id: https://github.com/OptimumCode/json-schema-validator
 targets:
   only:
     - type: gradle
