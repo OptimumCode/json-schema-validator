@@ -342,4 +342,6 @@ afterEvaluate {
   tasks.named("check").configure {
     dependsOn(detektAllTask)
   }
+
+
 }

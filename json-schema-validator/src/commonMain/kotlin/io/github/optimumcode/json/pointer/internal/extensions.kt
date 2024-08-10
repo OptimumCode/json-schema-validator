@@ -6,7 +6,7 @@ import io.github.optimumcode.json.pointer.EmptyPointer
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.pointer.SegmentPointer
 
-internal val JsonPointer.length: Int
+public val JsonPointer.length: Int
   get() {
     if (this is EmptyPointer) {
       return 0

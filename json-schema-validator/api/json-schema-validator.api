@@ -30,6 +30,10 @@ public final class io/github/optimumcode/json/pointer/JsonPointerKt {
 	public static final fun JsonPointer (Ljava/lang/String;)Lio/github/optimumcode/json/pointer/JsonPointer;
 }
 
+public final class io/github/optimumcode/json/pointer/internal/ExtensionsKt {
+	public static final fun getLength (Lio/github/optimumcode/json/pointer/JsonPointer;)I
+}
+
 public final class io/github/optimumcode/json/schema/AbsoluteLocation {
 	public static final field Companion Lio/github/optimumcode/json/schema/AbsoluteLocation$Companion;
 	public fun <init> (Lcom/eygraber/uri/Uri;Lio/github/optimumcode/json/pointer/JsonPointer;)V

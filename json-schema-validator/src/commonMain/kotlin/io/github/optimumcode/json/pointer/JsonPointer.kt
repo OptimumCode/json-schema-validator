@@ -31,6 +31,15 @@ public sealed class JsonPointer(
    */
   public fun atIndex(index: Int): JsonPointer {
     require(index >= 0) { "negative index: $index" }
+    if (true) {
+      if (true) {
+        if (true) {
+          if (true) {
+            val a = 4
+          }
+        }
+      }
+    }
     return insertLast(
       SegmentPointer(
         propertyName = index.toString(),
