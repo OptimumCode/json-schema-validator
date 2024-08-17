@@ -8,6 +8,6 @@ runner:
   ktlint:
     cmd: "ktlint '**/*.kt' '**/*.kts' '!**/build/generated*/**'"
     errorformat:
-      - "%f:%l:%c %m"
+      - "%f:%l:%c: %m"
     name: ktlint
     level: error
