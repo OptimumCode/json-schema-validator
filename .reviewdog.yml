@@ -1,0 +1,13 @@
+runner:
+  detekt:
+    cmd: "detekt-cli -c config/detekt/detekt.yml --includes '**/src/*Main/**/*.kt;**/src/main/**/*.kt'"
+    errorformat:
+      - "%f:%l:%c: %m"
+    name: detekt
+    level: error
+  ktlint:
+    cmd: "ktlint '**/*.kt' '**/*.kts' '!**/build/generated*/**'"
+    errorformat:
+      - "%f:%l:%c %m"
+    name: ktlint
+    level: error

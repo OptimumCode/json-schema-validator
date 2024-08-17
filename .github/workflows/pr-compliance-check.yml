@@ -27,41 +27,30 @@ jobs:
       id: pr-info
       run: echo "pr-number=$(cat pr/pr_number)" >> $GITHUB_OUTPUT
   reviewdog:
-    if: github.event_name == 'workflow_run'
-    needs:
-      - restore-pr
-    strategy:
-      matrix:
-        include:
-          - tool: ktlint
-            error-format: "%f:%l:%c %m"
-          - tool: detekt
-            error-format: "%f:%l:%c: %m"
+    if: github.event_name == 'pull_request_target'
     permissions:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout Repository'
       uses: actions/checkout@v4
-    - name: Download style reports
-      uses: dawidd6/action-download-artifact@v6
-      with:
-        name: style-reports
-        path: reports/
-        run_id: ${{ github.event.workflow_run.id }}
+    - name: Setup format tools
+      run: |
+        export DETEKT_VERSION=$(./gradlew --console plain -q printDetektVersion)
+        export KTLINT_VERSION=$(./gradlew --console plain -q printKtlintVersion)
+        ./scripts/install-format-tools.sh
     - name: Setup reviewdog
       uses: reviewdog/action-setup@v1
       with:
         reviewdog_version: latest
-    - name: Run reviewdog ${{ matrix.tool }}
-      env:
-        GITHUB_ACTIONS: "" # make reviewdog think that we are not in GitHub
-        REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        CI_PULL_REQUEST: ${{ needs.restore-pr.outputs.pr-number }}
-        CI_REPO_OWNER: ${{ github.repository_owner }}
-        CI_REPO_NAME: ${{ github.event.repository.name }}
-        CI_COMMIT: ${{ github.event.workflow_run.head_sha }}
-      run: echo reports/${{ matrix.tool }}-reviewdog.out | reviewdog -tee -reporter=github-pr-review -name=${{ matrix.tool }} -efm="${{ matrix.error-format }}"
+    - name: 'Checkout PR'
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
+        ref: ${{ github.event.pull_request.head.ref }}
+    - name: Run reviewdog
+      run: reviewdog -tee -reporter=github-pr-review
+
   danger-check:
     if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
