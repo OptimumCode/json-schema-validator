@@ -58,7 +58,7 @@ jobs:
     - name: Setup reviewdog
       uses: reviewdog/action-setup@v1
       with:
-        reviewdog_version: v0.19.0
+        reviewdog_version: latest
     - name: Run reviewdog
       run: reviewdog -tee -reporter=github-pr-review -log-level=debug
       env:
