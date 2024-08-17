@@ -46,7 +46,7 @@ jobs:
         gradle-version: wrapper
     - name: Setup format tools
       run: |
-        ./gradlew --dry-run # download wrapper if needed
+        ./gradlew --dry-run -q # download wrapper if needed
         export DETEKT_VERSION=$(./gradlew --console plain -q printDetektVersion)
         export KTLINT_VERSION=$(./gradlew --console plain -q printKtlintVersion)
         ./scripts/install-format-tools.sh

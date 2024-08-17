@@ -7,6 +7,7 @@ if [[ "$KTLINT_VERSION" == "" ]]; then
 	echo "Provide ktlint version in KTLINT_VERSION env variable"
 	exit 1
 fi
+mkdir ${HOME}/.local/bin
 echo "Installing detekt $DETEKT_VERSION"
 jar_destination="${HOME}/.local/lib/detekt"
 mkdir -p ${jar_destination}
@@ -20,5 +21,5 @@ chmod +x "$entrypoint_script"
 detekt-cli --version
 
 echo "Installing ktlint $KTLINT_VERSION"
-curl -sSLO "https://github.com/pinterest/ktlint/releases/download/$KTLINT_VERSION/ktlint" && chmod a+x ktlint && mv ktlint ~/.local/bin/
+curl -sSLO "https://github.com/pinterest/ktlint/releases/download/$KTLINT_VERSION/ktlint" && chmod a+x ktlint && mv ktlint ${HOME}/.local/bin/
 ktlint --version
