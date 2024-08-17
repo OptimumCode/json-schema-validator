@@ -50,19 +50,19 @@ jobs:
         export DETEKT_VERSION=$(./gradlew --console plain -q printDetektVersion)
         export KTLINT_VERSION=$(./gradlew --console plain -q printKtlintVersion)
         ./scripts/install-format-tools.sh
-    - name: Setup reviewdog
-      uses: reviewdog/action-setup@v1
-      with:
-        reviewdog_version: latest
     - name: 'Checkout PR'
       uses: actions/checkout@v4
       with:
         repository: ${{ github.event.pull_request.head.repo.full_name }}
         ref: ${{ github.event.pull_request.head.ref }}
+    - name: Setup reviewdog
+      uses: reviewdog/action-setup@v1
+      with:
+        reviewdog_version: latest
     - name: Run reviewdog
       run: reviewdog -tee -reporter=github-pr-review -log-level=debug
       env:
-        REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REVIEWDOG_GITHUB_API_TOKEN: ${{ github.token }}
 
   danger-check:
     if: github.event_name == 'pull_request_target'
