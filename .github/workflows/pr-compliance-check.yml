@@ -59,8 +59,16 @@ jobs:
       uses: reviewdog/action-setup@v1
       with:
         reviewdog_version: latest
-    - name: Run reviewdog
-      run: reviewdog -tee -reporter=github-pr-review -log-level=debug
+    - name: Run reviewdog detekt
+      run: >
+        detekt-cli -c config/detekt/detekt.yml --includes '**/src/*Main/**/*.kt;**/src/main/**/*.kt' |
+        reviewdog -tee -reporter=github-pr-review -log-level=debug -efm="%f:%l:%c: %m" -name=detekt
+      env:
+        REVIEWDOG_GITHUB_API_TOKEN: ${{ github.token }}
+    - name: Run reviewdog ktlint
+      run: >
+        ktlint '**/*.kt' '**/*.kts' '!**/build/generated*/**' |
+        reviewdog -tee -reporter=github-pr-review -log-level=debug -efm="%f:%l:%c: %m" -name=ktlint
       env:
         REVIEWDOG_GITHUB_API_TOKEN: ${{ github.token }}
 
