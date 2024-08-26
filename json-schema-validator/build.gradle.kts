@@ -6,7 +6,6 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
-import java.util.Locale
 
 plugins {
   alias(libs.plugins.kotlin.mutliplatform)
@@ -18,117 +17,6 @@ plugins {
   alias(libs.plugins.kotlin.dokka)
   convention.publication
 }
-
-val generatedSourceDirectory: Provider<Directory> = layout.buildDirectory.dir("generated/source/unicode")
-
-//region Generation tasks block
-val generatorConfiguration: Configuration by configurations.creating
-
-dependencies {
-  generatorConfiguration(projects.generator)
-}
-
-val dumpDir: File =
-  rootProject.layout.projectDirectory
-    .dir("unicode_dump")
-    .asFile
-
-val dumpCharacterData by tasks.register<JavaExec>("dumpCharacterData") {
-  onlyIf {
-    dumpDir.run { !exists() || listFiles().isNullOrEmpty() }
-  }
-  outputs.dir(dumpDir)
-  classpath(generatorConfiguration)
-  mainClass.set("io.github.optimumcode.unocode.generator.Main")
-  args(
-    "dump",
-    "-o",
-    dumpDir,
-  )
-}
-
-val generateCharacterDirectionData by tasks.register<JavaExec>("generateCharacterDirectionData") {
-  inputs.dir(dumpDir)
-  outputs.dir(generatedSourceDirectory)
-
-  dependsOn(dumpCharacterData)
-
-  classpath(generatorConfiguration)
-  mainClass.set("io.github.optimumcode.unocode.generator.Main")
-  args(
-    "character-direction",
-    "-p",
-    "io.github.optimumcode.json.schema.internal.unicode",
-    "-o",
-    generatedSourceDirectory.get(),
-    "-d",
-    dumpDir,
-  )
-}
-
-val generateCharacterCategoryData by tasks.register<JavaExec>("generateCharacterCategoryData") {
-  inputs.dir(dumpDir)
-  outputs.dir(generatedSourceDirectory)
-
-  dependsOn(dumpCharacterData)
-
-  classpath(generatorConfiguration)
-  mainClass.set("io.github.optimumcode.unocode.generator.Main")
-  args(
-    "character-category",
-    "-p",
-    "io.github.optimumcode.json.schema.internal.unicode",
-    "-o",
-    generatedSourceDirectory.get(),
-    "-d",
-    dumpDir,
-  )
-}
-
-val generateDerivedProperties by tasks.register<JavaExec>("generateDerivedProperties") {
-  val dataFile =
-    rootProject.layout.projectDirectory
-      .dir("generator")
-      .dir("data")
-      .file("rfc5895_appendix_b_1.txt")
-  inputs.file(dataFile)
-  outputs.dir(generatedSourceDirectory)
-
-  classpath(generatorConfiguration)
-  mainClass.set("io.github.optimumcode.unocode.generator.Main")
-  args(
-    "derived-properties",
-    "-p",
-    "io.github.optimumcode.json.schema.internal.unicode",
-    "-o",
-    generatedSourceDirectory.get(),
-    "-d",
-    dataFile,
-  )
-}
-
-val generateJoiningTypes by tasks.register<JavaExec>("generateJoiningTypes") {
-  val dataFile =
-    rootProject.layout.projectDirectory
-      .dir("generator")
-      .dir("data")
-      .file("DerivedJoiningType.txt")
-  inputs.file(dataFile)
-  outputs.dir(generatedSourceDirectory)
-
-  classpath(generatorConfiguration)
-  mainClass.set("io.github.optimumcode.unocode.generator.Main")
-  args(
-    "joining-types",
-    "-p",
-    "io.github.optimumcode.json.schema.internal.unicode",
-    "-o",
-    generatedSourceDirectory.get(),
-    "-d",
-    dataFile,
-  )
-}
-//endregion
 
 kotlin {
   explicitApi()
@@ -179,8 +67,6 @@ kotlin {
 
   sourceSets {
     val commonMain by getting {
-      kotlin.srcDirs(generatedSourceDirectory)
-
       dependencies {
         api(libs.kotlin.serialization.json)
         api(libs.uri)
@@ -192,6 +78,7 @@ kotlin {
         ) {
           because("simplifies work with unicode codepoints")
         }
+        implementation(libs.karacteristics)
       }
     }
 
@@ -232,33 +119,6 @@ kotlin {
     }
   }
 
-  fun Task.addGeneratedTasks() {
-    dependsOn(
-      generateCharacterDirectionData,
-      generateCharacterCategoryData,
-      generateDerivedProperties,
-      generateJoiningTypes,
-    )
-  }
-
-  targets.configureEach {
-    val capitalizedTargetName =
-      name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-    tasks.named("compileKotlin$capitalizedTargetName") {
-      addGeneratedTasks()
-    }
-  }
-  afterEvaluate {
-    targets.configureEach {
-      tasks.named("${name}SourcesJar") {
-        addGeneratedTasks()
-      }
-    }
-    tasks.named("sourcesJar") {
-      addGeneratedTasks()
-    }
-  }
-
   afterEvaluate {
     fun Task.dependsOnTargetTests(targets: List<KotlinTarget>) {
       targets.forEach {
@@ -288,49 +148,10 @@ kotlin {
   }
 }
 
-afterEvaluate {
-  val taskNames = setOf("compile", "detekt", "runKtlint")
-  tasks.configureEach {
-    // There is something wrong with compileCommonMainKotlinMetadata task
-    // Gradle cannot find it, but this task uses the generated source directory
-    // and Gradle reports implicit dependency.
-    // As a workaround I do this - seems like it is working.
-    // However, I might be missing something. Need to revisit this later.
-
-    if (taskNames.any { name.startsWith(it) }) {
-      mustRunAfter(
-        generateCharacterDirectionData,
-        generateCharacterCategoryData,
-        generateDerivedProperties,
-        generateJoiningTypes,
-      )
-    }
-  }
-}
-
-kover {
-  reports {
-    filters {
-      excludes {
-        packages(
-          "io.github.optimumcode.json.schema.internal.unicode.*",
-          "io.github.optimumcode.json.schema.internal.unicode",
-        )
-      }
-    }
-  }
-}
-
 ktlint {
   version.set(libs.versions.ktlint)
   reporters {
     reporter(ReporterType.HTML)
-  }
-  filter {
-    exclude { el ->
-      val absolutePath = el.file.absolutePath
-      absolutePath.contains("generated").and(!el.isDirectory)
-    }
   }
 }
 
