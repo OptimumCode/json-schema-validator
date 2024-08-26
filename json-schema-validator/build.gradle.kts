@@ -192,6 +192,7 @@ kotlin {
         ) {
           because("simplifies work with unicode codepoints")
         }
+        implementation(libs.karacteristics)
       }
     }
 

@@ -9,26 +9,27 @@ import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValid
 import io.github.optimumcode.json.schema.internal.formats.IdnHostnameFormatValidator.BidiLabelType.RTL
 import io.github.optimumcode.json.schema.internal.hostname.Punycode
 import io.github.optimumcode.json.schema.internal.hostname.isNormalized
-import io.github.optimumcode.json.schema.internal.unicode.CharacterCategory
-import io.github.optimumcode.json.schema.internal.unicode.CharacterCategory.ENCLOSING_MARK
-import io.github.optimumcode.json.schema.internal.unicode.CharacterCategory.NONSPACING_MARK
-import io.github.optimumcode.json.schema.internal.unicode.CharacterCategory.SPACING_MARK
-import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality
-import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.ARABIC_LETTER
-import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.ARABIC_NUMBER
-import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.BOUNDARY_NEUTRAL
-import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.COMMON_SEPARATOR
-import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.EUROPEAN_NUMBER
-import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.EUROPEAN_SEPARATOR
-import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.EUROPEAN_TERMINATOR
-import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.LEFT_TO_RIGHT
-import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.OTHER_NEUTRAL
-import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.RIGHT_TO_LEFT
-import io.github.optimumcode.json.schema.internal.unicode.DerivedProperties
-import io.github.optimumcode.json.schema.internal.unicode.JoiningType
 import io.github.optimumcode.json.schema.internal.util.forEachCodePointIndexed
+import io.github.optimumcode.karacteristics.CodepointBidirectionalClass.ARABIC_LETTER
+import io.github.optimumcode.karacteristics.CodepointBidirectionalClass.ARABIC_NUMBER
+import io.github.optimumcode.karacteristics.CodepointBidirectionalClass.BOUNDARY_NEUTRAL
+import io.github.optimumcode.karacteristics.CodepointBidirectionalClass.COMMON_SEPARATOR
+import io.github.optimumcode.karacteristics.CodepointBidirectionalClass.EUROPEAN_NUMBER
+import io.github.optimumcode.karacteristics.CodepointBidirectionalClass.EUROPEAN_SEPARATOR
+import io.github.optimumcode.karacteristics.CodepointBidirectionalClass.EUROPEAN_TERMINATOR
+import io.github.optimumcode.karacteristics.CodepointBidirectionalClass.LEFT_TO_RIGHT
+import io.github.optimumcode.karacteristics.CodepointBidirectionalClass.OTHER_NEUTRAL
+import io.github.optimumcode.karacteristics.CodepointBidirectionalClass.RIGHT_TO_LEFT
+import io.github.optimumcode.karacteristics.CodepointCategory.ENCLOSING_MARK
+import io.github.optimumcode.karacteristics.CodepointCategory.NONSPACING_MARK
+import io.github.optimumcode.karacteristics.CodepointCategory.SPACING_MARK
+import io.github.optimumcode.karacteristics.CodepointDerivedProperty
+import io.github.optimumcode.karacteristics.CodepointJoiningType
+import io.github.optimumcode.karacteristics.bidirectionalClass
+import io.github.optimumcode.karacteristics.category
+import io.github.optimumcode.karacteristics.contains
 import kotlin.math.abs
-import io.github.optimumcode.json.schema.internal.unicode.CharacterDirectionality.NONSPACING_MARK as NONSPACING_MARK_DIRECTIONALITY
+import io.github.optimumcode.karacteristics.CodepointBidirectionalClass.NONSPACING_MARK as NONSPACING_MARK_DIRECTIONALITY
 
 private const val GREEK_LOWER_NUMERAL_SIGN: Int = 0x0375
 private const val HEBREW_GERESH: Int = 0x05F3
@@ -57,7 +58,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
     value.forEachLabel {
       it.forEachCodePointIndexed { _, codePoint ->
         isBidiDomainName = isBidiDomainName ||
-          when (getDirectionality(codePoint)) {
+          when (codePoint.bidirectionalClass) {
             RIGHT_TO_LEFT,
             ARABIC_LETTER,
             ARABIC_NUMBER,
@@ -131,7 +132,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
 
     val bidiLabelType: BidiLabelType =
       if (isBidiDomainName) {
-        when (getDirectionality(firstCodePoint)) {
+        when (firstCodePoint.bidirectionalClass) {
           LEFT_TO_RIGHT,
           -> LTR
 
@@ -171,7 +172,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
           //
           // Check absents of opposite directionality
           // Point 4 https://datatracker.ietf.org/doc/html/rfc5893#section-2
-          isExtendedArabicIndicDigit(codePoint) || EUROPEAN_NUMBER.characterData.contains(codePoint) -> -1
+          isExtendedArabicIndicDigit(codePoint) || codePoint in EUROPEAN_NUMBER -> -1
           else -> 0
         }
       if (abs(currentArabicDigitStatus - arabicDigitStatus) > 1) {
@@ -239,10 +240,10 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       -> false
 
       else ->
-        DerivedProperties.DISALLOWED.contains(codePoint) ||
-          DerivedProperties.UNASSIGNED.contains(codePoint) ||
-          DerivedProperties.CONTEXTJ.contains(codePoint) ||
-          DerivedProperties.CONTEXTO.contains(codePoint)
+        codePoint in CodepointDerivedProperty.DISALLOWED ||
+          codePoint in CodepointDerivedProperty.UNASSIGNED ||
+          codePoint in CodepointDerivedProperty.CONTEXTJ ||
+          codePoint in CodepointDerivedProperty.CONTEXTO
     }
   }
 
@@ -253,7 +254,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
     if (bidiLabelType == NONE) {
       return false
     }
-    return when (val directionality = getDirectionality(codePoint)) {
+    return when (val directionality = codePoint.bidirectionalClass) {
       EUROPEAN_NUMBER,
       EUROPEAN_SEPARATOR,
       COMMON_SEPARATOR,
@@ -297,10 +298,10 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
     }
     var index = unicode.length
     // Zero or more characters with Bidi property NSM are allowed in the end
-    while (index > 0 && getDirectionality(unicode.codePointBefore(index)) == NONSPACING_MARK_DIRECTIONALITY) {
+    while (index > 0 && unicode.codePointBefore(index).bidirectionalClass == NONSPACING_MARK_DIRECTIONALITY) {
       index--
     }
-    val lastCodepointDirectionality = getDirectionality(unicode.codePointBefore(index))
+    val lastCodepointDirectionality = unicode.codePointBefore(index).bidirectionalClass
     return when (bidiLabelType) {
       NONE -> false
       RTL ->
@@ -456,7 +457,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       return false
     }
     var j = index
-    while (0 < j && JoiningType.TRANSPARENT.contains(unicode.codePointBefore(j))) {
+    while (0 < j && unicode.codePointBefore(j) in CodepointJoiningType.TRANSPARENT) {
       j -= 1
     }
     if (j == 0) {
@@ -465,8 +466,8 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
     }
     val beforeFirstTransparent = unicode.codePointBefore(j)
     if (
-      !JoiningType.LEFT_JOINING.contains(beforeFirstTransparent) &&
-      !JoiningType.DUAL_JOINING.contains(beforeFirstTransparent)
+      beforeFirstTransparent !in CodepointJoiningType.LEFT_JOINING &&
+      beforeFirstTransparent !in CodepointJoiningType.DUAL_JOINING
     ) {
       return true
     }
@@ -476,7 +477,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       // Must have joining type T after
       return true
     }
-    while (j < len && JoiningType.TRANSPARENT.contains(unicode.codePointAt(j))) {
+    while (j < len && unicode.codePointAt(j) in CodepointJoiningType.TRANSPARENT) {
       j += 1
     }
     if (j == len) {
@@ -484,12 +485,12 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       return true
     }
     val afterLastTransparent = unicode.codePointAt(j)
-    return !JoiningType.RIGHT_JOINING.contains(afterLastTransparent) &&
-      !JoiningType.DUAL_JOINING.contains(afterLastTransparent)
+    return afterLastTransparent !in CodepointJoiningType.RIGHT_JOINING &&
+      afterLastTransparent !in CodepointJoiningType.DUAL_JOINING
   }
 
   private fun isLeadingCombiningMark(codePoint: Int): Boolean =
-    when (getCategory(codePoint)) {
+    when (codePoint.category) {
       NONSPACING_MARK,
       SPACING_MARK,
       ENCLOSING_MARK,
@@ -517,18 +518,6 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       }
     }
     return value.length
-  }
-
-  private fun getCategory(codePoint: Int): CharacterCategory {
-    return CharacterCategory.entries.first {
-      it.characterData.contains(codePoint)
-    }
-  }
-
-  private fun getDirectionality(codePoint: Int): CharacterDirectionality {
-    return CharacterDirectionality.entries.first {
-      it.characterData.contains(codePoint)
-    }
   }
 
   @Suppress("detekt:MagicNumber")
