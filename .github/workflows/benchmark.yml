@@ -45,11 +45,7 @@ concurrency:
   group: bench-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.after }}
 
 jobs:
-  dump-unicode-data:
-    uses: ./.github/workflows/unicode-dump.yml
   benchmark-matrix:
-    needs:
-      - dump-unicode-data
     strategy:
       matrix:
         include:
@@ -87,15 +83,6 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts') }}
           restore-keys: |
               ${{ runner.os }}-gradle-
-      - name: Cache unicode data
-        uses: actions/cache@v4
-        with:
-          enableCrossOsArchive: true
-          fail-on-cache-miss: true
-          path: unicode_dump
-          key: unicode-dump-${{ hashFiles('unicode_dump/*') }}
-          restore-keys: |
-            unicode-dump-
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:

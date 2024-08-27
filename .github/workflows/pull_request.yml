@@ -24,11 +24,7 @@ jobs:
       with:
         name: pr_number
         path: pr/
-  dump-unicode-data:
-    uses: ./.github/workflows/unicode-dump.yml
   check-pr:
-    needs:
-      - dump-unicode-data
     uses: ./.github/workflows/build-and-test.yml
     with:
       collect-code-coverage: true

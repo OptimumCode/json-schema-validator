@@ -13,11 +13,7 @@ on:
       - '.github/workflows/snapshot_release.yml'
 
 jobs:
-  dump-unicode-data:
-    uses: ./.github/workflows/unicode-dump.yml
   build-and-test:
-    needs:
-      - dump-unicode-data
     uses: ./.github/workflows/build-and-test.yml
     with:
       upload-code-coverage: true
@@ -48,15 +44,6 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Cache unicode data
-        uses: actions/cache@v4
-        with:
-          enableCrossOsArchive: true
-          fail-on-cache-miss: true
-          path: unicode_dump
-          key: unicode-dump-${{ hashFiles('unicode_dump/*') }}
-          restore-keys: |
-            unicode-dump-
       - name: Build with Gradle
         uses: gradle/actions/setup-gradle@v4
         with:

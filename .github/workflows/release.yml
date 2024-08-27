@@ -24,11 +24,7 @@ jobs:
           version-source: file
           version-file: ${{ env.VERSION_FILE }}
           version-file-extraction-pattern: ${{ env.VERSION_PATTERN }}
-  dump-unicode-data:
-    uses: ./.github/workflows/unicode-dump.yml
   build-and-test:
-    needs:
-      - dump-unicode-data
     uses: ./.github/workflows/build-and-test.yml
   publish_artifacts:
     needs:
@@ -56,15 +52,6 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Cache unicode data
-        uses: actions/cache@v4
-        with:
-          enableCrossOsArchive: true
-          fail-on-cache-miss: true
-          path: unicode_dump
-          key: unicode-dump-${{ hashFiles('unicode_dump/*') }}
-          restore-keys: |
-            unicode-dump-
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
