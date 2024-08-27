@@ -8,10 +8,8 @@ serialization = "1.7.1"
 benchmark = "0.4.12"
 openapi = "2024.3"
 jackson = "2.17.2"
-graphql = "6.8.4"
 
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-mutliplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-dokka = { id = "org.jetbrains.dokka", version = "1.9.20" }
@@ -23,8 +21,6 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "12.1.1" }
 kotlin-binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.16.3" }
 nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version = "2.0.0" }
-# version 7.x requires java 17
-expediagroup-graphql = { id = "com.expediagroup.graphql", version.ref = "graphql" }
 
 [libraries]
 kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
@@ -33,7 +29,6 @@ kotlin-benchmark = { group = "org.jetbrains.kotlinx", name = "kotlinx-benchmark-
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
 kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
-kotest-common = { module = "io.kotest:kotest-common", version.ref = "kotest" }
 uri = { group = "com.eygraber", name = "uri-kmp", version = "0.0.18" }
 okio-common = { group = "com.squareup.okio", name = "okio", version.ref = "okio" }
 okio-nodefilesystem = { group = "com.squareup.okio", name = "okio-nodefilesystem", version.ref = "okio" }
@@ -45,9 +40,6 @@ jackson-bom = { group = "com.fasterxml.jackson", name = "jackson-bom", version.r
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind" }
 jackson-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml" }
 networknt-validator = { group = "com.networknt", name = "json-schema-validator", version = "1.5.1" }
-kotlinpoet = { group = "com.squareup", name = "kotlinpoet", version = "1.18.1" }
-graphql-ktor = { group = "com.expediagroup", name = "graphql-kotlin-ktor-client", version.ref = "graphql" }
-clikt = { group = "com.github.ajalt.clikt", name = "clikt", version = "4.4.0" }
 kotlin-codepoints = { group = "de.cketti.unicode", name = "kotlin-codepoints", version = "0.9.0" }
 normalize = { group = "com.doist.x", name = "normalize", version = "1.1.1" }
 karacteristics = { group = "io.github.optimumcode", name = "karacteristics", version = "0.0.2" }
