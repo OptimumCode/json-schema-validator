@@ -6,9 +6,10 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
+import io.github.optimumcode.json.schema.internal.wrapper.StringWrapper
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.ObjectElement
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
 
 @Suppress("unused")
 internal object PropertyNamesAssertionFactory : AbstractAssertionFactory("propertyNames") {
@@ -27,12 +28,12 @@ private class PropertyNamesAssertion(
   private val namesAssertion: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
     return errorCollector.updateKeywordLocation(location).use {
-      if (element !is JsonObject) {
+      if (element !is ObjectElement) {
         return@use true
       }
       var valid = true
@@ -43,7 +44,7 @@ private class PropertyNamesAssertion(
             it.copy(message = "property $property: ${it.message}")
           }.use {
             namesAssertion.validate(
-              JsonPrimitive(property),
+              StringWrapper(property),
               ctx,
               this,
             )

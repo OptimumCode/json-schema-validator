@@ -10,7 +10,9 @@ import io.github.optimumcode.json.schema.internal.AssertionFactory
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.util.integerOrNull
-import kotlinx.serialization.json.JsonArray
+import io.github.optimumcode.json.schema.internal.wrapper.JsonPrimitiveWrapper
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.ArrayElement
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -45,9 +47,9 @@ internal object ContainsAssertionFactoryDraft202012 : AssertionFactory {
     val allowNoMatch =
       element[MIN_CONTAINS_PROPERTY]
         ?.jsonPrimitive
+        ?.let(::JsonPrimitiveWrapper)
         ?.integerOrNull
-        ?.let { it == 0 }
-        ?: false
+        ?.let { it == 0 } == true
     return ContainsAssertionDraft202012(elementContext.schemaPath, containsAssertion, allowNoMatch)
   }
 }
@@ -58,12 +60,12 @@ private class ContainsAssertionDraft202012(
   private val allowNoMatch: Boolean,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
     return errorCollector.updateKeywordLocation(path).use {
-      if (element !is JsonArray) {
+      if (element !is ArrayElement) {
         return@use true
       }
       val foundElements =

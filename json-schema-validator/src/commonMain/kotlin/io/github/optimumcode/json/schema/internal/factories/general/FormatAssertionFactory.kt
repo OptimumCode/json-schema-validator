@@ -32,6 +32,7 @@ import io.github.optimumcode.json.schema.internal.formats.UriFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.UriReferenceFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.UriTemplateFormatValidator
 import io.github.optimumcode.json.schema.internal.formats.UuidFormatValidator
+import io.github.optimumcode.json.schema.model.AbstractElement
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 
@@ -99,7 +100,7 @@ private class FormatAssertion(
   private val assertion: Boolean,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {

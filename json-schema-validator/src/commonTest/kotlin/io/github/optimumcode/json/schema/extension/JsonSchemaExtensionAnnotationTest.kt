@@ -5,6 +5,7 @@ import io.github.optimumcode.json.schema.AnnotationKey
 import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.JsonSchemaLoader
 import io.github.optimumcode.json.schema.ValidationError
+import io.github.optimumcode.json.schema.model.AbstractElement
 import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
@@ -93,7 +94,7 @@ private object FooFactory : ExternalAssertionFactory {
     val annotationValue = element.content
     return object : ExternalAssertion {
       override fun validate(
-        element: JsonElement,
+        element: AbstractElement,
         context: ExternalAssertionContext,
         errorCollector: ErrorCollector,
       ): Boolean {
@@ -117,7 +118,7 @@ private object BarFactory : ExternalAssertionFactory {
     val path = context.schemaPath
     return object : ExternalAssertion {
       override fun validate(
-        element: JsonElement,
+        element: AbstractElement,
         context: ExternalAssertionContext,
         errorCollector: ErrorCollector,
       ): Boolean {
@@ -153,7 +154,7 @@ private object WrongBarFactory : ExternalAssertionFactory {
     val path = context.schemaPath
     return object : ExternalAssertion {
       override fun validate(
-        element: JsonElement,
+        element: AbstractElement,
         context: ExternalAssertionContext,
         errorCollector: ErrorCollector,
       ): Boolean {

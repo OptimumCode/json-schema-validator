@@ -1,5 +1,6 @@
 package io.github.optimumcode.json.schema.internal.util
 
+import io.github.optimumcode.json.schema.internal.wrapper.JsonPrimitiveWrapper
 import io.kotest.assertions.asClue
 import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.FunSpec
@@ -14,7 +15,7 @@ class ElementEqualityUtilTest : FunSpec() {
   init {
     test("extracts number parts from max long engineering format") {
       val (integer, fraction, precision) =
-        parseNumberParts(JsonUnquotedLiteral("1e308"))
+        parseNumberParts(JsonPrimitiveWrapper(JsonUnquotedLiteral("1e308")))
           .shouldNotBeNull()
       assertSoftly {
         integer shouldBe Long.MAX_VALUE
@@ -25,8 +26,8 @@ class ElementEqualityUtilTest : FunSpec() {
 
     test("correctly compares fractional part") {
       areEqualPrimitives(
-        JsonUnquotedLiteral("0.0075"),
-        JsonUnquotedLiteral("0.00075"),
+        JsonPrimitiveWrapper(JsonUnquotedLiteral("0.0075")),
+        JsonPrimitiveWrapper(JsonUnquotedLiteral("0.00075")),
       ) shouldBe false
     }
 
@@ -36,7 +37,7 @@ class ElementEqualityUtilTest : FunSpec() {
       "751e-5",
     ).forEach {
       test("correctly extract all parts from float number in format $it") {
-        val parts = parseNumberParts(JsonUnquotedLiteral(it)).shouldNotBeNull()
+        val parts = parseNumberParts(JsonPrimitiveWrapper(JsonUnquotedLiteral(it))).shouldNotBeNull()
         assertSoftly {
           parts.asClue { p ->
             p.integer shouldBe 0
@@ -56,13 +57,13 @@ class ElementEqualityUtilTest : FunSpec() {
       test("numbers $first and $second are equal") {
         assertSoftly {
           areEqualPrimitives(
-            JsonUnquotedLiteral(first),
-            JsonUnquotedLiteral(second),
+            JsonPrimitiveWrapper(JsonUnquotedLiteral(first)),
+            JsonPrimitiveWrapper(JsonUnquotedLiteral(second)),
           ) shouldBe true
 
           areEqualPrimitives(
-            JsonUnquotedLiteral(second),
-            JsonUnquotedLiteral(first),
+            JsonPrimitiveWrapper(JsonUnquotedLiteral(second)),
+            JsonPrimitiveWrapper(JsonUnquotedLiteral(first)),
           ) shouldBe true
         }
       }

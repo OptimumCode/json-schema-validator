@@ -6,8 +6,8 @@ import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.util.codePointCount
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonPrimitive
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.PrimitiveElement
 import kotlinx.serialization.json.contentOrNull
 
 internal class LengthAssertion(
@@ -17,12 +17,12 @@ internal class LengthAssertion(
   private val check: (Int, Int) -> Boolean,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
     return errorCollector.updateKeywordLocation(path).use {
-      if (element !is JsonPrimitive || !element.isString) {
+      if (element !is PrimitiveElement || !element.isString) {
         return@use true
       }
       val content = element.contentOrNull ?: return true

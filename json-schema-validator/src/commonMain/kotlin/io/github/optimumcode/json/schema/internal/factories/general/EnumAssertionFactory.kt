@@ -8,6 +8,8 @@ import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
 import io.github.optimumcode.json.schema.internal.util.areEqual
+import io.github.optimumcode.json.schema.internal.wrapper.wrap
+import io.github.optimumcode.json.schema.model.AbstractElement
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 
@@ -20,20 +22,20 @@ internal object EnumAssertionFactory : AbstractAssertionFactory("enum") {
     require(element.isNotEmpty()) { "$property must have at least one element" }
     val uniqueElements = element.toSet()
     require(uniqueElements.size == element.size) { "$property must consist of unique elements" }
-    return EnumAssertion(context.schemaPath, uniqueElements)
+    return EnumAssertion(context.schemaPath, uniqueElements.mapTo(hashSetOf()) { it.wrap() })
   }
 }
 
 private class EnumAssertion(
   private val path: JsonPointer,
-  private val possibleElements: Set<JsonElement>,
+  private val possibleElements: Set<AbstractElement>,
 ) : JsonSchemaAssertion {
   init {
     require(possibleElements.isNotEmpty()) { "at least one element must be set" }
   }
 
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {

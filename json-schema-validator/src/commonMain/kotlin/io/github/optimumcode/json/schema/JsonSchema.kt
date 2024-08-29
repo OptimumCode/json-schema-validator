@@ -6,6 +6,7 @@ import io.github.optimumcode.json.schema.internal.DefaultAssertionContext
 import io.github.optimumcode.json.schema.internal.DefaultReferenceResolver
 import io.github.optimumcode.json.schema.internal.IsolatedLoader
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
+import io.github.optimumcode.json.schema.internal.wrapper.wrap
 import kotlinx.serialization.json.JsonElement
 import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmStatic
@@ -31,7 +32,7 @@ public class JsonSchema internal constructor(
   ): Boolean {
     val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolver)
     return DelegateOutputCollector(errorCollector).use {
-      assertion.validate(value, context, this)
+      assertion.validate(value.wrap(), context, this)
     }
   }
 
@@ -49,7 +50,7 @@ public class JsonSchema internal constructor(
     val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolver)
     val collector = outputCollectorProvider.get()
     collector.use {
-      assertion.validate(value, context, this)
+      assertion.validate(value.wrap(), context, this)
     }
     return collector.output
   }

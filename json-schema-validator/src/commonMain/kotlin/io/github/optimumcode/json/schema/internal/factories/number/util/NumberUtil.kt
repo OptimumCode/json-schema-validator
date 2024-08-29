@@ -5,12 +5,12 @@ import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonPrimitive
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.PrimitiveElement
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.longOrNull
 
-internal val JsonPrimitive.number: Number?
+internal val PrimitiveElement.number: Number?
   get() = longOrNull ?: doubleOrNull
 
 internal operator fun Number.compareTo(maxValue: Number): Int {
@@ -49,12 +49,12 @@ internal class NumberComparisonAssertion(
   private val check: (Number, Number) -> Boolean,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
     return errorCollector.updateKeywordLocation(path).use {
-      if (element !is JsonPrimitive || element.isString) {
+      if (element !is PrimitiveElement || element.isString) {
         return@use true
       }
       val value: Number = element.number ?: return true
@@ -66,7 +66,7 @@ internal class NumberComparisonAssertion(
         ValidationError(
           schemaPath = path,
           objectPath = context.objectPath,
-          message = "${element.content} $errorMessage $boundaryContent",
+          message = "${element.contentOrNull} $errorMessage $boundaryContent",
         ),
       )
       false

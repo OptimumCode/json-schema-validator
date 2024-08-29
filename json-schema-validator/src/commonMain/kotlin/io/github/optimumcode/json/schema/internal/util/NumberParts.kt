@@ -1,7 +1,6 @@
 package io.github.optimumcode.json.schema.internal.util
 
-import kotlinx.serialization.json.JsonNull
-import kotlinx.serialization.json.JsonPrimitive
+import io.github.optimumcode.json.schema.model.PrimitiveElement
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.double
 import kotlin.math.absoluteValue
@@ -12,8 +11,8 @@ internal data class NumberParts(
   val precision: Int,
 )
 
-internal fun parseNumberParts(element: JsonPrimitive): NumberParts? {
-  return if (element.isString || element is JsonNull || element.booleanOrNull != null) {
+internal fun parseNumberParts(element: PrimitiveElement): NumberParts? {
+  return if (element.isString || element.isNull || element.booleanOrNull != null) {
     null
   } else {
     numberParts(element)
@@ -27,7 +26,7 @@ private const val TEN: Double = 10.0
 /**
  * This function should be used only if you are certain that the [element] is a number
  */
-internal fun numberParts(element: JsonPrimitive): NumberParts {
+internal fun numberParts(element: PrimitiveElement): NumberParts {
   if (element.content.run { contains(E_SMALL_CHAR) || contains(E_BIG_CHAR) }) {
     return element.double.run {
       var precision = 0
@@ -66,7 +65,7 @@ internal fun numberParts(element: JsonPrimitive): NumberParts {
   }
 }
 
-internal val JsonPrimitive.integerOrNull: Int?
+internal val PrimitiveElement.integerOrNull: Int?
   get() =
     parseNumberParts(this)?.takeIf {
       it.fractional == 0L && it.integer <= Int.MAX_VALUE

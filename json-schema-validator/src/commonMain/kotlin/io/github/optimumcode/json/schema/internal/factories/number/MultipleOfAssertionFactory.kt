@@ -5,6 +5,7 @@ import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.util.NumberComparisonAssertion
 import io.github.optimumcode.json.schema.internal.factories.number.util.number
+import io.github.optimumcode.json.schema.internal.wrapper.JsonPrimitiveWrapper
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlin.math.abs
@@ -22,7 +23,7 @@ internal object MultipleOfAssertionFactory : AbstractAssertionFactory("multipleO
   ): JsonSchemaAssertion {
     require(element is JsonPrimitive) { "$property must be a number" }
     val multipleOfValue: Number =
-      requireNotNull(element.number) { "$property must be a valid number" }
+      requireNotNull(JsonPrimitiveWrapper(element).number) { "$property must be a valid number" }
     require(
       when (multipleOfValue) {
         is Double -> multipleOfValue > 0.0

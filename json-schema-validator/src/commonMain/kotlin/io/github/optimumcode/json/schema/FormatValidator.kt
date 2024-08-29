@@ -1,5 +1,6 @@
 package io.github.optimumcode.json.schema
 
+import io.github.optimumcode.json.schema.model.AbstractElement
 import kotlinx.serialization.json.JsonElement
 import kotlin.jvm.JvmStatic
 
@@ -16,7 +17,7 @@ public interface FormatValidator {
    * @param element JSON element to validate against the expected format
    * @return the result of the validation
    */
-  public fun validate(element: JsonElement): FormatValidationResult
+  public fun validate(element: AbstractElement): FormatValidationResult
 
   public companion object {
     @Suppress("ktlint:standard:function-naming", "FunctionName")

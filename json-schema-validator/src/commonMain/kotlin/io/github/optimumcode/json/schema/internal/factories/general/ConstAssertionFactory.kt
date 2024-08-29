@@ -8,6 +8,8 @@ import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
 import io.github.optimumcode.json.schema.internal.util.areEqual
+import io.github.optimumcode.json.schema.internal.wrapper.wrap
+import io.github.optimumcode.json.schema.model.AbstractElement
 import kotlinx.serialization.json.JsonElement
 
 @Suppress("unused")
@@ -16,16 +18,16 @@ internal object ConstAssertionFactory : AbstractAssertionFactory("const") {
     element: JsonElement,
     context: LoadingContext,
   ): JsonSchemaAssertion {
-    return ConstAssertion(context.schemaPath, element)
+    return ConstAssertion(context.schemaPath, element.wrap())
   }
 }
 
 private class ConstAssertion(
   private val path: JsonPointer,
-  private val constValue: JsonElement,
+  private val constValue: AbstractElement,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {

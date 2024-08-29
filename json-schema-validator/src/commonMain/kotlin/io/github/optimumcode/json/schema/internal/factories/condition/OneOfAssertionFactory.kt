@@ -6,7 +6,7 @@ import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
-import kotlinx.serialization.json.JsonElement
+import io.github.optimumcode.json.schema.model.AbstractElement
 
 internal object OneOfAssertionFactory : AbstractAssertionsCollectionFactory("oneOf") {
   override fun createAssertion(
@@ -20,7 +20,7 @@ private class OneOfAssertion(
   private val assertions: List<JsonSchemaAssertion>,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {

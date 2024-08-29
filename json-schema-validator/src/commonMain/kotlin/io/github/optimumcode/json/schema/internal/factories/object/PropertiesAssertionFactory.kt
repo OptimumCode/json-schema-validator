@@ -8,6 +8,8 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.ObjectElement
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 
@@ -33,7 +35,7 @@ private class PropertiesAssertion(
   private val assertionsByProperty: Map<String, JsonSchemaAssertion>,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
@@ -41,7 +43,7 @@ private class PropertiesAssertion(
       if (assertionsByProperty.isEmpty()) {
         return@use true
       }
-      if (element !is JsonObject) {
+      if (element !is ObjectElement) {
         return@use true
       }
 

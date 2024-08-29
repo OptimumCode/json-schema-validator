@@ -5,7 +5,7 @@ import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
-import kotlinx.serialization.json.JsonElement
+import io.github.optimumcode.json.schema.model.AbstractElement
 
 @Suppress("unused")
 internal object AllOfAssertionFactory : AbstractAssertionsCollectionFactory("allOf") {
@@ -20,7 +20,7 @@ private class AllOfAssertion(
   private val assertions: List<JsonSchemaAssertion>,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {

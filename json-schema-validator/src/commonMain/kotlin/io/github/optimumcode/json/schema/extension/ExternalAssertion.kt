@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.extension
 
 import io.github.optimumcode.json.schema.ErrorCollector
-import kotlinx.serialization.json.JsonElement
+import io.github.optimumcode.json.schema.model.AbstractElement
 
 /**
  * This interface allows you to implement your own schema assertion.
@@ -25,7 +25,7 @@ public interface ExternalAssertion {
    * @return `true` if element is valid against assertion. Otherwise, returns `false`
    */
   public fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: ExternalAssertionContext,
     errorCollector: ErrorCollector,
   ): Boolean

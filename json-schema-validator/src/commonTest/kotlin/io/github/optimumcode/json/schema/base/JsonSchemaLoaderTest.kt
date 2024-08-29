@@ -10,6 +10,8 @@ import io.github.optimumcode.json.schema.FormatValidator
 import io.github.optimumcode.json.schema.JsonSchemaLoader
 import io.github.optimumcode.json.schema.SchemaOption
 import io.github.optimumcode.json.schema.ValidationError
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.PrimitiveElement
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldNotThrowAnyUnit
@@ -19,7 +21,6 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
@@ -225,8 +226,8 @@ class JsonSchemaLoaderTest : FunSpec() {
     }
 
     class MagicFormatValidator : FormatValidator {
-      override fun validate(element: JsonElement): FormatValidationResult {
-        return if (element is JsonPrimitive && element.isString) {
+      override fun validate(element: AbstractElement): FormatValidationResult {
+        return if (element is PrimitiveElement && element.isString) {
           if (element.content == "42") {
             FormatValidator.Valid()
           } else {

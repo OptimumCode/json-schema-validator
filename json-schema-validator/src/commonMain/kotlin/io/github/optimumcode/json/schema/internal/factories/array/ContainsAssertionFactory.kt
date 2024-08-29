@@ -9,7 +9,8 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
-import kotlinx.serialization.json.JsonArray
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.ArrayElement
 import kotlinx.serialization.json.JsonElement
 
 @Suppress("unused")
@@ -31,12 +32,12 @@ private class ContainsAssertion(
   private val containsAssertion: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
     return errorCollector.updateKeywordLocation(path).use {
-      if (element !is JsonArray) {
+      if (element !is ArrayElement) {
         return@use true
       }
       val foundElements =
