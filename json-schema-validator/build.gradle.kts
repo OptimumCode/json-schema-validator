@@ -82,8 +82,6 @@ kotlin {
       }
     }
 
-    val wasmJsMain by getting
-
     val nonWasmJsMain by creating {
       dependsOn(commonMain)
 
@@ -94,13 +92,13 @@ kotlin {
       }
     }
 
-    val jvmMain by getting {
+    jvmMain {
       dependsOn(nonWasmJsMain)
     }
-    val jsMain by getting {
+    jsMain {
       dependsOn(nonWasmJsMain)
     }
-    val nativeMain by getting {
+    nativeMain {
       dependsOn(nonWasmJsMain)
     }
 
