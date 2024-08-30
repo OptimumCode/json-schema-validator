@@ -10,7 +10,6 @@ import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
-import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.double
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.longOrNull
@@ -30,11 +29,12 @@ internal value class JsonObjectWrapper(
   override val size: Int
     get() = obj.size
 
-  override fun iterator(): Iterator<Pair<String, AbstractElement>> {
-    return obj.asSequence().map {
-      it.key to it.value.wrap()
-    }.iterator()
-  }
+  override fun iterator(): Iterator<Pair<String, AbstractElement>> =
+    obj
+      .asSequence()
+      .map {
+        it.key to it.value.wrap()
+      }.iterator()
 
   override fun toString(): String = obj.toString()
 }
@@ -43,9 +43,7 @@ internal value class JsonObjectWrapper(
 internal value class JsonArrayWrapper(
   private val array: JsonArray,
 ) : ArrayElement {
-  override fun iterator(): Iterator<AbstractElement> {
-    return array.asSequence().map { it.wrap() }.iterator()
-  }
+  override fun iterator(): Iterator<AbstractElement> = array.asSequence().map { it.wrap() }.iterator()
 
   override fun get(index: Int): AbstractElement = array[index].wrap()
 
@@ -63,8 +61,6 @@ internal value class JsonPrimitiveWrapper(
     get() = primitive is JsonNull
   override val isString: Boolean
     get() = primitive.isString
-  override val contentOrNull: String?
-    get() = primitive.contentOrNull
   override val longOrNull: Long?
     get() = primitive.longOrNull
   override val doubleOrNull: Double?
@@ -94,8 +90,6 @@ internal value class StringWrapper(
     get() = false
   override val isString: Boolean
     get() = true
-  override val contentOrNull: String?
-    get() = value
   override val longOrNull: Long?
     get() = value.toLongOrNull()
   override val doubleOrNull: Double?

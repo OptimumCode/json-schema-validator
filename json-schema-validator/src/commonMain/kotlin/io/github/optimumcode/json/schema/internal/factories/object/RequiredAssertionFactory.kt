@@ -10,6 +10,7 @@ import io.github.optimumcode.json.schema.internal.TrueSchemaAssertion
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
 import io.github.optimumcode.json.schema.model.AbstractElement
 import io.github.optimumcode.json.schema.model.ObjectElement
+import io.github.optimumcode.json.schema.model.isEmpty
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive

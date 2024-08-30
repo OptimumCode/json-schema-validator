@@ -7,14 +7,13 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.model.AbstractElement
 import io.github.optimumcode.json.schema.model.PrimitiveElement
-import kotlinx.serialization.json.doubleOrNull
-import kotlinx.serialization.json.longOrNull
+import io.github.optimumcode.json.schema.model.contentOrNull
 
 internal val PrimitiveElement.number: Number?
   get() = longOrNull ?: doubleOrNull
 
-internal operator fun Number.compareTo(maxValue: Number): Int {
-  return when (this) {
+internal operator fun Number.compareTo(maxValue: Number): Int =
+  when (this) {
     is Double ->
       when (maxValue) {
         is Double -> compareTo(maxValue)
@@ -30,6 +29,7 @@ internal operator fun Number.compareTo(maxValue: Number): Int {
         is Int -> compareTo(maxValue)
         else -> error("unexpected other value type: ${maxValue::class.simpleName}")
       }
+
     is Int ->
       when (maxValue) {
         is Double -> compareTo(maxValue)
@@ -37,9 +37,9 @@ internal operator fun Number.compareTo(maxValue: Number): Int {
         is Int -> compareTo(maxValue)
         else -> error("unexpected other value type: ${maxValue::class.simpleName}")
       }
+
     else -> error("unexpected value type: ${this::class.simpleName}")
   }
-}
 
 internal class NumberComparisonAssertion(
   private val path: JsonPointer,

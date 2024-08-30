@@ -7,13 +7,15 @@ public sealed interface AbstractElement {
 public interface PrimitiveElement : AbstractElement {
   public val isNull: Boolean
   public val isString: Boolean
-  public val contentOrNull: String?
   public val longOrNull: Long?
   public val doubleOrNull: Double?
   public val booleanOrNull: Boolean?
   public val double: Double
   public val content: String
 }
+
+internal val PrimitiveElement.contentOrNull: String?
+  get() = if (isNull) null else content
 
 public interface ObjectElement : AbstractElement, Sequence<Pair<String, AbstractElement>> {
   public val keys: Set<String>
@@ -23,9 +25,9 @@ public interface ObjectElement : AbstractElement, Sequence<Pair<String, Abstract
   public operator fun contains(key: String): Boolean
 
   public val size: Int
-
-  public fun isEmpty(): Boolean = size == 0
 }
+
+internal fun ObjectElement.isEmpty(): Boolean = size == 0
 
 public interface ArrayElement : AbstractElement, Sequence<AbstractElement> {
   public operator fun get(index: Int): AbstractElement

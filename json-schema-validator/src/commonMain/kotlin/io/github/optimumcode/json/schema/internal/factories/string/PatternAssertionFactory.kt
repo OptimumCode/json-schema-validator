@@ -9,9 +9,9 @@ import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
 import io.github.optimumcode.json.schema.model.AbstractElement
 import io.github.optimumcode.json.schema.model.PrimitiveElement
+import io.github.optimumcode.json.schema.model.contentOrNull
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.contentOrNull
 
 @Suppress("unused")
 internal object PatternAssertionFactory : AbstractAssertionFactory("pattern") {

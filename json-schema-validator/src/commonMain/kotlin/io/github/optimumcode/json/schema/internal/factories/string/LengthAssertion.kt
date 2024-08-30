@@ -8,7 +8,7 @@ import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.util.codePointCount
 import io.github.optimumcode.json.schema.model.AbstractElement
 import io.github.optimumcode.json.schema.model.PrimitiveElement
-import kotlinx.serialization.json.contentOrNull
+import io.github.optimumcode.json.schema.model.contentOrNull
 
 internal class LengthAssertion(
   private val path: JsonPointer,
