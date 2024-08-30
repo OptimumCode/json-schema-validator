@@ -1,11 +1,14 @@
 package io.github.optimumcode.json.schema.model
 
+import io.github.optimumcode.json.schema.ExperimentalApi
+
 /**
  * [AbstractElement] represents one of 3 elements that can be consumed and validated:
  * * [ObjectElement] - corresponds to a JSON/YAML object or [Map]
  * * [ArrayElement] - corresponds to a collection of [AbstractElement]s
  * * [PrimitiveElement] - corresponds to a scalar value (string, number, boolean)
  */
+@ExperimentalApi
 public sealed interface AbstractElement {
   /**
    * Implement [toString] method to provide a useful view that can be used in error message
@@ -13,6 +16,7 @@ public sealed interface AbstractElement {
   override fun toString(): String
 }
 
+@ExperimentalApi
 public interface PrimitiveElement : AbstractElement {
   /**
    * Returns `true` if the element is `null`.
@@ -54,6 +58,7 @@ public interface PrimitiveElement : AbstractElement {
 internal val PrimitiveElement.contentOrNull: String?
   get() = if (isNull) null else content
 
+@ExperimentalApi
 public interface ObjectElement : AbstractElement, Sequence<Pair<String, AbstractElement>> {
   /**
    * Returns the set of keys defined in the [ObjectElement]
@@ -80,6 +85,7 @@ public interface ObjectElement : AbstractElement, Sequence<Pair<String, Abstract
 
 internal fun ObjectElement.isEmpty(): Boolean = size == 0
 
+@ExperimentalApi
 public interface ArrayElement : AbstractElement, Sequence<AbstractElement> {
   /**
    * Returns the [AbstractElement] associated with the [index].
