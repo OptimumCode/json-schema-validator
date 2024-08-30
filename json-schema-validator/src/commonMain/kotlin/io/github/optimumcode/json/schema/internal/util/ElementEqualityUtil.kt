@@ -4,7 +4,6 @@ import io.github.optimumcode.json.schema.model.AbstractElement
 import io.github.optimumcode.json.schema.model.ArrayElement
 import io.github.optimumcode.json.schema.model.ObjectElement
 import io.github.optimumcode.json.schema.model.PrimitiveElement
-import kotlinx.serialization.json.booleanOrNull
 
 internal fun areEqual(
   first: AbstractElement,
@@ -35,7 +34,7 @@ internal fun areEqualPrimitives(
   } else {
     when {
       first.isNull || second.isNull -> false
-      first.booleanOrNull != null || second.booleanOrNull != null -> first.content == second.content
+      first.isBoolean || second.isBoolean -> first.content == second.content
       else -> compareAsNumbers(first, second)
     }
   }

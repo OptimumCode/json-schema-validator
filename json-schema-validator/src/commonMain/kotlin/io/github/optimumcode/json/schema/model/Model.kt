@@ -7,9 +7,9 @@ public sealed interface AbstractElement {
 public interface PrimitiveElement : AbstractElement {
   public val isNull: Boolean
   public val isString: Boolean
-  public val longOrNull: Long?
-  public val doubleOrNull: Double?
-  public val booleanOrNull: Boolean?
+  public val number: Number?
+  public val isBoolean: Boolean
+  public val isNumber: Boolean
   public val double: Double
   public val content: String
 }

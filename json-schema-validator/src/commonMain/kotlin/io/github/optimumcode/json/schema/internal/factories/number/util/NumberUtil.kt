@@ -9,9 +9,6 @@ import io.github.optimumcode.json.schema.model.AbstractElement
 import io.github.optimumcode.json.schema.model.PrimitiveElement
 import io.github.optimumcode.json.schema.model.contentOrNull
 
-internal val PrimitiveElement.number: Number?
-  get() = longOrNull ?: doubleOrNull
-
 internal operator fun Number.compareTo(maxValue: Number): Int =
   when (this) {
     is Double ->

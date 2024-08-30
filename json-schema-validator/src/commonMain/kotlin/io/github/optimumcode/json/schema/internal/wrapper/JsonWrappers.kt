@@ -61,12 +61,15 @@ internal value class JsonPrimitiveWrapper(
     get() = primitive is JsonNull
   override val isString: Boolean
     get() = primitive.isString
-  override val longOrNull: Long?
-    get() = primitive.longOrNull
-  override val doubleOrNull: Double?
-    get() = primitive.doubleOrNull
-  override val booleanOrNull: Boolean?
-    get() = primitive.booleanOrNull
+  override val number: Number?
+    get() = primitive.run { longOrNull ?: doubleOrNull }
+  override val isBoolean: Boolean
+    get() = primitive.run { !isString && booleanOrNull != null }
+  override val isNumber: Boolean
+    get() =
+      primitive.run {
+        !isString && (longOrNull ?: doubleOrNull) != null
+      }
   override val double: Double
     get() = primitive.double
   override val content: String
@@ -90,12 +93,12 @@ internal value class StringWrapper(
     get() = false
   override val isString: Boolean
     get() = true
-  override val longOrNull: Long?
-    get() = value.toLongOrNull()
-  override val doubleOrNull: Double?
-    get() = value.toDoubleOrNull()
-  override val booleanOrNull: Boolean?
-    get() = value.toBooleanStrictOrNull()
+  override val number: Number?
+    get() = value.toLongOrNull() ?: value.toDoubleOrNull()
+  override val isBoolean: Boolean
+    get() = false
+  override val isNumber: Boolean
+    get() = false
   override val double: Double
     get() = value.toDouble()
   override val content: String
