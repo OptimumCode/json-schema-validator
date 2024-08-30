@@ -1,7 +1,6 @@
 package io.github.optimumcode.json.schema.internal.util
 
 import io.github.optimumcode.json.schema.model.PrimitiveElement
-import kotlinx.serialization.json.double
 import kotlin.math.absoluteValue
 
 internal data class NumberParts(
@@ -28,7 +27,8 @@ private const val TEN: Double = 10.0
 internal fun numberParts(element: PrimitiveElement): NumberParts {
   if (element.content.run { contains(E_SMALL_CHAR) || contains(E_BIG_CHAR) }) {
     // FIXME: if we add support for YAML then we should handle +Inf and -Inf values correctly
-    return element.double.run {
+    val number = requireNotNull(element.number) { "element '${element.content}' is not a number" }
+    return number.toDouble().run {
       var precision = 0
       var fractionalPart = rem(1.0).absoluteValue
       while (fractionalPart % 1.0 > 0) {

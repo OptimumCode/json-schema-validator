@@ -8,6 +8,7 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.model.AbstractElement
 import io.github.optimumcode.json.schema.model.ArrayElement
+import io.github.optimumcode.json.schema.model.lastIndex
 
 internal class UnevaluatedItemsAssertion(
   private val location: JsonPointer,

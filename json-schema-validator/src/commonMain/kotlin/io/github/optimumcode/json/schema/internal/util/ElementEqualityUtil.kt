@@ -45,6 +45,7 @@ internal fun areEqualPrimitives(
   } else {
     when {
       first.isNull || second.isNull -> false
+      // probably content should be compared ignoring the case - YAML allows different values for boolean
       first.isBoolean || second.isBoolean -> first.content == second.content
       else -> compareAsNumbers(first, second)
     }

@@ -10,7 +10,6 @@ import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
-import kotlinx.serialization.json.double
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.longOrNull
 import kotlin.jvm.JvmInline
@@ -70,8 +69,6 @@ internal value class JsonPrimitiveWrapper(
       primitive.run {
         !isString && (longOrNull ?: doubleOrNull) != null
       }
-  override val double: Double
-    get() = primitive.double
   override val content: String
     get() = primitive.content
 
@@ -99,8 +96,6 @@ internal value class StringWrapper(
     get() = false
   override val isNumber: Boolean
     get() = false
-  override val double: Double
-    get() = value.toDouble()
   override val content: String
     get() = value
 
