@@ -25,6 +25,7 @@ private const val TEN: Double = 10.0
  * This function should be used only if you are certain that the [element] is a number
  */
 internal fun numberParts(element: PrimitiveElement): NumberParts {
+  @Suppress("detekt:ForbiddenComment")
   if (element.content.run { contains(E_SMALL_CHAR) || contains(E_BIG_CHAR) }) {
     // FIXME: if we add support for YAML then we should handle +Inf and -Inf values correctly
     val number = requireNotNull(element.number) { "element '${element.content}' is not a number" }
