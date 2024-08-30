@@ -20,15 +20,18 @@ internal object EnumAssertionFactory : AbstractAssertionFactory("enum") {
   ): JsonSchemaAssertion {
     require(element is JsonArray) { "$property must be an array" }
     require(element.isNotEmpty()) { "$property must have at least one element" }
+    // NOTE: when migrate to abstract element for loading schema
+    // we need to use `io.github.optimumcode.json.schema.internal.util.areEqual`
+    // to remove duplicated elements
     val uniqueElements = element.toSet()
     require(uniqueElements.size == element.size) { "$property must consist of unique elements" }
-    return EnumAssertion(context.schemaPath, uniqueElements.mapTo(hashSetOf()) { it.wrap() })
+    return EnumAssertion(context.schemaPath, uniqueElements.map { it.wrap() })
   }
 }
 
 private class EnumAssertion(
   private val path: JsonPointer,
-  private val possibleElements: Set<AbstractElement>,
+  private val possibleElements: Collection<AbstractElement>,
 ) : JsonSchemaAssertion {
   init {
     require(possibleElements.isNotEmpty()) { "at least one element must be set" }
