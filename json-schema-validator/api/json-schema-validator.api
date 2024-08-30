@@ -373,21 +373,15 @@ public abstract interface class io/github/optimumcode/json/schema/model/ObjectEl
 	public abstract fun get (Ljava/lang/String;)Lio/github/optimumcode/json/schema/model/AbstractElement;
 	public abstract fun getKeys ()Ljava/util/Set;
 	public abstract fun getSize ()I
-	public abstract fun isEmpty ()Z
-}
-
-public final class io/github/optimumcode/json/schema/model/ObjectElement$DefaultImpls {
-	public static fun isEmpty (Lio/github/optimumcode/json/schema/model/ObjectElement;)Z
 }
 
 public abstract interface class io/github/optimumcode/json/schema/model/PrimitiveElement : io/github/optimumcode/json/schema/model/AbstractElement {
-	public abstract fun getBooleanOrNull ()Ljava/lang/Boolean;
 	public abstract fun getContent ()Ljava/lang/String;
-	public abstract fun getContentOrNull ()Ljava/lang/String;
 	public abstract fun getDouble ()D
-	public abstract fun getDoubleOrNull ()Ljava/lang/Double;
-	public abstract fun getLongOrNull ()Ljava/lang/Long;
+	public abstract fun getNumber ()Ljava/lang/Number;
+	public abstract fun isBoolean ()Z
 	public abstract fun isNull ()Z
+	public abstract fun isNumber ()Z
 	public abstract fun isString ()Z
 }
 
