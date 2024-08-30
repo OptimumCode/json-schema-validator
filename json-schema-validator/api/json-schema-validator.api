@@ -108,6 +108,8 @@ public final class io/github/optimumcode/json/schema/JsonSchema {
 	public static final fun fromDefinition (Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchema;
 	public static final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchema;
 	public static final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public final fun validate (Lio/github/optimumcode/json/schema/model/AbstractElement;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
+	public final fun validate (Lio/github/optimumcode/json/schema/model/AbstractElement;Lio/github/optimumcode/json/schema/OutputCollector$Provider;)Ljava/lang/Object;
 	public final fun validate (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
 	public final fun validate (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/OutputCollector$Provider;)Ljava/lang/Object;
 }
@@ -360,12 +362,7 @@ public abstract interface class io/github/optimumcode/json/schema/model/Abstract
 
 public abstract interface class io/github/optimumcode/json/schema/model/ArrayElement : io/github/optimumcode/json/schema/model/AbstractElement, kotlin/sequences/Sequence {
 	public abstract fun get (I)Lio/github/optimumcode/json/schema/model/AbstractElement;
-	public abstract fun getLastIndex ()I
 	public abstract fun getSize ()I
-}
-
-public final class io/github/optimumcode/json/schema/model/ArrayElement$DefaultImpls {
-	public static fun getLastIndex (Lio/github/optimumcode/json/schema/model/ArrayElement;)I
 }
 
 public abstract interface class io/github/optimumcode/json/schema/model/ObjectElement : io/github/optimumcode/json/schema/model/AbstractElement, kotlin/sequences/Sequence {
@@ -377,7 +374,6 @@ public abstract interface class io/github/optimumcode/json/schema/model/ObjectEl
 
 public abstract interface class io/github/optimumcode/json/schema/model/PrimitiveElement : io/github/optimumcode/json/schema/model/AbstractElement {
 	public abstract fun getContent ()Ljava/lang/String;
-	public abstract fun getDouble ()D
 	public abstract fun getNumber ()Ljava/lang/Number;
 	public abstract fun isBoolean ()Z
 	public abstract fun isNull ()Z
