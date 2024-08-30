@@ -9,7 +9,7 @@ internal fun areEqual(
   first: AbstractElement,
   second: AbstractElement,
 ): Boolean {
-  if (first::class != second::class) {
+  if (areDifferentInstances(first, second)) {
     return false
   }
   return when (first) {
@@ -18,6 +18,17 @@ internal fun areEqual(
     is PrimitiveElement -> areEqualPrimitives(first, second as PrimitiveElement)
   }
 }
+
+internal fun areDifferentInstances(
+  left: AbstractElement,
+  right: AbstractElement,
+): Boolean =
+  when {
+    left is PrimitiveElement && right is PrimitiveElement -> false
+    left is ArrayElement && right is ArrayElement -> false
+    left is ObjectElement && right is ObjectElement -> false
+    else -> true
+  }
 
 internal fun areEqualPrimitives(
   first: PrimitiveElement,
