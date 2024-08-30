@@ -7,6 +7,7 @@ import io.github.optimumcode.json.schema.internal.DefaultReferenceResolver
 import io.github.optimumcode.json.schema.internal.IsolatedLoader
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.wrapper.wrap
+import io.github.optimumcode.json.schema.model.AbstractElement
 import kotlinx.serialization.json.JsonElement
 import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmStatic
@@ -29,12 +30,7 @@ public class JsonSchema internal constructor(
   public fun validate(
     value: JsonElement,
     errorCollector: ErrorCollector,
-  ): Boolean {
-    val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolver)
-    return DelegateOutputCollector(errorCollector).use {
-      assertion.validate(value.wrap(), context, this)
-    }
-  }
+  ): Boolean = validate(value.wrap(), errorCollector)
 
   /**
    * Validates [value] against this [JsonSchema].
@@ -46,11 +42,42 @@ public class JsonSchema internal constructor(
   public fun <T> validate(
     value: JsonElement,
     outputCollectorProvider: OutputCollector.Provider<T>,
+  ): T = validate(value.wrap(), outputCollectorProvider)
+
+  /**
+   * Validates [value] against this [JsonSchema].
+   * If the [value] is valid against the schema the function returns `true`.
+   * Otherwise, it returns `false`.
+   *
+   * All reported errors will be reported to [ErrorCollector.onError]
+   */
+  @ExperimentalApi
+  public fun validate(
+    value: AbstractElement,
+    errorCollector: ErrorCollector,
+  ): Boolean {
+    val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolver)
+    return DelegateOutputCollector(errorCollector).use {
+      assertion.validate(value, context, this)
+    }
+  }
+
+  /**
+   * Validates [value] against this [JsonSchema].
+   * The provided [outputCollectorProvider] will be used to create [OutputCollector]
+   * which collects the validation result.
+   *
+   * @return validation result depending on [outputCollectorProvider]
+   */
+  @ExperimentalApi
+  public fun <T> validate(
+    value: AbstractElement,
+    outputCollectorProvider: OutputCollector.Provider<T>,
   ): T {
     val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolver)
     val collector = outputCollectorProvider.get()
     collector.use {
-      assertion.validate(value.wrap(), context, this)
+      assertion.validate(value, context, this)
     }
     return collector.output
   }
