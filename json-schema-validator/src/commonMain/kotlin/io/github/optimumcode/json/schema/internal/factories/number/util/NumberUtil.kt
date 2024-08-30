@@ -7,7 +7,6 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.model.AbstractElement
 import io.github.optimumcode.json.schema.model.PrimitiveElement
-import io.github.optimumcode.json.schema.model.contentOrNull
 
 internal operator fun Number.compareTo(maxValue: Number): Int =
   when (this) {
@@ -63,7 +62,7 @@ internal class NumberComparisonAssertion(
         ValidationError(
           schemaPath = path,
           objectPath = context.objectPath,
-          message = "${element.contentOrNull} $errorMessage $boundaryContent",
+          message = "${element.content} $errorMessage $boundaryContent",
         ),
       )
       false
