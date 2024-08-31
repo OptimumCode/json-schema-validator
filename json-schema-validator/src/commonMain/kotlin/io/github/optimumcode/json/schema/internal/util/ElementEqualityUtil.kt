@@ -4,6 +4,7 @@ import io.github.optimumcode.json.schema.model.AbstractElement
 import io.github.optimumcode.json.schema.model.ArrayElement
 import io.github.optimumcode.json.schema.model.ObjectElement
 import io.github.optimumcode.json.schema.model.PrimitiveElement
+import io.github.optimumcode.json.schema.model.getValue
 
 internal fun areEqual(
   first: AbstractElement,
@@ -82,7 +83,7 @@ internal fun areEqualObjects(
     return false
   }
   for (key in first.keys) {
-    if (!areEqual(first.get(key)!!, second.get(key)!!)) {
+    if (!areEqual(first.getValue(key), second.getValue(key))) {
       return false
     }
   }

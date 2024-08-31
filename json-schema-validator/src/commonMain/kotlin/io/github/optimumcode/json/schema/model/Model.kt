@@ -85,6 +85,8 @@ public interface ObjectElement : AbstractElement, Sequence<Pair<String, Abstract
 
 internal fun ObjectElement.isEmpty(): Boolean = size == 0
 
+internal fun ObjectElement.getValue(key: String): AbstractElement = get(key) ?: error("property '$key' not found")
+
 @ExperimentalApi
 public interface ArrayElement : AbstractElement, Sequence<AbstractElement> {
   /**
