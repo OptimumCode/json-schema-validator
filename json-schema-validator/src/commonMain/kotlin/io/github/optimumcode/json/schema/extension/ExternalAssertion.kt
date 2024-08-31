@@ -1,6 +1,7 @@
 package io.github.optimumcode.json.schema.extension
 
 import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.ExperimentalApi
 import io.github.optimumcode.json.schema.model.AbstractElement
 
 /**
@@ -8,6 +9,7 @@ import io.github.optimumcode.json.schema.model.AbstractElement
  * This interface **does not** allow implementing custom applicators.
  * Only simple assertions (like: _format_, _type_) can be implemented.
  */
+@ExperimentalApi
 public interface ExternalAssertion {
   /**
    * Validates passes [element].

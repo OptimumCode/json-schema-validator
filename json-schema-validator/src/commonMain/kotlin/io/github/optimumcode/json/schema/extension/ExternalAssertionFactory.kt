@@ -1,7 +1,9 @@
 package io.github.optimumcode.json.schema.extension
 
+import io.github.optimumcode.json.schema.ExperimentalApi
 import kotlinx.serialization.json.JsonElement
 
+@ExperimentalApi
 public interface ExternalAssertionFactory {
   /**
    * A keyword that is associated with the [ExternalAssertion] created by this factory.
