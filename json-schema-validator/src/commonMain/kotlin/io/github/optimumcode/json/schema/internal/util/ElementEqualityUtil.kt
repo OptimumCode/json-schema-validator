@@ -40,15 +40,12 @@ internal fun areEqualPrimitives(
   if (first.isString != second.isString) {
     return false
   }
-  return if (first.isString) {
-    first.content == second.content
-  } else {
-    when {
-      first.isNull || second.isNull -> false
-      // probably content should be compared ignoring the case - YAML allows different values for boolean
-      first.isBoolean || second.isBoolean -> first.content == second.content
-      else -> compareAsNumbers(first, second)
-    }
+  return when {
+    first.isNumber && second.isNumber -> compareAsNumbers(first, second)
+    // probably content should be compared ignoring the case - YAML allows different values for boolean
+    first.isBoolean && second.isBoolean -> first.content == second.content
+    first.isString -> first.content == second.content
+    else -> false
   }
 }
 
