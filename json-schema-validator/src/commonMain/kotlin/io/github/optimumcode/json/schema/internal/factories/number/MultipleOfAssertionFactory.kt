@@ -45,14 +45,14 @@ private fun isMultipleOf(
   b: Number,
 ): Boolean =
   when (a) {
-    is Double -> a isMultipleOf b
+    is Double -> a.isFinite() && a isMultipleOf b
     is Long -> a isMultipleOf b
     else -> false
   }
 
 private infix fun Double.isMultipleOf(number: Number): Boolean =
   when (number) {
-    is Double -> isZero(rem(this, number))
+    is Double -> number.isFinite() && isZero(rem(this, number))
     is Long -> isZero((this % number))
     else -> false
   }
@@ -60,7 +60,7 @@ private infix fun Double.isMultipleOf(number: Number): Boolean =
 private infix fun Long.isMultipleOf(number: Number): Boolean =
   when (number) {
     is Long -> this % number == 0L
-    is Double -> isZero(rem(this, number))
+    is Double -> number.isFinite() && isZero(rem(this, number))
     else -> false
   }
 
