@@ -9,12 +9,13 @@ internal data class NumberParts(
   val precision: Int,
 )
 
-internal fun parseNumberParts(element: PrimitiveElement): NumberParts? =
-  if (element.isNumber) {
-    numberParts(element)
-  } else {
+internal fun parseNumberParts(element: PrimitiveElement): NumberParts? {
+  return if (element.isString || element.isNull || element.isBoolean) {
     null
+  } else {
+    numberParts(element)
   }
+}
 
 private const val E_SMALL_CHAR: Char = 'e'
 private const val E_BIG_CHAR: Char = 'E'
