@@ -1,6 +1,9 @@
 package io.github.optimumcode.json.schema.extension
 
 import io.github.optimumcode.json.schema.ErrorCollector
+import io.github.optimumcode.json.schema.ExperimentalApi
+import io.github.optimumcode.json.schema.internal.wrapper.JsonWrapper
+import io.github.optimumcode.json.schema.model.AbstractElement
 import kotlinx.serialization.json.JsonElement
 
 /**
@@ -8,6 +11,8 @@ import kotlinx.serialization.json.JsonElement
  * This interface **does not** allow implementing custom applicators.
  * Only simple assertions (like: _format_, _type_) can be implemented.
  */
+@Suppress("detekt:ForbiddenComment")
+@ExperimentalApi
 public interface ExternalAssertion {
   /**
    * Validates passes [element].
@@ -25,8 +30,27 @@ public interface ExternalAssertion {
    * @return `true` if element is valid against assertion. Otherwise, returns `false`
    */
   public fun validate(
+    element: AbstractElement,
+    context: ExternalAssertionContext,
+    errorCollector: ErrorCollector,
+  ): Boolean =
+    // TODO: remove it after two minor/major release
+    validate(element.unwrap(), context, errorCollector)
+
+  // TODO: increase level to error in the next release
+  @Deprecated(
+    message = "override validate(AbstractElement, ExternalAssertionContext, ErrorCollector) instead",
+    level = DeprecationLevel.WARNING,
+  )
+  public fun validate(
     element: JsonElement,
     context: ExternalAssertionContext,
     errorCollector: ErrorCollector,
-  ): Boolean
+  ): Boolean = throw UnsupportedOperationException()
 }
+
+internal fun AbstractElement.unwrap(): JsonElement =
+  when (this) {
+    is JsonWrapper -> unwrap()
+    else -> error("unsupported element type: ${this::class.simpleName}")
+  }

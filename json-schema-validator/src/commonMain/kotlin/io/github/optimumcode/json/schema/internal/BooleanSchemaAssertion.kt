@@ -3,13 +3,13 @@ package io.github.optimumcode.json.schema.internal
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
-import kotlinx.serialization.json.JsonElement
+import io.github.optimumcode.json.schema.model.AbstractElement
 
 internal class FalseSchemaAssertion(
   private val path: JsonPointer,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
@@ -28,7 +28,7 @@ internal class FalseSchemaAssertion(
 
 internal object TrueSchemaAssertion : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {

@@ -5,16 +5,11 @@ import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.doubleOrNull
-import kotlinx.serialization.json.longOrNull
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.PrimitiveElement
 
-internal val JsonPrimitive.number: Number?
-  get() = longOrNull ?: doubleOrNull
-
-internal operator fun Number.compareTo(maxValue: Number): Int {
-  return when (this) {
+internal operator fun Number.compareTo(maxValue: Number): Int =
+  when (this) {
     is Double ->
       when (maxValue) {
         is Double -> compareTo(maxValue)
@@ -30,6 +25,7 @@ internal operator fun Number.compareTo(maxValue: Number): Int {
         is Int -> compareTo(maxValue)
         else -> error("unexpected other value type: ${maxValue::class.simpleName}")
       }
+
     is Int ->
       when (maxValue) {
         is Double -> compareTo(maxValue)
@@ -37,9 +33,9 @@ internal operator fun Number.compareTo(maxValue: Number): Int {
         is Int -> compareTo(maxValue)
         else -> error("unexpected other value type: ${maxValue::class.simpleName}")
       }
+
     else -> error("unexpected value type: ${this::class.simpleName}")
   }
-}
 
 internal class NumberComparisonAssertion(
   private val path: JsonPointer,
@@ -49,12 +45,12 @@ internal class NumberComparisonAssertion(
   private val check: (Number, Number) -> Boolean,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
     return errorCollector.updateKeywordLocation(path).use {
-      if (element !is JsonPrimitive || element.isString) {
+      if (element !is PrimitiveElement || element.isString) {
         return@use true
       }
       val value: Number = element.number ?: return true

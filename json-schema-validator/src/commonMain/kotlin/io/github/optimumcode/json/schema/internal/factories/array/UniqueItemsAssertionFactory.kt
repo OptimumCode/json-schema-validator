@@ -9,7 +9,8 @@ import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.TrueSchemaAssertion
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
 import io.github.optimumcode.json.schema.internal.util.areEqual
-import kotlinx.serialization.json.JsonArray
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.ArrayElement
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
@@ -34,18 +35,18 @@ private class UniqueItemsAssertion(
   private val path: JsonPointer,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
     return errorCollector.updateKeywordLocation(path).use {
-      if (element !is JsonArray) {
+      if (element !is ArrayElement) {
         return@use true
       }
       if (element.size < 2) {
         return@use true
       }
-      var duplicates: MutableList<JsonElement>? = null
+      var duplicates: MutableList<AbstractElement>? = null
       val uniqueItems =
         buildList {
           element.forEach { el ->
@@ -55,7 +56,7 @@ private class UniqueItemsAssertion(
               if (duplicates == null) {
                 duplicates = mutableListOf()
               }
-              duplicates?.add(el)
+              duplicates.add(el)
             }
           }
         }

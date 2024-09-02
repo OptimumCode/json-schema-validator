@@ -7,9 +7,9 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.TrueSchemaAssertion
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.ObjectElement
 import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlin.jvm.JvmStatic
 
@@ -19,17 +19,17 @@ internal class ConditionalRequiredPropertiesAssertion(
   private val dependencies: Set<String>,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
     return errorCollector.updateKeywordLocation(path).use {
-      if (element !is JsonObject) {
+      if (element !is ObjectElement) {
         return@use true
       }
       val missingProperties =
         dependencies.asSequence()
-          .filter { !element.containsKey(it) }
+          .filter { !element.contains(it) }
           .toSet()
       if (missingProperties.isEmpty()) {
         return@use true

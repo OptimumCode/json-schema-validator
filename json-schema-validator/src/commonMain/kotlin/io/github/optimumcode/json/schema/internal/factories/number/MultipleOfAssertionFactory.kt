@@ -4,7 +4,7 @@ import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.util.NumberComparisonAssertion
-import io.github.optimumcode.json.schema.internal.factories.number.util.number
+import io.github.optimumcode.json.schema.internal.wrapper.JsonPrimitiveWrapper
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlin.math.abs
@@ -22,7 +22,7 @@ internal object MultipleOfAssertionFactory : AbstractAssertionFactory("multipleO
   ): JsonSchemaAssertion {
     require(element is JsonPrimitive) { "$property must be a number" }
     val multipleOfValue: Number =
-      requireNotNull(element.number) { "$property must be a valid number" }
+      requireNotNull(JsonPrimitiveWrapper(element).number) { "$property must be a valid number" }
     require(
       when (multipleOfValue) {
         is Double -> multipleOfValue > 0.0
@@ -45,14 +45,14 @@ private fun isMultipleOf(
   b: Number,
 ): Boolean =
   when (a) {
-    is Double -> a isMultipleOf b
+    is Double -> a.isFinite() && a isMultipleOf b
     is Long -> a isMultipleOf b
     else -> false
   }
 
 private infix fun Double.isMultipleOf(number: Number): Boolean =
   when (number) {
-    is Double -> isZero(rem(this, number))
+    is Double -> number.isFinite() && isZero(rem(this, number))
     is Long -> isZero((this % number))
     else -> false
   }
@@ -60,7 +60,7 @@ private infix fun Double.isMultipleOf(number: Number): Boolean =
 private infix fun Long.isMultipleOf(number: Number): Boolean =
   when (number) {
     is Long -> this % number == 0L
-    is Double -> isZero(rem(this, number))
+    is Double -> number.isFinite() && isZero(rem(this, number))
     else -> false
   }
 

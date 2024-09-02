@@ -1,11 +1,12 @@
 package io.github.optimumcode.json.schema
 
-import kotlinx.serialization.json.JsonElement
+import io.github.optimumcode.json.schema.model.AbstractElement
 import kotlin.jvm.JvmStatic
 
 /**
- * The [FormatValidator] is used to check whether the [JsonElement] matches the expected format.
- * If the [JsonElement] is not of the required type (e.g. validator expects string but the [JsonElement] is an object)
+ * The [FormatValidator] is used to check whether the [AbstractElement] matches the expected format.
+ * If the [AbstractElement] is not of the required type
+ * (e.g. validator expects string but the [AbstractElement] is an object)
  * the validator **MUST** return [FormatValidator.Valid] result
  */
 @ExperimentalApi
@@ -16,7 +17,7 @@ public interface FormatValidator {
    * @param element JSON element to validate against the expected format
    * @return the result of the validation
    */
-  public fun validate(element: JsonElement): FormatValidationResult
+  public fun validate(element: AbstractElement): FormatValidationResult
 
   public companion object {
     @Suppress("ktlint:standard:function-naming", "FunctionName")

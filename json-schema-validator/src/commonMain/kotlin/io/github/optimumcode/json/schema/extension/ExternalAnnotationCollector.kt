@@ -1,7 +1,9 @@
 package io.github.optimumcode.json.schema.extension
 
 import io.github.optimumcode.json.schema.AnnotationKey
+import io.github.optimumcode.json.schema.ExperimentalApi
 
+@ExperimentalApi
 public interface ExternalAnnotationCollector {
   /**
    * Adds annotation with provided [key]

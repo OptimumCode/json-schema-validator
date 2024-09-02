@@ -7,25 +7,25 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
-import io.github.optimumcode.json.schema.internal.factories.number.util.number
 import io.github.optimumcode.json.schema.internal.util.parseNumberParts
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.ArrayElement
+import io.github.optimumcode.json.schema.model.ObjectElement
+import io.github.optimumcode.json.schema.model.PrimitiveElement
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonNull
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.booleanOrNull
 
 internal object TypeAssertionFactory : AbstractAssertionFactory("type") {
   private val typeValidations: Map<String, Validation> =
-    linkedMapOf<String, (JsonElement) -> Boolean>(
-      "null" to { it is JsonNull },
-      "string" to { it is JsonPrimitive && it.isString },
-      "boolean" to { it is JsonPrimitive && !it.isString && it.booleanOrNull != null },
-      "number" to { it is JsonPrimitive && !it.isString && (it.number != null) },
-      "integer" to { it is JsonPrimitive && !it.isString && parseNumberParts(it)?.fractional == 0L },
-      "array" to { it is JsonArray },
-      "object" to { it is JsonObject },
+    linkedMapOf<String, (AbstractElement) -> Boolean>(
+      "null" to { it is PrimitiveElement && it.isNull },
+      "string" to { it is PrimitiveElement && it.isString },
+      "boolean" to { it is PrimitiveElement && it.isBoolean },
+      "number" to { it is PrimitiveElement && it.isNumber },
+      "integer" to { it is PrimitiveElement && it.isNumber && parseNumberParts(it)?.fractional == 0L },
+      "array" to { it is ArrayElement },
+      "object" to { it is ObjectElement },
     ).mapValues { Validation(it.key, it.value) }
 
   override fun createFromProperty(
@@ -68,7 +68,7 @@ internal object TypeAssertionFactory : AbstractAssertionFactory("type") {
 
 private class Validation(
   val name: String,
-  val check: (JsonElement) -> Boolean,
+  val check: (AbstractElement) -> Boolean,
 )
 
 private class TypeAssertion(
@@ -80,7 +80,7 @@ private class TypeAssertion(
   }
 
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {

@@ -6,6 +6,7 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
+import io.github.optimumcode.json.schema.model.AbstractElement
 import kotlinx.serialization.json.JsonElement
 
 internal object ThenAssertionFactory : AbstractAssertionFactory("then") {
@@ -24,7 +25,7 @@ private class ThenAssertion(
   private val assertion: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {

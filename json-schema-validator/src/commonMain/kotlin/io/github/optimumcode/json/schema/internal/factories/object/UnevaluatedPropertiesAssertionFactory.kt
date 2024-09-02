@@ -9,8 +9,9 @@ import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.ObjectElement
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
 
 internal object UnevaluatedPropertiesAssertionFactory : AbstractAssertionFactory("unevaluatedProperties") {
   val ANNOTATION: AnnotationKey<Boolean> = AnnotationKeyFactory.createAggregatable(property, Boolean::or)
@@ -29,12 +30,12 @@ private class UnevaluatedPropertiesAssertion(
   private val assertion: JsonSchemaAssertion,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
     return errorCollector.updateKeywordLocation(location).use {
-      if (element !is JsonObject) {
+      if (element !is ObjectElement) {
         return@use true
       }
       val annotationCollector: AnnotationCollector = context.annotationCollector

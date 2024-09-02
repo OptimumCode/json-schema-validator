@@ -1,7 +1,7 @@
 package io.github.optimumcode.json.schema.internal
 
 import io.github.optimumcode.json.schema.OutputCollector
-import kotlinx.serialization.json.JsonElement
+import io.github.optimumcode.json.schema.model.AbstractElement
 
 internal interface JsonSchemaAssertion {
   /**
@@ -20,7 +20,7 @@ internal interface JsonSchemaAssertion {
    * @return `true` if element is valid against assertion. Otherwise, returns `false`
    */
   fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean

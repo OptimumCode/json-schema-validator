@@ -6,7 +6,7 @@ import io.github.optimumcode.json.pointer.plus
 import io.github.optimumcode.json.pointer.relative
 import io.github.optimumcode.json.schema.AbsoluteLocation
 import io.github.optimumcode.json.schema.OutputCollector
-import kotlinx.serialization.json.JsonElement
+import io.github.optimumcode.json.schema.model.AbstractElement
 
 internal class RefSchemaAssertion(
   private val basePath: JsonPointer,
@@ -17,7 +17,7 @@ internal class RefSchemaAssertion(
   private lateinit var refAbsolutePath: Uri
 
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {

@@ -94,7 +94,7 @@ public abstract interface class io/github/optimumcode/json/schema/FormatValidato
 	public static final field Companion Lio/github/optimumcode/json/schema/FormatValidator$Companion;
 	public static fun Invalid ()Lio/github/optimumcode/json/schema/FormatValidationResult;
 	public static fun Valid ()Lio/github/optimumcode/json/schema/FormatValidationResult;
-	public abstract fun validate (Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/FormatValidationResult;
+	public abstract fun validate (Lio/github/optimumcode/json/schema/model/AbstractElement;)Lio/github/optimumcode/json/schema/FormatValidationResult;
 }
 
 public final class io/github/optimumcode/json/schema/FormatValidator$Companion {
@@ -108,6 +108,8 @@ public final class io/github/optimumcode/json/schema/JsonSchema {
 	public static final fun fromDefinition (Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchema;
 	public static final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchema;
 	public static final fun fromJsonElement (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchema;
+	public final fun validate (Lio/github/optimumcode/json/schema/model/AbstractElement;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
+	public final fun validate (Lio/github/optimumcode/json/schema/model/AbstractElement;Lio/github/optimumcode/json/schema/OutputCollector$Provider;)Ljava/lang/Object;
 	public final fun validate (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
 	public final fun validate (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/OutputCollector$Provider;)Ljava/lang/Object;
 }
@@ -337,7 +339,13 @@ public abstract interface class io/github/optimumcode/json/schema/extension/Exte
 }
 
 public abstract interface class io/github/optimumcode/json/schema/extension/ExternalAssertion {
+	public abstract fun validate (Lio/github/optimumcode/json/schema/model/AbstractElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
 	public abstract fun validate (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
+}
+
+public final class io/github/optimumcode/json/schema/extension/ExternalAssertion$DefaultImpls {
+	public static fun validate (Lio/github/optimumcode/json/schema/extension/ExternalAssertion;Lio/github/optimumcode/json/schema/model/AbstractElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
+	public static fun validate (Lio/github/optimumcode/json/schema/extension/ExternalAssertion;Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
 }
 
 public abstract interface class io/github/optimumcode/json/schema/extension/ExternalAssertionContext {
@@ -352,5 +360,30 @@ public abstract interface class io/github/optimumcode/json/schema/extension/Exte
 
 public abstract interface class io/github/optimumcode/json/schema/extension/ExternalLoadingContext {
 	public abstract fun getSchemaPath ()Lio/github/optimumcode/json/pointer/JsonPointer;
+}
+
+public abstract interface class io/github/optimumcode/json/schema/model/AbstractElement {
+	public abstract fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/optimumcode/json/schema/model/ArrayElement : io/github/optimumcode/json/schema/model/AbstractElement, kotlin/sequences/Sequence {
+	public abstract fun get (I)Lio/github/optimumcode/json/schema/model/AbstractElement;
+	public abstract fun getSize ()I
+}
+
+public abstract interface class io/github/optimumcode/json/schema/model/ObjectElement : io/github/optimumcode/json/schema/model/AbstractElement, kotlin/sequences/Sequence {
+	public abstract fun contains (Ljava/lang/String;)Z
+	public abstract fun get (Ljava/lang/String;)Lio/github/optimumcode/json/schema/model/AbstractElement;
+	public abstract fun getKeys ()Ljava/util/Set;
+	public abstract fun getSize ()I
+}
+
+public abstract interface class io/github/optimumcode/json/schema/model/PrimitiveElement : io/github/optimumcode/json/schema/model/AbstractElement {
+	public abstract fun getContent ()Ljava/lang/String;
+	public abstract fun getNumber ()Ljava/lang/Number;
+	public abstract fun isBoolean ()Z
+	public abstract fun isNull ()Z
+	public abstract fun isNumber ()Z
+	public abstract fun isString ()Z
 }
 

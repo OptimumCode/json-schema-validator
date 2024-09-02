@@ -5,8 +5,9 @@ import io.github.optimumcode.json.schema.AnnotationKey
 import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonElement
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.ArrayElement
+import io.github.optimumcode.json.schema.model.lastIndex
 
 internal class AdditionalItemsAssertion(
   private val location: JsonPointer,
@@ -16,12 +17,12 @@ internal class AdditionalItemsAssertion(
   private val returnIfNoIndex: Boolean,
 ) : JsonSchemaAssertion {
   override fun validate(
-    element: JsonElement,
+    element: AbstractElement,
     context: AssertionContext,
     errorCollector: OutputCollector<*>,
   ): Boolean {
     return errorCollector.updateKeywordLocation(location).use {
-      if (element !is JsonArray) {
+      if (element !is ArrayElement) {
         return@use true
       }
       val lastProcessedIndex: Int =

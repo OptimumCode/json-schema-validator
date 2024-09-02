@@ -5,6 +5,8 @@ import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.JsonSchemaLoader
 import io.github.optimumcode.json.schema.ValidationError
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.PrimitiveElement
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
@@ -146,11 +148,11 @@ private object SimpleDateFormatAssertionFactory : ExternalAssertionFactory {
       private val dateRegex = Regex("(\\d{4})-(\\d{2})-(\\d{2})")
 
       override fun validate(
-        element: JsonElement,
+        element: AbstractElement,
         context: ExternalAssertionContext,
         errorCollector: ErrorCollector,
       ): Boolean {
-        if (element !is JsonPrimitive || !element.isString) {
+        if (element !is PrimitiveElement || !element.isString) {
           return true
         }
         return dateRegex.matches(element.content).also {
@@ -186,11 +188,11 @@ private object SimpleTimeFormatAssertionFactory : ExternalAssertionFactory {
       private val timeRegex = Regex("\\d{2}:\\d{2}:\\d{2}(.\\d{1,9})?")
 
       override fun validate(
-        element: JsonElement,
+        element: AbstractElement,
         context: ExternalAssertionContext,
         errorCollector: ErrorCollector,
       ): Boolean {
-        if (element !is JsonPrimitive || !element.isString) {
+        if (element !is PrimitiveElement || !element.isString) {
           return true
         }
         return timeRegex.matches(element.content).also {

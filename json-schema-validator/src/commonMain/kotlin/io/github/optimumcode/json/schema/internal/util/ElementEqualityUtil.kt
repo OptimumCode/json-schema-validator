@@ -1,31 +1,41 @@
 package io.github.optimumcode.json.schema.internal.util
 
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonNull
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.booleanOrNull
+import io.github.optimumcode.json.schema.model.AbstractElement
+import io.github.optimumcode.json.schema.model.ArrayElement
+import io.github.optimumcode.json.schema.model.ObjectElement
+import io.github.optimumcode.json.schema.model.PrimitiveElement
+import io.github.optimumcode.json.schema.model.getValue
 
 internal fun areEqual(
-  first: JsonElement,
-  second: JsonElement,
+  first: AbstractElement,
+  second: AbstractElement,
 ): Boolean {
-  if (first::class != second::class) {
+  if (areDifferentInstances(first, second)) {
     return false
   }
   return when (first) {
-    is JsonObject -> areEqualObjects(first, second as JsonObject)
-    is JsonArray -> areEqualArrays(first, second as JsonArray)
-    is JsonPrimitive -> areEqualPrimitives(first, second as JsonPrimitive)
+    is ObjectElement -> areEqualObjects(first, second as ObjectElement)
+    is ArrayElement -> areEqualArrays(first, second as ArrayElement)
+    is PrimitiveElement -> areEqualPrimitives(first, second as PrimitiveElement)
   }
 }
 
+internal fun areDifferentInstances(
+  left: AbstractElement,
+  right: AbstractElement,
+): Boolean =
+  when {
+    left is PrimitiveElement && right is PrimitiveElement -> false
+    left is ArrayElement && right is ArrayElement -> false
+    left is ObjectElement && right is ObjectElement -> false
+    else -> true
+  }
+
 internal fun areEqualPrimitives(
-  first: JsonPrimitive,
-  second: JsonPrimitive,
+  first: PrimitiveElement,
+  second: PrimitiveElement,
 ): Boolean {
-  if (first is JsonNull && second is JsonNull) {
+  if (first.isNull && second.isNull) {
     return true
   }
   if (first.isString != second.isString) {
@@ -35,22 +45,24 @@ internal fun areEqualPrimitives(
     first.content == second.content
   } else {
     when {
-      first.booleanOrNull != null || second.booleanOrNull != null -> first.content == second.content
+      first.isNull || second.isNull -> false
+      // probably content should be compared ignoring the case - YAML allows different values for boolean
+      first.isBoolean || second.isBoolean -> first.content == second.content
       else -> compareAsNumbers(first, second)
     }
   }
 }
 
 private fun compareAsNumbers(
-  first: JsonPrimitive,
-  second: JsonPrimitive,
+  first: PrimitiveElement,
+  second: PrimitiveElement,
 ): Boolean {
   return numberParts(first) == numberParts(second)
 }
 
 internal fun areEqualArrays(
-  first: JsonArray,
-  second: JsonArray,
+  first: ArrayElement,
+  second: ArrayElement,
 ): Boolean {
   if (first.size != second.size) {
     return false
@@ -64,8 +76,8 @@ internal fun areEqualArrays(
 }
 
 internal fun areEqualObjects(
-  first: JsonObject,
-  second: JsonObject,
+  first: ObjectElement,
+  second: ObjectElement,
 ): Boolean {
   if (first.size != second.size) {
     return false
