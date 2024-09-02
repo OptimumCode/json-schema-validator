@@ -39,6 +39,9 @@ class JsonWrapperTest : FunSpec() {
           it.keys shouldContainExactly setOf("a", "b")
           it["a"].shouldBeInstanceOf<JsonPrimitiveWrapper>()
           it["b"].shouldBeInstanceOf<JsonArrayWrapper>()
+          it["c"].shouldBeNull()
+          ("a" in it).shouldBeTrue()
+          ("c" in it).shouldBeFalse()
         }
       }
     }
