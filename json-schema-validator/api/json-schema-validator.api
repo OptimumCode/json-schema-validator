@@ -340,6 +340,12 @@ public abstract interface class io/github/optimumcode/json/schema/extension/Exte
 
 public abstract interface class io/github/optimumcode/json/schema/extension/ExternalAssertion {
 	public abstract fun validate (Lio/github/optimumcode/json/schema/model/AbstractElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
+	public abstract fun validate (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
+}
+
+public final class io/github/optimumcode/json/schema/extension/ExternalAssertion$DefaultImpls {
+	public static fun validate (Lio/github/optimumcode/json/schema/extension/ExternalAssertion;Lio/github/optimumcode/json/schema/model/AbstractElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
+	public static fun validate (Lio/github/optimumcode/json/schema/extension/ExternalAssertion;Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
 }
 
 public abstract interface class io/github/optimumcode/json/schema/extension/ExternalAssertionContext {

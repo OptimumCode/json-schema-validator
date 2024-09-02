@@ -14,10 +14,14 @@ import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.longOrNull
 import kotlin.jvm.JvmInline
 
+internal interface JsonWrapper {
+  fun unwrap(): JsonElement
+}
+
 @JvmInline
 internal value class JsonObjectWrapper(
   private val obj: JsonObject,
-) : ObjectElement {
+) : ObjectElement, JsonWrapper {
   override val keys: Set<String>
     get() = obj.keys
 
@@ -35,13 +39,15 @@ internal value class JsonObjectWrapper(
         it.key to it.value.wrap()
       }.iterator()
 
+  override fun unwrap(): JsonElement = obj
+
   override fun toString(): String = obj.toString()
 }
 
 @JvmInline
 internal value class JsonArrayWrapper(
   private val array: JsonArray,
-) : ArrayElement {
+) : ArrayElement, JsonWrapper {
   override fun iterator(): Iterator<AbstractElement> = array.asSequence().map { it.wrap() }.iterator()
 
   override fun get(index: Int): AbstractElement = array[index].wrap()
@@ -50,12 +56,14 @@ internal value class JsonArrayWrapper(
     get() = array.size
 
   override fun toString(): String = array.toString()
+
+  override fun unwrap(): JsonElement = array
 }
 
 @JvmInline
 internal value class JsonPrimitiveWrapper(
   private val primitive: JsonPrimitive,
-) : PrimitiveElement {
+) : PrimitiveElement, JsonWrapper {
   override val isNull: Boolean
     get() = primitive is JsonNull
   override val isString: Boolean
@@ -73,6 +81,8 @@ internal value class JsonPrimitiveWrapper(
     get() = primitive.content
 
   override fun toString(): String = primitive.toString()
+
+  override fun unwrap(): JsonElement = primitive
 }
 
 internal fun JsonElement.wrap(): AbstractElement =
@@ -85,7 +95,7 @@ internal fun JsonElement.wrap(): AbstractElement =
 @JvmInline
 internal value class StringWrapper(
   private val value: String,
-) : PrimitiveElement {
+) : PrimitiveElement, JsonWrapper {
   override val isNull: Boolean
     get() = false
   override val isString: Boolean
@@ -100,4 +110,6 @@ internal value class StringWrapper(
     get() = value
 
   override fun toString(): String = value
+
+  override fun unwrap(): JsonElement = JsonPrimitive(value)
 }
