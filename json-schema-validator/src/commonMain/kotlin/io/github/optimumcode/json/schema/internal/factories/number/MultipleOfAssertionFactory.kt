@@ -4,6 +4,7 @@ import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.LoadingContext
 import io.github.optimumcode.json.schema.internal.factories.AbstractAssertionFactory
 import io.github.optimumcode.json.schema.internal.factories.number.util.NumberComparisonAssertion
+import io.github.optimumcode.json.schema.internal.util.number
 import io.github.optimumcode.json.schema.internal.wrapper.JsonPrimitiveWrapper
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive

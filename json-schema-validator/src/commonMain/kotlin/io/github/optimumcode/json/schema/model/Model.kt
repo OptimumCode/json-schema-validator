@@ -43,11 +43,16 @@ public interface PrimitiveElement : AbstractElement {
   public val isNumber: Boolean
 
   /**
-   * Tries to parse the element as a [Number].
-   * Must return either [Long] or [Double].
-   * If the element cannot be interpreted as a number, returns `null`.
+   * Tries to represent the element as a [Long].
+   * If the element cannot be interpreted as a [Long], returns `null`.
    */
-  public val number: Number?
+  public val longOrNull: Long?
+
+  /**
+   * Tries to represent the element as a [Double].
+   * If the element cannot be interpreted as a [Double], returns `null`.
+   */
+  public val doubleOrNull: Double?
 
   /**
    * Returns the content of the element as plain string
