@@ -5,6 +5,7 @@ import io.github.optimumcode.json.schema.OutputCollector
 import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.internal.AssertionContext
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
+import io.github.optimumcode.json.schema.internal.util.number
 import io.github.optimumcode.json.schema.model.AbstractElement
 import io.github.optimumcode.json.schema.model.PrimitiveElement
 

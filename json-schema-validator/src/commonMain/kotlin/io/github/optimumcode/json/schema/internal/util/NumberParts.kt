@@ -21,6 +21,9 @@ private const val E_SMALL_CHAR: Char = 'e'
 private const val E_BIG_CHAR: Char = 'E'
 private const val TEN: Double = 10.0
 
+internal val PrimitiveElement.number: Number?
+  get() = longOrNull ?: doubleOrNull
+
 /**
  * This function should be used only if you are certain that the [element] is a number
  */

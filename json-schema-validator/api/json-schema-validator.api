@@ -380,7 +380,8 @@ public abstract interface class io/github/optimumcode/json/schema/model/ObjectEl
 
 public abstract interface class io/github/optimumcode/json/schema/model/PrimitiveElement : io/github/optimumcode/json/schema/model/AbstractElement {
 	public abstract fun getContent ()Ljava/lang/String;
-	public abstract fun getNumber ()Ljava/lang/Number;
+	public abstract fun getDoubleOrNull ()Ljava/lang/Double;
+	public abstract fun getLongOrNull ()Ljava/lang/Long;
 	public abstract fun isBoolean ()Z
 	public abstract fun isNull ()Z
 	public abstract fun isNumber ()Z
