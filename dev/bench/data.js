@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1726235192497,
+  "lastUpdate": 1726235206577,
   "repoUrl": "https://github.com/OptimumCode/json-schema-validator",
   "entries": {
     "KMP JSON schema validator": [
@@ -28872,6 +28872,270 @@ window.BENCHMARK_DATA = {
           {
             "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
             "value": 12093.11377680583,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "72035066106bc08581c046b49a3ab96439014880",
+          "message": "Bump okio from 3.9.0 to 3.9.1 (#199)\n\nBumps `okio` from 3.9.0 to 3.9.1.\r\nUpdates `com.squareup.okio:okio` from 3.9.0 to 3.9.1\r\n<details>\r\n<summary>Release notes</summary>\r\n<p><em>Sourced from <a\r\nhref=\"https://github.com/square/okio/releases\">com.squareup.okio:okio's\r\nreleases</a>.</em></p>\r\n<blockquote>\r\n<h2>3.9.1</h2>\r\n<p><em>2024-09-12</em></p>\r\n<ul>\r\n<li>Fix: Support paths containing a single dot (&quot;.&quot;) in\r\n<code>Path.relativeTo</code>.</li>\r\n<li>Fix: Do not read from the upstream source when a 0-byte read is\r\nrequested.</li>\r\n<li>Fix: Update kotlinx.datetime to 0.6.0 to correct a Gradle module\r\nmetadata problem with 0.5.0.\r\nNote: this artifact is only used in 'okio-fakefilesystem' and\r\n'okio-nodefilesystem' and not in the Okio core.</li>\r\n</ul>\r\n</blockquote>\r\n</details>\r\n<details>\r\n<summary>Changelog</summary>\r\n<p><em>Sourced from <a\r\nhref=\"https://github.com/square/okio/blob/master/CHANGELOG.md\">com.squareup.okio:okio's\r\nchangelog</a>.</em></p>\r\n<blockquote>\r\n<h2>Version 3.9.1</h2>\r\n<p><em>2024-09-12</em></p>\r\n<ul>\r\n<li>Fix: Support paths containing a single dot (&quot;.&quot;) in\r\n<code>Path.relativeTo</code>.</li>\r\n<li>Fix: Do not read from the upstream source when a 0-byte read is\r\nrequested.</li>\r\n<li>Fix: Update kotlinx.datetime to 0.6.0 to correct a Gradle module\r\nmetadata problem with 0.5.0.\r\nNote: this artifact is only used in 'okio-fakefilesystem' and\r\n'okio-nodefilesystem' and not in the Okio core.</li>\r\n</ul>\r\n</blockquote>\r\n</details>\r\n<details>\r\n<summary>Commits</summary>\r\n<ul>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/8b870e8eaacecb1c1ceffbbb47246112604a1f92\"><code>8b870e8</code></a>\r\nAdd release artifact publishing</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/0de6068aad12fd53715ba0f3a05a854820f8e822\"><code>0de6068</code></a>\r\nPrepare version 3.9.1</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/4d4a3f364728680fe31593f4bca14cb40aca2169\"><code>4d4a3f3</code></a>\r\nUpdate dependency com.android.tools:desugar_jdk_libs to v2.1.2 (<a\r\nhref=\"https://redirect.github.com/square/okio/issues/1514\">#1514</a>)</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/0c2de09545cc1ba18ccdd21508163a46bd1dcb6a\"><code>0c2de09</code></a>\r\nUpdate dependency com.android.tools:desugar_jdk_libs to v2.1.1 (<a\r\nhref=\"https://redirect.github.com/square/okio/issues/1511\">#1511</a>)</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/659b8b92e0d382791a6156ed5a065849bab8eb7f\"><code>659b8b9</code></a>\r\nUpdate dependency com.android.tools:desugar_jdk_libs to v2.1.0 (<a\r\nhref=\"https://redirect.github.com/square/okio/issues/1508\">#1508</a>)</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/55f23b989479930a6122fd06a4f91bd29e0445b2\"><code>55f23b9</code></a>\r\nFix some HMacSHA tests which compared sha256 values (<a\r\nhref=\"https://redirect.github.com/square/okio/issues/1507\">#1507</a>)</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/808cf8eb91290507cc6eaf9487e3eaeac003e909\"><code>808cf8e</code></a>\r\nUpdate dependency org.jetbrains.kotlinx:kotlinx-datetime to v0.6.1 (<a\r\nhref=\"https://redirect.github.com/square/okio/issues/1506\">#1506</a>)</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/454ceeeaaaaf04323ed4a2f7512f85dd419bc59e\"><code>454ceee</code></a>\r\nMerge pull request <a\r\nhref=\"https://redirect.github.com/square/okio/issues/1505\">#1505</a>\r\nfrom square/renovate/gradle-actions-4.x</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/6cd87c909557c8f2900ebad4433d44aef311e595\"><code>6cd87c9</code></a>\r\nUpdate gradle/actions action to v4</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/1d4d8032cb915de1e1016bdf419d787cbda02e6b\"><code>1d4d803</code></a>\r\nUpdate dependency\r\norg.jetbrains.kotlinx.binary-compatibility-validator:org.je...</li>\r\n<li>Additional commits viewable in <a\r\nhref=\"https://github.com/square/okio/compare/parent-3.9.0...3.9.1\">compare\r\nview</a></li>\r\n</ul>\r\n</details>\r\n<br />\r\n\r\nUpdates `com.squareup.okio:okio-nodefilesystem` from 3.9.0 to 3.9.1\r\n<details>\r\n<summary>Release notes</summary>\r\n<p><em>Sourced from <a\r\nhref=\"https://github.com/square/okio/releases\">com.squareup.okio:okio-nodefilesystem's\r\nreleases</a>.</em></p>\r\n<blockquote>\r\n<h2>3.9.1</h2>\r\n<p><em>2024-09-12</em></p>\r\n<ul>\r\n<li>Fix: Support paths containing a single dot (&quot;.&quot;) in\r\n<code>Path.relativeTo</code>.</li>\r\n<li>Fix: Do not read from the upstream source when a 0-byte read is\r\nrequested.</li>\r\n<li>Fix: Update kotlinx.datetime to 0.6.0 to correct a Gradle module\r\nmetadata problem with 0.5.0.\r\nNote: this artifact is only used in 'okio-fakefilesystem' and\r\n'okio-nodefilesystem' and not in the Okio core.</li>\r\n</ul>\r\n</blockquote>\r\n</details>\r\n<details>\r\n<summary>Changelog</summary>\r\n<p><em>Sourced from <a\r\nhref=\"https://github.com/square/okio/blob/master/CHANGELOG.md\">com.squareup.okio:okio-nodefilesystem's\r\nchangelog</a>.</em></p>\r\n<blockquote>\r\n<h2>Version 3.9.1</h2>\r\n<p><em>2024-09-12</em></p>\r\n<ul>\r\n<li>Fix: Support paths containing a single dot (&quot;.&quot;) in\r\n<code>Path.relativeTo</code>.</li>\r\n<li>Fix: Do not read from the upstream source when a 0-byte read is\r\nrequested.</li>\r\n<li>Fix: Update kotlinx.datetime to 0.6.0 to correct a Gradle module\r\nmetadata problem with 0.5.0.\r\nNote: this artifact is only used in 'okio-fakefilesystem' and\r\n'okio-nodefilesystem' and not in the Okio core.</li>\r\n</ul>\r\n</blockquote>\r\n</details>\r\n<details>\r\n<summary>Commits</summary>\r\n<ul>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/8b870e8eaacecb1c1ceffbbb47246112604a1f92\"><code>8b870e8</code></a>\r\nAdd release artifact publishing</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/0de6068aad12fd53715ba0f3a05a854820f8e822\"><code>0de6068</code></a>\r\nPrepare version 3.9.1</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/4d4a3f364728680fe31593f4bca14cb40aca2169\"><code>4d4a3f3</code></a>\r\nUpdate dependency com.android.tools:desugar_jdk_libs to v2.1.2 (<a\r\nhref=\"https://redirect.github.com/square/okio/issues/1514\">#1514</a>)</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/0c2de09545cc1ba18ccdd21508163a46bd1dcb6a\"><code>0c2de09</code></a>\r\nUpdate dependency com.android.tools:desugar_jdk_libs to v2.1.1 (<a\r\nhref=\"https://redirect.github.com/square/okio/issues/1511\">#1511</a>)</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/659b8b92e0d382791a6156ed5a065849bab8eb7f\"><code>659b8b9</code></a>\r\nUpdate dependency com.android.tools:desugar_jdk_libs to v2.1.0 (<a\r\nhref=\"https://redirect.github.com/square/okio/issues/1508\">#1508</a>)</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/55f23b989479930a6122fd06a4f91bd29e0445b2\"><code>55f23b9</code></a>\r\nFix some HMacSHA tests which compared sha256 values (<a\r\nhref=\"https://redirect.github.com/square/okio/issues/1507\">#1507</a>)</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/808cf8eb91290507cc6eaf9487e3eaeac003e909\"><code>808cf8e</code></a>\r\nUpdate dependency org.jetbrains.kotlinx:kotlinx-datetime to v0.6.1 (<a\r\nhref=\"https://redirect.github.com/square/okio/issues/1506\">#1506</a>)</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/454ceeeaaaaf04323ed4a2f7512f85dd419bc59e\"><code>454ceee</code></a>\r\nMerge pull request <a\r\nhref=\"https://redirect.github.com/square/okio/issues/1505\">#1505</a>\r\nfrom square/renovate/gradle-actions-4.x</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/6cd87c909557c8f2900ebad4433d44aef311e595\"><code>6cd87c9</code></a>\r\nUpdate gradle/actions action to v4</li>\r\n<li><a\r\nhref=\"https://github.com/square/okio/commit/1d4d8032cb915de1e1016bdf419d787cbda02e6b\"><code>1d4d803</code></a>\r\nUpdate dependency\r\norg.jetbrains.kotlinx.binary-compatibility-validator:org.je...</li>\r\n<li>Additional commits viewable in <a\r\nhref=\"https://github.com/square/okio/compare/parent-3.9.0...3.9.1\">compare\r\nview</a></li>\r\n</ul>\r\n</details>\r\n<br />\r\n\r\n\r\nDependabot will resolve any conflicts with this PR as long as you don't\r\nalter it yourself. You can also trigger a rebase manually by commenting\r\n`@dependabot rebase`.\r\n\r\n[//]: # (dependabot-automerge-start)\r\n[//]: # (dependabot-automerge-end)\r\n\r\n---\r\n\r\n<details>\r\n<summary>Dependabot commands and options</summary>\r\n<br />\r\n\r\nYou can trigger Dependabot actions by commenting on this PR:\r\n- `@dependabot rebase` will rebase this PR\r\n- `@dependabot recreate` will recreate this PR, overwriting any edits\r\nthat have been made to it\r\n- `@dependabot merge` will merge this PR after your CI passes on it\r\n- `@dependabot squash and merge` will squash and merge this PR after\r\nyour CI passes on it\r\n- `@dependabot cancel merge` will cancel a previously requested merge\r\nand block automerging\r\n- `@dependabot reopen` will reopen this PR if it is closed\r\n- `@dependabot close` will close this PR and stop Dependabot recreating\r\nit. You can achieve the same result by closing it manually\r\n- `@dependabot show <dependency name> ignore conditions` will show all\r\nof the ignore conditions of the specified dependency\r\n- `@dependabot ignore this major version` will close this PR and stop\r\nDependabot creating any more for this major version (unless you reopen\r\nthe PR or upgrade to it yourself)\r\n- `@dependabot ignore this minor version` will close this PR and stop\r\nDependabot creating any more for this minor version (unless you reopen\r\nthe PR or upgrade to it yourself)\r\n- `@dependabot ignore this dependency` will close this PR and stop\r\nDependabot creating any more for this dependency (unless you reopen the\r\nPR or upgrade to it yourself)\r\n\r\n\r\n</details>\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "timestamp": "2024-09-13T13:20:14Z",
+          "tree_id": "826c43ea8f5de94f9e38959e04ea2532ff83c3a3",
+          "url": "https://github.com/OptimumCode/json-schema-validator/commit/72035066106bc08581c046b49a3ab96439014880"
+        },
+        "date": 1726235205976,
+        "tool": "jmh",
+        "benches": [
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2150.86918609755,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2032.2088843342394,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2238.4482396790345,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2204.59131358043,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 891.5662658843364,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 863.0117248994524,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2325.6201315466706,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2256.24488719883,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3067.132339174474,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 5127171.947737914,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 654.3688541101494,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 604.522441680862,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3271.2642360036393,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1703.102395411904,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3448.367523714668,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 876041.3109305073,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3359.6855135325773,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1569.135799112158,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 75.35385712853285,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 82.64623027709362,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 449.16955382695204,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 501.300442378598,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 436.4859297635661,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 447.1293050526573,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1127.8573761430403,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1177.1599900361894,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 443.0179350361632,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 454.87142224392545,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 328.5344959845022,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 0.19168737669678007,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1580.5979058262155,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1545.6295717388255,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 290.8972583113954,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 572.2729232327981,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 295.82590988096194,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1.0432211087133747,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 293.17828649974814,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 639.1271404128772,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 13497.95171409517,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 11852.76024165266,
             "unit": "us/op",
             "extra": "iterations: 10\nforks: 1\nthreads: 1"
           }
