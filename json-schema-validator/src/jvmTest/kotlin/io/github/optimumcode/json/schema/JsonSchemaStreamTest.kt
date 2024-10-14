@@ -4,6 +4,7 @@ import io.kotest.assertions.asClue
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.core.spec.style.FunSpec
 import kotlinx.serialization.ExperimentalSerializationApi
+import java.io.ByteArrayInputStream
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -28,11 +29,14 @@ class JsonSchemaStreamTest : FunSpec() {
             .timeout(Duration.ofSeconds(10))
             .header("User-Agent", "Mozilla/5.0")
             .build(),
-          BodyHandlers.ofInputStream(),
+          BodyHandlers.ofByteArray(),
         )
+      val body = response.body()
       "Response code: ${response.statusCode()}".asClue {
-        shouldNotThrowAny {
-          response.body().use(JsonSchema::fromStream)
+        body.toString(Charsets.UTF_8).asClue {
+          shouldNotThrowAny {
+            JsonSchema.fromStream(ByteArrayInputStream(body))
+          }
         }
       }
     }
