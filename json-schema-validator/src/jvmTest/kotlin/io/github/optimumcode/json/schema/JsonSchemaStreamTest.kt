@@ -27,7 +27,6 @@ class JsonSchemaStreamTest : FunSpec() {
           HttpRequest.newBuilder(URI.create("https://json-schema.org/draft-07/schema#"))
             .GET()
             .timeout(Duration.ofSeconds(10))
-            .header("User-Agent", "Mozilla/5.0")
             .build(),
           BodyHandlers.ofByteArray(),
         )
