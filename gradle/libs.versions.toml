@@ -7,7 +7,7 @@ okio = "3.9.1"
 serialization = "1.7.3"
 benchmark = "0.4.13"
 openapi = "2024.5"
-jackson = "2.18.1"
+jackson = "2.18.2"
 
 [plugins]
 kotlin-mutliplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
