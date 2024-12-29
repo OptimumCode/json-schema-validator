@@ -106,7 +106,7 @@ jobs:
           path: reports/
           run_id: ${{ github.event.workflow_run.id }}
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           override_branch: ${{ github.event.workflow_run.head_branch }}
           override_commit: ${{ github.event.workflow_run.head_sha }}
