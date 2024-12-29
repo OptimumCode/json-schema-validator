@@ -61,7 +61,7 @@ jobs:
         run: ./gradlew --no-daemon --info ${{ inputs.task }} koverXmlReport -x :benchmark:benchmark --build-cache
       - name: Upload coverage reports to Codecov
         if: inputs.upload-code-coverage && github.actor != 'dependabot[bot]'
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Collect coverage reports
