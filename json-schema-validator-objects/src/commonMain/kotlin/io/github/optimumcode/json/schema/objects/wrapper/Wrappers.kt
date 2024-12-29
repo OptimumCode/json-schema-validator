@@ -65,12 +65,23 @@ public fun wrapAsElement(
   }
 }
 
+/**
+ * Returns `true` if the [value] is an integer ([Byte], [Short], [Int], [Long]).
+ * Otherwise, returns `false`.
+ *
+ * Required because JS platform matches all types except Long with `number` type.
+ * Refer to the [KT-18177](https://youtrack.jetbrains.com/issue/KT-18177/) for additional details
+ */
+internal expect fun isInteger(value: Number): Boolean
+
 private fun numberToSupportedTypeOrOriginal(obj: Any): Any =
-  when (obj) {
-    !is Number -> obj
-    is Double, is Long -> obj
-    is Byte, is Short, is Int -> obj.toLong()
-    is Float -> obj.toDoubleSafe()
+  when {
+    obj !is Number -> obj
+    obj is Long -> obj
+    isInteger(obj) -> obj.toLong()
+    obj is Double -> obj
+    // due to KT-18177 this won't be invoked for Float on JS platform
+    obj is Float -> obj.toDoubleSafe()
     else -> error("unsupported number type: ${obj::class}")
   }
 

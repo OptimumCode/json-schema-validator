@@ -72,6 +72,22 @@ kotlin {
       }
     }
 
+    val noJsMain by creating {
+      dependsOn(commonMain.get())
+    }
+
+    jvmMain {
+      dependsOn(noJsMain)
+    }
+
+    wasmJsMain {
+      dependsOn(noJsMain)
+    }
+
+    nativeMain {
+      dependsOn(noJsMain)
+    }
+
     commonTest {
       dependencies {
         implementation(libs.kotest.assertions.core)

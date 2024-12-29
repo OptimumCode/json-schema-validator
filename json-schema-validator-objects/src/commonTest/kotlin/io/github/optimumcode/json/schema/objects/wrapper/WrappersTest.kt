@@ -3,10 +3,14 @@ package io.github.optimumcode.json.schema.objects.wrapper
 import io.github.optimumcode.json.schema.model.ArrayElement
 import io.github.optimumcode.json.schema.model.ObjectElement
 import io.github.optimumcode.json.schema.model.PrimitiveElement
+import io.kotest.assertions.asClue
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.Platform
+import io.kotest.core.platform
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.core.test.Enabled
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.collections.shouldContainExactly
@@ -44,57 +48,57 @@ class WrappersTest : FunSpec() {
     }
 
     test("primitive wrapper for null") {
-      wrapAsElement(null).shouldBeInstanceOf<PrimitiveElement> {
+      wrapAsElement(null).shouldBeInstanceOf<PrimitiveElement> { el ->
         assertSoftly {
-          it.isString.shouldBeFalse()
-          it.isNumber.shouldBeFalse()
-          it.isBoolean.shouldBeFalse()
-          it.isNull.shouldBeTrue()
-          it.content shouldBe "null"
-          it.longOrNull.shouldBeNull()
-          it.doubleOrNull.shouldBeNull()
+          "isString".asClue { el.isString.shouldBeFalse() }
+          "isNumber".asClue { el.isNumber.shouldBeFalse() }
+          "isBoolean".asClue { el.isBoolean.shouldBeFalse() }
+          "isNull".asClue { el.isNull.shouldBeTrue() }
+          "content".asClue { el.content shouldBe "null" }
+          "longOrNull".asClue { el.longOrNull.shouldBeNull() }
+          "doubleOrNull".asClue { el.doubleOrNull.shouldBeNull() }
         }
       }
     }
 
     test("primitive wrapper for boolean") {
-      wrapAsElement(true).shouldBeInstanceOf<PrimitiveElement> {
+      wrapAsElement(true).shouldBeInstanceOf<PrimitiveElement> { el ->
         assertSoftly {
-          it.isString.shouldBeFalse()
-          it.isNumber.shouldBeFalse()
-          it.isBoolean.shouldBeTrue()
-          it.isNull.shouldBeFalse()
-          it.content shouldBe "true"
-          it.longOrNull.shouldBeNull()
-          it.doubleOrNull.shouldBeNull()
+          "isString".asClue { el.isString.shouldBeFalse() }
+          "isNumber".asClue { el.isNumber.shouldBeFalse() }
+          "isBoolean".asClue { el.isBoolean.shouldBeTrue() }
+          "isNull".asClue { el.isNull.shouldBeFalse() }
+          "content".asClue { el.content shouldBe "true" }
+          "longOrNull".asClue { el.longOrNull.shouldBeNull() }
+          "doubleOrNull".asClue { el.doubleOrNull.shouldBeNull() }
         }
       }
     }
 
     test("primitive wrapper for number") {
-      wrapAsElement(42).shouldBeInstanceOf<PrimitiveElement> {
+      wrapAsElement(42).shouldBeInstanceOf<PrimitiveElement> { el ->
         assertSoftly {
-          it.isString.shouldBeFalse()
-          it.isNumber.shouldBeTrue()
-          it.isBoolean.shouldBeFalse()
-          it.isNull.shouldBeFalse()
-          it.content shouldBe "42"
-          it.longOrNull shouldBe 42L
-          it.doubleOrNull.shouldBeNull()
+          "isString".asClue { el.isString.shouldBeFalse() }
+          "isNumber".asClue { el.isNumber.shouldBeTrue() }
+          "isBoolean".asClue { el.isBoolean.shouldBeFalse() }
+          "isNull".asClue { el.isNull.shouldBeFalse() }
+          "content".asClue { el.content shouldBe "42" }
+          "longOrNull".asClue { el.longOrNull shouldBe 42L }
+          "doubleOrNull".asClue { el.doubleOrNull.shouldBeNull() }
         }
       }
     }
 
     test("primitive wrapper for string") {
-      wrapAsElement("42").shouldBeInstanceOf<PrimitiveElement> {
+      wrapAsElement("42").shouldBeInstanceOf<PrimitiveElement> { el ->
         assertSoftly {
-          it.isString.shouldBeTrue()
-          it.isNumber.shouldBeFalse()
-          it.isBoolean.shouldBeFalse()
-          it.isNull.shouldBeFalse()
-          it.content shouldBe "42"
-          it.longOrNull.shouldBeNull()
-          it.doubleOrNull.shouldBeNull()
+          "isString".asClue { el.isString.shouldBeTrue() }
+          "isNumber".asClue { el.isNumber.shouldBeFalse() }
+          "isBoolean".asClue { el.isBoolean.shouldBeFalse() }
+          "isNull".asClue { el.isNull.shouldBeFalse() }
+          "content".asClue { el.content shouldBe "42" }
+          "longOrNull".asClue { el.longOrNull.shouldBeNull() }
+          "doubleOrNull".asClue { el.doubleOrNull.shouldBeNull() }
         }
       }
     }
@@ -212,24 +216,32 @@ class WrappersTest : FunSpec() {
       }
     }
 
-    test("other number implementations are not allowed") {
-      shouldThrow<IllegalStateException> {
-        wrapAsElement(
-          object : Number() {
-            override fun toByte(): Byte = TODO("Not yet implemented")
-
-            override fun toDouble(): Double = TODO("Not yet implemented")
-
-            override fun toFloat(): Float = TODO("Not yet implemented")
-
-            override fun toInt(): Int = TODO("Not yet implemented")
-
-            override fun toLong(): Long = TODO("Not yet implemented")
-
-            override fun toShort(): Short = TODO("Not yet implemented")
-          },
-        )
-      }.message.shouldStartWith("unsupported number type:")
-    }
+    test("other number implementations are not allowed")
+      .config(
+        enabledOrReasonIf = {
+          when (platform) {
+            Platform.JS -> Enabled.disabled("you cannot create a class that is a Number on JS")
+            else -> Enabled.enabled
+          }
+        },
+      ) {
+        shouldThrow<IllegalStateException> {
+          wrapAsElement(MyNumber())
+        }.message.shouldStartWith("unsupported number type:")
+      }
   }
+}
+
+private class MyNumber : Number() {
+  override fun toByte(): Byte = TODO("Not yet implemented")
+
+  override fun toDouble(): Double = TODO("Not yet implemented")
+
+  override fun toFloat(): Float = TODO("Not yet implemented")
+
+  override fun toInt(): Int = TODO("Not yet implemented")
+
+  override fun toLong(): Long = TODO("Not yet implemented")
+
+  override fun toShort(): Short = TODO("Not yet implemented")
 }
