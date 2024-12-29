@@ -1,4 +1,5 @@
 @file:JvmName("ObjectWrappers")
+@file:Suppress("detekt:MatchingDeclarationName")
 
 package io.github.optimumcode.json.schema.objects.wrapper
 
@@ -60,6 +61,7 @@ public fun wrapAsElement(
     obj is Array<*> -> ListWrapper(obj.map { wrapAsElement(it, configuration) })
     obj is Set<*> && configuration.allowSets ->
       ListWrapper(obj.map { wrapAsElement(it, configuration) })
+
     obj is String || obj is Number || obj is Boolean -> PrimitiveWrapper(numberToSupportedTypeOrOriginal(obj))
     else -> error("unsupported type to wrap: ${obj::class}")
   }
