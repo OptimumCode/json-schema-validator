@@ -22,6 +22,12 @@ internal class ReferenceHolder(
   operator fun component3(): Uri = scopeId
 }
 
+internal class DefaultReferenceResolverProvider(
+  private val references: Map<RefId, AssertionWithPath>,
+) {
+  fun createResolver(): DefaultReferenceResolver = DefaultReferenceResolver(references)
+}
+
 internal class DefaultReferenceResolver(
   private val references: Map<RefId, AssertionWithPath>,
   private val schemaPathsStack: ArrayDeque<Pair<JsonPointer, Uri>> = ArrayDeque(),

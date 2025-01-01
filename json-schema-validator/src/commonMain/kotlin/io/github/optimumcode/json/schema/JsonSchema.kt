@@ -3,7 +3,7 @@ package io.github.optimumcode.json.schema
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.OutputCollector.DelegateOutputCollector
 import io.github.optimumcode.json.schema.internal.DefaultAssertionContext
-import io.github.optimumcode.json.schema.internal.DefaultReferenceResolver
+import io.github.optimumcode.json.schema.internal.DefaultReferenceResolverProvider
 import io.github.optimumcode.json.schema.internal.IsolatedLoader
 import io.github.optimumcode.json.schema.internal.JsonSchemaAssertion
 import io.github.optimumcode.json.schema.internal.wrapper.wrap
@@ -18,7 +18,7 @@ import kotlin.jvm.JvmStatic
  */
 public class JsonSchema internal constructor(
   private val assertion: JsonSchemaAssertion,
-  private val referenceResolver: DefaultReferenceResolver,
+  private val referenceResolverProvider: DefaultReferenceResolverProvider,
 ) {
   /**
    * Validates [value] against this [JsonSchema].
@@ -56,7 +56,7 @@ public class JsonSchema internal constructor(
     value: AbstractElement,
     errorCollector: ErrorCollector,
   ): Boolean {
-    val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolver)
+    val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolverProvider.createResolver())
     return DelegateOutputCollector(errorCollector).use {
       assertion.validate(value, context, this)
     }
@@ -74,7 +74,7 @@ public class JsonSchema internal constructor(
     value: AbstractElement,
     outputCollectorProvider: OutputCollector.Provider<T>,
   ): T {
-    val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolver)
+    val context = DefaultAssertionContext(JsonPointer.ROOT, referenceResolverProvider.createResolver())
     val collector = outputCollectorProvider.get()
     collector.use {
       assertion.validate(value, context, this)
