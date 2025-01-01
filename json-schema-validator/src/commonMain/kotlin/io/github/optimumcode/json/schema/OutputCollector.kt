@@ -13,8 +13,10 @@ private val NO_TRANSFORMATION: OutputErrorTransformer<*> = { it }
 /**
  * Provides collectors' implementations for outputs
  * defined in [draft 2020-12](https://json-schema.org/draft/2020-12/draft-bhutton-json-schema-01#section-12.4)
+ *
+ * **The implementations of [OutputCollector] are NOT thread-safe**.
  */
-public sealed class OutputCollector<T> private constructor(
+public sealed class OutputCollector<T>(
   parent: OutputCollector<T>? = null,
   transformer: OutputErrorTransformer<T> = NO_TRANSFORMATION,
 ) {

@@ -351,6 +351,11 @@ val valid = schema.validate(elementToValidate, errors::add)
   |               | not                   | Supported                                                                                                                                       |
   </details>
 
+## Thread safety
+
+All public API is thread-safe unless stated otherwise.
+Please, read the documentation for each class/interface carefully before using an instance from different threads.
+
 ## Format assertion
 
 The library supports `format` assertion.

@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.jvm.JvmField
 
-public sealed class ValidationOutput private constructor() {
+public sealed class ValidationOutput {
   public abstract val valid: Boolean
 
   @Serializable

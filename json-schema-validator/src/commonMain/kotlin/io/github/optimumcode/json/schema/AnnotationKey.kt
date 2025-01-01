@@ -14,7 +14,7 @@ import kotlin.reflect.KClass
  *}
  * ```
  */
-public sealed class AnnotationKey<T : Any> private constructor(
+public sealed class AnnotationKey<T : Any>(
   private val name: String,
   internal val type: KClass<T>,
 ) {

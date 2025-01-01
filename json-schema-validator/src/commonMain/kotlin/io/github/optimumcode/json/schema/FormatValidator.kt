@@ -7,7 +7,10 @@ import kotlin.jvm.JvmStatic
  * The [FormatValidator] is used to check whether the [AbstractElement] matches the expected format.
  * If the [AbstractElement] is not of the required type
  * (e.g. validator expects string but the [AbstractElement] is an object)
- * the validator **MUST** return [FormatValidator.Valid] result
+ * the validator **MUST** return [FormatValidator.Valid] result.
+ *
+ * If you create an implementation of [FormatValidator] that will be shared with others
+ * please make sure that it will be state-less since it might be invoked from different threads.
  */
 @ExperimentalApi
 public interface FormatValidator {
