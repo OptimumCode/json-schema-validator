@@ -289,7 +289,7 @@ private fun createSchema(result: LoadResult): JsonSchema {
       .asSequence()
       .filter { it.key in result.usedRefs || it.key in dynamicRefs }
       .associate { it.key to it.value }
-  return JsonSchema(result.assertion, DefaultReferenceResolver(usedReferencesWithPath))
+  return JsonSchema(result.assertion, DefaultReferenceResolverProvider(usedReferencesWithPath))
 }
 
 private class LoadResult(
