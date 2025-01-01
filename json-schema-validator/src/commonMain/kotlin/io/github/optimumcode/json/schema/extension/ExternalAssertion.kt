@@ -10,6 +10,9 @@ import kotlinx.serialization.json.JsonElement
  * This interface allows you to implement your own schema assertion.
  * This interface **does not** allow implementing custom applicators.
  * Only simple assertions (like: _format_, _type_) can be implemented.
+ *
+ * If you create an implementation of [ExternalAssertion] that will be shared with others
+ * please make sure that it will be state-less since it might be invoked from different threads.
  */
 @Suppress("detekt:ForbiddenComment")
 @ExperimentalApi

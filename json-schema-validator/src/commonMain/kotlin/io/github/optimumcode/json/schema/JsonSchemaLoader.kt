@@ -16,6 +16,9 @@ import io.github.optimumcode.json.schema.internal.wellknown.Draft7
 import kotlinx.serialization.json.JsonElement
 import kotlin.jvm.JvmStatic
 
+/**
+ * By default, implementations of [JsonSchemaLoader] are NOT thread-safe
+ */
 @Suppress("detekt:TooManyFunctions")
 public interface JsonSchemaLoader {
   public fun registerWellKnown(draft: SchemaType): JsonSchemaLoader =
@@ -119,6 +122,11 @@ public interface JsonSchemaLoader {
   ): JsonSchema
 
   public companion object {
+    /**
+     * Creates an instance of [JsonSchemaLoader].
+     *
+     * @return implementation of [JsonSchemaLoader]. The implementation is **NOT thread-safe**.
+     */
     @JvmStatic
     public fun create(): JsonSchemaLoader = SchemaLoader()
   }

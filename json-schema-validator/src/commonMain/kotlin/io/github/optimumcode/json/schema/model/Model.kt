@@ -7,6 +7,8 @@ import io.github.optimumcode.json.schema.ExperimentalApi
  * * [ObjectElement] - corresponds to a JSON/YAML object or [Map]
  * * [ArrayElement] - corresponds to a collection of [AbstractElement]s
  * * [PrimitiveElement] - corresponds to a scalar value (string, number, boolean)
+ *
+ * The implementations are NOT required to be thread-safe.
  */
 @ExperimentalApi
 public sealed interface AbstractElement {
