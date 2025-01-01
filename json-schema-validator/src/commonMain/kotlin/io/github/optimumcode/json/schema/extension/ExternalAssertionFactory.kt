@@ -10,10 +10,6 @@ public interface ExternalAssertionFactory {
    * This keyword **must not** overlap with any existing keywords for existing drafts.
    * If keyword overlaps with any keyword for any existing draft and [IllegalStateException] will be thrown
    * when this factory is registered in [io.github.optimumcode.json.schema.JsonSchemaLoader].
-   *
-   * NOTE: currently the library does not have **format** assertion implemented. But it will have.
-   * If you decide to implement it as an [ExternalAssertion] please be aware
-   * that one day this will cause an [IllegalStateException] as it was added to the library itself
    */
   public val keywordName: String
 
