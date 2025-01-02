@@ -36,6 +36,7 @@ class WrappersTest : FunSpec() {
       listOf<Any>() to ArrayElement::class,
       emptyArray<Any>() to ArrayElement::class,
       "test" to PrimitiveElement::class,
+      't' to PrimitiveElement::class,
       42 to PrimitiveElement::class,
       42L to PrimitiveElement::class,
       42.2 to PrimitiveElement::class,
@@ -76,7 +77,7 @@ class WrappersTest : FunSpec() {
       }
     }
 
-    test("primitive wrapper for number") {
+    test("primitive wrapper for integer number") {
       wrapAsElement(42).shouldBeInstanceOf<PrimitiveElement> { el ->
         assertSoftly {
           "isString".asClue { el.isString.shouldBeFalse() }
@@ -86,6 +87,20 @@ class WrappersTest : FunSpec() {
           "content".asClue { el.content shouldBe "42" }
           "longOrNull".asClue { el.longOrNull shouldBe 42L }
           "doubleOrNull".asClue { el.doubleOrNull.shouldBeNull() }
+        }
+      }
+    }
+
+    test("primitive wrapper for floating number") {
+      wrapAsElement(42.5).shouldBeInstanceOf<PrimitiveElement> { el ->
+        assertSoftly {
+          "isString".asClue { el.isString.shouldBeFalse() }
+          "isNumber".asClue { el.isNumber.shouldBeTrue() }
+          "isBoolean".asClue { el.isBoolean.shouldBeFalse() }
+          "isNull".asClue { el.isNull.shouldBeFalse() }
+          "content".asClue { el.content shouldBe "42.5" }
+          "longOrNull".asClue { el.longOrNull.shouldBeNull() }
+          "doubleOrNull".asClue { el.doubleOrNull shouldBe 42.5 }
         }
       }
     }
@@ -102,6 +117,35 @@ class WrappersTest : FunSpec() {
           "doubleOrNull".asClue { el.doubleOrNull.shouldBeNull() }
         }
       }
+    }
+
+    test("primitive wrapper for char") {
+      wrapAsElement('4').shouldBeInstanceOf<PrimitiveElement> { el ->
+        assertSoftly {
+          "isString".asClue { el.isString.shouldBeTrue() }
+          "isNumber".asClue { el.isNumber.shouldBeFalse() }
+          "isBoolean".asClue { el.isBoolean.shouldBeFalse() }
+          "isNull".asClue { el.isNull.shouldBeFalse() }
+          "content".asClue { el.content shouldBe "4" }
+          "longOrNull".asClue { el.longOrNull.shouldBeNull() }
+          "doubleOrNull".asClue { el.doubleOrNull.shouldBeNull() }
+        }
+      }
+    }
+
+    test("primitive wrapper for char as codepoint") {
+      wrapAsElement('4', wrappingConfiguration(charAsCodepoint = true))
+        .shouldBeInstanceOf<PrimitiveElement> { el ->
+          assertSoftly {
+            "isString".asClue { el.isString.shouldBeFalse() }
+            "isNumber".asClue { el.isNumber.shouldBeTrue() }
+            "isBoolean".asClue { el.isBoolean.shouldBeFalse() }
+            "isNull".asClue { el.isNull.shouldBeFalse() }
+            "content".asClue { el.content shouldBe "52" }
+            "longOrNull".asClue { el.longOrNull shouldBe 52L }
+            "doubleOrNull".asClue { el.doubleOrNull.shouldBeNull() }
+          }
+        }
     }
 
     test("object wrapper") {
