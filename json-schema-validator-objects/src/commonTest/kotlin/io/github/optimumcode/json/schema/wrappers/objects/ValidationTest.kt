@@ -1,4 +1,4 @@
-package io.github.optimumcode.json.schema.objects.wrapper
+package io.github.optimumcode.json.schema.wrappers.objects
 
 import io.github.optimumcode.json.pointer.JsonPointer
 import io.github.optimumcode.json.schema.JsonSchema

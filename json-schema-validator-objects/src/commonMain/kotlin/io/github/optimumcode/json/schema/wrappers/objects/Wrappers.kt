@@ -1,7 +1,7 @@
 @file:JvmName("ObjectWrappers")
 @file:Suppress("detekt:MatchingDeclarationName")
 
-package io.github.optimumcode.json.schema.objects.wrapper
+package io.github.optimumcode.json.schema.wrappers.objects
 
 import io.github.optimumcode.json.schema.ExperimentalApi
 import io.github.optimumcode.json.schema.model.AbstractElement

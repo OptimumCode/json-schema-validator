@@ -1,4 +1,4 @@
-package io.github.optimumcode.json.schema.objects.wrapper
+package io.github.optimumcode.json.schema.wrappers.objects
 
 import io.github.optimumcode.json.schema.model.ArrayElement
 import io.github.optimumcode.json.schema.model.ObjectElement
