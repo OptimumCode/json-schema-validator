@@ -14,12 +14,28 @@ import kotlin.jvm.JvmOverloads
 
 @ExperimentalApi
 public class WrappingConfiguration internal constructor(
+  /**
+   * If set to `false` an exception is thrown when wrapping a [Set].
+   * If set to `true`, [Set] is wrapped the same way as [List]
+   */
   public val allowSets: Boolean = false,
+  /**
+   * If set to `false` the [Char] is converted to [String].
+   * If set to `true` the [Char] is converted to a codepoint (and then to [Long])
+   */
+  public val charAsCodepoint: Boolean = false,
 )
 
 @ExperimentalApi
 @JvmOverloads
-public fun wrappingConfiguration(allowSets: Boolean = false): WrappingConfiguration = WrappingConfiguration(allowSets)
+public fun wrappingConfiguration(
+  allowSets: Boolean = false,
+  charAsCodepoint: Boolean = false,
+): WrappingConfiguration =
+  WrappingConfiguration(
+    allowSets = allowSets,
+    charAsCodepoint = charAsCodepoint,
+  )
 
 /**
  * Returns an [AbstractElement] produced by converting the [obj] value.
@@ -36,6 +52,7 @@ public fun wrappingConfiguration(allowSets: Boolean = false): WrappingConfigurat
  * * [Float]
  * * [Double]
  * * [Boolean]
+ * * [Char]
  * * `null`
  *
  * ## Structures:
@@ -47,6 +64,7 @@ public fun wrappingConfiguration(allowSets: Boolean = false): WrappingConfigurat
  * Please be aware that in order to have consistent verification results
  * the [Set] must be one of the ORDERED types, e.g. [LinkedHashSet].
  */
+@JvmOverloads
 @ExperimentalApi
 public fun wrapAsElement(
   obj: Any?,
@@ -62,10 +80,12 @@ public fun wrapAsElement(
     obj is Set<*> && configuration.allowSets ->
       ListWrapper(obj.map { wrapAsElement(it, configuration) })
 
-    obj is String || obj is Number || obj is Boolean -> PrimitiveWrapper(numberToSupportedTypeOrOriginal(obj))
+    isPrimitive(obj) -> PrimitiveWrapper(convertToSupportedType(obj, configuration))
     else -> error("unsupported type to wrap: ${obj::class}")
   }
 }
+
+private fun isPrimitive(obj: Any): Boolean = obj is String || obj is Number || obj is Boolean || obj is Char
 
 /**
  * Returns `true` if the [value] is an integer ([Byte], [Short], [Int], [Long]).
@@ -76,9 +96,17 @@ public fun wrapAsElement(
  */
 internal expect fun isInteger(value: Number): Boolean
 
-private fun numberToSupportedTypeOrOriginal(obj: Any): Any =
+private fun convertToSupportedType(
+  obj: Any,
+  configuration: WrappingConfiguration,
+): Any =
   when {
-    obj !is Number -> obj
+    obj !is Number ->
+      if (obj is Char) {
+        if (configuration.charAsCodepoint) obj.code.toLong() else obj.toString()
+      } else {
+        obj
+      }
     obj is Long -> obj
     isInteger(obj) -> obj.toLong()
     obj is Double -> obj
