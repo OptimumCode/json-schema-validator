@@ -1,13 +1,16 @@
-public final class io/github/optimumcode/json/schema/objects/wrapper/ObjectWrappers {
-	public static final fun wrapAsElement (Ljava/lang/Object;Lio/github/optimumcode/json/schema/objects/wrapper/WrappingConfiguration;)Lio/github/optimumcode/json/schema/model/AbstractElement;
-	public static synthetic fun wrapAsElement$default (Ljava/lang/Object;Lio/github/optimumcode/json/schema/objects/wrapper/WrappingConfiguration;ILjava/lang/Object;)Lio/github/optimumcode/json/schema/model/AbstractElement;
-	public static final fun wrappingConfiguration ()Lio/github/optimumcode/json/schema/objects/wrapper/WrappingConfiguration;
-	public static final fun wrappingConfiguration (Z)Lio/github/optimumcode/json/schema/objects/wrapper/WrappingConfiguration;
-	public static synthetic fun wrappingConfiguration$default (ZILjava/lang/Object;)Lio/github/optimumcode/json/schema/objects/wrapper/WrappingConfiguration;
+public final class io/github/optimumcode/json/schema/wrappers/objects/ObjectWrappers {
+	public static final fun wrapAsElement (Ljava/lang/Object;)Lio/github/optimumcode/json/schema/model/AbstractElement;
+	public static final fun wrapAsElement (Ljava/lang/Object;Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;)Lio/github/optimumcode/json/schema/model/AbstractElement;
+	public static synthetic fun wrapAsElement$default (Ljava/lang/Object;Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;ILjava/lang/Object;)Lio/github/optimumcode/json/schema/model/AbstractElement;
+	public static final fun wrappingConfiguration ()Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
+	public static final fun wrappingConfiguration (Z)Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
+	public static final fun wrappingConfiguration (ZZ)Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
+	public static synthetic fun wrappingConfiguration$default (ZZILjava/lang/Object;)Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
 }
 
-public final class io/github/optimumcode/json/schema/objects/wrapper/WrappingConfiguration {
+public final class io/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration {
 	public fun <init> ()V
 	public final fun getAllowSets ()Z
+	public final fun getCharAsCodepoint ()Z
 }
 
