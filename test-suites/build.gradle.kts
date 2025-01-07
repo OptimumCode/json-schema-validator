@@ -60,6 +60,14 @@ kotlin {
         implementation(kotlin("test-annotations-common"))
         implementation(libs.okio.common)
         implementation(libs.kotlin.serialization.json.okio)
+
+        implementation(libs.kotlin.coroutines.core.get().toString()) {
+          // see "https://kotlinlang.slack.com/archives/CDFP59223/p1736191408326039?thread_ts=1734964013.996149&cid=CDFP59223"
+          because(
+            "there is a problem with linkage related to changes in kotlin 2.1.0: " +
+              "wasmJs tests in browser does not work without updating coroutines to the version compiled with 2.1.0",
+          )
+        }
       }
     }
     jsTest {
