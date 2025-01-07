@@ -7,7 +7,7 @@ if [[ "$KTLINT_VERSION" == "" ]]; then
 	echo "Provide ktlint version in KTLINT_VERSION env variable"
 	exit 1
 fi
-mkdir ${HOME}/.local/bin
+mkdir -p ${HOME}/.local/bin
 echo "Installing detekt $DETEKT_VERSION"
 jar_destination="${HOME}/.local/lib/detekt"
 mkdir -p ${jar_destination}
