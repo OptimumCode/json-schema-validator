@@ -49,6 +49,7 @@ jobs:
         ./gradlew --dry-run -q # download wrapper if needed
         export DETEKT_VERSION=$(./gradlew --console plain -q printDetektVersion)
         export KTLINT_VERSION=$(./gradlew --console plain -q printKtlintVersion)
+        mkdir -p ${HOME}/.local/bin
         ./scripts/install-format-tools.sh
     - name: 'Checkout PR'
       uses: actions/checkout@v4

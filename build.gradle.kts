@@ -31,9 +31,13 @@ nexusPublishing {
 }
 
 tasks.register("printKtlintVersion") {
-  println(libs.versions.ktlint.get())
+  doLast {
+    println(libs.versions.ktlint.get())
+  }
 }
 
 tasks.register("printDetektVersion") {
-  println(libs.versions.detekt.get())
+  doLast {
+    println(libs.versions.detekt.get())
+  }
 }
