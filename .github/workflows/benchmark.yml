@@ -39,7 +39,9 @@ on:
 
 env:
   REPORT_FORMAT: ${{ (github.event_name == 'push' || github.event_name == 'pull_request' ) && 'json' || 'csv' }}
-  MAIN_BENCHMARK_TASK: ${{ github.event.pull_request.number && 'prValidationBenchmark' || 'benchmark' }}
+  MAIN_BENCH_TASK: ${{ github.event.pull_request.number && 'prValidationBenchmark' || 'benchmark' }}
+  MAIN_BENCH_RESULTS: ${{ github.event.pull_request.number && 'prValidation' || 'main' }}
+  COMPARISON_BENCH_RESULTS: ${{ github.event.pull_request.number && 'prValidationComparison' || 'comparison' }}
 
 concurrency:
   cancel-in-progress: true
@@ -90,7 +92,7 @@ jobs:
           gradle-version: wrapper
       - name: Run benchmarks
         run: >
-          ./gradlew --no-daemon :benchmark:${{ env.MAIN_BENCHMARK_TASK }} ${{ matrix.additional-task }}
+          ./gradlew --no-daemon :benchmark:${{ env.MAIN_BENCH_TASK }} ${{ matrix.additional-task }}
           -Pbenchmark_warmups=${{ inputs.warmups }}
           -Pbenchmark_iterations=${{ inputs.iterations }}
           -Pbenchmark_iteration_time=${{ inputs.iteration-time }}
@@ -125,13 +127,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bench-result-${{ matrix.os }}
-          path: ${{ env.BENCHMARK_RESULTS }}/main/**/*.json
+          path: ${{ env.BENCHMARK_RESULTS }}/${{ env.MAIN_BENCH_RESULTS }}/**/*.json
       - name: Store comparison results as artifact
         if: env.REPORT_FORMAT == 'json' && matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v4
         with:
           name: bench-comparison-result-${{ matrix.os }}
-          path: ${{ env.BENCHMARK_RESULTS }}/comparison/**/*.json
+          path: ${{ env.BENCHMARK_RESULTS }}/${{ env.COMPARISON_BENCH_RESULTS }}/**/*.json
 
   upload-benchmark-results:
     if: (github.event_name == 'push' || github.event_name == 'pull_request') && github.repository == 'OptimumCode/json-schema-validator'
