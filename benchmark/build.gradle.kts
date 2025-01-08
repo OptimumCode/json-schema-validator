@@ -62,6 +62,9 @@ benchmark {
     getByName("main") {
       include(".*Common.*Bench.*")
     }
+    create("prValidation") {
+      include(".*CommonAvgTimeBench.*")
+    }
     create("comparison") {
       include(".*Comparison.*Benchmark.*")
     }

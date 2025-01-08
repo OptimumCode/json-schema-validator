@@ -39,6 +39,7 @@ on:
 
 env:
   REPORT_FORMAT: ${{ (github.event_name == 'push' || github.event_name == 'pull_request' ) && 'json' || 'csv' }}
+  MAIN_BENCHMARK_TASK: ${{ github.event.pull_request.number && 'prValidationBenchmark' || 'benchmark' }}
 
 concurrency:
   cancel-in-progress: true
@@ -89,7 +90,7 @@ jobs:
           gradle-version: wrapper
       - name: Run benchmarks
         run: >
-          ./gradlew --no-daemon :benchmark:benchmark ${{ matrix.additional-task }}
+          ./gradlew --no-daemon :benchmark:${{ env.MAIN_BENCHMARK_TASK }} ${{ matrix.additional-task }}
           -Pbenchmark_warmups=${{ inputs.warmups }}
           -Pbenchmark_iterations=${{ inputs.iterations }}
           -Pbenchmark_iteration_time=${{ inputs.iteration-time }}
