@@ -68,6 +68,9 @@ benchmark {
     create("comparison") {
       include(".*Comparison.*Benchmark.*")
     }
+    create("prValidationComparison") {
+      include(".*ComparisonAvgTimeBenchmark.*")
+    }
   }
   targets {
     register("jvm")

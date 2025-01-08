@@ -51,7 +51,7 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            additional-task: ':benchmark:jvmComparisonBenchmark'
+            additional-task: ":benchmark:${{ github.event.pull_request.number && 'jvmPrValidationComparisonBenchmark' || 'jvmComparisonBenchmark' }}"
           - os: macos-latest
             additional-task: '-x :benchmark:jvmBenchmark'
           - os: macos-13 # for macosX64
