@@ -55,11 +55,11 @@ jobs:
           - os: ubuntu-latest
             additional-task: ":benchmark:${{ github.event.pull_request.number && 'jvmPrValidationComparisonBenchmark' || 'jvmComparisonBenchmark' }}"
           - os: macos-latest
-            additional-task: '-x :benchmark:jvmBenchmark'
+            additional-task: "-x :benchmark:${{ github.event.pull_request.number && 'jvmPrValidationBenchmark' || 'jvmBenchmark' }}"
           - os: macos-13 # for macosX64
-            additional-task: '-x :benchmark:jvmBenchmark'
+            additional-task: "-x :benchmark:${{ github.event.pull_request.number && 'jvmPrValidationBenchmark' || 'jvmBenchmark' }}"
           - os: windows-latest
-            additional-task: '-x :benchmark:jvmBenchmark'
+            additional-task: "-x :benchmark:${{ github.event.pull_request.number && 'jvmPrValidationBenchmark' || 'jvmBenchmark' }}"
     runs-on: ${{ matrix.os }}
     name: Run benchmarks on ${{ matrix.os }}
     env:
