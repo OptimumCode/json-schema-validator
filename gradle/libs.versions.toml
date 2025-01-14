@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.0.21"
+kotlin = "2.1.0"
 kotest = "6.0.0.M1"
 detekt = "1.23.7"
 ktlint = "1.1.0"
@@ -26,6 +26,7 @@ nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version = "2.0.0
 kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
 kotlin-serialization-json-okio = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json-okio", version.ref = "serialization" }
 kotlin-benchmark = { group = "org.jetbrains.kotlinx", name = "kotlinx-benchmark-runtime", version.ref = "benchmark" }
+kotlin-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version = "1.10.1" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
 kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
