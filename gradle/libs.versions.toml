@@ -30,7 +30,7 @@ kotlin-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coro
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
 kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
-uri = { group = "com.eygraber", name = "uri-kmp", version = "0.0.18" }
+uri = { group = "com.eygraber", name = "uri-kmp", version = "0.0.19" }
 okio-common = { group = "com.squareup.okio", name = "okio", version.ref = "okio" }
 okio-nodefilesystem = { group = "com.squareup.okio", name = "okio-nodefilesystem", version.ref = "okio" }
 openapi-bom = { group = "io.openapiprocessor", name = "json-schema-validator-bom", version.ref = "openapi" }
