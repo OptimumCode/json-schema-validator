@@ -25,6 +25,9 @@ class JsonSchemaIdnHostnameFormatValidationTest : FunSpec() {
           "\u06281\u0300",
           // Valid LTR label
           "\u0628.a1\u0300",
+          "a\u3002b",
+          "a\uFF0Eb",
+          "a\uFF61b",
         ),
       invalidTestCases =
         listOf(
