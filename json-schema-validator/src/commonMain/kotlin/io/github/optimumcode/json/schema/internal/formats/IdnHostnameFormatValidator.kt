@@ -49,7 +49,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       return FormatValidator.Invalid()
     }
     if (value.length == 1 && isLabelSeparator(value[0])) {
-      return FormatValidator.Valid()
+      return FormatValidator.Invalid()
     }
 
     // https://datatracker.ietf.org/doc/html/rfc5893#section-1.4
@@ -506,6 +506,11 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
   private fun isACE(label: String): Boolean =
     label.length > Punycode.PREFIX_SIZE && label.startsWith(Punycode.PREFIX_STRING)
 
+  /**
+   * Returns `true` if the [c] is a dot
+   * according to [RFC3490 Section 3.1](https://datatracker.ietf.org/doc/html/rfc3490#section-3.1).
+   * Otherwise, returns `false`
+   */
   private fun isLabelSeparator(c: Char): Boolean = c == '.' || c == '\u3002' || c == '\uFF0E' || c == '\uFF61'
 
   private fun findDot(

@@ -9,7 +9,6 @@ class JsonSchemaIdnHostnameFormatValidationTest : FunSpec() {
       format = "idn-hostname",
       validTestCases =
         listOf(
-          ".",
           "a",
           "hostname",
           // 63
@@ -30,6 +29,10 @@ class JsonSchemaIdnHostnameFormatValidationTest : FunSpec() {
       invalidTestCases =
         listOf(
           TestCase("", "empty value"),
+          TestCase(".", "single separator"),
+          TestCase("\u3002", "single separator U+3002"),
+          TestCase("\uFF0E", "single separator U+FF0E"),
+          TestCase("\uFF61", "single separator U+FF61"),
           TestCase("xn--80aakdqneodaeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaai7g2bxc6qoj1f", "too long punycode"),
           TestCase("оооооооооооооооооооооооооооооооооооченьдлиннаястрока", "too long unicode"),
           // Not normalized \u4E3D. Example from https://unicode.org/Public/UNIDATA/NormalizationTest.txt
