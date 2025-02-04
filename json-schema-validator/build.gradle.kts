@@ -3,8 +3,10 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
@@ -18,6 +20,12 @@ plugins {
   convention.publication
 }
 
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(11)
+  }
+}
+
 kotlin {
   explicitApi()
 
@@ -25,8 +33,12 @@ kotlin {
   compilerOptions {
     freeCompilerArgs.add("-opt-in=io.github.optimumcode.json.schema.ExperimentalApi")
   }
-  jvmToolchain(11)
   jvm {
+    withJava()
+    compilerOptions {
+      jvmTarget = JvmTarget.JVM_11
+      freeCompilerArgs.add("-Xjdk-release=11")
+    }
     testRuns["test"].executionTask.configure {
       useJUnitPlatform()
     }
@@ -167,5 +179,25 @@ afterEvaluate {
 
   tasks.named("check").configure {
     dependsOn(detektAllTask)
+  }
+}
+
+tasks {
+  named<JavaCompile>("compileJava") {
+    options.compilerArgumentProviders +=
+      object : CommandLineArgumentProvider {
+        @InputFiles
+        @PathSensitive(PathSensitivity.RELATIVE)
+        val kotlinClasses =
+          this@tasks.named<KotlinCompile>(
+            "compileKotlinJvm",
+          ).flatMap(KotlinCompile::destinationDirectory)
+
+        override fun asArguments() =
+          listOf(
+            "--patch-module",
+            "io.github.optimumcode.json.schema=${kotlinClasses.get().asFile.absolutePath}",
+          )
+      }
   }
 }
