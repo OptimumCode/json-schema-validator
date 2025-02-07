@@ -25,3 +25,12 @@ updates:
     directory: '/'
     schedule:
       interval: daily
+  - package-ecosystem: gitsubmodule
+    directory: "/"
+    labels:
+      - ignore
+      - tests
+    assignees:
+      - 'OptimumCode'
+    schedule:
+      interval: daily
