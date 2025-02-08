@@ -2,7 +2,6 @@ package io.github.optimumcode.json.schema.extension
 
 import io.github.optimumcode.json.schema.ErrorCollector
 import io.github.optimumcode.json.schema.ExperimentalApi
-import io.github.optimumcode.json.schema.internal.wrapper.JsonWrapper
 import io.github.optimumcode.json.schema.model.AbstractElement
 import kotlinx.serialization.json.JsonElement
 
@@ -36,24 +35,15 @@ public interface ExternalAssertion {
     element: AbstractElement,
     context: ExternalAssertionContext,
     errorCollector: ErrorCollector,
-  ): Boolean =
-    // TODO: remove it after two minor/major release
-    validate(element.unwrap(), context, errorCollector)
+  ): Boolean = throw NotImplementedError("please override the method in your implementation")
 
-  // TODO: increase level to error in the next release
   @Deprecated(
     message = "override validate(AbstractElement, ExternalAssertionContext, ErrorCollector) instead",
-    level = DeprecationLevel.WARNING,
+    level = DeprecationLevel.ERROR,
   )
   public fun validate(
     element: JsonElement,
     context: ExternalAssertionContext,
     errorCollector: ErrorCollector,
-  ): Boolean = throw UnsupportedOperationException()
+  ): Boolean = throw UnsupportedOperationException("please use validate method with AbstractElement parameter")
 }
-
-internal fun AbstractElement.unwrap(): JsonElement =
-  when (this) {
-    is JsonWrapper -> unwrap()
-    else -> error("unsupported element type: ${this::class.simpleName}")
-  }

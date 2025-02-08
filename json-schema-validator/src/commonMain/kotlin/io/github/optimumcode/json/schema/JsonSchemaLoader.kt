@@ -48,7 +48,7 @@ public interface JsonSchemaLoader {
 
   @Deprecated(
     message = "This method will be removed in a future release. Please use the alternative that accepts Uri type",
-    level = DeprecationLevel.WARNING,
+    level = DeprecationLevel.ERROR,
     replaceWith =
       ReplaceWith(
         imports = ["com.eygraber.uri.Uri"],
@@ -67,7 +67,7 @@ public interface JsonSchemaLoader {
 
   @Deprecated(
     message = "This method will be removed in a future release. Please use the alternative that accepts Uri type",
-    level = DeprecationLevel.WARNING,
+    level = DeprecationLevel.ERROR,
     replaceWith =
       ReplaceWith(
         imports = ["com.eygraber.uri.Uri"],
