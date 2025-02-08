@@ -8,7 +8,6 @@ import io.github.optimumcode.json.schema.JsonSchema
 import io.github.optimumcode.json.schema.JsonSchemaLoader
 import io.github.optimumcode.json.schema.SchemaOption
 import io.github.optimumcode.json.schema.SchemaType
-import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
@@ -235,12 +234,8 @@ private fun FunSpec.executeFromDirectory(
         test("$testSuiteID at index $testSuiteIndex test $testIndex") {
           withClue(listOf(testSuite.description, testSuite.schema, test.description, test.data)) {
             val schema: JsonSchema =
-              shouldNotThrowAny {
-                schemaLoader.fromJsonElement(testSuite.schema, schemaType)
-              }
-            shouldNotThrowAny {
-              schema.validate(test.data, ErrorCollector.EMPTY)
-            } shouldBe test.valid
+              schemaLoader.fromJsonElement(testSuite.schema, schemaType)
+            schema.validate(test.data, ErrorCollector.EMPTY) shouldBe test.valid
           }
         }
       }

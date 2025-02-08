@@ -8,7 +8,6 @@ import io.github.optimumcode.json.schema.ValidationError
 import io.github.optimumcode.json.schema.model.AbstractElement
 import io.github.optimumcode.json.schema.model.PrimitiveElement
 import io.kotest.assertions.assertSoftly
-import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
@@ -98,23 +97,19 @@ class JsonSchemaExtensionTest : FunSpec() {
 
     test("registers all extensions with varargs") {
       val schema =
-        shouldNotThrowAny {
-          JsonSchemaLoader
-            .create()
-            .withExtensions(SimpleTimeFormatAssertionFactory, SimpleDateFormatAssertionFactory)
-            .fromDefinition(schemaDef)
-        }
+        JsonSchemaLoader
+          .create()
+          .withExtensions(SimpleTimeFormatAssertionFactory, SimpleDateFormatAssertionFactory)
+          .fromDefinition(schemaDef)
       checkValidAndInvalid(schema)
     }
 
     test("registers all extensions with iterable") {
       val schema =
-        shouldNotThrowAny {
-          JsonSchemaLoader
-            .create()
-            .withExtensions(listOf(SimpleTimeFormatAssertionFactory, SimpleDateFormatAssertionFactory))
-            .fromDefinition(schemaDef)
-        }
+        JsonSchemaLoader
+          .create()
+          .withExtensions(listOf(SimpleTimeFormatAssertionFactory, SimpleDateFormatAssertionFactory))
+          .fromDefinition(schemaDef)
       checkValidAndInvalid(schema)
     }
   }
