@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1739196528209,
+  "lastUpdate": 1739196540631,
   "repoUrl": "https://github.com/OptimumCode/json-schema-validator",
   "entries": {
     "KMP JSON schema validator": [
@@ -31208,270 +31208,6 @@ window.BENCHMARK_DATA = {
       {
         "commit": {
           "author": {
-            "email": "oleg31101996@gmail.com",
-            "name": "Oleg Smirnov",
-            "username": "OptimumCode"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "7286f6882c2829d6ffb448df080a2017ade76d1f",
-          "message": "Extract Unicode dump into separate workflow. Add manual CodeQL workflow (#173)\n\nThis reduces the number of downloads and the load on the service is used\r\nfor that",
-          "timestamp": "2024-08-03T12:20:24Z",
-          "tree_id": "e5093d8cc32973ed1f173942c734ab91d2170175",
-          "url": "https://github.com/OptimumCode/json-schema-validator/commit/7286f6882c2829d6ffb448df080a2017ade76d1f"
-        },
-        "date": 1722689207479,
-        "tool": "jmh",
-        "benches": [
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2461.049197729491,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2189.822093660327,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2542.1058839282223,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2448.646754931816,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 929.4991071177404,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 923.3926081580388,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2607.7494029256477,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2570.4559239241967,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3559.5216808155565,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 5873509.229068691,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 635.3436307624854,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 672.6478399199044,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3339.0543714829446,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1691.7493055118102,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3162.40206897826,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 966395.3611954277,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3412.6667125892577,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1579.909115602043,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 73.0388804739262,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 81.40086418882856,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 396.0294440369621,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 456.3643980817309,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 387.89895701905897,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 415.63413664958046,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1047.4351583833181,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1123.9707334019963,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 399.3068771338356,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 396.0811576494229,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 277.03213842409633,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 0.15888317177595307,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1513.3168700114588,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1585.0105889379263,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 296.6465913624604,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 572.1378979415853,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 299.80474871417925,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1.1499048088517836,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 303.02135877604996,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 641.1941506689516,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 13827.942132587303,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 12104.210361485626,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          }
-        ]
-      },
-      {
-        "commit": {
-          "author": {
             "email": "github@mikepenz.dev",
             "name": "Mike Penz",
             "username": "mikepenz"
@@ -44400,6 +44136,270 @@ window.BENCHMARK_DATA = {
           {
             "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
             "value": 12259.00201153376,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "01dfc47ff90be248ed45d55970b4c7b2c79107e4",
+          "message": "Bump kotlin from 2.1.0 to 2.1.10 (#243)\n\nBumps `kotlin` from 2.1.0 to 2.1.10.\nUpdates `org.jetbrains.kotlin.multiplatform` from 2.1.0 to 2.1.10\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/releases\">org.jetbrains.kotlin.multiplatform's\nreleases</a>.</em></p>\n<blockquote>\n<h2>Kotlin 2.1.10</h2>\n<h2>Changelog</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73858\"><code>KT-73858</code></a>\nCompose / iOS: NullPointerException on building</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73454\"><code>KT-73454</code></a>\nK2: Fix type parameters mapping for typealiases with inner RHS</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73043\"><code>KT-73043</code></a>\nK2 Compiler does not allow references to inner constructors with\ntypealiases</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-74040\"><code>KT-74040</code></a>\nCompilation of inner class usage does not check the visibility of parent\nclass during compilation in different rounds</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73339\"><code>KT-73339</code></a>\nK2: &quot;VerifyError: Bad type on operand stack&quot; because of\nmissing implicit cast on generic field receiver with star\nprojection</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72585\"><code>KT-72585</code></a>\nK2: Compilation failure when upgrading to Kotlin 2.0.20+: Cannot replace\ntop-level type with star projection: S</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73399\"><code>KT-73399</code></a>\ncompile-time JVM codegen failure on a KProperty argument of a\nKSuspendFunction parameter</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72725\"><code>KT-72725</code></a>\nKMP: Unsupported actualization of inherited java field in expect\nclass</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73153\"><code>KT-73153</code></a>\nK2: Standalone diagnostics on type arguments are not reported</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/CMP-5680\"><code>CMP-5680</code></a>\nCompose compiler: unexpected stability warnings for classes compiled\nwith 2.0.10</li>\n<li><a\nhref=\"https://issuetracker.google.com/issues/381407900\"><code>b/381407900</code></a>\nAvoid adding Compose annotations on synthetic classes</li>\n</ul>\n<h3>IR. Inlining</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73981\"><code>KT-73981</code></a>\nCherry-pick the fix for KT-73482 to 2.1.10</li>\n</ul>\n<h3>JavaScript</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70778\"><code>KT-70778</code></a>\nKotlin Js companion is undefined in production build</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73130\"><code>KT-73130</code></a>\nKJS: Missed <code>break</code> for do/while in generated JS code</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-58797\"><code>KT-58797</code></a>\nOptimize the code generated for objects on JS and Wasm backends</li>\n</ul>\n<h3>Klibs</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70146\"><code>KT-70146</code></a>\n[KLIB Resolve] Don't fail on nonexistent transitive dependency</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73951\"><code>KT-73951</code></a>\nWorkaround for &quot;Partial linkage engine may not patch some\ndiscrepancies in IR when compiling Kotlin/Native static caches&quot; in\n2.1.10</li>\n</ul>\n<h3>Native</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73559\"><code>KT-73559</code></a>\nK/Native: AndroidNativeArm64 linking fails starting from Kotlin\n2.1.0</li>\n</ul>\n<h3>Tools. CLI</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73967\"><code>KT-73967</code></a>\nJDK 25: &quot;IllegalArgumentException: 25-ea&quot; with EA builds</li>\n</ul>\n<h3>Tools. Daemon</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73311\"><code>KT-73311</code></a>\n&quot;Unable to release compile session, maybe daemon is already\ndown&quot; flakiness</li>\n</ul>\n<h3>Tools. Gradle</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73728\"><code>KT-73728</code></a>\n'generatePomFileForMavenPublication' creates pom with dependencies with\n'unspecified' version</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/blob/v2.1.10/ChangeLog.md\">org.jetbrains.kotlin.multiplatform's\nchangelog</a>.</em></p>\n<blockquote>\n<h2>2.1.10-RC2</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73858\"><code>KT-73858</code></a>\nCompose / iOS: NullPointerException on building</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-74040\"><code>KT-74040</code></a>\nCompilation of inner class usage does not check the visibility of parent\nclass during compilation in different rounds</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://issuetracker.google.com/issues/381407900\"><code>b/381407900</code></a>\nAvoid adding Compose annotations on synthetic classes</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/CMP-5680\"><code>CMP-5680</code></a>\nCompose compiler: unexpected stability warnings for classes compiled\nwith 2.0.10</li>\n</ul>\n<h2>2.1.10-RC</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73454\"><code>KT-73454</code></a>\nK2: Fix type parameters mapping for typealiases with inner RHS</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73043\"><code>KT-73043</code></a>\nK2 Compiler does not allow references to inner constructors with\ntypealiases</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73339\"><code>KT-73339</code></a>\nK2: &quot;VerifyError: Bad type on operand stack&quot; because of\nmissing implicit cast on generic field receiver with star\nprojection</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72585\"><code>KT-72585</code></a>\nK2: Compilation failure when upgrading to Kotlin 2.0.20+: Cannot replace\ntop-level type with star projection: S</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73399\"><code>KT-73399</code></a>\ncompile-time JVM codegen failure on a KProperty argument of a\nKSuspendFunction parameter</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72725\"><code>KT-72725</code></a>\nKMP: Unsupported actualization of inherited java field in expect\nclass</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73153\"><code>KT-73153</code></a>\nK2: Standalone diagnostics on type arguments are not reported</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/CMP-5680\"><code>CMP-5680</code></a>\nCompose compiler: unexpected stability warnings for classes compiled\nwith 2.0.10</li>\n</ul>\n<h3>IR. Inlining</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73981\"><code>KT-73981</code></a>\nCherry-pick the fix for KT-73482 to 2.1.10</li>\n</ul>\n<h3>JavaScript</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-58797\"><code>KT-58797</code></a>\nOptimize the code generated for objects on JS and Wasm backends</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70778\"><code>KT-70778</code></a>\nKotlin Js companion is undefined in production build</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73130\"><code>KT-73130</code></a>\nKJS: Missed <code>break</code> for do/while in generated JS code</li>\n</ul>\n<h3>Klibs</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73951\"><code>KT-73951</code></a>\nWorkaround for &quot;Partial linkage engine may not patch some\ndiscrepancies in IR when compiling Kotlin/Native static caches&quot; in\n2.1.10</li>\n</ul>\n<h3>Native</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73559\"><code>KT-73559</code></a>\nK/Native: AndroidNativeArm64 linking fails starting from Kotlin\n2.1.0</li>\n</ul>\n<h3>Tools. CLI</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73967\"><code>KT-73967</code></a>\nJDK 25: &quot;IllegalArgumentException: 25-ea&quot; with EA builds</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/6dff5659f42b0b90863d10ee503efd5a8ebb1034\"><code>6dff565</code></a>\nAdd ChangeLog for 2.1.10-RC2</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/5e6f6a655b9efe4aa35387b60143a6c4611e8c2c\"><code>5e6f6a6</code></a>\n[tests] Turned on passing tests</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/b968b02674e99f3fb423843b27d382f110b25468\"><code>b968b02</code></a>\n[K/N] Skip missing dependencies during cache building</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/8b57d4490f9708a6458c5822a72567778ab1d59c\"><code>8b57d44</code></a>\n[CMP] no metadata annotations on synthetic classes</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/f82abd90b3b1de74a89a10034c2ea843308c8fa2\"><code>f82abd9</code></a>\n[AA] Lazily compute the effective visibility in FIR stub-based\ndeserializer</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/618eaff0cdd5dfe40cb37c8fd2c679951d0ff51e\"><code>618eaff</code></a>\n[FIR] Don't render lazy attributes with <code>null</code> value in FIR\nrenderer</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/5f5af3826c2aca1c43e1644830085db3e1cc6a7d\"><code>5f5af38</code></a>\n[FIR] Remove incorrect fast-path from <a\nhref=\"https://github.com/PublishedAPI\"><code>@​PublishedAPI</code></a>\ncomputation for binary de...</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/435080bbd908b4604c4d6e74696506adeba5f453\"><code>435080b</code></a>\n[FIR] Consider effective visibility of parent class during\ndeserialization</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/05e92d4ee57784037b6eb759705b2ab58653cc7f\"><code>05e92d4</code></a>\n[Test] Reproduce KT-74040 in AA tests</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/c49acfbcb1262d58ef541340e8f29043665d2e62\"><code>c49acfb</code></a>\n[Test] Render <code>isPublicApi</code> attribute in AA tests</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/JetBrains/kotlin/compare/v2.1.0...v2.1.10\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\nUpdates `org.jetbrains.kotlin.plugin.serialization` from 2.1.0 to 2.1.10\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/releases\">org.jetbrains.kotlin.plugin.serialization's\nreleases</a>.</em></p>\n<blockquote>\n<h2>Kotlin 2.1.10</h2>\n<h2>Changelog</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73858\"><code>KT-73858</code></a>\nCompose / iOS: NullPointerException on building</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73454\"><code>KT-73454</code></a>\nK2: Fix type parameters mapping for typealiases with inner RHS</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73043\"><code>KT-73043</code></a>\nK2 Compiler does not allow references to inner constructors with\ntypealiases</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-74040\"><code>KT-74040</code></a>\nCompilation of inner class usage does not check the visibility of parent\nclass during compilation in different rounds</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73339\"><code>KT-73339</code></a>\nK2: &quot;VerifyError: Bad type on operand stack&quot; because of\nmissing implicit cast on generic field receiver with star\nprojection</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72585\"><code>KT-72585</code></a>\nK2: Compilation failure when upgrading to Kotlin 2.0.20+: Cannot replace\ntop-level type with star projection: S</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73399\"><code>KT-73399</code></a>\ncompile-time JVM codegen failure on a KProperty argument of a\nKSuspendFunction parameter</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72725\"><code>KT-72725</code></a>\nKMP: Unsupported actualization of inherited java field in expect\nclass</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73153\"><code>KT-73153</code></a>\nK2: Standalone diagnostics on type arguments are not reported</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/CMP-5680\"><code>CMP-5680</code></a>\nCompose compiler: unexpected stability warnings for classes compiled\nwith 2.0.10</li>\n<li><a\nhref=\"https://issuetracker.google.com/issues/381407900\"><code>b/381407900</code></a>\nAvoid adding Compose annotations on synthetic classes</li>\n</ul>\n<h3>IR. Inlining</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73981\"><code>KT-73981</code></a>\nCherry-pick the fix for KT-73482 to 2.1.10</li>\n</ul>\n<h3>JavaScript</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70778\"><code>KT-70778</code></a>\nKotlin Js companion is undefined in production build</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73130\"><code>KT-73130</code></a>\nKJS: Missed <code>break</code> for do/while in generated JS code</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-58797\"><code>KT-58797</code></a>\nOptimize the code generated for objects on JS and Wasm backends</li>\n</ul>\n<h3>Klibs</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70146\"><code>KT-70146</code></a>\n[KLIB Resolve] Don't fail on nonexistent transitive dependency</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73951\"><code>KT-73951</code></a>\nWorkaround for &quot;Partial linkage engine may not patch some\ndiscrepancies in IR when compiling Kotlin/Native static caches&quot; in\n2.1.10</li>\n</ul>\n<h3>Native</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73559\"><code>KT-73559</code></a>\nK/Native: AndroidNativeArm64 linking fails starting from Kotlin\n2.1.0</li>\n</ul>\n<h3>Tools. CLI</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73967\"><code>KT-73967</code></a>\nJDK 25: &quot;IllegalArgumentException: 25-ea&quot; with EA builds</li>\n</ul>\n<h3>Tools. Daemon</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73311\"><code>KT-73311</code></a>\n&quot;Unable to release compile session, maybe daemon is already\ndown&quot; flakiness</li>\n</ul>\n<h3>Tools. Gradle</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73728\"><code>KT-73728</code></a>\n'generatePomFileForMavenPublication' creates pom with dependencies with\n'unspecified' version</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/blob/v2.1.10/ChangeLog.md\">org.jetbrains.kotlin.plugin.serialization's\nchangelog</a>.</em></p>\n<blockquote>\n<h2>2.1.10-RC2</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73858\"><code>KT-73858</code></a>\nCompose / iOS: NullPointerException on building</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-74040\"><code>KT-74040</code></a>\nCompilation of inner class usage does not check the visibility of parent\nclass during compilation in different rounds</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://issuetracker.google.com/issues/381407900\"><code>b/381407900</code></a>\nAvoid adding Compose annotations on synthetic classes</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/CMP-5680\"><code>CMP-5680</code></a>\nCompose compiler: unexpected stability warnings for classes compiled\nwith 2.0.10</li>\n</ul>\n<h2>2.1.10-RC</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73454\"><code>KT-73454</code></a>\nK2: Fix type parameters mapping for typealiases with inner RHS</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73043\"><code>KT-73043</code></a>\nK2 Compiler does not allow references to inner constructors with\ntypealiases</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73339\"><code>KT-73339</code></a>\nK2: &quot;VerifyError: Bad type on operand stack&quot; because of\nmissing implicit cast on generic field receiver with star\nprojection</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72585\"><code>KT-72585</code></a>\nK2: Compilation failure when upgrading to Kotlin 2.0.20+: Cannot replace\ntop-level type with star projection: S</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73399\"><code>KT-73399</code></a>\ncompile-time JVM codegen failure on a KProperty argument of a\nKSuspendFunction parameter</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72725\"><code>KT-72725</code></a>\nKMP: Unsupported actualization of inherited java field in expect\nclass</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73153\"><code>KT-73153</code></a>\nK2: Standalone diagnostics on type arguments are not reported</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/CMP-5680\"><code>CMP-5680</code></a>\nCompose compiler: unexpected stability warnings for classes compiled\nwith 2.0.10</li>\n</ul>\n<h3>IR. Inlining</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73981\"><code>KT-73981</code></a>\nCherry-pick the fix for KT-73482 to 2.1.10</li>\n</ul>\n<h3>JavaScript</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-58797\"><code>KT-58797</code></a>\nOptimize the code generated for objects on JS and Wasm backends</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70778\"><code>KT-70778</code></a>\nKotlin Js companion is undefined in production build</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73130\"><code>KT-73130</code></a>\nKJS: Missed <code>break</code> for do/while in generated JS code</li>\n</ul>\n<h3>Klibs</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73951\"><code>KT-73951</code></a>\nWorkaround for &quot;Partial linkage engine may not patch some\ndiscrepancies in IR when compiling Kotlin/Native static caches&quot; in\n2.1.10</li>\n</ul>\n<h3>Native</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73559\"><code>KT-73559</code></a>\nK/Native: AndroidNativeArm64 linking fails starting from Kotlin\n2.1.0</li>\n</ul>\n<h3>Tools. CLI</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73967\"><code>KT-73967</code></a>\nJDK 25: &quot;IllegalArgumentException: 25-ea&quot; with EA builds</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/6dff5659f42b0b90863d10ee503efd5a8ebb1034\"><code>6dff565</code></a>\nAdd ChangeLog for 2.1.10-RC2</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/5e6f6a655b9efe4aa35387b60143a6c4611e8c2c\"><code>5e6f6a6</code></a>\n[tests] Turned on passing tests</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/b968b02674e99f3fb423843b27d382f110b25468\"><code>b968b02</code></a>\n[K/N] Skip missing dependencies during cache building</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/8b57d4490f9708a6458c5822a72567778ab1d59c\"><code>8b57d44</code></a>\n[CMP] no metadata annotations on synthetic classes</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/f82abd90b3b1de74a89a10034c2ea843308c8fa2\"><code>f82abd9</code></a>\n[AA] Lazily compute the effective visibility in FIR stub-based\ndeserializer</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/618eaff0cdd5dfe40cb37c8fd2c679951d0ff51e\"><code>618eaff</code></a>\n[FIR] Don't render lazy attributes with <code>null</code> value in FIR\nrenderer</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/5f5af3826c2aca1c43e1644830085db3e1cc6a7d\"><code>5f5af38</code></a>\n[FIR] Remove incorrect fast-path from <a\nhref=\"https://github.com/PublishedAPI\"><code>@​PublishedAPI</code></a>\ncomputation for binary de...</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/435080bbd908b4604c4d6e74696506adeba5f453\"><code>435080b</code></a>\n[FIR] Consider effective visibility of parent class during\ndeserialization</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/05e92d4ee57784037b6eb759705b2ab58653cc7f\"><code>05e92d4</code></a>\n[Test] Reproduce KT-74040 in AA tests</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/c49acfbcb1262d58ef541340e8f29043665d2e62\"><code>c49acfb</code></a>\n[Test] Render <code>isPublicApi</code> attribute in AA tests</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/JetBrains/kotlin/compare/v2.1.0...v2.1.10\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\nUpdates `org.jetbrains.kotlin.plugin.allopen` from 2.1.0 to 2.1.10\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/releases\">org.jetbrains.kotlin.plugin.allopen's\nreleases</a>.</em></p>\n<blockquote>\n<h2>Kotlin 2.1.10</h2>\n<h2>Changelog</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73858\"><code>KT-73858</code></a>\nCompose / iOS: NullPointerException on building</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73454\"><code>KT-73454</code></a>\nK2: Fix type parameters mapping for typealiases with inner RHS</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73043\"><code>KT-73043</code></a>\nK2 Compiler does not allow references to inner constructors with\ntypealiases</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-74040\"><code>KT-74040</code></a>\nCompilation of inner class usage does not check the visibility of parent\nclass during compilation in different rounds</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73339\"><code>KT-73339</code></a>\nK2: &quot;VerifyError: Bad type on operand stack&quot; because of\nmissing implicit cast on generic field receiver with star\nprojection</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72585\"><code>KT-72585</code></a>\nK2: Compilation failure when upgrading to Kotlin 2.0.20+: Cannot replace\ntop-level type with star projection: S</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73399\"><code>KT-73399</code></a>\ncompile-time JVM codegen failure on a KProperty argument of a\nKSuspendFunction parameter</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72725\"><code>KT-72725</code></a>\nKMP: Unsupported actualization of inherited java field in expect\nclass</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73153\"><code>KT-73153</code></a>\nK2: Standalone diagnostics on type arguments are not reported</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/CMP-5680\"><code>CMP-5680</code></a>\nCompose compiler: unexpected stability warnings for classes compiled\nwith 2.0.10</li>\n<li><a\nhref=\"https://issuetracker.google.com/issues/381407900\"><code>b/381407900</code></a>\nAvoid adding Compose annotations on synthetic classes</li>\n</ul>\n<h3>IR. Inlining</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73981\"><code>KT-73981</code></a>\nCherry-pick the fix for KT-73482 to 2.1.10</li>\n</ul>\n<h3>JavaScript</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70778\"><code>KT-70778</code></a>\nKotlin Js companion is undefined in production build</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73130\"><code>KT-73130</code></a>\nKJS: Missed <code>break</code> for do/while in generated JS code</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-58797\"><code>KT-58797</code></a>\nOptimize the code generated for objects on JS and Wasm backends</li>\n</ul>\n<h3>Klibs</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70146\"><code>KT-70146</code></a>\n[KLIB Resolve] Don't fail on nonexistent transitive dependency</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73951\"><code>KT-73951</code></a>\nWorkaround for &quot;Partial linkage engine may not patch some\ndiscrepancies in IR when compiling Kotlin/Native static caches&quot; in\n2.1.10</li>\n</ul>\n<h3>Native</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73559\"><code>KT-73559</code></a>\nK/Native: AndroidNativeArm64 linking fails starting from Kotlin\n2.1.0</li>\n</ul>\n<h3>Tools. CLI</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73967\"><code>KT-73967</code></a>\nJDK 25: &quot;IllegalArgumentException: 25-ea&quot; with EA builds</li>\n</ul>\n<h3>Tools. Daemon</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73311\"><code>KT-73311</code></a>\n&quot;Unable to release compile session, maybe daemon is already\ndown&quot; flakiness</li>\n</ul>\n<h3>Tools. Gradle</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73728\"><code>KT-73728</code></a>\n'generatePomFileForMavenPublication' creates pom with dependencies with\n'unspecified' version</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/blob/v2.1.10/ChangeLog.md\">org.jetbrains.kotlin.plugin.allopen's\nchangelog</a>.</em></p>\n<blockquote>\n<h2>2.1.10-RC2</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73858\"><code>KT-73858</code></a>\nCompose / iOS: NullPointerException on building</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-74040\"><code>KT-74040</code></a>\nCompilation of inner class usage does not check the visibility of parent\nclass during compilation in different rounds</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://issuetracker.google.com/issues/381407900\"><code>b/381407900</code></a>\nAvoid adding Compose annotations on synthetic classes</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/CMP-5680\"><code>CMP-5680</code></a>\nCompose compiler: unexpected stability warnings for classes compiled\nwith 2.0.10</li>\n</ul>\n<h2>2.1.10-RC</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73454\"><code>KT-73454</code></a>\nK2: Fix type parameters mapping for typealiases with inner RHS</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73043\"><code>KT-73043</code></a>\nK2 Compiler does not allow references to inner constructors with\ntypealiases</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73339\"><code>KT-73339</code></a>\nK2: &quot;VerifyError: Bad type on operand stack&quot; because of\nmissing implicit cast on generic field receiver with star\nprojection</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72585\"><code>KT-72585</code></a>\nK2: Compilation failure when upgrading to Kotlin 2.0.20+: Cannot replace\ntop-level type with star projection: S</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73399\"><code>KT-73399</code></a>\ncompile-time JVM codegen failure on a KProperty argument of a\nKSuspendFunction parameter</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72725\"><code>KT-72725</code></a>\nKMP: Unsupported actualization of inherited java field in expect\nclass</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73153\"><code>KT-73153</code></a>\nK2: Standalone diagnostics on type arguments are not reported</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/CMP-5680\"><code>CMP-5680</code></a>\nCompose compiler: unexpected stability warnings for classes compiled\nwith 2.0.10</li>\n</ul>\n<h3>IR. Inlining</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73981\"><code>KT-73981</code></a>\nCherry-pick the fix for KT-73482 to 2.1.10</li>\n</ul>\n<h3>JavaScript</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-58797\"><code>KT-58797</code></a>\nOptimize the code generated for objects on JS and Wasm backends</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70778\"><code>KT-70778</code></a>\nKotlin Js companion is undefined in production build</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73130\"><code>KT-73130</code></a>\nKJS: Missed <code>break</code> for do/while in generated JS code</li>\n</ul>\n<h3>Klibs</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73951\"><code>KT-73951</code></a>\nWorkaround for &quot;Partial linkage engine may not patch some\ndiscrepancies in IR when compiling Kotlin/Native static caches&quot; in\n2.1.10</li>\n</ul>\n<h3>Native</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73559\"><code>KT-73559</code></a>\nK/Native: AndroidNativeArm64 linking fails starting from Kotlin\n2.1.0</li>\n</ul>\n<h3>Tools. CLI</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-73967\"><code>KT-73967</code></a>\nJDK 25: &quot;IllegalArgumentException: 25-ea&quot; with EA builds</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/6dff5659f42b0b90863d10ee503efd5a8ebb1034\"><code>6dff565</code></a>\nAdd ChangeLog for 2.1.10-RC2</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/5e6f6a655b9efe4aa35387b60143a6c4611e8c2c\"><code>5e6f6a6</code></a>\n[tests] Turned on passing tests</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/b968b02674e99f3fb423843b27d382f110b25468\"><code>b968b02</code></a>\n[K/N] Skip missing dependencies during cache building</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/8b57d4490f9708a6458c5822a72567778ab1d59c\"><code>8b57d44</code></a>\n[CMP] no metadata annotations on synthetic classes</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/f82abd90b3b1de74a89a10034c2ea843308c8fa2\"><code>f82abd9</code></a>\n[AA] Lazily compute the effective visibility in FIR stub-based\ndeserializer</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/618eaff0cdd5dfe40cb37c8fd2c679951d0ff51e\"><code>618eaff</code></a>\n[FIR] Don't render lazy attributes with <code>null</code> value in FIR\nrenderer</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/5f5af3826c2aca1c43e1644830085db3e1cc6a7d\"><code>5f5af38</code></a>\n[FIR] Remove incorrect fast-path from <a\nhref=\"https://github.com/PublishedAPI\"><code>@​PublishedAPI</code></a>\ncomputation for binary de...</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/435080bbd908b4604c4d6e74696506adeba5f453\"><code>435080b</code></a>\n[FIR] Consider effective visibility of parent class during\ndeserialization</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/05e92d4ee57784037b6eb759705b2ab58653cc7f\"><code>05e92d4</code></a>\n[Test] Reproduce KT-74040 in AA tests</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/c49acfbcb1262d58ef541340e8f29043665d2e62\"><code>c49acfb</code></a>\n[Test] Render <code>isPublicApi</code> attribute in AA tests</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/JetBrains/kotlin/compare/v2.1.0...v2.1.10\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\n\nDependabot will resolve any conflicts with this PR as long as you don't\nalter it yourself. You can also trigger a rebase manually by commenting\n`@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits\nthat have been made to it\n- `@dependabot merge` will merge this PR after your CI passes on it\n- `@dependabot squash and merge` will squash and merge this PR after\nyour CI passes on it\n- `@dependabot cancel merge` will cancel a previously requested merge\nand block automerging\n- `@dependabot reopen` will reopen this PR if it is closed\n- `@dependabot close` will close this PR and stop Dependabot recreating\nit. You can achieve the same result by closing it manually\n- `@dependabot show <dependency name> ignore conditions` will show all\nof the ignore conditions of the specified dependency\n- `@dependabot ignore this major version` will close this PR and stop\nDependabot creating any more for this major version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this minor version` will close this PR and stop\nDependabot creating any more for this minor version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this dependency` will close this PR and stop\nDependabot creating any more for this dependency (unless you reopen the\nPR or upgrade to it yourself)\n\n\n</details>\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "timestamp": "2025-02-10T13:41:52Z",
+          "tree_id": "58a4aca057de96f8fd80425e7f22d82521e0d781",
+          "url": "https://github.com/OptimumCode/json-schema-validator/commit/01dfc47ff90be248ed45d55970b4c7b2c79107e4"
+        },
+        "date": 1739196539519,
+        "tool": "jmh",
+        "benches": [
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2168.990722211768,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2043.7748299495731,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2264.0634338484915,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2229.8421884404593,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 883.4282244146119,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 807.5708623844512,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2219.329132360047,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2215.5794062490577,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3099.397662080885,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 5642983.897344913,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 598.7548428115115,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 632.0734890627305,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3205.239703279868,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1678.4315883289266,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3354.262870038674,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 920726.6161817478,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3284.7431894104893,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1520.2601443186352,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 73.69249428511597,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 81.60310943495477,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 449.88553269190834,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 504.68019348660437,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 433.230656239078,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 454.4642839011719,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1124.098095038722,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1169.1622858208282,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 434.1780861137614,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 442.52090247329386,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 331.8445969541656,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 0.1787516797899165,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1557.7396407791798,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1632.3499841345629,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 301.32463138782884,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 569.9579309394437,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 295.3145547454778,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1.1905188354990175,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 298.9323045353392,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 648.2683553006943,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 13102.612745543123,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 12268.40175596478,
             "unit": "us/op",
             "extra": "iterations: 10\nforks: 1\nthreads: 1"
           }
