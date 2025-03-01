@@ -1,0 +1,30 @@
+public final class io/github/optimumcode/json/schema/wrappers/objects/ObjectWrappers {
+	public static final fun wrapAsElement (Ljava/lang/Object;)Lio/github/optimumcode/json/schema/model/AbstractElement;
+	public static final fun wrapAsElement (Ljava/lang/Object;Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;)Lio/github/optimumcode/json/schema/model/AbstractElement;
+	public static synthetic fun wrapAsElement$default (Ljava/lang/Object;Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;ILjava/lang/Object;)Lio/github/optimumcode/json/schema/model/AbstractElement;
+}
+
+public final class io/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration {
+	public static final field Companion Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration$Companion;
+	public static final fun create ()Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
+	public static final fun create (Lkotlin/jvm/functions/Function1;)Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
+	public final fun getAllowSets ()Z
+	public final fun getByteArrayAsBase64String ()Z
+	public final fun getCharAsCodepoint ()Z
+}
+
+public final class io/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration$Companion {
+	public final fun create ()Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
+	public final fun create (Lkotlin/jvm/functions/Function1;)Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
+	public static synthetic fun create$default (Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration$Companion;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
+}
+
+public final class io/github/optimumcode/json/schema/wrappers/objects/WrappingConfigurationBuilder {
+	public final fun getAllowSets ()Z
+	public final fun getByteArrayAsBase64String ()Z
+	public final fun getCharAsCodepoint ()Z
+	public final fun setAllowSets (Z)V
+	public final fun setByteArrayAsBase64String (Z)V
+	public final fun setCharAsCodepoint (Z)V
+}
+
