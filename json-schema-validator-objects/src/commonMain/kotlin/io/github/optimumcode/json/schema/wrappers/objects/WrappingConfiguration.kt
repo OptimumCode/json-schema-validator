@@ -17,8 +17,9 @@ public class WrappingConfiguration internal constructor(
    */
   public val charAsCodepoint: Boolean,
   /**
-   * If set to `true` the [ByteArray] is encoded using Base64 encoding and wrapped as a [io.github.optimumcode.json.schema.model.PrimitiveElement].
-   * Otherwise, the [ByteArray] is wrapped as an [io.github.optimumcode.json.schema.model.ArrayElement].
+   * If set to `true` the [ByteArray] is encoded using Base64 encoding
+   * and wrapped as a [PrimitiveElement][io.github.optimumcode.json.schema.model.PrimitiveElement].
+   * Otherwise, the [ByteArray] is wrapped as an [ArrayElement][io.github.optimumcode.json.schema.model.ArrayElement].
    */
   public val byteArrayAsBase64String: Boolean,
 ) {
@@ -33,8 +34,19 @@ public class WrappingConfiguration internal constructor(
 
 @ExperimentalApi
 public class WrappingConfigurationBuilder internal constructor() {
+  /**
+   * @see WrappingConfiguration.allowSets
+   */
   public var allowSets: Boolean = false
+
+  /**
+   * @see WrappingConfiguration.charAsCodepoint
+   */
   public var charAsCodepoint: Boolean = false
+
+  /**
+   * @see WrappingConfiguration.byteArrayAsBase64String
+   */
   public var byteArrayAsBase64String: Boolean = true
 
   internal fun build(): WrappingConfiguration {
