@@ -90,7 +90,7 @@ repositories {
   maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots")
 }
 
-implementation("io.github.optimumcode:json-schema-validator:0.4.1-SNAPSHOT")
+implementation("io.github.optimumcode:json-schema-validator:0.5.0-SNAPSHOT")
 ```
 
 ##### Groovy
@@ -100,7 +100,7 @@ repositories {
   maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots' }
 }
 
-implementation 'io.github.optimumcode:json-schema-validator:0.4.1-SNAPSHOT'
+implementation 'io.github.optimumcode:json-schema-validator:0.5.0-SNAPSHOT'
 ```
 
 ### Example
