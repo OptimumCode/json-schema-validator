@@ -8,6 +8,7 @@ on:
       - 'build.gradle.kts'
       - 'gradle.properties'
       - 'json-schema-validator/**'
+      - 'json-schema-validator-objects/**'
       - 'gradle/**'
       - 'generator/**'
       - '.github/workflows/snapshot_release.yml'
@@ -54,6 +55,7 @@ jobs:
           --no-daemon
           --info
           :json-schema-validator:assemble
+          :json-schema-validator-objects:assemble
           publish
           -x :benchmark:benchmark
         env:

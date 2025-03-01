@@ -58,7 +58,9 @@ jobs:
           gradle-version: wrapper
       - name: Build and publish release
         run: >
-          ./gradlew --no-daemon --info :json-schema-validator:assemble
+          ./gradlew --no-daemon --info
+          :json-schema-validator:assemble
+          :json-schema-validator-objects:assemble
           publish closeAndReleaseStagingRepositories
           -Pversion=${{ needs.version.outputs.RELEASE_VERSION }}
           -x :benchmark:benchmark
