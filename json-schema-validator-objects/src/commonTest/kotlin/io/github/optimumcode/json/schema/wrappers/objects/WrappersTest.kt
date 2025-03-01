@@ -149,7 +149,7 @@ class WrappersTest : FunSpec() {
     }
 
     test("primitive wrapper for char as codepoint") {
-      wrapAsElement('4', wrappingConfiguration(charAsCodepoint = true))
+      wrapAsElement('4', WrappingConfiguration.create { charAsCodepoint = true })
         .shouldBeInstanceOf<PrimitiveElement> { el ->
           assertSoftly {
             "isString".asClue { el.isString.shouldBeFalse() }
@@ -220,9 +220,9 @@ class WrappersTest : FunSpec() {
         shouldNotThrowAny {
           wrapAsElement(
             setOf("a"),
-            wrappingConfiguration(
-              allowSets = true,
-            ),
+            WrappingConfiguration.create {
+              allowSets = true
+            },
           )
         }
       element.shouldBeInstanceOf<ArrayElement> {
@@ -309,9 +309,9 @@ class WrappersTest : FunSpec() {
     test("byte array can be wrapped as an array element") {
       wrapAsElement(
         byteArrayOf(42),
-        wrappingConfiguration(
-          byteArrayAsBase64String = false,
-        ),
+        WrappingConfiguration.create {
+          byteArrayAsBase64String = false
+        },
       ).shouldBeInstanceOf<ArrayElement> {
         it.size shouldBe 1
         it.single().shouldBeInstanceOf<PrimitiveElement>()

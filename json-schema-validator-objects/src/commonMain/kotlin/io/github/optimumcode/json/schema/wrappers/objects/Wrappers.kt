@@ -13,38 +13,6 @@ import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmOverloads
 
-@ExperimentalApi
-public class WrappingConfiguration internal constructor(
-  /**
-   * If set to `false` an exception is thrown when wrapping a [Set].
-   * If set to `true`, [Set] is wrapped the same way as [List]
-   */
-  public val allowSets: Boolean = false,
-  /**
-   * If set to `false` the [Char] is converted to [String].
-   * If set to `true` the [Char] is converted to a codepoint (and then to [Long])
-   */
-  public val charAsCodepoint: Boolean = false,
-  /**
-   * If set to `true` the [ByteArray] is encoded using Base64 encoding and wrapped as a [PrimitiveElement].
-   * Otherwise, the [ByteArray] is wrapped as an [ArrayElement].
-   */
-  public val byteArrayAsBase64String: Boolean = true,
-)
-
-@ExperimentalApi
-@JvmOverloads
-public fun wrappingConfiguration(
-  allowSets: Boolean = false,
-  charAsCodepoint: Boolean = false,
-  byteArrayAsBase64String: Boolean = true,
-): WrappingConfiguration =
-  WrappingConfiguration(
-    allowSets = allowSets,
-    charAsCodepoint = charAsCodepoint,
-    byteArrayAsBase64String = byteArrayAsBase64String,
-  )
-
 /**
  * Returns an [AbstractElement] produced by converting the [obj] value.
  * The [configuration] allows conversion customization.
@@ -80,7 +48,7 @@ public fun wrappingConfiguration(
 @ExperimentalApi
 public fun wrapAsElement(
   obj: Any?,
-  configuration: WrappingConfiguration = WrappingConfiguration(),
+  configuration: WrappingConfiguration = WrappingConfiguration.create(),
 ): AbstractElement {
   if (obj == null) {
     return NullWrapper
