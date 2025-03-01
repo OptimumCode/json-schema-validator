@@ -5,12 +5,14 @@ public final class io/github/optimumcode/json/schema/wrappers/objects/ObjectWrap
 	public static final fun wrappingConfiguration ()Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
 	public static final fun wrappingConfiguration (Z)Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
 	public static final fun wrappingConfiguration (ZZ)Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
-	public static synthetic fun wrappingConfiguration$default (ZZILjava/lang/Object;)Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
+	public static final fun wrappingConfiguration (ZZZ)Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
+	public static synthetic fun wrappingConfiguration$default (ZZZILjava/lang/Object;)Lio/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration;
 }
 
 public final class io/github/optimumcode/json/schema/wrappers/objects/WrappingConfiguration {
 	public fun <init> ()V
 	public final fun getAllowSets ()Z
+	public final fun getByteArrayAsBase64String ()Z
 	public final fun getCharAsCodepoint ()Z
 }
 
