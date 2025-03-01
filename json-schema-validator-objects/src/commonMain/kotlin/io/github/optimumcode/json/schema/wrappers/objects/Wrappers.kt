@@ -8,6 +8,7 @@ import io.github.optimumcode.json.schema.model.AbstractElement
 import io.github.optimumcode.json.schema.model.ArrayElement
 import io.github.optimumcode.json.schema.model.ObjectElement
 import io.github.optimumcode.json.schema.model.PrimitiveElement
+import io.github.optimumcode.json.schema.wrappers.objects.internal.encodeBase64
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmOverloads
@@ -24,6 +25,11 @@ public class WrappingConfiguration internal constructor(
    * If set to `true` the [Char] is converted to a codepoint (and then to [Long])
    */
   public val charAsCodepoint: Boolean = false,
+  /**
+   * If set to `true` the [ByteArray] is encoded using Base64 encoding and wrapped as a [PrimitiveElement].
+   * Otherwise, the [ByteArray] is wrapped as an [ArrayElement].
+   */
+  public val byteArrayAsBase64String: Boolean = true,
 )
 
 @ExperimentalApi
@@ -31,10 +37,12 @@ public class WrappingConfiguration internal constructor(
 public fun wrappingConfiguration(
   allowSets: Boolean = false,
   charAsCodepoint: Boolean = false,
+  byteArrayAsBase64String: Boolean = true,
 ): WrappingConfiguration =
   WrappingConfiguration(
     allowSets = allowSets,
     charAsCodepoint = charAsCodepoint,
+    byteArrayAsBase64String = byteArrayAsBase64String,
   )
 
 /**
@@ -59,10 +67,14 @@ public fun wrappingConfiguration(
  * * [Map] -> keys MUST have a [String] type, values MUST be one of the supported types
  * * [List] -> elements MUST be one of the supported types
  * * [Array] -> elements MUST be one of the supported types
+ * * [CharArray], [ByteArray], [ShortArray], [IntArray], [LongArray], [FloatArray], [DoubleArray]
  *
  * If [WrappingConfiguration.allowSets] is enabled [Set] is also converted to [ArrayElement].
  * Please be aware that in order to have consistent verification results
  * the [Set] must be one of the ORDERED types, e.g. [LinkedHashSet].
+ *
+ * If [WrappingConfiguration.byteArrayAsBase64String] is enabled (enabled by default)
+ * a [ByteArray] will be encoded using Base64 and wrapped as a [PrimitiveElement].
  */
 @JvmOverloads
 @ExperimentalApi
@@ -83,7 +95,12 @@ public fun wrapAsElement(
     obj is DoubleArray -> ListWrapper(obj.map { wrapAsElement(it, configuration) })
     obj is FloatArray -> ListWrapper(obj.map { wrapAsElement(it, configuration) })
     obj is CharArray -> ListWrapper(obj.map { wrapAsElement(it, configuration) })
-    obj is ByteArray -> ListWrapper(obj.map { wrapAsElement(it, configuration) })
+    obj is ByteArray ->
+      if (configuration.byteArrayAsBase64String) {
+        PrimitiveWrapper(obj.encodeBase64())
+      } else {
+        ListWrapper(obj.map { wrapAsElement(it, configuration) })
+      }
     obj is Set<*> && configuration.allowSets ->
       ListWrapper(obj.map { wrapAsElement(it, configuration) })
 

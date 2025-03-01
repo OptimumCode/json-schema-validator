@@ -26,6 +26,13 @@ class WrappersTest : FunSpec() {
     fun Any?.str(): String =
       when (this) {
         is Array<*> -> this.contentToString()
+        is ByteArray -> this.contentToString()
+        is ShortArray -> this.contentToString()
+        is IntArray -> this.contentToString()
+        is LongArray -> this.contentToString()
+        is FloatArray -> this.contentToString()
+        is DoubleArray -> this.contentToString()
+        is CharArray -> this.contentToString()
         else -> toString()
       }
 
@@ -35,7 +42,8 @@ class WrappersTest : FunSpec() {
       emptyMap<String, Any>() to ObjectElement::class,
       listOf<Any>() to ArrayElement::class,
       emptyArray<Any>() to ArrayElement::class,
-      byteArrayOf() to ArrayElement::class,
+      // by default ByteArray is encoded as base64 string
+      byteArrayOf() to PrimitiveElement::class,
       shortArrayOf() to ArrayElement::class,
       intArrayOf() to ArrayElement::class,
       longArrayOf() to ArrayElement::class,
@@ -297,6 +305,18 @@ class WrappersTest : FunSpec() {
           wrapAsElement(MyNumber())
         }.message.shouldStartWith("unsupported number type:")
       }
+
+    test("byte array can be wrapped as an array element") {
+      wrapAsElement(
+        byteArrayOf(42),
+        wrappingConfiguration(
+          byteArrayAsBase64String = false,
+        ),
+      ).shouldBeInstanceOf<ArrayElement> {
+        it.size shouldBe 1
+        it.single().shouldBeInstanceOf<PrimitiveElement>()
+      }
+    }
   }
 }
 
