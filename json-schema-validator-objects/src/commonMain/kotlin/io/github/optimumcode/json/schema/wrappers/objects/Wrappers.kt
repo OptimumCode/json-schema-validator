@@ -77,6 +77,13 @@ public fun wrapAsElement(
     obj is Map<*, *> -> checkKeysAndWrap(obj, configuration)
     obj is List<*> -> ListWrapper(obj.map { wrapAsElement(it, configuration) })
     obj is Array<*> -> ListWrapper(obj.map { wrapAsElement(it, configuration) })
+    obj is LongArray -> ListWrapper(obj.map { wrapAsElement(it, configuration) })
+    obj is IntArray -> ListWrapper(obj.map { wrapAsElement(it, configuration) })
+    obj is ShortArray -> ListWrapper(obj.map { wrapAsElement(it, configuration) })
+    obj is DoubleArray -> ListWrapper(obj.map { wrapAsElement(it, configuration) })
+    obj is FloatArray -> ListWrapper(obj.map { wrapAsElement(it, configuration) })
+    obj is CharArray -> ListWrapper(obj.map { wrapAsElement(it, configuration) })
+    obj is ByteArray -> ListWrapper(obj.map { wrapAsElement(it, configuration) })
     obj is Set<*> && configuration.allowSets ->
       ListWrapper(obj.map { wrapAsElement(it, configuration) })
 
