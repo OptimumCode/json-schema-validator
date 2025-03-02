@@ -3,18 +3,14 @@ plugins {
   convention.publication
 }
 
-private val bomProjectName = name
-
 configurations.api.configure {
   dependencyConstraints.addAllLater(
-    provider {
-      rootProject.allprojects.filter {
-        it.pluginManager.hasPlugin("maven-publish") &&
-          it.name != bomProjectName
-      }.map {
-        project.dependencies.constraints.create("${it.group}:${it.name}:${it.version}")
-      }
-    },
+    bomService.coordinates
+      .map { coordinates ->
+        coordinates
+          .distinct()
+          .map(project.dependencies.constraints::create)
+      },
   )
 }
 
