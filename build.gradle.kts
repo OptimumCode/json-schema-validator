@@ -1,5 +1,4 @@
 plugins {
-  alias(libs.plugins.kotlin.mutliplatform) apply false
   alias(libs.plugins.kotlin.binaryCompatibility)
   alias(libs.plugins.nexus.publish)
   convention.properties
