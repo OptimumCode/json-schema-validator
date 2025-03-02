@@ -136,8 +136,8 @@ public abstract interface class io/github/optimumcode/json/schema/JsonSchemaLoad
 	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Lcom/eygraber/uri/Uri;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Lcom/eygraber/uri/Uri;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
-	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
-	public abstract fun register (Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract synthetic fun register (Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public abstract synthetic fun register (Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun registerWellKnown (Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun withCustomFormat (Ljava/lang/String;Lio/github/optimumcode/json/schema/FormatValidator;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public abstract fun withCustomFormats (Ljava/util/Map;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
@@ -156,8 +156,8 @@ public final class io/github/optimumcode/json/schema/JsonSchemaLoader$DefaultImp
 	public static fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public static fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lkotlinx/serialization/json/JsonElement;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public static fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lkotlinx/serialization/json/JsonElement;Lcom/eygraber/uri/Uri;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
-	public static fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
-	public static fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public static synthetic fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
+	public static synthetic fun register (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lkotlinx/serialization/json/JsonElement;Ljava/lang/String;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 	public static fun registerWellKnown (Lio/github/optimumcode/json/schema/JsonSchemaLoader;Lio/github/optimumcode/json/schema/SchemaType;)Lio/github/optimumcode/json/schema/JsonSchemaLoader;
 }
 
@@ -338,12 +338,12 @@ public abstract interface class io/github/optimumcode/json/schema/extension/Exte
 
 public abstract interface class io/github/optimumcode/json/schema/extension/ExternalAssertion {
 	public abstract fun validate (Lio/github/optimumcode/json/schema/model/AbstractElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
-	public abstract fun validate (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
+	public abstract synthetic fun validate (Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
 }
 
 public final class io/github/optimumcode/json/schema/extension/ExternalAssertion$DefaultImpls {
 	public static fun validate (Lio/github/optimumcode/json/schema/extension/ExternalAssertion;Lio/github/optimumcode/json/schema/model/AbstractElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
-	public static fun validate (Lio/github/optimumcode/json/schema/extension/ExternalAssertion;Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
+	public static synthetic fun validate (Lio/github/optimumcode/json/schema/extension/ExternalAssertion;Lkotlinx/serialization/json/JsonElement;Lio/github/optimumcode/json/schema/extension/ExternalAssertionContext;Lio/github/optimumcode/json/schema/ErrorCollector;)Z
 }
 
 public abstract interface class io/github/optimumcode/json/schema/extension/ExternalAssertionContext {
