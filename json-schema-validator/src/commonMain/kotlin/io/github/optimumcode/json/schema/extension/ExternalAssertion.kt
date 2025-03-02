@@ -39,7 +39,7 @@ public interface ExternalAssertion {
 
   @Deprecated(
     message = "override validate(AbstractElement, ExternalAssertionContext, ErrorCollector) instead",
-    level = DeprecationLevel.ERROR,
+    level = DeprecationLevel.HIDDEN,
   )
   public fun validate(
     element: JsonElement,
