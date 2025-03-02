@@ -9,6 +9,34 @@ val javadocJar by tasks.registering(Jar::class) {
 
 fun getExtraString(name: String) = ext[name]?.toString()
 
+/**
+ * Create a service for collecting the coordinates of all artifacts that should be included in the bom.
+ */
+abstract class BomService : BuildService<BuildServiceParameters.None> {
+  /** Coordinates that will be included in the BOM. */
+  abstract val coordinates: SetProperty<String>
+}
+
+val bomService: BomService =
+  gradle.sharedServices.registerIfAbsent("bomService", BomService::class).get()
+
+extensions.add("bomService", bomService)
+
+/** Controls whether the current subproject will be included in the kotest-bom. */
+val includeInBom: Property<Boolean> =
+  objects.property<Boolean>().convention(project.name != "json-schema-validator-bom")
+
+extensions.add<Property<Boolean>>("includeInBom", includeInBom)
+
+bomService.coordinates
+  .addAll(
+    provider {
+      project.run { "$group:$name:$version" }
+    }.zip(includeInBom) { coordinates, include ->
+      if (include) listOf(coordinates) else emptyList()
+    },
+  )
+
 afterEvaluate {
   publishing {
 

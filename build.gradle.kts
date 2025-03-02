@@ -11,7 +11,7 @@ allprojects {
 }
 
 apiValidation {
-  ignoredProjects += listOf("benchmark", "test-suites")
+  ignoredProjects += listOf("benchmark", "test-suites", "json-schema-validator-bom")
 }
 
 val ossrhUsername: String by project.ext
