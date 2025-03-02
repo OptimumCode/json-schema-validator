@@ -3,12 +3,12 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
-import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
-  alias(libs.plugins.kotlin.mutliplatform)
+  convention.kotlin
+  convention.`mutliplatform-lib`
+  convention.`mutliplatform-tests`
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.kotest.multiplatform)
   alias(libs.plugins.kover)
@@ -18,51 +18,10 @@ plugins {
 }
 
 kotlin {
-  explicitApi()
-
   @OptIn(ExperimentalKotlinGradlePluginApi::class)
   compilerOptions {
     freeCompilerArgs.add("-opt-in=io.github.optimumcode.json.schema.ExperimentalApi")
   }
-  jvmToolchain(11)
-  jvm {
-    testRuns["test"].executionTask.configure {
-      useJUnitPlatform()
-    }
-  }
-  js(IR) {
-    browser()
-    generateTypeScriptDefinitions()
-    nodejs()
-  }
-  wasmJs {
-    // The wasmJsBrowserTest prints all executed tests as one unformatted string
-    // Have not found a way to suppress printing all this into console
-    browser()
-    nodejs()
-  }
-
-  applyDefaultHierarchyTemplate()
-
-  val macOsTargets =
-    listOf<KotlinTarget>(
-      macosX64(),
-      macosArm64(),
-      iosX64(),
-      iosArm64(),
-      iosSimulatorArm64(),
-    )
-
-  val linuxTargets =
-    listOf<KotlinTarget>(
-      linuxX64(),
-      linuxArm64(),
-    )
-
-  val windowsTargets =
-    listOf<KotlinTarget>(
-      mingwX64(),
-    )
 
   sourceSets {
     val commonMain by getting {
@@ -115,34 +74,6 @@ kotlin {
       }
     }
   }
-
-  afterEvaluate {
-    fun Task.dependsOnTargetTests(targets: List<KotlinTarget>) {
-      targets.forEach {
-        if (it is KotlinTargetWithTests<*, *>) {
-          dependsOn(tasks.getByName("${it.name}Test"))
-        }
-      }
-    }
-    tasks.register("macOsAllTest") {
-      group = "verification"
-      description = "runs all tests for MacOS and IOS targets"
-      dependsOnTargetTests(macOsTargets)
-    }
-    tasks.register("windowsAllTest") {
-      group = "verification"
-      description = "runs all tests for Windows targets"
-      dependsOnTargetTests(windowsTargets)
-    }
-    tasks.register("linuxAllTest") {
-      group = "verification"
-      description = "runs all tests for Linux targets"
-      dependsOnTargetTests(linuxTargets)
-      dependsOn(tasks.getByName("jvmTest"))
-      dependsOn(tasks.getByName("jsTest"))
-      dependsOn(tasks.getByName("wasmJsTest"))
-    }
-  }
 }
 
 ktlint {
@@ -152,12 +83,12 @@ ktlint {
   }
 }
 
-afterEvaluate {
-  val detektAllTask by tasks.register("detektAll") {
-    dependsOn(tasks.withType<Detekt>())
-  }
+val detektAllTask by tasks.register("detektAll")
 
-  tasks.named("check").configure {
-    dependsOn(detektAllTask)
-  }
+tasks.named("check").configure {
+  dependsOn(detektAllTask)
+}
+
+tasks.withType<Detekt> {
+  detektAllTask.dependsOn(this)
 }

@@ -1,5 +1,5 @@
 plugins {
-  alias(libs.plugins.kotlin.mutliplatform)
+  convention.kotlin
   alias(libs.plugins.kotlin.benchmark)
   alias(libs.plugins.kotlin.allopen)
 }
@@ -9,7 +9,6 @@ allOpen {
 }
 
 kotlin {
-  jvmToolchain(11)
   jvm()
   macosX64()
   macosArm64()
