@@ -53,7 +53,14 @@ jobs:
       with:
         gradle-version: wrapper
     - name: Build
-      run: ./gradlew --no-daemon -S -Dorg.gradle.dependency.verification=off -Dorg.gradle.warning.mode=none assemble
+      run: >
+        ./gradlew
+        --no-daemon
+        -S
+        -Dorg.gradle.dependency.verification=off
+        -Dorg.gradle.warning.mode=none
+        jvmTestClasses
+        jsTestClasses
 
     # Perform analysis
     - name: Perform CodeQL Analysis
