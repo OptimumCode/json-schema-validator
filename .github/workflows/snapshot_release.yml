@@ -10,7 +10,7 @@ on:
       - 'json-schema-validator/**'
       - 'json-schema-validator-objects/**'
       - 'gradle/**'
-      - 'generator/**'
+      - 'buildSrc/src/main/kotlin/convention.publication.gradle.kts'
       - '.github/workflows/snapshot_release.yml'
 
 jobs:
