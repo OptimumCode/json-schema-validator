@@ -7,7 +7,7 @@ okio = "3.10.2"
 serialization = "1.8.0"
 benchmark = "0.4.13"
 openapi = "2025.1"
-jackson = "2.18.2"
+jackson = "2.18.3"
 
 [plugins]
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
