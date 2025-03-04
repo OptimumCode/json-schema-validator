@@ -21,6 +21,10 @@ jobs:
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   publish:
+    # permissions required for sigstore signature
+    permissions:
+      id-token: write
+      contents: read
     needs:
       - build-and-test
     runs-on: macos-latest
