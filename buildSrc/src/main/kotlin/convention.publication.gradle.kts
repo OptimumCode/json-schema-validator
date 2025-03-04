@@ -1,6 +1,7 @@
 plugins {
   `maven-publish`
   signing
+  id("dev.sigstore.sign")
 }
 
 val javadocJar by tasks.registering(Jar::class) {

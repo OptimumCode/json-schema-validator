@@ -8,4 +8,5 @@ repositories {
 
 dependencies {
   implementation(libs.kotlin.gradle.plugin)
+  implementation(libs.sigstore.gradle.plugin)
 }
