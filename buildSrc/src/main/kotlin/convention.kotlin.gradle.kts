@@ -3,5 +3,4 @@ plugins {
 }
 
 kotlin {
-  jvmToolchain(11)
 }

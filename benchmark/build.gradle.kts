@@ -1,5 +1,6 @@
 plugins {
   convention.kotlin
+  convention.`multiplatform-jvm`
   alias(libs.plugins.kotlin.benchmark)
   alias(libs.plugins.kotlin.allopen)
 }
