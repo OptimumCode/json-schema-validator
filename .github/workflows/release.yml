@@ -27,6 +27,10 @@ jobs:
   build-and-test:
     uses: ./.github/workflows/build-and-test.yml
   publish_artifacts:
+    # permissions required for sigstore signature
+    permissions:
+      id-token: write
+      contents: read
     needs:
       - version
       - build-and-test
