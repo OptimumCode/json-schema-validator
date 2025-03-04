@@ -7,8 +7,8 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
   convention.kotlin
-  convention.`mutliplatform-lib`
-  convention.`mutliplatform-tests`
+  convention.`multiplatform-lib`
+  convention.`multiplatform-tests`
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.kotest.multiplatform)
   alias(libs.plugins.kover)

@@ -7,7 +7,8 @@ import tasks.GenerateRemoteSchemas
 
 plugins {
   convention.kotlin
-  convention.`mutliplatform-tests`
+  convention.`multiplatform-jvm`
+  convention.`multiplatform-tests`
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.kotest.multiplatform)
   alias(libs.plugins.kover)
@@ -18,11 +19,7 @@ plugins {
 kotlin {
   explicitApi()
 
-  jvm {
-    testRuns["test"].executionTask.configure {
-      useJUnitPlatform()
-    }
-  }
+  jvm()
   js(IR) {
     nodejs()
   }

@@ -2,16 +2,13 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
   id("convention.kotlin")
+  id("convention.multiplatform-jvm")
 }
 
 kotlin {
   explicitApi()
 
-  jvm {
-    testRuns["test"].executionTask.configure {
-      useJUnitPlatform()
-    }
-  }
+  jvm()
   js(IR) {
     browser()
     generateTypeScriptDefinitions()
