@@ -29,11 +29,7 @@ kotlin {
         api(libs.kotlin.serialization.json)
         api(libs.uri)
         // When using approach like above you won't be able to add because block
-        implementation(
-          libs.kotlin.codepoints
-            .get()
-            .toString(),
-        ) {
+        implementation(libs.kotlin.codepoints.get().toString()) {
           because("simplifies work with unicode codepoints")
         }
         implementation(libs.normalize.get().toString()) {
