@@ -1,632 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1742477821633,
+  "lastUpdate": 1742747836923,
   "repoUrl": "https://github.com/OptimumCode/json-schema-validator",
   "entries": {
     "KMP JSON schema validator": [
-      {
-        "commit": {
-          "author": {
-            "email": "49699333+dependabot[bot]@users.noreply.github.com",
-            "name": "dependabot[bot]",
-            "username": "dependabot[bot]"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "54f98955d50052cbad1b364608b7ad4dcf782f18",
-          "message": "Bump com.fasterxml.jackson:jackson-bom from 2.17.2 to 2.18.0 (#203)",
-          "timestamp": "2024-09-27T18:59:26+05:00",
-          "tree_id": "7101c596723b3fa2f4e8e31db31a27db7de5b894",
-          "url": "https://github.com/OptimumCode/json-schema-validator/commit/54f98955d50052cbad1b364608b7ad4dcf782f18"
-        },
-        "date": 1727447081714,
-        "tool": "jmh",
-        "benches": [
-          {
-            "name": "jvm.CommonThroughputBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2273.393785689065,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonThroughputBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2259.5270379530057,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2229.8859835767,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2122.7617517134386,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 867.0921815643502,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 879.1630248440775,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3077.6316409819033,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 6138241.32779455,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 652.4285300832172,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 638.7691669161077,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 432.6050012969157,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 443.4697846225933,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 455.1340495450654,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 490.76577139639784,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1117.261306546247,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1153.6442859067163,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 320.75942751362334,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 0.15072260741745747,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1540.6276382389765,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1630.1750216936566,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "linuxX64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1913.4007358823528,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1960.7444239713775,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4150.85740781893,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4313.709214718614,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1346.0339355405408,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 0.7757710795325975,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 6296.708181481481,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 6235.1093524096395,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1772.197315398551,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1953.651316032064,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 514.2595987541786,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 498.2981452035148,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 231.36425025641492,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 226.2805492454516,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 757.1171432267636,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1277524.9800835457,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 157.52279253886974,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 154.84762511008017,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 554.4704179907874,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "linuxX64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 518.8154242933572,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1223.2835715428569,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1294.0490741147744,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2731.246143250689,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2769.23805625,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 823.6429307502061,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 0.5026907816671733,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3697.0836178030304,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3623.1272258064514,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1081.0942317606446,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1133.5698141486812,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 864.0426781128175,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 850.8205138580695,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 391.6279801874367,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 368.3473591674195,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1221.0453325197864,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1977189.9526246022,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 273.7330703277108,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 258.368351338419,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 921.2288663501835,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosArm64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 845.845662439785,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4025.742494615384,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3873.1531841509436,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 8170.141314634146,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 7660.495187704917,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2291.403731764706,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1.4701363968928334,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 9499.716070873787,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 9347.35919047619,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3029.5769951070333,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3135.062048553055,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 312.74839655412165,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 309.9943617123362,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 150.34394768787513,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 143.3991007059429,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 399.0942895034822,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 631800.5730441281,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 89.3841302888618,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 97.08249985632406,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 297.3727911296266,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "macosX64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 259.01930552310057,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3998.911325301205,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4041.940996168583,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 8423.856638655463,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 8506.846949152543,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2886.2528901734104,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1.8578915999975565,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 11443.190574712644,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 11325.107111111112,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3716.884222222222,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3899.5814785992216,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 249.9397297271863,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 246.41699433643333,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 120.02445826508972,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 116.60501568069256,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 345.268032496221,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 537287.1099511615,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 88.55508785302044,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 89.46883362315502,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 270.67899675653086,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          },
-          {
-            "name": "mingwX64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 257.5216486010719,
-            "unit": "ops/sec",
-            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -31198,6 +30574,630 @@ window.BENCHMARK_DATA = {
           {
             "name": "mingwX64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
             "value": 335.48808211662384,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f9d460cc6d7f0b48424662e3112008f047a629f4",
+          "message": "Bump com.doist.x:normalize from 1.1.1 to 1.2.0 (#278)\n\nBumps [com.doist.x:normalize](https://github.com/Doist/doistx-normalize)\nfrom 1.1.1 to 1.2.0.\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/Doist/doistx-normalize/blob/main/CHANGELOG.md\">com.doist.x:normalize's\nchangelog</a>.</em></p>\n<blockquote>\n<h2>[1.2.0] - 2025-03-20</h2>\n<h3>Added</h3>\n<ul>\n<li>Support for Wasm - thanks <a\nhref=\"https://github.com/zsmb13\"><code>@​zsmb13</code></a>!</li>\n</ul>\n</blockquote>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/Doist/doistx-normalize/commit/42c8e212df490bfb1684745aa4bc81259ae8b72a\"><code>42c8e21</code></a>\nRelease v1.2.0</li>\n<li><a\nhref=\"https://github.com/Doist/doistx-normalize/commit/54696e06d43b70a3b14796e3f09c2343d08c422d\"><code>54696e0</code></a>\nMerge pull request <a\nhref=\"https://redirect.github.com/Doist/doistx-normalize/issues/91\">#91</a>\nfrom zsmb13/wasm</li>\n<li><a\nhref=\"https://github.com/Doist/doistx-normalize/commit/ce4b3908f897748dafb765bcebcb2f847c07326d\"><code>ce4b390</code></a>\nRemove manual hierarchy configuration that's already covered by the\ndefault t...</li>\n<li><a\nhref=\"https://github.com/Doist/doistx-normalize/commit/5e035fd37ea026ca8f6a11c3c44d08c29927cf58\"><code>5e035fd</code></a>\nAdd wasm support</li>\n<li><a\nhref=\"https://github.com/Doist/doistx-normalize/commit/ff1c298c8efe4b33e895aa177a7a21616c06e8e1\"><code>ff1c298</code></a>\nMerge pull request <a\nhref=\"https://redirect.github.com/Doist/doistx-normalize/issues/90\">#90</a>\nfrom Doist/renovate/gradle-8.x</li>\n<li><a\nhref=\"https://github.com/Doist/doistx-normalize/commit/b39cef566c58f466a9c9eebc2a46d04633b2bcbf\"><code>b39cef5</code></a>\nchore(deps): update dependency gradle to v8.13</li>\n<li><a\nhref=\"https://github.com/Doist/doistx-normalize/commit/ba547a2fae6f4e9284e9971642508f9b42a392ae\"><code>ba547a2</code></a>\nMerge pull request <a\nhref=\"https://redirect.github.com/Doist/doistx-normalize/issues/89\">#89</a>\nfrom Doist/renovate/org.jetbrains.kotlin</li>\n<li><a\nhref=\"https://github.com/Doist/doistx-normalize/commit/2d1a03f9746d95322df9ea77833eac84c483b494\"><code>2d1a03f</code></a>\nchore(deps): update dependency org.jetbrains.kotlin:kotlin-gradle-plugin\nto v...</li>\n<li><a\nhref=\"https://github.com/Doist/doistx-normalize/commit/161ca885666fc1eb8b019f3db35ce29bdfd737a0\"><code>161ca88</code></a>\nMerge pull request <a\nhref=\"https://redirect.github.com/Doist/doistx-normalize/issues/86\">#86</a>\nfrom Doist/renovate/gradle-8.x</li>\n<li><a\nhref=\"https://github.com/Doist/doistx-normalize/commit/8e0f7b9aa76d0edaaef76b81d88b6b77a2e3afeb\"><code>8e0f7b9</code></a>\nchore(deps): update dependency gradle to v8.12.1</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/Doist/doistx-normalize/compare/v1.1.1...v1.2.0\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\n\n[![Dependabot compatibility\nscore](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.doist.x:normalize&package-manager=gradle&previous-version=1.1.1&new-version=1.2.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)\n\nDependabot will resolve any conflicts with this PR as long as you don't\nalter it yourself. You can also trigger a rebase manually by commenting\n`@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits\nthat have been made to it\n- `@dependabot merge` will merge this PR after your CI passes on it\n- `@dependabot squash and merge` will squash and merge this PR after\nyour CI passes on it\n- `@dependabot cancel merge` will cancel a previously requested merge\nand block automerging\n- `@dependabot reopen` will reopen this PR if it is closed\n- `@dependabot close` will close this PR and stop Dependabot recreating\nit. You can achieve the same result by closing it manually\n- `@dependabot show <dependency name> ignore conditions` will show all\nof the ignore conditions of the specified dependency\n- `@dependabot ignore this major version` will close this PR and stop\nDependabot creating any more for this major version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this minor version` will close this PR and stop\nDependabot creating any more for this minor version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this dependency` will close this PR and stop\nDependabot creating any more for this dependency (unless you reopen the\nPR or upgrade to it yourself)\n\n\n</details>\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "timestamp": "2025-03-23T20:11:43+04:00",
+          "tree_id": "6a7748ee28fc5be4b85d4a9bb59d93b765c828f7",
+          "url": "https://github.com/OptimumCode/json-schema-validator/commit/f9d460cc6d7f0b48424662e3112008f047a629f4"
+        },
+        "date": 1742747835553,
+        "tool": "jmh",
+        "benches": [
+          {
+            "name": "jvm.CommonThroughputBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3045.958975725795,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonThroughputBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2890.09184840728,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2949.8677653100212,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2668.9562447172043,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1050.778169968511,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1010.2728830848857,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4229.889370821263,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 6846865.747454172,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 710.9818449442918,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 732.9446523186494,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 320.27516175095,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 344.91130585186164,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 328.18363819644634,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 355.0848917262686,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 970.0434235776345,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 981.5298208434808,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 242.3736962806683,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 0.15324728192026724,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1394.123831991838,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1413.03112424605,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "linuxX64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1605.1509218800645,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1734.1642584905662,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3975.0960412698414,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4214.006856326531,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1153.9327665898618,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 0.7820435270138556,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 7309.571328169014,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 7178.537504929578,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1574.2855101404057,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1650.5468733990147,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 620.1977084141043,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 562.1198577783377,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 243.48557403292543,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 238.81058455034673,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 874.4234282630838,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1294713.9649315255,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 139.43133491075153,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 137.31850825903118,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 624.751807322348,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "linuxX64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 612.6388951174089,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1071.1908064516128,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1133.7768497168743,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2718.4598860248448,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2984.503484210526,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 785.8606712062257,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 0.5467037372040934,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 5518.65594888889,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 5037.195770050761,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1054.7200224765868,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1083.698350377562,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 928.9795512647722,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 878.4497817956292,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 375.1756962282121,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 336.11886366094046,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1283.9254496731176,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1836081.6734238237,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 183.3549656779536,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 197.77643766907633,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 869.6904444748512,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosArm64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 756.4380659781456,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2526.7009231155776,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2617.323179002625,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 5876.061230635838,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 6103.2214614906825,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1817.6810326678765,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1.3346293865252468,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 10510.029102105265,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 9933.661328431373,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2467.1173552311434,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2495.3028586734695,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 395.73467876994073,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 380.3116779997717,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 172.43893706964693,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 163.48600579744198,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 549.7721946986188,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 748017.8340008134,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 95.12631699901023,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 101.44825340612127,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 404.13950027925733,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "macosX64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 400.7655584602827,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3057.8319875776397,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonAvgTimeBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3107.3373993808045,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 6926.195960264902,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonAvgTimeBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 7081.694,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2242.7502027027026,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonAvgTimeBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1.5550724209933526,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 10946.946627906977,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonAvgTimeBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 10830.617032967031,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3166.4194357366773,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonAvgTimeBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3000.967159763314,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 322.39261837307123,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonThroughputBench.validateBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 323.18338934679224,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 151.10245789382333,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonThroughputBench.validateDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 145.19939569122084,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 459.8552845733432,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonThroughputBench.validateFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 660514.4689081106,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 94.80984567473573,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonThroughputBench.validateVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 96.73709595648288,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 337.46071407984726,
+            "unit": "ops/sec",
+            "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
+          },
+          {
+            "name": "mingwX64.CommonThroughputBench.validate ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 333.32796303387767,
             "unit": "ops/sec",
             "extra": "iterations: 10\nforks: undefined\nthreads: undefined"
           }
