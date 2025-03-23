@@ -24,40 +24,19 @@ kotlin {
   }
 
   sourceSets {
-    val commonMain by getting {
+    commonMain {
       dependencies {
         api(libs.kotlin.serialization.json)
         api(libs.uri)
         // When using approach like above you won't be able to add because block
-        implementation(
-          libs.kotlin.codepoints
-            .get()
-            .toString(),
-        ) {
+        implementation(libs.kotlin.codepoints.get().toString()) {
           because("simplifies work with unicode codepoints")
         }
-        implementation(libs.karacteristics)
-      }
-    }
-
-    val nonWasmJsMain by creating {
-      dependsOn(commonMain)
-
-      dependencies {
         implementation(libs.normalize.get().toString()) {
           because("provides normalization required by IDN-hostname format")
         }
+        implementation(libs.karacteristics)
       }
-    }
-
-    jvmMain {
-      dependsOn(nonWasmJsMain)
-    }
-    jsMain {
-      dependsOn(nonWasmJsMain)
-    }
-    nativeMain {
-      dependsOn(nonWasmJsMain)
     }
 
     commonTest {
