@@ -99,6 +99,24 @@ But Maven cannot use Gradle's metadata so you need to depend on a JVM-specific a
 </dependency>
 ```
 
+And you can also add a sonatype repository to your POM file
+
+```xml
+<repositories>
+  <repository>
+    <id>sonatype-release</id>
+    <name>sonatype-release</name>
+    <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+    <releases>
+      <enabled>true</enabled>
+    </releases>
+  </repository>
+</repositories>
+```
+
 #### Snapshots
 
 _If you want to use SNAPSHOT version you should add Sonatype Snapshot repository to your build script._
