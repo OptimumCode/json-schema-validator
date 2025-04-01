@@ -40,7 +40,9 @@ from [kotlinx.serialization-json](https://github.com/Kotlin/kotlinx.serializatio
 
 In order to use releases add Maven Central repository to the list of repositories.
 
-##### Kotlin
+##### Gradle
+
+###### Kotlin
 
 ```kotlin
 repositories {
@@ -50,7 +52,7 @@ repositories {
 implementation("io.github.optimumcode:json-schema-validator:0.5.1")
 ```
 
-##### Groovy
+###### Groovy
 
 ```groovy
 repositories {
@@ -68,7 +70,7 @@ implementation("io.github.optimumcode:json-schema-validator")
 _Release are published to Sonatype repository. The synchronization with Maven Central takes time._
 _If you want to use the release right after the publication you should add Sonatype Release repository to your build script._
 
-##### Kotlin
+###### Kotlin
 
 ```kotlin
 repositories {
@@ -76,7 +78,7 @@ repositories {
 }
 ```
 
-##### Groovy
+###### Groovy
 
 ```groovy
 repositories {
@@ -84,11 +86,44 @@ repositories {
 }
 ```
 
+##### Maven
+
+You can also use `json-schema-validator` as a dependency in your maven project.
+But Maven cannot use Gradle's metadata so you need to depend on a JVM-specific artifact in your project:
+
+```xml
+<dependency>
+  <groupId>io.github.optimumcode</groupId>
+  <artifactId>json-schema-validator-jvm</artifactId>
+  <version>0.5.1</version>
+</dependency>
+```
+
+And you can also add a sonatype repository to your POM file
+
+```xml
+<repositories>
+  <repository>
+    <id>sonatype-release</id>
+    <name>sonatype-release</name>
+    <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+    <releases>
+      <enabled>true</enabled>
+    </releases>
+  </repository>
+</repositories>
+```
+
 #### Snapshots
 
 _If you want to use SNAPSHOT version you should add Sonatype Snapshot repository to your build script._
 
-##### Kotlin
+##### Gradle
+
+###### Kotlin
 
 ```kotlin
 repositories {
@@ -103,7 +138,7 @@ implementation(platform("io.github.optimumcode:json-schema-validator-bom:0.5.2-S
 implementation("io.github.optimumcode:json-schema-validator")
 ```
 
-##### Groovy
+###### Groovy
 
 ```groovy
 repositories {
@@ -111,6 +146,36 @@ repositories {
 }
 
 implementation 'io.github.optimumcode:json-schema-validator:0.5.2-SNAPSHOT'
+```
+
+##### Maven
+
+For the Maven you need to add a snapshot repository to your POM file
+
+```xml
+<repositories>
+  <repository>
+    <id>sonatype</id>
+    <name>sonatype-snapshot</name>
+    <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+    <releases>
+      <enabled>false</enabled>
+    </releases>
+  </repository>
+</repositories>
+```
+
+And then you can add a dependency to a SNAPSHOT version
+
+```xml
+<dependency>
+  <groupId>io.github.optimumcode</groupId>
+  <artifactId>json-schema-validator-jvm</artifactId>
+  <version>0.5.2-SNAPSHOT</version>
+</dependency>
 ```
 
 ### Example
