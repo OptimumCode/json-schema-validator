@@ -5,7 +5,7 @@ detekt = "1.23.8"
 ktlint = "1.1.0"
 okio = "3.11.0"
 serialization = "1.8.1"
-benchmark = "0.4.13"
+benchmark = "0.4.14"
 openapi = "2025.2"
 jackson = "2.19.0"
 
