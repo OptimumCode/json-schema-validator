@@ -37,7 +37,7 @@ openapi-jackson = { module = "io.openapiprocessor:io-jackson" }
 jackson-bom = { group = "com.fasterxml.jackson", name = "jackson-bom", version.ref = "jackson" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind" }
 jackson-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml" }
-networknt-validator = { group = "com.networknt", name = "json-schema-validator", version = "1.5.6" }
+networknt-validator = { group = "com.networknt", name = "json-schema-validator", version = "1.5.7" }
 kotlin-codepoints = { group = "de.cketti.unicode", name = "kotlin-codepoints", version = "0.10.0" }
 normalize = { group = "com.doist.x", name = "normalize", version = "1.2.0" }
 karacteristics = { group = "io.github.optimumcode", name = "karacteristics", version = "0.0.5" }
