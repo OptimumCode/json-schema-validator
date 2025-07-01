@@ -40,7 +40,7 @@ jackson-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-y
 networknt-validator = { group = "com.networknt", name = "json-schema-validator", version = "1.5.7" }
 kotlin-codepoints = { group = "de.cketti.unicode", name = "kotlin-codepoints", version = "0.10.0" }
 normalize = { group = "com.doist.x", name = "normalize", version = "1.2.0" }
-karacteristics = { group = "io.github.optimumcode", name = "karacteristics", version = "0.0.5" }
+karacteristics = { group = "io.github.optimumcode", name = "karacteristics", version = "0.0.6" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 sigstore-gradle-plugin = { module = "dev.sigstore:sigstore-gradle-sign-plugin", version = "1.3.0"}
 
