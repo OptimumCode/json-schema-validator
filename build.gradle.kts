@@ -1,6 +1,5 @@
 plugins {
   alias(libs.plugins.kotlin.binaryCompatibility)
-  convention.properties
 }
 
 allprojects {
