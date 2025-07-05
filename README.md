@@ -49,7 +49,7 @@ repositories {
   mavenCentral()
 }
 
-implementation("io.github.optimumcode:json-schema-validator:0.5.1")
+implementation("io.github.optimumcode:json-schema-validator:0.5.2")
 ```
 
 ###### Groovy
@@ -59,11 +59,11 @@ repositories {
   mavenCentral()
 }
 
-implementation 'io.github.optimumcode:json-schema-validator:0.5.1'
+implementation 'io.github.optimumcode:json-schema-validator:0.5.2'
 
 // or with BOM
 
-implementation(platform("io.github.optimumcode:json-schema-validator-bom:0.5.1"))
+implementation(platform("io.github.optimumcode:json-schema-validator-bom:0.5.2"))
 implementation("io.github.optimumcode:json-schema-validator")
 ```
 
@@ -130,11 +130,11 @@ repositories {
   maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots")
 }
 
-implementation("io.github.optimumcode:json-schema-validator:0.5.2-SNAPSHOT")
+implementation("io.github.optimumcode:json-schema-validator:0.5.3-SNAPSHOT")
 
 // or with BOM
 
-implementation(platform("io.github.optimumcode:json-schema-validator-bom:0.5.2-SNAPSHOT"))
+implementation(platform("io.github.optimumcode:json-schema-validator-bom:0.5.3-SNAPSHOT"))
 implementation("io.github.optimumcode:json-schema-validator")
 ```
 
@@ -145,7 +145,7 @@ repositories {
   maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots' }
 }
 
-implementation 'io.github.optimumcode:json-schema-validator:0.5.2-SNAPSHOT'
+implementation 'io.github.optimumcode:json-schema-validator:0.5.3-SNAPSHOT'
 ```
 
 ##### Maven
