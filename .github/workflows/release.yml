@@ -31,7 +31,7 @@ jobs:
           version-file: ${{ env.VERSION_FILE }}
           version-file-extraction-pattern: ${{ env.VERSION_PATTERN }}
   build-and-test:
-    if: github.event.inputs.skip-publication != 'true' || !cancelled()
+    if: github.event.inputs.skip-publication != 'true' && !cancelled()
     uses: ./.github/workflows/build-and-test.yml
   publish_artifacts:
     # permissions required for sigstore signature
@@ -41,7 +41,7 @@ jobs:
     needs:
       - version
       - build-and-test
-    if: github.event.inputs.skip-publication != 'true' || !cancelled()
+    if: github.event.inputs.skip-publication != 'true' && !cancelled()
     runs-on: macos-latest
     steps:
       - name: 'Checkout Repository'
@@ -87,7 +87,7 @@ jobs:
     needs:
       - publish_artifacts
       - version
-    if: github.event.inputs.skip-publication == 'true' || !cancelled()
+    if: ${{ !cancelled() }}
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
@@ -127,6 +127,7 @@ jobs:
           makeLatest: ${{ github.ref == 'refs/heads/main' }}
   update-version:
     runs-on: ubuntu-latest
+    if : ${{ !cancelled() }}
     needs:
       - create_release
       - version
