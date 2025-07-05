@@ -2,6 +2,12 @@ name: "Create release"
 
 on:
   workflow_dispatch:
+    inputs:
+      skip-publication:
+        description: 'Skip publication of artifacts to Maven Central'
+        required: false
+        default: false
+        type: boolean
 
 env:
   VERSION_FILE: gradle.properties
@@ -25,6 +31,7 @@ jobs:
           version-file: ${{ env.VERSION_FILE }}
           version-file-extraction-pattern: ${{ env.VERSION_PATTERN }}
   build-and-test:
+    if: github.event.inputs.skip-publication != 'true' || !cancelled()
     uses: ./.github/workflows/build-and-test.yml
   publish_artifacts:
     # permissions required for sigstore signature
@@ -34,6 +41,7 @@ jobs:
     needs:
       - version
       - build-and-test
+    if: github.event.inputs.skip-publication != 'true' || !cancelled()
     runs-on: macos-latest
     steps:
       - name: 'Checkout Repository'
@@ -79,6 +87,7 @@ jobs:
     needs:
       - publish_artifacts
       - version
+    if: github.event.inputs.skip-publication == 'true' || !cancelled()
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
