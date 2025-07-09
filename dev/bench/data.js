@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1752041141295,
+  "lastUpdate": 1752041151294,
   "repoUrl": "https://github.com/OptimumCode/json-schema-validator",
   "entries": {
     "KMP JSON schema validator": [
@@ -31218,270 +31218,6 @@ window.BENCHMARK_DATA = {
             "username": "web-flow"
           },
           "distinct": true,
-          "id": "71dd3a8a659002c7fba10a0a4d1798287463d314",
-          "message": "Bump okio from 3.9.1 to 3.10.2 (#234)\n\nBumps `okio` from 3.9.1 to 3.10.2.\nUpdates `com.squareup.okio:okio` from 3.9.1 to 3.10.2\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/square/okio/releases\">com.squareup.okio:okio's\nreleases</a>.</em></p>\n<blockquote>\n<h2>3.10.2</h2>\n<ul>\n<li>Fix: <code>okio-nodefilesystem</code> artifact is no longer\nempty.</li>\n</ul>\n<h2>3.10.1</h2>\n<ul>\n<li>New: <code>FileSystem.close()</code> may prevent future access\nand/or clean up associated resources depending on the backing\nimplementation. <code>FakeFileSystem</code> will prevent future\noperations once closed.</li>\n<li><code>InputStream</code>s created from\n<code>BufferedSource.inputStream()</code> now have a more efficient\nversion of <code>InputStream.transferTo()</code> which reduces memory\ncopies.</li>\n<li><code>okio-nodefilesystem</code> is no longer publised as a JS\nproject, but a Kotlin multiplatform project with only a JS target.\n<del>This change should not affect consumers in any way, and is\nmotivated by the Kotlin Gradle plugin deprecating the JS-only\nplugin.</del> Please use <a\nhref=\"https://github.com/square/okio/releases/tag/3.10.2\">3.10.2</a> to\nensure this change actually does not affect your builds.</li>\n</ul>\n<h2>3.10.0</h2>\n<p>This version is equivalent to the subsequent 3.10.1, but it did not\nfully publish to Maven Central due to infrastructure problems.</p>\n</blockquote>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/square/okio/blob/master/CHANGELOG.md\">com.squareup.okio:okio's\nchangelog</a>.</em></p>\n<blockquote>\n<h2>Version 3.10.2</h2>\n<p><em>2025-01-08</em></p>\n<ul>\n<li>Fix: <code>okio-nodefilesystem</code> artifact is no longer\nempty.</li>\n</ul>\n<h2>Version 3.10.1</h2>\n<p><em>2025-01-07</em></p>\n<ul>\n<li>New: <code>FileSystem.close()</code> may prevent future access\nand/or clean up associated resources depending on the backing\nimplementation. <code>FakeFileSystem</code> will prevent future\noperations once closed.</li>\n<li><code>InputStream</code>s created from\n<code>BufferedSource.inputStream()</code> now have a more efficient\nversion of <code>InputStream.transferTo()</code> which reduces memory\ncopies.</li>\n<li><code>okio-nodefilesystem</code> is no longer publised as a JS\nproject, but a Kotlin multiplatform project with only a JS target.\n<del>This change should not affect consumers in any way, and is\nmotivated by the Kotlin Gradle plugin deprecating the JS-only\nplugin.</del> Please use 3.10.2 to ensure this change actually does not\naffect your builds.</li>\n</ul>\n<h2>Version 3.10.0</h2>\n<p><em>2025-01-06</em></p>\n<p>This version is equivalent to the subsequent 3.10.1, but it did not\nfully publish to Maven Central due to infrastructure problems.</p>\n</blockquote>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/square/okio/commit/e0dcfb6462e642a672ed82840b2530aa385636a9\"><code>e0dcfb6</code></a>\nPrepare version 3.10.2</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/08a8becea464399dd8614870a5a9f96f4adb76ad\"><code>08a8bec</code></a>\nCorrect Node integration's source set directories (<a\nhref=\"https://redirect.github.com/square/okio/issues/1571\">#1571</a>)</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/5302ddaeaa522df56760cc3442d6457786603091\"><code>5302dda</code></a>\nMigrate config renovate.json (<a\nhref=\"https://redirect.github.com/square/okio/issues/1570\">#1570</a>)</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/9c8b6a14b9b9f9aae06464d8d9de582efacc7a7e\"><code>9c8b6a1</code></a>\nUpdate dependency com.diffplug.spotless:spotless-plugin-gradle to v7.0.1\n(<a\nhref=\"https://redirect.github.com/square/okio/issues/1569\">#1569</a>)</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/6a9179563a936c88cad6e1679a51d85e50dd9e74\"><code>6a91795</code></a>\nUpdate dependency com.diffplug.spotless:spotless-plugin-gradle to v7 (<a\nhref=\"https://redirect.github.com/square/okio/issues/1568\">#1568</a>)</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/201732c4a2db90c3bf9ed321d2f2e0e0a1e24c8f\"><code>201732c</code></a>\nPrepare next development version</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/c7f7a235bd66c77b10eade2f883f3113c2dfeb16\"><code>c7f7a23</code></a>\nPrepare version 3.10.1</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/426cf99c1469b67350cb6241f7b390525cc00772\"><code>426cf99</code></a>\nPrepare next development version</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/fd4d135305142f57a099acc34fa41b3fe58a2dc7\"><code>fd4d135</code></a>\nFix version</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/6ff3275d965d88a7b81af1ab193eb2d8c68b5f50\"><code>6ff3275</code></a>\nPrepare version 3.10.0</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/square/okio/compare/3.9.1...3.10.2\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\nUpdates `com.squareup.okio:okio-nodefilesystem` from 3.9.1 to 3.10.2\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/square/okio/releases\">com.squareup.okio:okio-nodefilesystem's\nreleases</a>.</em></p>\n<blockquote>\n<h2>3.10.2</h2>\n<ul>\n<li>Fix: <code>okio-nodefilesystem</code> artifact is no longer\nempty.</li>\n</ul>\n<h2>3.10.1</h2>\n<ul>\n<li>New: <code>FileSystem.close()</code> may prevent future access\nand/or clean up associated resources depending on the backing\nimplementation. <code>FakeFileSystem</code> will prevent future\noperations once closed.</li>\n<li><code>InputStream</code>s created from\n<code>BufferedSource.inputStream()</code> now have a more efficient\nversion of <code>InputStream.transferTo()</code> which reduces memory\ncopies.</li>\n<li><code>okio-nodefilesystem</code> is no longer publised as a JS\nproject, but a Kotlin multiplatform project with only a JS target.\n<del>This change should not affect consumers in any way, and is\nmotivated by the Kotlin Gradle plugin deprecating the JS-only\nplugin.</del> Please use <a\nhref=\"https://github.com/square/okio/releases/tag/3.10.2\">3.10.2</a> to\nensure this change actually does not affect your builds.</li>\n</ul>\n<h2>3.10.0</h2>\n<p>This version is equivalent to the subsequent 3.10.1, but it did not\nfully publish to Maven Central due to infrastructure problems.</p>\n</blockquote>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/square/okio/blob/master/CHANGELOG.md\">com.squareup.okio:okio-nodefilesystem's\nchangelog</a>.</em></p>\n<blockquote>\n<h2>Version 3.10.2</h2>\n<p><em>2025-01-08</em></p>\n<ul>\n<li>Fix: <code>okio-nodefilesystem</code> artifact is no longer\nempty.</li>\n</ul>\n<h2>Version 3.10.1</h2>\n<p><em>2025-01-07</em></p>\n<ul>\n<li>New: <code>FileSystem.close()</code> may prevent future access\nand/or clean up associated resources depending on the backing\nimplementation. <code>FakeFileSystem</code> will prevent future\noperations once closed.</li>\n<li><code>InputStream</code>s created from\n<code>BufferedSource.inputStream()</code> now have a more efficient\nversion of <code>InputStream.transferTo()</code> which reduces memory\ncopies.</li>\n<li><code>okio-nodefilesystem</code> is no longer publised as a JS\nproject, but a Kotlin multiplatform project with only a JS target.\n<del>This change should not affect consumers in any way, and is\nmotivated by the Kotlin Gradle plugin deprecating the JS-only\nplugin.</del> Please use 3.10.2 to ensure this change actually does not\naffect your builds.</li>\n</ul>\n<h2>Version 3.10.0</h2>\n<p><em>2025-01-06</em></p>\n<p>This version is equivalent to the subsequent 3.10.1, but it did not\nfully publish to Maven Central due to infrastructure problems.</p>\n</blockquote>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/square/okio/commit/e0dcfb6462e642a672ed82840b2530aa385636a9\"><code>e0dcfb6</code></a>\nPrepare version 3.10.2</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/08a8becea464399dd8614870a5a9f96f4adb76ad\"><code>08a8bec</code></a>\nCorrect Node integration's source set directories (<a\nhref=\"https://redirect.github.com/square/okio/issues/1571\">#1571</a>)</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/5302ddaeaa522df56760cc3442d6457786603091\"><code>5302dda</code></a>\nMigrate config renovate.json (<a\nhref=\"https://redirect.github.com/square/okio/issues/1570\">#1570</a>)</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/9c8b6a14b9b9f9aae06464d8d9de582efacc7a7e\"><code>9c8b6a1</code></a>\nUpdate dependency com.diffplug.spotless:spotless-plugin-gradle to v7.0.1\n(<a\nhref=\"https://redirect.github.com/square/okio/issues/1569\">#1569</a>)</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/6a9179563a936c88cad6e1679a51d85e50dd9e74\"><code>6a91795</code></a>\nUpdate dependency com.diffplug.spotless:spotless-plugin-gradle to v7 (<a\nhref=\"https://redirect.github.com/square/okio/issues/1568\">#1568</a>)</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/201732c4a2db90c3bf9ed321d2f2e0e0a1e24c8f\"><code>201732c</code></a>\nPrepare next development version</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/c7f7a235bd66c77b10eade2f883f3113c2dfeb16\"><code>c7f7a23</code></a>\nPrepare version 3.10.1</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/426cf99c1469b67350cb6241f7b390525cc00772\"><code>426cf99</code></a>\nPrepare next development version</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/fd4d135305142f57a099acc34fa41b3fe58a2dc7\"><code>fd4d135</code></a>\nFix version</li>\n<li><a\nhref=\"https://github.com/square/okio/commit/6ff3275d965d88a7b81af1ab193eb2d8c68b5f50\"><code>6ff3275</code></a>\nPrepare version 3.10.0</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/square/okio/compare/3.9.1...3.10.2\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\n\nDependabot will resolve any conflicts with this PR as long as you don't\nalter it yourself. You can also trigger a rebase manually by commenting\n`@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits\nthat have been made to it\n- `@dependabot merge` will merge this PR after your CI passes on it\n- `@dependabot squash and merge` will squash and merge this PR after\nyour CI passes on it\n- `@dependabot cancel merge` will cancel a previously requested merge\nand block automerging\n- `@dependabot reopen` will reopen this PR if it is closed\n- `@dependabot close` will close this PR and stop Dependabot recreating\nit. You can achieve the same result by closing it manually\n- `@dependabot show <dependency name> ignore conditions` will show all\nof the ignore conditions of the specified dependency\n- `@dependabot ignore this major version` will close this PR and stop\nDependabot creating any more for this major version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this minor version` will close this PR and stop\nDependabot creating any more for this minor version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this dependency` will close this PR and stop\nDependabot creating any more for this dependency (unless you reopen the\nPR or upgrade to it yourself)\n\n\n</details>\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
-          "timestamp": "2025-01-18T14:01:00Z",
-          "tree_id": "a472a52fc9bd87172600e4b64f6a132ecb6e92dd",
-          "url": "https://github.com/OptimumCode/json-schema-validator/commit/71dd3a8a659002c7fba10a0a4d1798287463d314"
-        },
-        "date": 1737210438656,
-        "tool": "jmh",
-        "benches": [
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2198.7796008956684,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1958.3545700048792,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2291.946981198712,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2267.689119686415,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 916.7910614202398,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 864.262784387827,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2245.5819695582345,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2205.087698674325,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3026.62127361595,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 5459116.331329787,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 635.0987006563233,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 613.4432907268895,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3238.4921361656952,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1676.2972102452277,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3370.0742766144986,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 837084.8065870113,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3315.342630349899,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1561.9421569981744,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 73.25897207481958,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 85.34994454444563,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 450.1772995063619,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 489.26421312644686,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 437.78805919495926,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 454.48111852241357,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1146.5698948632376,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1214.4182394023342,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 448.84388393387127,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 450.93670769613226,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 331.2011172482913,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 0.19902596836370273,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1639.2566537259725,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1563.0513795910915,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 312.0993217329825,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 593.9776357277964,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 301.55285623337653,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1.1674827917523716,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 313.8479784998081,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 620.4119058683984,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 13887.262003025116,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 12371.326027595604,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          }
-        ]
-      },
-      {
-        "commit": {
-          "author": {
-            "email": "49699333+dependabot[bot]@users.noreply.github.com",
-            "name": "dependabot[bot]",
-            "username": "dependabot[bot]"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
           "id": "f6e5a6755613d964b790f8cb99cdafbb2f668c8e",
           "message": "Bump serialization from 1.7.3 to 1.8.0 (#230)\n\nBumps `serialization` from 1.7.3 to 1.8.0.\nUpdates `org.jetbrains.kotlinx:kotlinx-serialization-json` from 1.7.3 to\n1.8.0\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/releases\">org.jetbrains.kotlinx:kotlinx-serialization-json's\nreleases</a>.</em></p>\n<blockquote>\n<h2>1.8.0</h2>\n<p>This release contains all of the changes from 1.8.0-RC. Kotlin 2.1.0\nis used as a default, while upcoming 2.1.10 is also supported.\nAlso added small bugfixes, including speedup of\n<code>ProtoWireType.from</code> (<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2879\">#2879</a>).</p>\n<h3>Changelog for 1.8.0-RC is presented below:</h3>\n<h2><code>@JsonIgnoreUnknownKeys</code> annotation</h2>\n<p>Previously, only global setting\n<code>JsonBuilder.ignoreUnknownKeys</code> controlled whether Json\nparser would throw exception if\ninput contained a property that was not declared in a\n<code>@Serializable</code> class.\nThere were <a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/1420\">a\nlot of complaints</a> that this setting is not\nflexible enough.\nTo address them, we added new <code>@JsonIgnoreUnknownKeys</code>\nannotation that can be applied on a per-class basis.\nWith this annotation, it is possible to allow unknown properties for\nannotated classes, while\ngeneral decoding methods (such as <code>Json.decodeFromString</code> and\nothers) would still reject them for everything else.\nSee details in the corresponding <a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/pull/2874\">PR</a>.</p>\n<h2>Stabilization of <code>SerialDescriptor</code> API and\n<code>@SealedSerializationApi</code> annotation</h2>\n<p><code>SerialDescriptor</code>, <code>SerialKind</code>, and related\nAPI has been around for a long time and has proven itself useful.\nThe main reason <code>@ExperimentalSerializationApi</code> was on\nSerialDescriptor's properties is that we wanted to discourage\npeople from subclassing it.\nFortunately, Kotlin 2.1 provides a special mechanism for such a\ncase — <a\nhref=\"https://kotlinlang.org/docs/opt-in-requirements.html#opt-in-to-inherit-from-a-class-or-interface\">SubclassOptInRequired</a>.\nNew <code>kotlinx.serialization.SealedSerializationApi</code> annotation\ndesignates APIs\nas public for use, but closed for implementation — the case for\nSerialDescriptor, which is a non-sealed interface for\ntechnical reasons.\nNow you can use most of <code>SerialDescriptor</code> and its builders\nAPI without the need to opt-in into experimental\nserialization API.\nSee the <a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/pull/2827\">PR</a>\nfor more details.</p>\n<p><em>Note</em>: All <code>SerialKind</code>s are stable API now,\nexcept <code>PolymorphicKind</code> — we may want to expand it in the\nfuture.</p>\n<h2>Generate Java 8's default method implementations in interfaces</h2>\n<p><strong>TL;DR This change ensures better binary compatibility in the\nfuture for library. You should not experience any\ndifference from it.</strong></p>\n<p>kotlinx.serialization library contains a lot of interfaces with\ndefault method implementations. Historically, Kotlin\ncompiled a synthetic <code>DefaultImpls</code> class for them.\n<a\nhref=\"https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces/\">Starting\nfrom Kotlin 1.4</a>,\nit was possible to compile them using as Java 8's <code>default</code>\nmethods to ensure\nthat new methods can still be added to interfaces without the need for\nimplementors to recompile.\nTo preserve binary compatibility with existing clients, a special\n<code>all-compatbility</code> mode is supported in compiler\nto generate both <code>default</code> methods and synthetic\n<code>DefaultImpls</code> class.</p>\n<p>Now, kotlinx.serialization finally makes use of this\n<code>all-compatibility</code> mode,\nwhich potentially allows us to add new methods to interfaces such as\n<code>SerialDescriptor</code>, <code>Encoder</code>,\n<code>Decoder</code>, etc.,\nwithout breaking existing clients. This change is expected to have no\neffect on existing clients, and no action from\nyour side is required.</p>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/blob/master/CHANGELOG.md\">org.jetbrains.kotlinx:kotlinx-serialization-json's\nchangelog</a>.</em></p>\n<blockquote>\n<h1>1.8.0 / 2025-01-06</h1>\n<p>This release contains all of the changes from 1.8.0-RC. Kotlin 2.1.0\nis used as a default, while upcoming 2.1.10 is also supported.\nAlso added small bugfixes, including speedup of ProtoWireType.from (<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2879\">#2879</a>).</p>\n<h1>1.8.0-RC / 2024-12-10</h1>\n<p>This is a release candidate for the next version. It is based on\nKotlin 2.1.0 and includes a few new features, as well\nas bugfixes and improvements:</p>\n<h2><code>@JsonIgnoreUnknownKeys</code> annotation</h2>\n<p>Previously, only global setting\n<code>JsonBuilder.ignoreUnknownKeys</code> controlled whether Json\nparser would throw exception if\ninput contained a property that was not declared in a\n<code>@Serializable</code> class.\nThere were <a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/1420\">a\nlot of complaints</a> that this setting is not\nflexible enough.\nTo address them, we added new <code>@JsonIgnoreUnknownKeys</code>\nannotation that can be applied on a per-class basis.\nWith this annotation, it is possible to allow unknown properties for\nannotated classes, while\ngeneral decoding methods (such as <code>Json.decodeFromString</code> and\nothers) would still reject them for everything else.\nSee details in the corresponding <a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/pull/2874\">PR</a>.</p>\n<h2>Stabilization of <code>SerialDescriptor</code> API and\n<code>@SealedSerializationApi</code> annotation</h2>\n<p><code>SerialDescriptor</code>, <code>SerialKind</code>, and related\nAPI has been around for a long time and has proven itself useful.\nThe main reason <code>@ExperimentalSerializationApi</code> was on\nSerialDescriptor's properties is that we wanted to discourage\npeople from subclassing it.\nFortunately, Kotlin 2.1 provides a special mechanism for such a\ncase — <a\nhref=\"https://kotlinlang.org/docs/opt-in-requirements.html#opt-in-to-inherit-from-a-class-or-interface\">SubclassOptInRequired</a>.\nNew <code>kotlinx.serialization.SealedSerializationApi</code> annotation\ndesignates APIs\nas public for use, but closed for implementation — the case for\nSerialDescriptor, which is a non-sealed interface for\ntechnical reasons.\nNow you can use most of <code>SerialDescriptor</code> and its builders\nAPI without the need to opt-in into experimental\nserialization API.\nSee the <a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/pull/2827\">PR</a>\nfor more details.</p>\n<p><em>Note</em>: All <code>SerialKind</code>s are stable API now,\nexcept <code>PolymorphicKind</code> — we may want to expand it in the\nfuture.</p>\n<h2>Generate Java 8's default method implementations in interfaces</h2>\n<p><strong>TL;DR This change ensures better binary compatibility in the\nfuture for library. You should not experience any\ndifference from it.</strong></p>\n<p>kotlinx.serialization library contains a lot of interfaces with\ndefault method implementations. Historically, Kotlin\ncompiled a synthetic <code>DefaultImpls</code> class for them.\n<a\nhref=\"https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces/\">Starting\nfrom Kotlin 1.4</a>,\nit was possible to compile them using as Java 8's <code>default</code>\nmethods to ensure\nthat new methods can still be added to interfaces without the need for\nimplementors to recompile.\nTo preserve binary compatibility with existing clients, a special\n<code>all-compatbility</code> mode is supported in compiler</p>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/f9f160a680da9f92c3bb121ae3644c96e57ba42e\"><code>f9f160a</code></a>\nPrepare 1.8.0 release</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/f17c83fea1a4797fef02b9b3ce0eba61e8a0996a\"><code>f17c83f</code></a>\nFix CompositeDecoder.decodeSequentially() documentation</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/c645f52545d21562b27e2b76b1e1d6407453fe13\"><code>c645f52</code></a>\nRestructure source-sets-conventions.gradle.kts</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/fa797bc8c48057308274303daf2a730d6954ecfb\"><code>fa797bc</code></a>\nAdd tests for UuidSerializer that were supposed to work in Kotlin 2.1\n(<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2884\">#2884</a>)</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/d62f3b8a4b5292dac2575b846b5fd4cfe679ce65\"><code>d62f3b8</code></a>\nSpeedup ProtoWriteType.from (<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2879\">#2879</a>)</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/db217e4ca83715eb0bd2b0777c5428f8c060eac2\"><code>db217e4</code></a>\nMerge remote-tracking branch 'origin/master' into dev</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/69050a369fa4814000935e81e04632a7e335184e\"><code>69050a3</code></a>\nPrepare 1.8.0-RC release (<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2880\">#2880</a>)</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/c4f798cd99f3c145abd7c0853cdbf42af930c092\"><code>c4f798c</code></a>\nUpdate to Kotlin 2.1.0 and some housekeeping: (<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2877\">#2877</a>)</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/7204a36953f8b156fa19786e2c26464bc599307b\"><code>7204a36</code></a>\n[Cbor] correctly skip structures with ignoreUnknownKeys setting (<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2873\">#2873</a>)</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/aee63365ee2777ebe890121c99cbc37ecc2ee70f\"><code>aee6336</code></a>\nIntroduce <a\nhref=\"https://github.com/JsonIgnoreUnknownKeys\"><code>@​JsonIgnoreUnknownKeys</code></a>\nannotation (<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2874\">#2874</a>)</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/compare/v1.7.3...v1.8.0\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\nUpdates `org.jetbrains.kotlinx:kotlinx-serialization-json-okio` from\n1.7.3 to 1.8.0\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/releases\">org.jetbrains.kotlinx:kotlinx-serialization-json-okio's\nreleases</a>.</em></p>\n<blockquote>\n<h2>1.8.0</h2>\n<p>This release contains all of the changes from 1.8.0-RC. Kotlin 2.1.0\nis used as a default, while upcoming 2.1.10 is also supported.\nAlso added small bugfixes, including speedup of\n<code>ProtoWireType.from</code> (<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2879\">#2879</a>).</p>\n<h3>Changelog for 1.8.0-RC is presented below:</h3>\n<h2><code>@JsonIgnoreUnknownKeys</code> annotation</h2>\n<p>Previously, only global setting\n<code>JsonBuilder.ignoreUnknownKeys</code> controlled whether Json\nparser would throw exception if\ninput contained a property that was not declared in a\n<code>@Serializable</code> class.\nThere were <a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/1420\">a\nlot of complaints</a> that this setting is not\nflexible enough.\nTo address them, we added new <code>@JsonIgnoreUnknownKeys</code>\nannotation that can be applied on a per-class basis.\nWith this annotation, it is possible to allow unknown properties for\nannotated classes, while\ngeneral decoding methods (such as <code>Json.decodeFromString</code> and\nothers) would still reject them for everything else.\nSee details in the corresponding <a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/pull/2874\">PR</a>.</p>\n<h2>Stabilization of <code>SerialDescriptor</code> API and\n<code>@SealedSerializationApi</code> annotation</h2>\n<p><code>SerialDescriptor</code>, <code>SerialKind</code>, and related\nAPI has been around for a long time and has proven itself useful.\nThe main reason <code>@ExperimentalSerializationApi</code> was on\nSerialDescriptor's properties is that we wanted to discourage\npeople from subclassing it.\nFortunately, Kotlin 2.1 provides a special mechanism for such a\ncase — <a\nhref=\"https://kotlinlang.org/docs/opt-in-requirements.html#opt-in-to-inherit-from-a-class-or-interface\">SubclassOptInRequired</a>.\nNew <code>kotlinx.serialization.SealedSerializationApi</code> annotation\ndesignates APIs\nas public for use, but closed for implementation — the case for\nSerialDescriptor, which is a non-sealed interface for\ntechnical reasons.\nNow you can use most of <code>SerialDescriptor</code> and its builders\nAPI without the need to opt-in into experimental\nserialization API.\nSee the <a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/pull/2827\">PR</a>\nfor more details.</p>\n<p><em>Note</em>: All <code>SerialKind</code>s are stable API now,\nexcept <code>PolymorphicKind</code> — we may want to expand it in the\nfuture.</p>\n<h2>Generate Java 8's default method implementations in interfaces</h2>\n<p><strong>TL;DR This change ensures better binary compatibility in the\nfuture for library. You should not experience any\ndifference from it.</strong></p>\n<p>kotlinx.serialization library contains a lot of interfaces with\ndefault method implementations. Historically, Kotlin\ncompiled a synthetic <code>DefaultImpls</code> class for them.\n<a\nhref=\"https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces/\">Starting\nfrom Kotlin 1.4</a>,\nit was possible to compile them using as Java 8's <code>default</code>\nmethods to ensure\nthat new methods can still be added to interfaces without the need for\nimplementors to recompile.\nTo preserve binary compatibility with existing clients, a special\n<code>all-compatbility</code> mode is supported in compiler\nto generate both <code>default</code> methods and synthetic\n<code>DefaultImpls</code> class.</p>\n<p>Now, kotlinx.serialization finally makes use of this\n<code>all-compatibility</code> mode,\nwhich potentially allows us to add new methods to interfaces such as\n<code>SerialDescriptor</code>, <code>Encoder</code>,\n<code>Decoder</code>, etc.,\nwithout breaking existing clients. This change is expected to have no\neffect on existing clients, and no action from\nyour side is required.</p>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/blob/master/CHANGELOG.md\">org.jetbrains.kotlinx:kotlinx-serialization-json-okio's\nchangelog</a>.</em></p>\n<blockquote>\n<h1>1.8.0 / 2025-01-06</h1>\n<p>This release contains all of the changes from 1.8.0-RC. Kotlin 2.1.0\nis used as a default, while upcoming 2.1.10 is also supported.\nAlso added small bugfixes, including speedup of ProtoWireType.from (<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2879\">#2879</a>).</p>\n<h1>1.8.0-RC / 2024-12-10</h1>\n<p>This is a release candidate for the next version. It is based on\nKotlin 2.1.0 and includes a few new features, as well\nas bugfixes and improvements:</p>\n<h2><code>@JsonIgnoreUnknownKeys</code> annotation</h2>\n<p>Previously, only global setting\n<code>JsonBuilder.ignoreUnknownKeys</code> controlled whether Json\nparser would throw exception if\ninput contained a property that was not declared in a\n<code>@Serializable</code> class.\nThere were <a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/1420\">a\nlot of complaints</a> that this setting is not\nflexible enough.\nTo address them, we added new <code>@JsonIgnoreUnknownKeys</code>\nannotation that can be applied on a per-class basis.\nWith this annotation, it is possible to allow unknown properties for\nannotated classes, while\ngeneral decoding methods (such as <code>Json.decodeFromString</code> and\nothers) would still reject them for everything else.\nSee details in the corresponding <a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/pull/2874\">PR</a>.</p>\n<h2>Stabilization of <code>SerialDescriptor</code> API and\n<code>@SealedSerializationApi</code> annotation</h2>\n<p><code>SerialDescriptor</code>, <code>SerialKind</code>, and related\nAPI has been around for a long time and has proven itself useful.\nThe main reason <code>@ExperimentalSerializationApi</code> was on\nSerialDescriptor's properties is that we wanted to discourage\npeople from subclassing it.\nFortunately, Kotlin 2.1 provides a special mechanism for such a\ncase — <a\nhref=\"https://kotlinlang.org/docs/opt-in-requirements.html#opt-in-to-inherit-from-a-class-or-interface\">SubclassOptInRequired</a>.\nNew <code>kotlinx.serialization.SealedSerializationApi</code> annotation\ndesignates APIs\nas public for use, but closed for implementation — the case for\nSerialDescriptor, which is a non-sealed interface for\ntechnical reasons.\nNow you can use most of <code>SerialDescriptor</code> and its builders\nAPI without the need to opt-in into experimental\nserialization API.\nSee the <a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/pull/2827\">PR</a>\nfor more details.</p>\n<p><em>Note</em>: All <code>SerialKind</code>s are stable API now,\nexcept <code>PolymorphicKind</code> — we may want to expand it in the\nfuture.</p>\n<h2>Generate Java 8's default method implementations in interfaces</h2>\n<p><strong>TL;DR This change ensures better binary compatibility in the\nfuture for library. You should not experience any\ndifference from it.</strong></p>\n<p>kotlinx.serialization library contains a lot of interfaces with\ndefault method implementations. Historically, Kotlin\ncompiled a synthetic <code>DefaultImpls</code> class for them.\n<a\nhref=\"https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces/\">Starting\nfrom Kotlin 1.4</a>,\nit was possible to compile them using as Java 8's <code>default</code>\nmethods to ensure\nthat new methods can still be added to interfaces without the need for\nimplementors to recompile.\nTo preserve binary compatibility with existing clients, a special\n<code>all-compatbility</code> mode is supported in compiler</p>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/f9f160a680da9f92c3bb121ae3644c96e57ba42e\"><code>f9f160a</code></a>\nPrepare 1.8.0 release</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/f17c83fea1a4797fef02b9b3ce0eba61e8a0996a\"><code>f17c83f</code></a>\nFix CompositeDecoder.decodeSequentially() documentation</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/c645f52545d21562b27e2b76b1e1d6407453fe13\"><code>c645f52</code></a>\nRestructure source-sets-conventions.gradle.kts</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/fa797bc8c48057308274303daf2a730d6954ecfb\"><code>fa797bc</code></a>\nAdd tests for UuidSerializer that were supposed to work in Kotlin 2.1\n(<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2884\">#2884</a>)</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/d62f3b8a4b5292dac2575b846b5fd4cfe679ce65\"><code>d62f3b8</code></a>\nSpeedup ProtoWriteType.from (<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2879\">#2879</a>)</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/db217e4ca83715eb0bd2b0777c5428f8c060eac2\"><code>db217e4</code></a>\nMerge remote-tracking branch 'origin/master' into dev</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/69050a369fa4814000935e81e04632a7e335184e\"><code>69050a3</code></a>\nPrepare 1.8.0-RC release (<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2880\">#2880</a>)</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/c4f798cd99f3c145abd7c0853cdbf42af930c092\"><code>c4f798c</code></a>\nUpdate to Kotlin 2.1.0 and some housekeeping: (<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2877\">#2877</a>)</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/7204a36953f8b156fa19786e2c26464bc599307b\"><code>7204a36</code></a>\n[Cbor] correctly skip structures with ignoreUnknownKeys setting (<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2873\">#2873</a>)</li>\n<li><a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/commit/aee63365ee2777ebe890121c99cbc37ecc2ee70f\"><code>aee6336</code></a>\nIntroduce <a\nhref=\"https://github.com/JsonIgnoreUnknownKeys\"><code>@​JsonIgnoreUnknownKeys</code></a>\nannotation (<a\nhref=\"https://redirect.github.com/Kotlin/kotlinx.serialization/issues/2874\">#2874</a>)</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/Kotlin/kotlinx.serialization/compare/v1.7.3...v1.8.0\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\n\nDependabot will resolve any conflicts with this PR as long as you don't\nalter it yourself. You can also trigger a rebase manually by commenting\n`@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits\nthat have been made to it\n- `@dependabot merge` will merge this PR after your CI passes on it\n- `@dependabot squash and merge` will squash and merge this PR after\nyour CI passes on it\n- `@dependabot cancel merge` will cancel a previously requested merge\nand block automerging\n- `@dependabot reopen` will reopen this PR if it is closed\n- `@dependabot close` will close this PR and stop Dependabot recreating\nit. You can achieve the same result by closing it manually\n- `@dependabot show <dependency name> ignore conditions` will show all\nof the ignore conditions of the specified dependency\n- `@dependabot ignore this major version` will close this PR and stop\nDependabot creating any more for this major version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this minor version` will close this PR and stop\nDependabot creating any more for this minor version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this dependency` will close this PR and stop\nDependabot creating any more for this dependency (unless you reopen the\nPR or upgrade to it yourself)\n\n\n</details>\n\n---------\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>\nCo-authored-by: Oleg Smirnov <oleg31101996@gmail.com>",
           "timestamp": "2025-01-18T14:17:47Z",
@@ -44400,6 +44136,270 @@ window.BENCHMARK_DATA = {
           {
             "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
             "value": 9875.348489647058,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7ebaa485dc7355bf5586d4b1892ca39a71e64630",
+          "message": "Bump com.networknt:json-schema-validator from 1.5.7 to 1.5.8 (#309)\n\nBumps\n[com.networknt:json-schema-validator](https://github.com/networknt/json-schema-validator)\nfrom 1.5.7 to 1.5.8.\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/networknt/json-schema-validator/releases\">com.networknt:json-schema-validator's\nreleases</a>.</em></p>\n<blockquote>\n<h2>1.5.8- 2025-06-27</h2>\n<h3>Added</h3>\n<h3>Changed</h3>\n<ul>\n<li>upgrade maven-gpg to 3.2.7</li>\n<li>Fix walk with validate when node is null (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1169\">#1169</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>add central-publishing-maven-plugin</li>\n</ul>\n</blockquote>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/networknt/json-schema-validator/blob/master/CHANGELOG.md\">com.networknt:json-schema-validator's\nchangelog</a>.</em></p>\n<blockquote>\n<h1>Change Log</h1>\n<p>All notable changes to this project will be documented in this\nfile.</p>\n<p>This format is based on <a href=\"http://keepachangelog.com/\">Keep a\nChangelog</a>.</p>\n<p>This project does not adhere to <a\nhref=\"https://semver.org/\">Semantic Versioning</a> and minor version\nchanges can have incompatible API changes. These incompatible API\nchanges will largely affect those who have custom validator or walker\nimplementations. Those who just use the library to validate using the\nstandard JSON Schema Draft specifications may not need changes.</p>\n<h2>[Unreleased]</h2>\n<h3>Added</h3>\n<h3>Changed</h3>\n<h2>1.5.8- 2025-06-27</h2>\n<h3>Added</h3>\n<h3>Changed</h3>\n<ul>\n<li>upgrade maven-gpg to 3.2.7</li>\n<li>Fix walk with validate when node is null (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1169\">#1169</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>add central-publishing-maven-plugin</li>\n</ul>\n<h2>1.5.7- 2025-05-23</h2>\n<h3>Added</h3>\n<h3>Changed</h3>\n<ul>\n<li>upgrade nexus-staging verison</li>\n<li>Fix OverrideValidatorTest (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1159\">#1159</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>update slf4j to 2.0.17</li>\n<li>update jackson to 2.18.3</li>\n</ul>\n<h2>1.5.6- 2025-02-19</h2>\n<h3>Added</h3>\n<h3>Changed</h3>\n<ul>\n<li>Set requires static for optional and excludable dependencies (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1155\">#1155</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Fix NPE when walking a missing node that will have missing\nproperties (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1152\">#1152</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Fix relative iris with colons (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1147\">#1147</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Fix explicit disabling of format assertions (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1145\">#1145</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n</ul>\n<h2>1.5.5 - 2025-01-14</h2>\n<h3>Added</h3>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/networknt/json-schema-validator/commit/d46d11c3c28573e94eb08576672e9323ecd57180\"><code>d46d11c</code></a>\nupgrade to 1.5.8 and update changelog</li>\n<li><a\nhref=\"https://github.com/networknt/json-schema-validator/commit/a3c0dacf03ffd6390ca1a8003e0d52932836af05\"><code>a3c0dac</code></a>\nupgrade maven-gpg to 3.2.7</li>\n<li><a\nhref=\"https://github.com/networknt/json-schema-validator/commit/ffe4ca0e5b6c8cedf78b418106e900998dfdbbd3\"><code>ffe4ca0</code></a>\nFix walk with validate when node is null (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1169\">#1169</a>)</li>\n<li><a\nhref=\"https://github.com/networknt/json-schema-validator/commit/2cd2baa5595e46920d5152c083c82bff0b4ac44a\"><code>2cd2baa</code></a>\nadd central-publishing-maven-plugin</li>\n<li>See full diff in <a\nhref=\"https://github.com/networknt/json-schema-validator/compare/1.5.7...1.5.8\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\n\n[![Dependabot compatibility\nscore](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.networknt:json-schema-validator&package-manager=gradle&previous-version=1.5.7&new-version=1.5.8)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)\n\nDependabot will resolve any conflicts with this PR as long as you don't\nalter it yourself. You can also trigger a rebase manually by commenting\n`@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits\nthat have been made to it\n- `@dependabot merge` will merge this PR after your CI passes on it\n- `@dependabot squash and merge` will squash and merge this PR after\nyour CI passes on it\n- `@dependabot cancel merge` will cancel a previously requested merge\nand block automerging\n- `@dependabot reopen` will reopen this PR if it is closed\n- `@dependabot close` will close this PR and stop Dependabot recreating\nit. You can achieve the same result by closing it manually\n- `@dependabot show <dependency name> ignore conditions` will show all\nof the ignore conditions of the specified dependency\n- `@dependabot ignore this major version` will close this PR and stop\nDependabot creating any more for this major version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this minor version` will close this PR and stop\nDependabot creating any more for this minor version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this dependency` will close this PR and stop\nDependabot creating any more for this dependency (unless you reopen the\nPR or upgrade to it yourself)\n\n\n</details>\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "timestamp": "2025-07-09T07:40:11+02:00",
+          "tree_id": "7fdf342329233fedf525f4d8754393a685f93734",
+          "url": "https://github.com/OptimumCode/json-schema-validator/commit/7ebaa485dc7355bf5586d4b1892ca39a71e64630"
+        },
+        "date": 1752041149512,
+        "tool": "jmh",
+        "benches": [
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2881.3247585144213,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2551.9971112842495,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2966.8080999337926,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2859.471516945823,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 950.3717039215868,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1003.6385258905387,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2998.2830070285936,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2631.03936139886,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4065.0912805442085,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 6063424.502407036,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 712.3223779593724,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 674.5288295082928,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4258.335995858083,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2089.4734639559188,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3901.4844886383153,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1005691.4074660998,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3991.1400231532098,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1924.1961341673698,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 88.9406165337829,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 99.46232498972071,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 344.6431501958761,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 379.2843750529072,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 340.3758629361515,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 354.4852668546526,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 962.6238298315004,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 985.9168389822901,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 328.27591434258466,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 339.107976212075,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 250.65859136964036,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 0.17165842363123268,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1415.3436022174265,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1415.8468755097106,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 244.58432935103207,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 487.2321067892373,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 248.02711239122732,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 0.9488325927061583,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 247.71739698235942,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 526.1905853558449,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 11214.253782122347,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 9829.366851055785,
             "unit": "us/op",
             "extra": "iterations: 10\nforks: 1\nthreads: 1"
           }
