@@ -6,7 +6,7 @@ ktlint = "1.1.0"
 okio = "3.15.0"
 serialization = "1.8.1"
 benchmark = "0.4.14"
-openapi = "2025.3"
+openapi = "2025.4"
 jackson = "2.20.0"
 
 [plugins]
