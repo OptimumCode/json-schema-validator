@@ -37,7 +37,7 @@ jobs:
         with:
           distribution: temurin
           java-version-file: .java-version
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version-file: .python-version
       - name: Validate Gradle Wrapper
