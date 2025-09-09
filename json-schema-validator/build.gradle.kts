@@ -10,6 +10,7 @@ plugins {
   convention.`multiplatform-lib`
   convention.`multiplatform-tests`
   alias(libs.plugins.kotlin.serialization)
+  alias(libs.plugins.google.ksp)
   alias(libs.plugins.kotest.multiplatform)
   alias(libs.plugins.kover)
   alias(libs.plugins.detekt)
