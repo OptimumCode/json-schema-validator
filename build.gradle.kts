@@ -14,7 +14,7 @@ apiValidation {
 
 tasks.register("printKtlintVersion") {
   doLast {
-    println(libs.versions.ktlint.get())
+    println(VersionConstants.KTLINT_VERSION)
   }
 }
 

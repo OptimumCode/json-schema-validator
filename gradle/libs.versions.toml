@@ -2,7 +2,6 @@
 kotlin = "2.2.21"
 kotest = "6.0.4"
 detekt = "1.23.8"
-ktlint = "1.1.0"
 okio = "3.15.0"
 serialization = "1.8.1"
 benchmark = "0.4.14"
@@ -16,8 +15,6 @@ kotlin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "ko
 kotest-multiplatform = { id = "io.kotest", version.ref = "kotest" }
 google-ksp = { id = "com.google.devtools.ksp", version = "2.3.0" }
 kover = { id = "org.jetbrains.kotlinx.kover", version = "0.9.1" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "13.1.0" }
 kotlin-binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.18.1" }
 
 [libraries]

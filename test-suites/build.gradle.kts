@@ -74,7 +74,13 @@ tasks.withType<KotlinJsTest> {
   doFirst {
     // This is used to pass the right location for Node.js test
     environment("TEST_SUITES_DIR", "$projectDir/schema-test-suite/tests")
-    environment("REMOTES_SCHEMAS_JSON", generateRemoteSchemas.flatMap { it.remotesFile }.get().asFile.absolutePath)
+    environment(
+      "REMOTES_SCHEMAS_JSON",
+      generateRemoteSchemas
+        .flatMap { it.remotesFile }
+        .get()
+        .asFile.absolutePath,
+    )
   }
 }
 
@@ -84,21 +90,35 @@ tasks.withType<KotlinNativeSimulatorTest> {
     environment("SIMCTL_CHILD_TEST_SUITES_DIR", "$projectDir/schema-test-suite/tests")
     environment(
       "SIMCTL_CHILD_REMOTES_SCHEMAS_JSON",
-      generateRemoteSchemas.flatMap {
-        it.remotesFile
-      }.get().asFile.absolutePath,
+      generateRemoteSchemas
+        .flatMap {
+          it.remotesFile
+        }.get()
+        .asFile.absolutePath,
     )
   }
 }
 
 tasks.withType<KotlinNativeTest> {
   doFirst {
-    environment("REMOTES_SCHEMAS_JSON", generateRemoteSchemas.flatMap { it.remotesFile }.get().asFile.absolutePath)
+    environment(
+      "REMOTES_SCHEMAS_JSON",
+      generateRemoteSchemas
+        .flatMap { it.remotesFile }
+        .get()
+        .asFile.absolutePath,
+    )
   }
 }
 
 tasks.withType<Test> {
   doFirst {
-    environment("REMOTES_SCHEMAS_JSON", generateRemoteSchemas.flatMap { it.remotesFile }.get().asFile.absolutePath)
+    environment(
+      "REMOTES_SCHEMAS_JSON",
+      generateRemoteSchemas
+        .flatMap { it.remotesFile }
+        .get()
+        .asFile.absolutePath,
+    )
   }
 }

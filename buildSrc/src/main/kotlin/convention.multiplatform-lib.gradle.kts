@@ -1,5 +1,5 @@
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
@@ -42,7 +42,7 @@ kotlin {
 }
 
 ktlint {
-  version.set("1.1.0")
+  version.set(VersionConstants.KTLINT_VERSION)
   reporters {
     reporter(ReporterType.HTML)
   }
