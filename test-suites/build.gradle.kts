@@ -1,8 +1,6 @@
-import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import tasks.GenerateRemoteSchemas
 
 plugins {
@@ -13,8 +11,6 @@ plugins {
   alias(libs.plugins.google.ksp)
   alias(libs.plugins.kotest.multiplatform)
   alias(libs.plugins.kover)
-  alias(libs.plugins.detekt)
-  alias(libs.plugins.ktlint)
 }
 
 kotlin {
@@ -105,25 +101,4 @@ tasks.withType<Test> {
   doFirst {
     environment("REMOTES_SCHEMAS_JSON", generateRemoteSchemas.flatMap { it.remotesFile }.get().asFile.absolutePath)
   }
-}
-
-ktlint {
-  version.set(libs.versions.ktlint)
-  reporters {
-    reporter(ReporterType.HTML)
-  }
-  filter {
-    exclude("**/kotest/**/kotest.kt")
-  }
-}
-
-val detektAllTask by tasks.register("detektAll")
-
-tasks.named("check").configure {
-  dependsOn(detektAllTask)
-}
-
-tasks.withType<Detekt> {
-  detektAllTask.dependsOn(this)
-  exclude("**/kotest/**/kotest.kt")
 }
