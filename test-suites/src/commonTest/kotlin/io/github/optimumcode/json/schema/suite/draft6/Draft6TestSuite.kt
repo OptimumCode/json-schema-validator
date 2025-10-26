@@ -1,16 +1,16 @@
-package io.github.optimumcode.json.schema.suite.draft4
+package io.github.optimumcode.json.schema.suite.draft6
 
-import io.github.optimumcode.json.schema.SchemaType.DRAFT_4
+import io.github.optimumcode.json.schema.SchemaType.DRAFT_6
 import io.github.optimumcode.json.schema.suite.COMMON_FORMAT_FILTER
 import io.github.optimumcode.json.schema.suite.runTestSuites
 import io.kotest.core.spec.style.FunSpec
 
 @Suppress("unused")
-internal class TestSuite : FunSpec() {
+internal class Draft6TestSuite : FunSpec() {
   init {
     runTestSuites(
-      draftName = "draft4",
-      schemaType = DRAFT_4,
+      draftName = "draft6",
+      schemaType = DRAFT_6,
       formatFilter = COMMON_FORMAT_FILTER,
     )
   }

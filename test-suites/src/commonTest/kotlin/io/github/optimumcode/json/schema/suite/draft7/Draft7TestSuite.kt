@@ -6,7 +6,7 @@ import io.github.optimumcode.json.schema.suite.runTestSuites
 import io.kotest.core.spec.style.FunSpec
 
 @Suppress("unused")
-internal class TestSuite : FunSpec() {
+internal class Draft7TestSuite : FunSpec() {
   init {
     runTestSuites(
       draftName = "draft7",

@@ -1,8 +1,6 @@
-import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import tasks.GenerateRemoteSchemas
 
 plugins {
@@ -10,10 +8,7 @@ plugins {
   convention.`multiplatform-jvm`
   convention.`multiplatform-tests`
   alias(libs.plugins.kotlin.serialization)
-  alias(libs.plugins.kotest.multiplatform)
   alias(libs.plugins.kover)
-  alias(libs.plugins.detekt)
-  alias(libs.plugins.ktlint)
 }
 
 kotlin {
@@ -77,7 +72,13 @@ tasks.withType<KotlinJsTest> {
   doFirst {
     // This is used to pass the right location for Node.js test
     environment("TEST_SUITES_DIR", "$projectDir/schema-test-suite/tests")
-    environment("REMOTES_SCHEMAS_JSON", generateRemoteSchemas.flatMap { it.remotesFile }.get().asFile.absolutePath)
+    environment(
+      "REMOTES_SCHEMAS_JSON",
+      generateRemoteSchemas
+        .flatMap { it.remotesFile }
+        .get()
+        .asFile.absolutePath,
+    )
   }
 }
 
@@ -87,38 +88,35 @@ tasks.withType<KotlinNativeSimulatorTest> {
     environment("SIMCTL_CHILD_TEST_SUITES_DIR", "$projectDir/schema-test-suite/tests")
     environment(
       "SIMCTL_CHILD_REMOTES_SCHEMAS_JSON",
-      generateRemoteSchemas.flatMap {
-        it.remotesFile
-      }.get().asFile.absolutePath,
+      generateRemoteSchemas
+        .flatMap {
+          it.remotesFile
+        }.get()
+        .asFile.absolutePath,
     )
   }
 }
 
 tasks.withType<KotlinNativeTest> {
   doFirst {
-    environment("REMOTES_SCHEMAS_JSON", generateRemoteSchemas.flatMap { it.remotesFile }.get().asFile.absolutePath)
+    environment(
+      "REMOTES_SCHEMAS_JSON",
+      generateRemoteSchemas
+        .flatMap { it.remotesFile }
+        .get()
+        .asFile.absolutePath,
+    )
   }
 }
 
 tasks.withType<Test> {
   doFirst {
-    environment("REMOTES_SCHEMAS_JSON", generateRemoteSchemas.flatMap { it.remotesFile }.get().asFile.absolutePath)
+    environment(
+      "REMOTES_SCHEMAS_JSON",
+      generateRemoteSchemas
+        .flatMap { it.remotesFile }
+        .get()
+        .asFile.absolutePath,
+    )
   }
-}
-
-ktlint {
-  version.set(libs.versions.ktlint)
-  reporters {
-    reporter(ReporterType.HTML)
-  }
-}
-
-val detektAllTask by tasks.register("detektAll")
-
-tasks.named("check").configure {
-  dependsOn(detektAllTask)
-}
-
-tasks.withType<Detekt> {
-  detektAllTask.dependsOn(this)
 }

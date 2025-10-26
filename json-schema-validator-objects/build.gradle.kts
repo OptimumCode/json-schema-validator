@@ -1,19 +1,14 @@
 @file:OptIn(ExperimentalWasmDsl::class)
 
-import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
   convention.kotlin
   convention.`multiplatform-lib`
   convention.`multiplatform-tests`
   alias(libs.plugins.kotlin.serialization)
-  alias(libs.plugins.kotest.multiplatform)
   alias(libs.plugins.kover)
-  alias(libs.plugins.detekt)
-  alias(libs.plugins.ktlint)
   convention.publication
 }
 
@@ -60,21 +55,4 @@ kotlin {
       }
     }
   }
-}
-
-ktlint {
-  version.set(libs.versions.ktlint)
-  reporters {
-    reporter(ReporterType.HTML)
-  }
-}
-
-val detektAllTask by tasks.register("detektAll")
-
-tasks.named("check").configure {
-  dependsOn(detektAllTask)
-}
-
-tasks.withType<Detekt> {
-  detektAllTask.dependsOn(this)
 }
