@@ -116,10 +116,15 @@ ktlint {
 
 val detektAllTask by tasks.register("detektAll")
 
+detekt {
+
+}
+
 tasks.named("check").configure {
   dependsOn(detektAllTask)
 }
 
 tasks.withType<Detekt> {
   detektAllTask.dependsOn(this)
+  exclude("**/kotest/**/kotest.kt")
 }

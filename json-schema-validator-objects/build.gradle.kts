@@ -78,4 +78,5 @@ tasks.named("check").configure {
 
 tasks.withType<Detekt> {
   detektAllTask.dependsOn(this)
+  exclude("**/kotest/**/kotest.kt")
 }
