@@ -11,7 +11,7 @@ import io.github.optimumcode.json.schema.SchemaType
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import io.kotest.mpp.env
+import io.kotest.common.env
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
