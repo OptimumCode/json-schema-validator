@@ -61,6 +61,9 @@ ktlint {
   reporters {
     reporter(ReporterType.HTML)
   }
+  filter {
+    exclude("**/kotest/**/kotest.kt")
+  }
 }
 
 val detektAllTask by tasks.register("detektAll")

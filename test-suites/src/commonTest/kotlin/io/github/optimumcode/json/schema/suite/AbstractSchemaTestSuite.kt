@@ -9,9 +9,9 @@ import io.github.optimumcode.json.schema.JsonSchemaLoader
 import io.github.optimumcode.json.schema.SchemaOption
 import io.github.optimumcode.json.schema.SchemaType
 import io.kotest.assertions.withClue
+import io.kotest.common.env
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import io.kotest.common.env
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
