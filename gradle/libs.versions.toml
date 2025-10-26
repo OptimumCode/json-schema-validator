@@ -12,8 +12,6 @@ jackson = "2.20.0"
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-benchmark = { id = "org.jetbrains.kotlinx.benchmark", version.ref = "benchmark" }
 kotlin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }
-kotest-multiplatform = { id = "io.kotest", version.ref = "kotest" }
-google-ksp = { id = "com.google.devtools.ksp", version = "2.3.0" }
 kover = { id = "org.jetbrains.kotlinx.kover", version = "0.9.1" }
 kotlin-binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.18.1" }
 
@@ -43,6 +41,8 @@ sigstore-gradle-plugin = { module = "dev.sigstore:sigstore-gradle-sign-plugin", 
 maven-publish-gradle-plugin = { module = "com.vanniktech.maven.publish:com.vanniktech.maven.publish.gradle.plugin", version = "0.34.0"}
 detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 ktlint-gradle-plugin = { module = "org.jlleitschuh.gradle.ktlint:org.jlleitschuh.gradle.ktlint.gradle.plugin", version = "13.1.0" }
+kotest-gradle-plugin = { module = "io.kotest:kotest-framework-plugin-gradle", version.ref = "kotest" }
+ksp-gradle-plugin = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version = "2.3.0" }
 
 [bundles]
 openapi = ["openapi-validator", "openapi-interfaces", "openapi-jackson"]

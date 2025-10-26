@@ -8,8 +8,6 @@ plugins {
   convention.`multiplatform-lib`
   convention.`multiplatform-tests`
   alias(libs.plugins.kotlin.serialization)
-  alias(libs.plugins.google.ksp)
-  alias(libs.plugins.kotest.multiplatform)
   alias(libs.plugins.kover)
   convention.publication
 }
@@ -26,7 +24,11 @@ kotlin {
         api(libs.kotlin.serialization.json)
         api(libs.uri)
         // When using approach like above you won't be able to add because block
-        implementation(libs.kotlin.codepoints.get().toString()) {
+        implementation(
+          libs.kotlin.codepoints
+            .get()
+            .toString(),
+        ) {
           because("simplifies work with unicode codepoints")
         }
         implementation(libs.normalize.get().toString()) {

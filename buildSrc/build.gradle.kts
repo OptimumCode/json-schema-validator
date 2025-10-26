@@ -12,4 +12,6 @@ dependencies {
   implementation(libs.maven.publish.gradle.plugin)
   implementation(libs.detekt.gradle.plugin)
   implementation(libs.ktlint.gradle.plugin)
+  implementation(libs.kotest.gradle.plugin)
+  implementation(libs.ksp.gradle.plugin)
 }

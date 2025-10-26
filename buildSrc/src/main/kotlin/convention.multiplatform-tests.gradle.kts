@@ -2,6 +2,8 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
 
 plugins {
   id("convention.kotlin")
+  id("com.google.devtools.ksp")
+  id("io.kotest")
 }
 
 val macOsAllTest by tasks.register("macOsAllTest") {
