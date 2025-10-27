@@ -165,7 +165,7 @@ jobs:
       - name: 'Checkout Repository'
         uses: actions/checkout@v5
       - name: Download benchmark results
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           pattern: ${{ matrix.artifact-pattern }}
           path: ${{ env.RESULTS_DIR }}
