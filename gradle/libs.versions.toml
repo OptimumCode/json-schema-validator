@@ -42,7 +42,7 @@ maven-publish-gradle-plugin = { module = "com.vanniktech.maven.publish:com.vanni
 detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 ktlint-gradle-plugin = { module = "org.jlleitschuh.gradle.ktlint:org.jlleitschuh.gradle.ktlint.gradle.plugin", version = "13.1.0" }
 kotest-gradle-plugin = { module = "io.kotest:kotest-framework-plugin-gradle", version.ref = "kotest" }
-ksp-gradle-plugin = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version = "2.3.0" }
+ksp-gradle-plugin = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version = "2.3.1" }
 
 [bundles]
 openapi = ["openapi-validator", "openapi-interfaces", "openapi-jackson"]
