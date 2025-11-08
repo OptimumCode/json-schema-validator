@@ -2,11 +2,10 @@ package io.github.optimumcode.json.schema.benchmark
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.networknt.schema.JsonSchemaFactory
+import com.networknt.schema.InputFormat
 import com.networknt.schema.OutputFormat
-import com.networknt.schema.PathType
-import com.networknt.schema.SchemaValidatorsConfig
-import com.networknt.schema.SpecVersion.VersionFlag.V7
+import com.networknt.schema.SchemaRegistry
+import com.networknt.schema.dialect.Dialects
 import com.networknt.schema.output.OutputFlag
 import com.networknt.schema.output.OutputUnit
 import io.github.optimumcode.json.schema.ErrorCollector
@@ -48,7 +47,7 @@ abstract class AbstractComparisonBenchmark {
   private val openapiValidator: Validator = Validator(ValidatorSettings().setOutput(FLAG))
 
   // networknt
-  private lateinit var networkntSchema: com.networknt.schema.JsonSchema
+  private lateinit var networkntSchema: com.networknt.schema.Schema
   private lateinit var networkntDocument: JsonNode
 
   private lateinit var schema: io.github.optimumcode.json.schema.JsonSchema
@@ -63,18 +62,10 @@ abstract class AbstractComparisonBenchmark {
   }
 
   private fun setupNetworknt() {
-    val factory = JsonSchemaFactory.getInstance(V7)
+    val factory = SchemaRegistry.withDialect(Dialects.getDraft7())
     networkntSchema =
       Path.of(schemaPath).inputStream().use {
-        factory.getSchema(
-          it,
-          SchemaValidatorsConfig
-            .builder()
-            .pathType(PathType.JSON_POINTER)
-            .errorMessageKeyword("message")
-            .nullableKeywordEnabled(false)
-            .build(),
-        )
+        factory.getSchema(it, InputFormat.JSON)
       }
     networkntDocument =
       Path.of(objectPath).inputStream().use {
