@@ -712,7 +712,45 @@ private fun Uri.appendPathToParent(path: String): Uri {
       }
   }.appendEncodedPath(path)
     .build()
+    .normalizeUri()
 }
+
+private fun Uri.normalizeUri(): Uri {
+  if (pathSegments.none { it in RELATIVE_PATH_SEGMENTS }) {
+    // Nothing to normalize
+    return this
+  }
+
+  val newPathSegments = ArrayDeque<String>()
+  for (segment in pathSegments) {
+    when (segment) {
+      SAME_LEVEL_SEGMENT -> { // skip
+      }
+
+      PARENT_LEVEL_SEGMENT ->
+        if (newPathSegments.isEmpty()) {
+          error("cannot normalize URI '$this'. Path goes beyond root")
+        } else {
+          newPathSegments.removeLast()
+        }
+
+      else -> newPathSegments.addLast(segment)
+    }
+  }
+
+  return buildUpon()
+    .encodedPath(null)
+    .apply {
+      for (segment in newPathSegments) {
+        appendEncodedPath(segment)
+      }
+    }.build()
+}
+
+private const val SAME_LEVEL_SEGMENT = "."
+private const val PARENT_LEVEL_SEGMENT = ".."
+
+private val RELATIVE_PATH_SEGMENTS = setOf(SAME_LEVEL_SEGMENT, PARENT_LEVEL_SEGMENT)
 
 private val ANCHOR_REGEX: Regex = "^[A-Za-z][A-Za-z0-9-_:.]*$".toRegex()
 

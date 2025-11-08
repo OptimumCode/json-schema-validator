@@ -21,9 +21,9 @@ class JsonSchemaTest : FunSpec() {
     test("loads schema object from string description") {
       shouldNotThrowAny {
         JsonSchema.fromDefinition(
-          """
+          $$"""
           {
-            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "$schema": "http://json-schema.org/draft-07/schema#",
             "type": "string"
           }
           """.trimIndent(),
@@ -46,9 +46,9 @@ class JsonSchemaTest : FunSpec() {
     test("loads schema with definitions") {
       shouldNotThrowAny {
         JsonSchema.fromDefinition(
-          """
+          $$"""
           {
-            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "$schema": "http://json-schema.org/draft-07/schema#",
             "definitions": {
               "positiveInteger": {
                 "type": "integer",
@@ -64,11 +64,11 @@ class JsonSchemaTest : FunSpec() {
     test("loads schema with self reference") {
       shouldNotThrowAny {
         JsonSchema.fromDefinition(
-          """
+          $$"""
           {
-            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "$schema": "http://json-schema.org/draft-07/schema#",
             "properties": {
-              "other": { "${KEY}ref": "#" }
+              "other": { "$ref": "#" }
             }
           }
           """.trimIndent(),
@@ -79,9 +79,9 @@ class JsonSchemaTest : FunSpec() {
     test("reports missing reference") {
       shouldThrow<IllegalArgumentException> {
         JsonSchema.fromDefinition(
-          """
+          $$"""
           {
-            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
+            "$schema": "http://json-schema.org/draft-07/schema#",
             "definitions": {
               "positiveInteger": {
                 "type": "integer",
@@ -90,7 +90,7 @@ class JsonSchemaTest : FunSpec() {
             },
             "properties": {
               "size": {
-                "${KEY}ref": "#/definitions/positiveIntege"
+                "$ref": "#/definitions/positiveIntege"
               }
             }
           }
@@ -115,6 +115,7 @@ class JsonSchemaTest : FunSpec() {
           "http://example.com/other.json",
           "http://example.com/other.json#",
           "http://example.com/root.json#/definitions/B",
+          "./other.json",
         ),
       "definition X" to
         listOf(
@@ -136,7 +137,8 @@ class JsonSchemaTest : FunSpec() {
           "http://example.com/root.json#/definitions/C",
         ),
     ).forEach { (refDestination, possibleRefs) ->
-      possibleRefs.asSequence()
+      possibleRefs
+        .asSequence()
         .flatMapIndexed { index, ref ->
           val uri = Uri.parse(ref)
           val caseNumber = index + 1
@@ -150,24 +152,24 @@ class JsonSchemaTest : FunSpec() {
             withClue(ref) {
               shouldNotThrowAny {
                 JsonSchema.fromDefinition(
-                  """
+                  $$"""
                   {
-                    "${KEY}id": "http://example.com/root.json",
+                    "$id": "http://example.com/root.json",
                     "definitions": {
-                      "A": { "${KEY}id": "#foo" },
+                      "A": { "$id": "#foo" },
                       "B": {
-                        "${KEY}id": "other.json",
+                        "$id": "other.json",
                         "definitions": {
-                          "X": { "${KEY}id": "#bar" },
-                          "Y": { "${KEY}id": "t/inner.json" }
+                          "X": { "$id": "#bar" },
+                          "Y": { "$id": "t/inner.json" }
                         }
                       },
                       "C": {
-                        "${KEY}id": "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f"
+                        "$id": "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f"
                       }
                     },
                     "properties": {
-                      "test": { "${KEY}ref": "$ref" } 
+                      "test": { "$ref": "$$ref" } 
                     }
                   }
                   """.trimIndent(),
@@ -187,9 +189,9 @@ class JsonSchemaTest : FunSpec() {
       test("loads schema with supported '$it' \$schema property") {
         shouldNotThrowAny {
           JsonSchema.fromDefinition(
-            """
+            $$"""
             {
-              "${KEY}schema": "$it",
+              "$schema": "$$it",
               "type": "string"
             }
             """.trimIndent(),
@@ -205,9 +207,9 @@ class JsonSchemaTest : FunSpec() {
       test("reports unsupported '$it' \$schema property") {
         shouldThrow<IllegalArgumentException> {
           JsonSchema.fromDefinition(
-            """
+            $$"""
             {
-              "${KEY}schema": "$it",
+              "$schema": "$$it",
               "type": "string"
             }
             """.trimIndent(),
@@ -219,53 +221,53 @@ class JsonSchemaTest : FunSpec() {
     test("\$dynamicRef is resolved every time") {
       val schema =
         JsonSchema.fromDefinition(
-          """
+          $$"""
           {
-            "${KEY}schema": "https://json-schema.org/draft/2020-12/schema",
-            "${KEY}id": "https://test.json-schema.org/dynamic-ref-with-multiple-paths/main",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "https://test.json-schema.org/dynamic-ref-with-multiple-paths/main",
             "if": {
                 "properties": {
                     "kindOfList": { "const": "numbers" }
                 },
                 "required": ["kindOfList"]
             },
-            "then": { "${KEY}ref": "numberList" },
-            "else": { "${KEY}ref": "stringList" },
+            "then": { "$ref": "numberList" },
+            "else": { "$ref": "stringList" },
           
-            "${KEY}defs": {
+            "$defs": {
                 "genericList": {
-                    "${KEY}id": "genericList",
+                    "$id": "genericList",
                     "properties": {
                         "list": {
-                            "items": { "${KEY}dynamicRef": "#itemType" }
+                            "items": { "$dynamicRef": "#itemType" }
                         }
                     },
-                    "${KEY}defs": {
+                    "$defs": {
                         "defaultItemType": {
-                            "${KEY}comment": "Only needed to satisfy bookending requirement",
-                            "${KEY}dynamicAnchor": "itemType"
+                            "$comment": "Only needed to satisfy bookending requirement",
+                            "$dynamicAnchor": "itemType"
                         }
                     }
                 },
                 "numberList": {
-                    "${KEY}id": "numberList",
-                    "${KEY}defs": {
+                    "$id": "numberList",
+                    "$defs": {
                         "itemType": {
-                            "${KEY}dynamicAnchor": "itemType",
+                            "$dynamicAnchor": "itemType",
                             "type": "number"
                         }
                     },
-                    "${KEY}ref": "genericList"
+                    "$ref": "genericList"
                 },
                 "stringList": {
-                    "${KEY}id": "stringList",
-                    "${KEY}defs": {
+                    "$id": "stringList",
+                    "$defs": {
                         "itemType": {
-                            "${KEY}dynamicAnchor": "itemType",
+                            "$dynamicAnchor": "itemType",
                             "type": "string"
                         }
                     },
-                    "${KEY}ref": "genericList"
+                    "$ref": "genericList"
                 }
             }
           }
