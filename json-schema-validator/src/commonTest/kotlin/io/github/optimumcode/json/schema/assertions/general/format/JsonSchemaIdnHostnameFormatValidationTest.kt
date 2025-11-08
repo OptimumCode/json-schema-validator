@@ -33,6 +33,9 @@ class JsonSchemaIdnHostnameFormatValidationTest : FunSpec() {
         listOf(
           TestCase("", "empty value"),
           TestCase(".", "single separator"),
+          TestCase(".example", "leading separator"),
+          TestCase("example.", "trailing separator"),
+          TestCase("example..com", "two separators in a row"),
           TestCase("\u3002", "single separator U+3002"),
           TestCase("\uFF0E", "single separator U+FF0E"),
           TestCase("\uFF61", "single separator U+FF61"),

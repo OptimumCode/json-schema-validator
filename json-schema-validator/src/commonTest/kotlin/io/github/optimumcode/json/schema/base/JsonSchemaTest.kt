@@ -115,6 +115,7 @@ class JsonSchemaTest : FunSpec() {
           "http://example.com/other.json",
           "http://example.com/other.json#",
           "http://example.com/root.json#/definitions/B",
+          "./other.json",
         ),
       "definition X" to
         listOf(
@@ -136,7 +137,8 @@ class JsonSchemaTest : FunSpec() {
           "http://example.com/root.json#/definitions/C",
         ),
     ).forEach { (refDestination, possibleRefs) ->
-      possibleRefs.asSequence()
+      possibleRefs
+        .asSequence()
         .flatMapIndexed { index, ref ->
           val uri = Uri.parse(ref)
           val caseNumber = index + 1
