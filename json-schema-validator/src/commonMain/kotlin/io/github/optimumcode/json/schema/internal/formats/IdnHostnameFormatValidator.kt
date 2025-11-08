@@ -48,7 +48,7 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
     if (value.isEmpty()) {
       return FormatValidator.Invalid()
     }
-    if (value.length == 1 && isLabelSeparator(value[0])) {
+    if (isLabelSeparator(value[0]) || isLabelSeparator(value[value.lastIndex])) {
       return FormatValidator.Invalid()
     }
 
@@ -110,6 +110,11 @@ internal object IdnHostnameFormatValidator : AbstractStringFormatValidator() {
       }
 
     if (!isNormalized(unicode)) {
+      return false
+    }
+
+    if (unicode.isEmpty()) {
+      // empty labels are not valid
       return false
     }
 
