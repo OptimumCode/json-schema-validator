@@ -21,9 +21,9 @@ class JsonSchemaTest : FunSpec() {
     test("loads schema object from string description") {
       shouldNotThrowAny {
         JsonSchema.fromDefinition(
-          $$"""
+          """
           {
-            "$schema": "http://json-schema.org/draft-07/schema#",
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "type": "string"
           }
           """.trimIndent(),
@@ -46,9 +46,9 @@ class JsonSchemaTest : FunSpec() {
     test("loads schema with definitions") {
       shouldNotThrowAny {
         JsonSchema.fromDefinition(
-          $$"""
+          """
           {
-            "$schema": "http://json-schema.org/draft-07/schema#",
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "definitions": {
               "positiveInteger": {
                 "type": "integer",
@@ -64,11 +64,11 @@ class JsonSchemaTest : FunSpec() {
     test("loads schema with self reference") {
       shouldNotThrowAny {
         JsonSchema.fromDefinition(
-          $$"""
+          """
           {
-            "$schema": "http://json-schema.org/draft-07/schema#",
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "properties": {
-              "other": { "$ref": "#" }
+              "other": { "${KEY}ref": "#" }
             }
           }
           """.trimIndent(),
@@ -79,9 +79,9 @@ class JsonSchemaTest : FunSpec() {
     test("reports missing reference") {
       shouldThrow<IllegalArgumentException> {
         JsonSchema.fromDefinition(
-          $$"""
+          """
           {
-            "$schema": "http://json-schema.org/draft-07/schema#",
+            "${KEY}schema": "http://json-schema.org/draft-07/schema#",
             "definitions": {
               "positiveInteger": {
                 "type": "integer",
@@ -90,7 +90,7 @@ class JsonSchemaTest : FunSpec() {
             },
             "properties": {
               "size": {
-                "$ref": "#/definitions/positiveIntege"
+                "${KEY}ref": "#/definitions/positiveIntege"
               }
             }
           }
@@ -152,24 +152,24 @@ class JsonSchemaTest : FunSpec() {
             withClue(ref) {
               shouldNotThrowAny {
                 JsonSchema.fromDefinition(
-                  $$"""
+                  """
                   {
-                    "$id": "http://example.com/root.json",
+                    "${KEY}id": "http://example.com/root.json",
                     "definitions": {
-                      "A": { "$id": "#foo" },
+                      "A": { "${KEY}id": "#foo" },
                       "B": {
-                        "$id": "other.json",
+                        "${KEY}id": "other.json",
                         "definitions": {
-                          "X": { "$id": "#bar" },
-                          "Y": { "$id": "t/inner.json" }
+                          "X": { "${KEY}id": "#bar" },
+                          "Y": { "${KEY}id": "t/inner.json" }
                         }
                       },
                       "C": {
-                        "$id": "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f"
+                        "${KEY}id": "urn:uuid:ee564b8a-7a87-4125-8c96-e9f123d6766f"
                       }
                     },
                     "properties": {
-                      "test": { "$ref": "$$ref" } 
+                      "test": { "${KEY}ref": "$ref" } 
                     }
                   }
                   """.trimIndent(),
@@ -189,9 +189,9 @@ class JsonSchemaTest : FunSpec() {
       test("loads schema with supported '$it' \$schema property") {
         shouldNotThrowAny {
           JsonSchema.fromDefinition(
-            $$"""
+            """
             {
-              "$schema": "$$it",
+              "${KEY}schema": "$it",
               "type": "string"
             }
             """.trimIndent(),
@@ -207,9 +207,9 @@ class JsonSchemaTest : FunSpec() {
       test("reports unsupported '$it' \$schema property") {
         shouldThrow<IllegalArgumentException> {
           JsonSchema.fromDefinition(
-            $$"""
+            """
             {
-              "$schema": "$$it",
+              "${KEY}schema": "$it",
               "type": "string"
             }
             """.trimIndent(),
@@ -221,53 +221,53 @@ class JsonSchemaTest : FunSpec() {
     test("\$dynamicRef is resolved every time") {
       val schema =
         JsonSchema.fromDefinition(
-          $$"""
+          """
           {
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
-            "$id": "https://test.json-schema.org/dynamic-ref-with-multiple-paths/main",
+            "${KEY}schema": "https://json-schema.org/draft/2020-12/schema",
+            "${KEY}id": "https://test.json-schema.org/dynamic-ref-with-multiple-paths/main",
             "if": {
                 "properties": {
                     "kindOfList": { "const": "numbers" }
                 },
                 "required": ["kindOfList"]
             },
-            "then": { "$ref": "numberList" },
-            "else": { "$ref": "stringList" },
+            "then": { "${KEY}ref": "numberList" },
+            "else": { "${KEY}ref": "stringList" },
           
-            "$defs": {
+            "${KEY}defs": {
                 "genericList": {
-                    "$id": "genericList",
+                    "${KEY}id": "genericList",
                     "properties": {
                         "list": {
-                            "items": { "$dynamicRef": "#itemType" }
+                            "items": { "${KEY}dynamicRef": "#itemType" }
                         }
                     },
-                    "$defs": {
+                    "${KEY}defs": {
                         "defaultItemType": {
-                            "$comment": "Only needed to satisfy bookending requirement",
-                            "$dynamicAnchor": "itemType"
+                            "${KEY}comment": "Only needed to satisfy bookending requirement",
+                            "${KEY}dynamicAnchor": "itemType"
                         }
                     }
                 },
                 "numberList": {
-                    "$id": "numberList",
-                    "$defs": {
+                    "${KEY}id": "numberList",
+                    "${KEY}defs": {
                         "itemType": {
-                            "$dynamicAnchor": "itemType",
+                            "${KEY}dynamicAnchor": "itemType",
                             "type": "number"
                         }
                     },
-                    "$ref": "genericList"
+                    "${KEY}ref": "genericList"
                 },
                 "stringList": {
-                    "$id": "stringList",
-                    "$defs": {
+                    "${KEY}id": "stringList",
+                    "${KEY}defs": {
                         "itemType": {
-                            "$dynamicAnchor": "itemType",
+                            "${KEY}dynamicAnchor": "itemType",
                             "type": "string"
                         }
                     },
-                    "$ref": "genericList"
+                    "${KEY}ref": "genericList"
                 }
             }
           }
