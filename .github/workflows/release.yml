@@ -22,7 +22,7 @@ jobs:
       RELEASE_VERSION: ${{ steps.versions.outputs.RELEASE_VERSION }}
     steps:
       - name: 'Checkout Repository'
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Get version
         id: versions
         uses: HardNorth/github-version-generate@v1.4.0
@@ -45,7 +45,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: 'Checkout Repository'
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: true
       - uses: actions/setup-java@v5
@@ -90,7 +90,7 @@ jobs:
     if: ${{ !cancelled() }}
     steps:
       - name: 'Checkout Repository'
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Store SHA of HEAD commit on ENV
         run: echo "GIT_HEAD=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
@@ -133,7 +133,7 @@ jobs:
       - version
     steps:
     - name: 'Checkout Repository'
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         token: ${{ secrets.PUSH_PAT }}
     - name: Prepare next dev version

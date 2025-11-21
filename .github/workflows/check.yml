@@ -34,7 +34,7 @@ jobs:
         run: sudo apt-get install -y libunistring-dev
         if: runner.os == 'Linux'
       - name: 'Checkout Repository'
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: true
       - uses: actions/setup-java@v5
