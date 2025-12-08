@@ -2,7 +2,7 @@
 kotlin = "2.2.21"
 kotest = "6.0.4"
 detekt = "1.23.8"
-okio = "3.16.3"
+okio = "3.16.4"
 serialization = "1.9.0"
 benchmark = "0.4.15"
 openapi = "2025.5"
