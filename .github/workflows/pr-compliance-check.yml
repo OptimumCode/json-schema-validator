@@ -18,7 +18,7 @@ jobs:
       pr-number: ${{ steps.pr-info.outputs.pr-number }}
     steps:
     - name: Download PR info
-      uses: dawidd6/action-download-artifact@v11
+      uses: dawidd6/action-download-artifact@v12
       with:
         name: pr_number
         path: pr/
@@ -101,7 +101,7 @@ jobs:
           repository: ${{ github.event.workflow_run.head_repository.full_name }}
           ref: ${{ github.event.workflow_run.head_sha }}
       - name: Download benchmark results
-        uses: dawidd6/action-download-artifact@v11
+        uses: dawidd6/action-download-artifact@v12
         with:
           name: coverage-reports
           path: reports/
