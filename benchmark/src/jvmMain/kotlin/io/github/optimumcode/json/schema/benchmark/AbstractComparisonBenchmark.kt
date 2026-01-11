@@ -1,7 +1,5 @@
 package io.github.optimumcode.json.schema.benchmark
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.networknt.schema.InputFormat
 import com.networknt.schema.OutputFormat
 import com.networknt.schema.SchemaRegistry
@@ -29,6 +27,8 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromStream
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.ObjectMapper
 import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.inputStream
