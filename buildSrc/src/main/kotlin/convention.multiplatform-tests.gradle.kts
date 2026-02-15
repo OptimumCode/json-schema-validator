@@ -1,6 +1,8 @@
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
+import org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsRootExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinTest
 import tasks.KarmaReportWorkaround
 
 plugins {
@@ -45,11 +47,18 @@ kotlin.targets.configureEach {
 val karmaReportWorkaround =
   tasks.register<KarmaReportWorkaround>("karmaReportWorkaround") {
     val nodeJsRootExtension = rootProject.extensions.getByType<NodeJsRootExtension>()
-    dependsOn(nodeJsRootExtension.npmInstallTaskProvider)
+    val wasmNodeJsRootExtension = rootProject.extensions.getByType<WasmNodeJsRootExtension>()
+    shouldRunAfter(nodeJsRootExtension.npmInstallTaskProvider, wasmNodeJsRootExtension.npmInstallTaskProvider)
   }
 
 tasks.withType<KotlinJsTest> {
-  if (name == "jsBrowserTest") {
-    dependsOn(karmaReportWorkaround)
+  when (name) {
+    "jsBrowserTest" -> dependsOn(karmaReportWorkaround)
+
+    // For some reasons, the output of wasmJsBrowserTest is not captured correclty
+    // NOTE: the reason is the same as for JS but same workaround does not work...
+    "wasmJsBrowserTest" -> failOnNoDiscoveredTests = false
+
+    else -> Unit
   }
 }
