@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771183005126,
+  "lastUpdate": 1771183019673,
   "repoUrl": "https://github.com/OptimumCode/json-schema-validator",
   "entries": {
     "KMP JSON schema validator": [
@@ -30018,270 +30018,6 @@ window.BENCHMARK_DATA = {
             "username": "web-flow"
           },
           "distinct": true,
-          "id": "ed62feeed8fe408e0c59f0692732ad8933e59eb4",
-          "message": "Bump okio from 3.12.0 to 3.13.0 (#303)",
-          "timestamp": "2025-06-16T19:34:01Z",
-          "tree_id": "3990c3e1dae4097f5c30a2ba1e6336cd9d21aaf9",
-          "url": "https://github.com/OptimumCode/json-schema-validator/commit/ed62feeed8fe408e0c59f0692732ad8933e59eb4"
-        },
-        "date": 1750103969682,
-        "tool": "jmh",
-        "benches": [
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2838.903568689111,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2592.823351973452,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3001.9368579631728,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2820.9762735826043,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1048.145195793061,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1002.5258082993621,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3009.1726269532273,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2872.839945122836,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4079.9241177402364,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 6044216.620732878,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 699.502295459816,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 705.6647421004343,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4218.5912567498,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2051.6521759168145,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4154.084336631313,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1051819.1111376898,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4100.650704683169,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1906.8501756111011,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 91.2424182944417,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 99.51348280976313,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 348.5632038601013,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 371.78010242636503,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 328.00778397735326,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 362.3541926513048,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 945.3667175923786,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 992.9325312866307,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 325.545498534944,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 357.91580791529856,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 241.4682644599061,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 0.17557776166850458,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1403.66409768723,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1421.9938193575097,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 237.2947467058064,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 477.22973304375864,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 239.26885026546773,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 0.9386123032258917,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 239.43640755834144,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 527.7499166144514,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 10965.081233519366,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 10119.765483737372,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          }
-        ]
-      },
-      {
-        "commit": {
-          "author": {
-            "email": "49699333+dependabot[bot]@users.noreply.github.com",
-            "name": "dependabot[bot]",
-            "username": "dependabot[bot]"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
           "id": "39c525c80f6dbc2b6b0eb995229e11c67973c39a",
           "message": "Bump com.fasterxml.jackson:jackson-bom from 2.19.0 to 2.19.1 (#304)",
           "timestamp": "2025-06-16T19:49:41Z",
@@ -43194,6 +42930,270 @@ window.BENCHMARK_DATA = {
           {
             "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
             "value": 10255.566944342967,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "eb79d0488aac2d0c70c13053a75fd3cdd5f2543f",
+          "message": "Bump kotlin from 2.2.21 to 2.3.10 + kotest + kotlinx-serialization + gradle (#379)\n\nBumps `kotlin` from 2.2.21 to 2.3.0.\nUpdates `org.jetbrains.kotlin:kotlin-gradle-plugin` from 2.2.21 to 2.3.0\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/releases\">org.jetbrains.kotlin:kotlin-gradle-plugin's\nreleases</a>.</em></p>\n<blockquote>\n<h2>Kotlin 2.3.0-RC3</h2>\n<h2>Changelog</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82869\"><code>KT-82869</code></a>\nGreen-to-Red change in 2.3 after prioritizing non-suspend-function-type\noverloads</li>\n</ul>\n<h3>Libraries</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82901\"><code>KT-82901</code></a>\n<code>Long.MIN_VALUE.milliseconds</code> produces invalid denormalized\nDuration</li>\n</ul>\n<h2>Kotlin 2.3.0-RC2</h2>\n<h2>Changelog</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82590\"><code>KT-82590</code></a>\nClassCastException when instantiating class with generics implemented by\nfun interface and lambda</li>\n</ul>\n<h3>Tools. Compiler Plugin API</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82563\"><code>KT-82563</code></a>\nImprove compiler error messages to identify incompatible plugins causing\ncompilation failures</li>\n</ul>\n<h2>Kotlin 2.3.0-RC</h2>\n<h2>Changelog</h2>\n<h3>Backend. Wasm</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82075\"><code>KT-82075</code></a>\nK/Wasm: kotlin.wasm.internal.getSimpleName crashes on iOS Safari older\nthan 26</li>\n</ul>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82138\"><code>KT-82138</code></a>\nDebugger: Cannot evaluate JvmInline value class parameter</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78413\"><code>KT-78413</code></a>\nKotlin Debugger: value classes as context parameters have incorrect\nnames in Variables View during debugging</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-80549\"><code>KT-80549</code></a>\nCall of Java method with type parameter bounds: Expected\nFirResolvedTypeRef with ConeKotlinType but was FirJavaTypeRef</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82132\"><code>KT-82132</code></a>\nFalse-positive type mismatch with -language-version 2.2</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-81988\"><code>KT-81988</code></a>\nK2: Any?.toString() causes NPE inside lambda with Java</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82022\"><code>KT-82022</code></a>\nK/N: Unexpected &quot;Annotation <code>@JvmInline</code> is missing on\nactual declaration&quot; warning with value classes</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/CMP-9167\"><code>CMP-9167</code></a>\niOS: Platform declaration clash: The following functions have the same\nIR signature</li>\n</ul>\n<h3>IR. Actualizer</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77337\"><code>KT-77337</code></a>\n<code>IrNoExpectSymbolsHandler</code> finds expect class reference after\nenabling annotation traversal in IR</li>\n</ul>\n<h3>IR. Tree</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-81952\"><code>KT-81952</code></a>\n&quot;IllegalStateException: Callable reference with vararg should not\nappear at this stage&quot; for callable references to functions with\ngeneric vararg parameters</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li>See full diff in <a\nhref=\"https://github.com/JetBrains/kotlin/commits\">compare view</a></li>\n</ul>\n</details>\n<br />\n\nUpdates `org.jetbrains.kotlin.plugin.serialization` from 2.2.21 to 2.3.0\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/releases\">org.jetbrains.kotlin.plugin.serialization's\nreleases</a>.</em></p>\n<blockquote>\n<h2>Kotlin 2.3.0-RC3</h2>\n<h2>Changelog</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82869\"><code>KT-82869</code></a>\nGreen-to-Red change in 2.3 after prioritizing non-suspend-function-type\noverloads</li>\n</ul>\n<h3>Libraries</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82901\"><code>KT-82901</code></a>\n<code>Long.MIN_VALUE.milliseconds</code> produces invalid denormalized\nDuration</li>\n</ul>\n<h2>Kotlin 2.3.0-RC2</h2>\n<h2>Changelog</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82590\"><code>KT-82590</code></a>\nClassCastException when instantiating class with generics implemented by\nfun interface and lambda</li>\n</ul>\n<h3>Tools. Compiler Plugin API</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82563\"><code>KT-82563</code></a>\nImprove compiler error messages to identify incompatible plugins causing\ncompilation failures</li>\n</ul>\n<h2>Kotlin 2.3.0-RC</h2>\n<h2>Changelog</h2>\n<h3>Backend. Wasm</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82075\"><code>KT-82075</code></a>\nK/Wasm: kotlin.wasm.internal.getSimpleName crashes on iOS Safari older\nthan 26</li>\n</ul>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82138\"><code>KT-82138</code></a>\nDebugger: Cannot evaluate JvmInline value class parameter</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78413\"><code>KT-78413</code></a>\nKotlin Debugger: value classes as context parameters have incorrect\nnames in Variables View during debugging</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-80549\"><code>KT-80549</code></a>\nCall of Java method with type parameter bounds: Expected\nFirResolvedTypeRef with ConeKotlinType but was FirJavaTypeRef</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82132\"><code>KT-82132</code></a>\nFalse-positive type mismatch with -language-version 2.2</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-81988\"><code>KT-81988</code></a>\nK2: Any?.toString() causes NPE inside lambda with Java</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82022\"><code>KT-82022</code></a>\nK/N: Unexpected &quot;Annotation <code>@JvmInline</code> is missing on\nactual declaration&quot; warning with value classes</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/CMP-9167\"><code>CMP-9167</code></a>\niOS: Platform declaration clash: The following functions have the same\nIR signature</li>\n</ul>\n<h3>IR. Actualizer</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77337\"><code>KT-77337</code></a>\n<code>IrNoExpectSymbolsHandler</code> finds expect class reference after\nenabling annotation traversal in IR</li>\n</ul>\n<h3>IR. Tree</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-81952\"><code>KT-81952</code></a>\n&quot;IllegalStateException: Callable reference with vararg should not\nappear at this stage&quot; for callable references to functions with\ngeneric vararg parameters</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li>See full diff in <a\nhref=\"https://github.com/JetBrains/kotlin/commits\">compare view</a></li>\n</ul>\n</details>\n<br />\n\nUpdates `org.jetbrains.kotlin.plugin.allopen` from 2.2.21 to 2.3.0\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/releases\">org.jetbrains.kotlin.plugin.allopen's\nreleases</a>.</em></p>\n<blockquote>\n<h2>Kotlin 2.3.0-RC3</h2>\n<h2>Changelog</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82869\"><code>KT-82869</code></a>\nGreen-to-Red change in 2.3 after prioritizing non-suspend-function-type\noverloads</li>\n</ul>\n<h3>Libraries</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82901\"><code>KT-82901</code></a>\n<code>Long.MIN_VALUE.milliseconds</code> produces invalid denormalized\nDuration</li>\n</ul>\n<h2>Kotlin 2.3.0-RC2</h2>\n<h2>Changelog</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82590\"><code>KT-82590</code></a>\nClassCastException when instantiating class with generics implemented by\nfun interface and lambda</li>\n</ul>\n<h3>Tools. Compiler Plugin API</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82563\"><code>KT-82563</code></a>\nImprove compiler error messages to identify incompatible plugins causing\ncompilation failures</li>\n</ul>\n<h2>Kotlin 2.3.0-RC</h2>\n<h2>Changelog</h2>\n<h3>Backend. Wasm</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82075\"><code>KT-82075</code></a>\nK/Wasm: kotlin.wasm.internal.getSimpleName crashes on iOS Safari older\nthan 26</li>\n</ul>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82138\"><code>KT-82138</code></a>\nDebugger: Cannot evaluate JvmInline value class parameter</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78413\"><code>KT-78413</code></a>\nKotlin Debugger: value classes as context parameters have incorrect\nnames in Variables View during debugging</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-80549\"><code>KT-80549</code></a>\nCall of Java method with type parameter bounds: Expected\nFirResolvedTypeRef with ConeKotlinType but was FirJavaTypeRef</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82132\"><code>KT-82132</code></a>\nFalse-positive type mismatch with -language-version 2.2</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-81988\"><code>KT-81988</code></a>\nK2: Any?.toString() causes NPE inside lambda with Java</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82022\"><code>KT-82022</code></a>\nK/N: Unexpected &quot;Annotation <code>@JvmInline</code> is missing on\nactual declaration&quot; warning with value classes</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/CMP-9167\"><code>CMP-9167</code></a>\niOS: Platform declaration clash: The following functions have the same\nIR signature</li>\n</ul>\n<h3>IR. Actualizer</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77337\"><code>KT-77337</code></a>\n<code>IrNoExpectSymbolsHandler</code> finds expect class reference after\nenabling annotation traversal in IR</li>\n</ul>\n<h3>IR. Tree</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-81952\"><code>KT-81952</code></a>\n&quot;IllegalStateException: Callable reference with vararg should not\nappear at this stage&quot; for callable references to functions with\ngeneric vararg parameters</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li>See full diff in <a\nhref=\"https://github.com/JetBrains/kotlin/commits\">compare view</a></li>\n</ul>\n</details>\n<br />\n\n\nYou can trigger a rebase of this PR by commenting `@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits\nthat have been made to it\n- `@dependabot merge` will merge this PR after your CI passes on it\n- `@dependabot squash and merge` will squash and merge this PR after\nyour CI passes on it\n- `@dependabot cancel merge` will cancel a previously requested merge\nand block automerging\n- `@dependabot reopen` will reopen this PR if it is closed\n- `@dependabot close` will close this PR and stop Dependabot recreating\nit. You can achieve the same result by closing it manually\n- `@dependabot show <dependency name> ignore conditions` will show all\nof the ignore conditions of the specified dependency\n- `@dependabot ignore this major version` will close this PR and stop\nDependabot creating any more for this major version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this minor version` will close this PR and stop\nDependabot creating any more for this minor version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this dependency` will close this PR and stop\nDependabot creating any more for this dependency (unless you reopen the\nPR or upgrade to it yourself)\n\n\n</details>\n\n> **Note**\n> Automatic rebases have been disabled on this pull request as it has\nbeen open for over 30 days.\n\n---------\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>\nCo-authored-by: Oleg Smirnov <oleg31101996@gmail.com>",
+          "timestamp": "2026-02-15T18:50:22Z",
+          "tree_id": "3589bb5a528590e84716b8bf0aa1f44573fb7b26",
+          "url": "https://github.com/OptimumCode/json-schema-validator/commit/eb79d0488aac2d0c70c13053a75fd3cdd5f2543f"
+        },
+        "date": 1771183016930,
+        "tool": "jmh",
+        "benches": [
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2793.8892669377856,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2552.4327788995774,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2919.6983496220955,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2883.204612351593,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1027.9620250625505,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 983.9705566269076,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2991.35118160307,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2874.760465466077,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3967.6506199144387,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 6013841.340814838,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 704.3240080772301,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 669.6354208306917,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4158.134224527583,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1868.7317796634954,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4290.135618115679,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 896899.4511674948,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4206.608571841162,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1910.880410694049,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 91.83598776551125,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 100.21706805446192,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 343.3548984036523,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 406.50403875111823,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 336.4854415515253,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 352.93050926707986,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 968.9671915650858,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1006.10104541414,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 344.50077341864835,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 365.9019267058026,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 245.37221122900297,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 0.15237194216917982,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1443.4364680066583,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1426.6992420938827,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 240.62187044469565,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 530.8347370818034,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 229.82181500403536,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1.109327887097344,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 239.5372387712088,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 504.54099609459115,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 11055.24124995116,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 10223.157973823656,
             "unit": "us/op",
             "extra": "iterations: 10\nforks: 1\nthreads: 1"
           }
