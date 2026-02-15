@@ -1,4 +1,7 @@
 import org.jetbrains.kotlin.gradle.plugin.KotlinTargetWithTests
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
+import tasks.KarmaReportWorkaround
 
 plugins {
   id("convention.kotlin")
@@ -28,11 +31,25 @@ kotlin.targets.configureEach {
     name.startsWith("ios") || name.startsWith("macos") -> {
       macOsAllTest.dependsOn(tasks.named("${name}Test"))
     }
+
     name.startsWith("mingw") -> {
       windowsAllTest.dependsOn(tasks.named("${name}Test"))
     }
+
     else -> {
       linuxAllTest.dependsOn(tasks.named("${name}Test"))
     }
+  }
+}
+
+val karmaReportWorkaround =
+  tasks.register<KarmaReportWorkaround>("karmaReportWorkaround") {
+    val nodeJsRootExtension = rootProject.extensions.getByType<NodeJsRootExtension>()
+    dependsOn(nodeJsRootExtension.npmInstallTaskProvider)
+  }
+
+tasks.withType<KotlinJsTest> {
+  if (name == "jsBrowserTest") {
+    dependsOn(karmaReportWorkaround)
   }
 }
