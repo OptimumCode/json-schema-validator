@@ -27,8 +27,6 @@ kotlin {
     nodejs()
   }
 
-  applyDefaultHierarchyTemplate()
-
   macosX64()
   macosArm64()
   iosX64()
@@ -39,6 +37,8 @@ kotlin {
   linuxArm64()
 
   mingwX64()
+
+  applyDefaultHierarchyTemplate()
 }
 
 ktlint {
