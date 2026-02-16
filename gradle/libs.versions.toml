@@ -4,7 +4,7 @@ kotest = "6.1.3"
 detekt = "1.23.8"
 okio = "3.16.4"
 serialization = "1.10.0"
-benchmark = "0.4.15"
+benchmark = "0.4.16"
 openapi = "2026.1"
 jackson = "2.21.0"
 
