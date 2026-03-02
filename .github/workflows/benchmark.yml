@@ -122,13 +122,13 @@ jobs:
           done
       - name: Store results as artifact
         if: env.REPORT_FORMAT == 'json'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: bench-result-${{ matrix.os }}
           path: ${{ env.BENCHMARK_RESULTS }}/${{ env.MAIN_BENCH_RESULTS }}/**/*.json
       - name: Store comparison results as artifact
         if: env.REPORT_FORMAT == 'json' && matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: bench-comparison-result-${{ matrix.os }}
           path: ${{ env.BENCHMARK_RESULTS }}/${{ env.COMPARISON_BENCH_RESULTS }}/**/*.json
