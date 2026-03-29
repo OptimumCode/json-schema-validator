@@ -39,9 +39,9 @@ jobs:
         distribution: temurin
         java-version-file: .java-version
     - name: Validate Gradle Wrapper
-      uses: gradle/actions/wrapper-validation@v5
+      uses: gradle/actions/wrapper-validation@v6
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v5
+      uses: gradle/actions/setup-gradle@v6
       with:
         gradle-version: wrapper
     - name: Setup format tools
