@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774801554128,
+  "lastUpdate": 1774801567518,
   "repoUrl": "https://github.com/OptimumCode/json-schema-validator",
   "entries": {
     "KMP JSON schema validator": [
@@ -27738,270 +27738,6 @@ window.BENCHMARK_DATA = {
             "username": "web-flow"
           },
           "distinct": true,
-          "id": "ed398adf1992a9f433abfae9a09e29871df03314",
-          "message": "Bump io.openapiprocessor:json-schema-validator-bom from 2025.3 to 2025.5 (#341)",
-          "timestamp": "2025-10-18T13:34:19Z",
-          "tree_id": "4dd2132b03430995af22dd609ab077a4b59c2cda",
-          "url": "https://github.com/OptimumCode/json-schema-validator/commit/ed398adf1992a9f433abfae9a09e29871df03314"
-        },
-        "date": 1760796003101,
-        "tool": "jmh",
-        "benches": [
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2918.0461620117194,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2672.8215697104356,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2974.1999117357886,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2800.3822328001074,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 952.1778430204489,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1027.8034759332397,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2983.701168946429,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2849.0298905065583,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3954.453652121492,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 6619549.601398875,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 707.0015934496886,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 704.4473401649035,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4235.034423277096,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2143.722355195442,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4319.361983498187,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1057025.0496991198,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4268.253037571725,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1920.891430129333,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 91.49573747471966,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 99.20926153271404,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 357.2182051570658,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 392.4870896794388,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 353.3626229973648,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 347.1854119813063,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 973.9081183896554,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 965.4303444584033,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 344.1942859035901,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 349.9780082548923,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 242.20017175792773,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 0.18782190725405437,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1435.5023190205197,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1413.2946753115007,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 237.19180311735522,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 483.89667805635224,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 238.35301140804455,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 0.9513772171245675,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 235.13900273660275,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 520.4831718674529,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 11251.653103657927,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 10520.55417844298,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          }
-        ]
-      },
-      {
-        "commit": {
-          "author": {
-            "email": "49699333+dependabot[bot]@users.noreply.github.com",
-            "name": "dependabot[bot]",
-            "username": "dependabot[bot]"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
           "id": "8934a9eeef0fdd573d98331aa36eb263ea5eefb2",
           "message": "Bump kotlin from 2.1.21 to 2.2.21 + kotest 6.0.4 (#325)\n\nBumps `kotlin` from 2.1.21 to 2.2.10.\nUpdates `org.jetbrains.kotlin:kotlin-gradle-plugin` from 2.1.21 to\n2.2.10\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/releases\">org.jetbrains.kotlin:kotlin-gradle-plugin's\nreleases</a>.</em></p>\n<blockquote>\n<h2>Kotlin 2.2.10</h2>\n<h2>Changelog</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79276\"><code>KT-79276</code></a>\nDexing fails with &quot;Cannot read field X because <!-- raw HTML\nomitted --> is null&quot; with 2.2.0</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79442\"><code>KT-79442</code></a>\n&quot;Multiple annotations of type\nkotlin.coroutines.jvm.internal.DebugMetadata&quot;: 2.2.0-Beta1\ngenerates broken code with JVM default suspend methods in\ninterfaces</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78815\"><code>KT-78815</code></a>\n<code>Symbol not found: __ZNSt3__117bad_function_callD1Ev</code> error\non iOS 15.5 simulator in Xcode 16.3 after update to 2.2.0-Beta2</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78501\"><code>KT-78501</code></a>\nK2: Missing [ABSTRACT_SUPER_CALL] diagnostics for delegated interface\nmethod leads to AssertionError: isCompiledToJvmDefault during IR\nlowering</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78479\"><code>KT-78479</code></a>\nIR lowering failed / Unexpected null argument for composable call</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76477\"><code>KT-76477</code></a>\nKotlin/Native: fix compiler performance reporting in sources-&gt;klib\nand klibs-&gt;binary</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78736\"><code>KT-78736</code></a>\nMissing [NOT_YET_SUPPORTED_IN_INLINE] diagnostics because of incorrect\ncontext update</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77685\"><code>KT-77685</code></a>\n&quot;IllegalArgumentException: Sequence contains more than one matching\nelement&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76365\"><code>KT-76365</code></a>\nK2: Missing ABSTRACT_SUPER_CALL</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78352\"><code>KT-78352</code></a>\nFalse-positive IDENTITY_SENSITIVE_OPERATIONS_WITH_VALUE_TYPE when\ncomparing with equality operator (==)</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78479\"><code>KT-78479</code></a>\nEnsure that default transform affects functions entered through a\ncall</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78490\"><code>KT-78490</code></a>\nFix visibility for default wrappers of protected methods</li>\n<li><a\nhref=\"https://issuetracker.google.com/issues/408492167\"><code>b/408492167</code></a>\nEmit parameter names in Compose source information</li>\n</ul>\n<h3>JavaScript</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79050\"><code>KT-79050</code></a>\nKJS / IC: &quot;Unexpected body of primary constructor for processing\nirClass&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79089\"><code>KT-79089</code></a>\nKJS: Could not load reporter / Cannot find module 'mocha' when running\njsNode tests</li>\n</ul>\n<h3>Native</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79075\"><code>KT-79075</code></a>\nStuck on Kotlin_getSourceInfo_core_symbolication</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76178\"><code>KT-76178</code></a>\nLLVM Update: symbol '__ZnwmSt19__type_descriptor_t' missing</li>\n</ul>\n<h3>Native. Runtime. Memory</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78925\"><code>KT-78925</code></a>\nCrash SIGABRT on Apple Watch after updating Kotlin to 2.2.0</li>\n</ul>\n<h3>Tools. CLI</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77445\"><code>KT-77445</code></a>\nUNRESOLVED_REFERENCE when importing classes from kotlin-stdlib</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78263\"><code>KT-78263</code></a>\njava.lang.NoClassDefFoundError: Could not initialize class\ncom.intellij.psi.impl.PsiSubstitutorImpl</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78318\"><code>KT-78318</code></a>\nUnresolved reference when compiling kotlin/JS project on fresh\nmaster</li>\n</ul>\n<h3>Tools. Compiler Plugins</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78490\"><code>KT-78490</code></a>\n&quot;AssertionError: SyntheticAccessorLowering should not attempt to\nmodify other files&quot; when calling protected open composable with\ndefault argument</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78038\"><code>KT-78038</code></a>\nMake jvm-abi-gen compiler plugin output classloader-friendly</li>\n</ul>\n<h3>Tools. Gradle</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77023\"><code>KT-77023</code></a>\nSupport creating KotlinJvmAndroidCompilation in KotlinBaseApiPlugin</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/blob/master/ChangeLog.md\">org.jetbrains.kotlin:kotlin-gradle-plugin's\nchangelog</a>.</em></p>\n<blockquote>\n<h2>2.2.10</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79276\"><code>KT-79276</code></a>\nDexing fails with &quot;Cannot read field X because <!-- raw HTML\nomitted --> is null&quot; with 2.2.0</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79442\"><code>KT-79442</code></a>\n&quot;Multiple annotations of type\nkotlin.coroutines.jvm.internal.DebugMetadata&quot;: 2.2.0-Beta1\ngenerates broken code with JVM default suspend methods in\ninterfaces</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78815\"><code>KT-78815</code></a>\n<code>Symbol not found: __ZNSt3__117bad_function_callD1Ev</code> error\non iOS 15.5 simulator in Xcode 16.3 after update to 2.2.0-Beta2</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78501\"><code>KT-78501</code></a>\nK2: Missing [ABSTRACT_SUPER_CALL] diagnostics for delegated interface\nmethod leads to AssertionError: isCompiledToJvmDefault during IR\nlowering</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78479\"><code>KT-78479</code></a>\nIR lowering failed / Unexpected null argument for composable call</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76477\"><code>KT-76477</code></a>\nKotlin/Native: fix compiler performance reporting in sources-&gt;klib\nand klibs-&gt;binary</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78736\"><code>KT-78736</code></a>\nMissing [NOT_YET_SUPPORTED_IN_INLINE] diagnostics because of incorrect\ncontext update</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77685\"><code>KT-77685</code></a>\n&quot;IllegalArgumentException: Sequence contains more than one matching\nelement&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76365\"><code>KT-76365</code></a>\nK2: Missing ABSTRACT_SUPER_CALL</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78352\"><code>KT-78352</code></a>\nFalse-positive IDENTITY_SENSITIVE_OPERATIONS_WITH_VALUE_TYPE when\ncomparing with equality operator (==)</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78479\"><code>KT-78479</code></a>\nEnsure that default transform affects functions entered through a\ncall</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78490\"><code>KT-78490</code></a>\nFix visibility for default wrappers of protected methods</li>\n<li><a\nhref=\"https://issuetracker.google.com/issues/408492167\"><code>b/408492167</code></a>\nEmit parameter names in Compose source information</li>\n</ul>\n<h3>JavaScript</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79050\"><code>KT-79050</code></a>\nKJS / IC: &quot;Unexpected body of primary constructor for processing\nirClass&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79089\"><code>KT-79089</code></a>\nKJS: Could not load reporter / Cannot find module 'mocha' when running\njsNode tests</li>\n</ul>\n<h3>Native</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79075\"><code>KT-79075</code></a>\nStuck on Kotlin_getSourceInfo_core_symbolication</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76178\"><code>KT-76178</code></a>\nLLVM Update: symbol '__ZnwmSt19__type_descriptor_t' missing</li>\n</ul>\n<h3>Native. Runtime. Memory</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78925\"><code>KT-78925</code></a>\nCrash SIGABRT on Apple Watch after updating Kotlin to 2.2.0</li>\n</ul>\n<h3>Tools. CLI</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77445\"><code>KT-77445</code></a>\nUNRESOLVED_REFERENCE when importing classes from kotlin-stdlib</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78263\"><code>KT-78263</code></a>\njava.lang.NoClassDefFoundError: Could not initialize class\ncom.intellij.psi.impl.PsiSubstitutorImpl</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78318\"><code>KT-78318</code></a>\nUnresolved reference when compiling kotlin/JS project on fresh\nmaster</li>\n</ul>\n<h3>Tools. Compiler Plugins</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78490\"><code>KT-78490</code></a>\n&quot;AssertionError: SyntheticAccessorLowering should not attempt to\nmodify other files&quot; when calling protected open composable with\ndefault argument</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78038\"><code>KT-78038</code></a>\nMake jvm-abi-gen compiler plugin output classloader-friendly</li>\n</ul>\n<h3>Tools. Gradle</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77023\"><code>KT-77023</code></a>\nSupport creating KotlinJvmAndroidCompilation in KotlinBaseApiPlugin</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/c448af19ded1b1a4e96e9af6412cd9acb100ce1a\"><code>c448af1</code></a>\nAdd ChangeLog for 2.2.10-RC2</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/4925857c812473358266556396fa76ac15b0dffd\"><code>4925857</code></a>\n[JS] Upgrade NPM dependencies</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/0e3327f52acd563a7846ffdf65c6d87a1e4f7f30\"><code>0e3327f</code></a>\n[K/N] Use coreSymbolicationImageListType=all_loaded by default</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/21231f535f1777db97ea7ea39bcabb9f6ddcb9a5\"><code>21231f5</code></a>\n[JVM] avoid unnecessary spills of some dead locals</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/42972543940d3f519561162dec6f859d9ce73ac3\"><code>4297254</code></a>\n[gradle] Fix missing mocha reporter module</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/95639d5e5baf1dfdb71bdf5c7962865cc6053dc4\"><code>95639d5</code></a>\n[JVM] Fix detection of $DefaultImpl bridges</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/09a5926c90cc1dd1b9cd9b4bb0f2ba398635dcb8\"><code>09a5926</code></a>\nFIR: allow to resolve some Java classes with\n<code>@kotlin.Metadata</code></li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/4bf855d50d78b8f346ac768eecceda0286f490c9\"><code>4bf855d</code></a>\n[K/JS] Fix incremental compilation for overridden external\nproperties</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/69050bd292fef7017f259d0839391a0fd2d6e66c\"><code>69050bd</code></a>\n[K/N][llvm] Update LLVM build to incorporate the recent changes</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/accbf36dfd0890efb10d2b927061903267447632\"><code>accbf36</code></a>\nAdd ChangeLog for 2.2.10-RC</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/JetBrains/kotlin/compare/v2.1.21...v2.2.10\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\nUpdates `org.jetbrains.kotlin.plugin.serialization` from 2.1.21 to\n2.2.10\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/releases\">org.jetbrains.kotlin.plugin.serialization's\nreleases</a>.</em></p>\n<blockquote>\n<h2>Kotlin 2.2.10</h2>\n<h2>Changelog</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79276\"><code>KT-79276</code></a>\nDexing fails with &quot;Cannot read field X because <!-- raw HTML\nomitted --> is null&quot; with 2.2.0</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79442\"><code>KT-79442</code></a>\n&quot;Multiple annotations of type\nkotlin.coroutines.jvm.internal.DebugMetadata&quot;: 2.2.0-Beta1\ngenerates broken code with JVM default suspend methods in\ninterfaces</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78815\"><code>KT-78815</code></a>\n<code>Symbol not found: __ZNSt3__117bad_function_callD1Ev</code> error\non iOS 15.5 simulator in Xcode 16.3 after update to 2.2.0-Beta2</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78501\"><code>KT-78501</code></a>\nK2: Missing [ABSTRACT_SUPER_CALL] diagnostics for delegated interface\nmethod leads to AssertionError: isCompiledToJvmDefault during IR\nlowering</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78479\"><code>KT-78479</code></a>\nIR lowering failed / Unexpected null argument for composable call</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76477\"><code>KT-76477</code></a>\nKotlin/Native: fix compiler performance reporting in sources-&gt;klib\nand klibs-&gt;binary</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78736\"><code>KT-78736</code></a>\nMissing [NOT_YET_SUPPORTED_IN_INLINE] diagnostics because of incorrect\ncontext update</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77685\"><code>KT-77685</code></a>\n&quot;IllegalArgumentException: Sequence contains more than one matching\nelement&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76365\"><code>KT-76365</code></a>\nK2: Missing ABSTRACT_SUPER_CALL</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78352\"><code>KT-78352</code></a>\nFalse-positive IDENTITY_SENSITIVE_OPERATIONS_WITH_VALUE_TYPE when\ncomparing with equality operator (==)</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78479\"><code>KT-78479</code></a>\nEnsure that default transform affects functions entered through a\ncall</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78490\"><code>KT-78490</code></a>\nFix visibility for default wrappers of protected methods</li>\n<li><a\nhref=\"https://issuetracker.google.com/issues/408492167\"><code>b/408492167</code></a>\nEmit parameter names in Compose source information</li>\n</ul>\n<h3>JavaScript</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79050\"><code>KT-79050</code></a>\nKJS / IC: &quot;Unexpected body of primary constructor for processing\nirClass&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79089\"><code>KT-79089</code></a>\nKJS: Could not load reporter / Cannot find module 'mocha' when running\njsNode tests</li>\n</ul>\n<h3>Native</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79075\"><code>KT-79075</code></a>\nStuck on Kotlin_getSourceInfo_core_symbolication</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76178\"><code>KT-76178</code></a>\nLLVM Update: symbol '__ZnwmSt19__type_descriptor_t' missing</li>\n</ul>\n<h3>Native. Runtime. Memory</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78925\"><code>KT-78925</code></a>\nCrash SIGABRT on Apple Watch after updating Kotlin to 2.2.0</li>\n</ul>\n<h3>Tools. CLI</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77445\"><code>KT-77445</code></a>\nUNRESOLVED_REFERENCE when importing classes from kotlin-stdlib</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78263\"><code>KT-78263</code></a>\njava.lang.NoClassDefFoundError: Could not initialize class\ncom.intellij.psi.impl.PsiSubstitutorImpl</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78318\"><code>KT-78318</code></a>\nUnresolved reference when compiling kotlin/JS project on fresh\nmaster</li>\n</ul>\n<h3>Tools. Compiler Plugins</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78490\"><code>KT-78490</code></a>\n&quot;AssertionError: SyntheticAccessorLowering should not attempt to\nmodify other files&quot; when calling protected open composable with\ndefault argument</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78038\"><code>KT-78038</code></a>\nMake jvm-abi-gen compiler plugin output classloader-friendly</li>\n</ul>\n<h3>Tools. Gradle</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77023\"><code>KT-77023</code></a>\nSupport creating KotlinJvmAndroidCompilation in KotlinBaseApiPlugin</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/blob/master/ChangeLog.md\">org.jetbrains.kotlin.plugin.serialization's\nchangelog</a>.</em></p>\n<blockquote>\n<h2>2.2.10</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79276\"><code>KT-79276</code></a>\nDexing fails with &quot;Cannot read field X because <!-- raw HTML\nomitted --> is null&quot; with 2.2.0</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79442\"><code>KT-79442</code></a>\n&quot;Multiple annotations of type\nkotlin.coroutines.jvm.internal.DebugMetadata&quot;: 2.2.0-Beta1\ngenerates broken code with JVM default suspend methods in\ninterfaces</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78815\"><code>KT-78815</code></a>\n<code>Symbol not found: __ZNSt3__117bad_function_callD1Ev</code> error\non iOS 15.5 simulator in Xcode 16.3 after update to 2.2.0-Beta2</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78501\"><code>KT-78501</code></a>\nK2: Missing [ABSTRACT_SUPER_CALL] diagnostics for delegated interface\nmethod leads to AssertionError: isCompiledToJvmDefault during IR\nlowering</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78479\"><code>KT-78479</code></a>\nIR lowering failed / Unexpected null argument for composable call</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76477\"><code>KT-76477</code></a>\nKotlin/Native: fix compiler performance reporting in sources-&gt;klib\nand klibs-&gt;binary</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78736\"><code>KT-78736</code></a>\nMissing [NOT_YET_SUPPORTED_IN_INLINE] diagnostics because of incorrect\ncontext update</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77685\"><code>KT-77685</code></a>\n&quot;IllegalArgumentException: Sequence contains more than one matching\nelement&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76365\"><code>KT-76365</code></a>\nK2: Missing ABSTRACT_SUPER_CALL</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78352\"><code>KT-78352</code></a>\nFalse-positive IDENTITY_SENSITIVE_OPERATIONS_WITH_VALUE_TYPE when\ncomparing with equality operator (==)</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78479\"><code>KT-78479</code></a>\nEnsure that default transform affects functions entered through a\ncall</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78490\"><code>KT-78490</code></a>\nFix visibility for default wrappers of protected methods</li>\n<li><a\nhref=\"https://issuetracker.google.com/issues/408492167\"><code>b/408492167</code></a>\nEmit parameter names in Compose source information</li>\n</ul>\n<h3>JavaScript</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79050\"><code>KT-79050</code></a>\nKJS / IC: &quot;Unexpected body of primary constructor for processing\nirClass&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79089\"><code>KT-79089</code></a>\nKJS: Could not load reporter / Cannot find module 'mocha' when running\njsNode tests</li>\n</ul>\n<h3>Native</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79075\"><code>KT-79075</code></a>\nStuck on Kotlin_getSourceInfo_core_symbolication</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76178\"><code>KT-76178</code></a>\nLLVM Update: symbol '__ZnwmSt19__type_descriptor_t' missing</li>\n</ul>\n<h3>Native. Runtime. Memory</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78925\"><code>KT-78925</code></a>\nCrash SIGABRT on Apple Watch after updating Kotlin to 2.2.0</li>\n</ul>\n<h3>Tools. CLI</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77445\"><code>KT-77445</code></a>\nUNRESOLVED_REFERENCE when importing classes from kotlin-stdlib</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78263\"><code>KT-78263</code></a>\njava.lang.NoClassDefFoundError: Could not initialize class\ncom.intellij.psi.impl.PsiSubstitutorImpl</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78318\"><code>KT-78318</code></a>\nUnresolved reference when compiling kotlin/JS project on fresh\nmaster</li>\n</ul>\n<h3>Tools. Compiler Plugins</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78490\"><code>KT-78490</code></a>\n&quot;AssertionError: SyntheticAccessorLowering should not attempt to\nmodify other files&quot; when calling protected open composable with\ndefault argument</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78038\"><code>KT-78038</code></a>\nMake jvm-abi-gen compiler plugin output classloader-friendly</li>\n</ul>\n<h3>Tools. Gradle</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77023\"><code>KT-77023</code></a>\nSupport creating KotlinJvmAndroidCompilation in KotlinBaseApiPlugin</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/c448af19ded1b1a4e96e9af6412cd9acb100ce1a\"><code>c448af1</code></a>\nAdd ChangeLog for 2.2.10-RC2</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/4925857c812473358266556396fa76ac15b0dffd\"><code>4925857</code></a>\n[JS] Upgrade NPM dependencies</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/0e3327f52acd563a7846ffdf65c6d87a1e4f7f30\"><code>0e3327f</code></a>\n[K/N] Use coreSymbolicationImageListType=all_loaded by default</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/21231f535f1777db97ea7ea39bcabb9f6ddcb9a5\"><code>21231f5</code></a>\n[JVM] avoid unnecessary spills of some dead locals</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/42972543940d3f519561162dec6f859d9ce73ac3\"><code>4297254</code></a>\n[gradle] Fix missing mocha reporter module</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/95639d5e5baf1dfdb71bdf5c7962865cc6053dc4\"><code>95639d5</code></a>\n[JVM] Fix detection of $DefaultImpl bridges</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/09a5926c90cc1dd1b9cd9b4bb0f2ba398635dcb8\"><code>09a5926</code></a>\nFIR: allow to resolve some Java classes with\n<code>@kotlin.Metadata</code></li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/4bf855d50d78b8f346ac768eecceda0286f490c9\"><code>4bf855d</code></a>\n[K/JS] Fix incremental compilation for overridden external\nproperties</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/69050bd292fef7017f259d0839391a0fd2d6e66c\"><code>69050bd</code></a>\n[K/N][llvm] Update LLVM build to incorporate the recent changes</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/accbf36dfd0890efb10d2b927061903267447632\"><code>accbf36</code></a>\nAdd ChangeLog for 2.2.10-RC</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/JetBrains/kotlin/compare/v2.1.21...v2.2.10\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\nUpdates `org.jetbrains.kotlin.plugin.allopen` from 2.1.21 to 2.2.10\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/releases\">org.jetbrains.kotlin.plugin.allopen's\nreleases</a>.</em></p>\n<blockquote>\n<h2>Kotlin 2.2.10</h2>\n<h2>Changelog</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79276\"><code>KT-79276</code></a>\nDexing fails with &quot;Cannot read field X because <!-- raw HTML\nomitted --> is null&quot; with 2.2.0</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79442\"><code>KT-79442</code></a>\n&quot;Multiple annotations of type\nkotlin.coroutines.jvm.internal.DebugMetadata&quot;: 2.2.0-Beta1\ngenerates broken code with JVM default suspend methods in\ninterfaces</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78815\"><code>KT-78815</code></a>\n<code>Symbol not found: __ZNSt3__117bad_function_callD1Ev</code> error\non iOS 15.5 simulator in Xcode 16.3 after update to 2.2.0-Beta2</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78501\"><code>KT-78501</code></a>\nK2: Missing [ABSTRACT_SUPER_CALL] diagnostics for delegated interface\nmethod leads to AssertionError: isCompiledToJvmDefault during IR\nlowering</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78479\"><code>KT-78479</code></a>\nIR lowering failed / Unexpected null argument for composable call</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76477\"><code>KT-76477</code></a>\nKotlin/Native: fix compiler performance reporting in sources-&gt;klib\nand klibs-&gt;binary</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78736\"><code>KT-78736</code></a>\nMissing [NOT_YET_SUPPORTED_IN_INLINE] diagnostics because of incorrect\ncontext update</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77685\"><code>KT-77685</code></a>\n&quot;IllegalArgumentException: Sequence contains more than one matching\nelement&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76365\"><code>KT-76365</code></a>\nK2: Missing ABSTRACT_SUPER_CALL</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78352\"><code>KT-78352</code></a>\nFalse-positive IDENTITY_SENSITIVE_OPERATIONS_WITH_VALUE_TYPE when\ncomparing with equality operator (==)</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78479\"><code>KT-78479</code></a>\nEnsure that default transform affects functions entered through a\ncall</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78490\"><code>KT-78490</code></a>\nFix visibility for default wrappers of protected methods</li>\n<li><a\nhref=\"https://issuetracker.google.com/issues/408492167\"><code>b/408492167</code></a>\nEmit parameter names in Compose source information</li>\n</ul>\n<h3>JavaScript</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79050\"><code>KT-79050</code></a>\nKJS / IC: &quot;Unexpected body of primary constructor for processing\nirClass&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79089\"><code>KT-79089</code></a>\nKJS: Could not load reporter / Cannot find module 'mocha' when running\njsNode tests</li>\n</ul>\n<h3>Native</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79075\"><code>KT-79075</code></a>\nStuck on Kotlin_getSourceInfo_core_symbolication</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76178\"><code>KT-76178</code></a>\nLLVM Update: symbol '__ZnwmSt19__type_descriptor_t' missing</li>\n</ul>\n<h3>Native. Runtime. Memory</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78925\"><code>KT-78925</code></a>\nCrash SIGABRT on Apple Watch after updating Kotlin to 2.2.0</li>\n</ul>\n<h3>Tools. CLI</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77445\"><code>KT-77445</code></a>\nUNRESOLVED_REFERENCE when importing classes from kotlin-stdlib</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78263\"><code>KT-78263</code></a>\njava.lang.NoClassDefFoundError: Could not initialize class\ncom.intellij.psi.impl.PsiSubstitutorImpl</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78318\"><code>KT-78318</code></a>\nUnresolved reference when compiling kotlin/JS project on fresh\nmaster</li>\n</ul>\n<h3>Tools. Compiler Plugins</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78490\"><code>KT-78490</code></a>\n&quot;AssertionError: SyntheticAccessorLowering should not attempt to\nmodify other files&quot; when calling protected open composable with\ndefault argument</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78038\"><code>KT-78038</code></a>\nMake jvm-abi-gen compiler plugin output classloader-friendly</li>\n</ul>\n<h3>Tools. Gradle</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77023\"><code>KT-77023</code></a>\nSupport creating KotlinJvmAndroidCompilation in KotlinBaseApiPlugin</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/blob/master/ChangeLog.md\">org.jetbrains.kotlin.plugin.allopen's\nchangelog</a>.</em></p>\n<blockquote>\n<h2>2.2.10</h2>\n<h3>Compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79276\"><code>KT-79276</code></a>\nDexing fails with &quot;Cannot read field X because <!-- raw HTML\nomitted --> is null&quot; with 2.2.0</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79442\"><code>KT-79442</code></a>\n&quot;Multiple annotations of type\nkotlin.coroutines.jvm.internal.DebugMetadata&quot;: 2.2.0-Beta1\ngenerates broken code with JVM default suspend methods in\ninterfaces</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78815\"><code>KT-78815</code></a>\n<code>Symbol not found: __ZNSt3__117bad_function_callD1Ev</code> error\non iOS 15.5 simulator in Xcode 16.3 after update to 2.2.0-Beta2</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78501\"><code>KT-78501</code></a>\nK2: Missing [ABSTRACT_SUPER_CALL] diagnostics for delegated interface\nmethod leads to AssertionError: isCompiledToJvmDefault during IR\nlowering</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78479\"><code>KT-78479</code></a>\nIR lowering failed / Unexpected null argument for composable call</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76477\"><code>KT-76477</code></a>\nKotlin/Native: fix compiler performance reporting in sources-&gt;klib\nand klibs-&gt;binary</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78736\"><code>KT-78736</code></a>\nMissing [NOT_YET_SUPPORTED_IN_INLINE] diagnostics because of incorrect\ncontext update</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77685\"><code>KT-77685</code></a>\n&quot;IllegalArgumentException: Sequence contains more than one matching\nelement&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76365\"><code>KT-76365</code></a>\nK2: Missing ABSTRACT_SUPER_CALL</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78352\"><code>KT-78352</code></a>\nFalse-positive IDENTITY_SENSITIVE_OPERATIONS_WITH_VALUE_TYPE when\ncomparing with equality operator (==)</li>\n</ul>\n<h3>Compose compiler</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78479\"><code>KT-78479</code></a>\nEnsure that default transform affects functions entered through a\ncall</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78490\"><code>KT-78490</code></a>\nFix visibility for default wrappers of protected methods</li>\n<li><a\nhref=\"https://issuetracker.google.com/issues/408492167\"><code>b/408492167</code></a>\nEmit parameter names in Compose source information</li>\n</ul>\n<h3>JavaScript</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79050\"><code>KT-79050</code></a>\nKJS / IC: &quot;Unexpected body of primary constructor for processing\nirClass&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79089\"><code>KT-79089</code></a>\nKJS: Could not load reporter / Cannot find module 'mocha' when running\njsNode tests</li>\n</ul>\n<h3>Native</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-79075\"><code>KT-79075</code></a>\nStuck on Kotlin_getSourceInfo_core_symbolication</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-76178\"><code>KT-76178</code></a>\nLLVM Update: symbol '__ZnwmSt19__type_descriptor_t' missing</li>\n</ul>\n<h3>Native. Runtime. Memory</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78925\"><code>KT-78925</code></a>\nCrash SIGABRT on Apple Watch after updating Kotlin to 2.2.0</li>\n</ul>\n<h3>Tools. CLI</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77445\"><code>KT-77445</code></a>\nUNRESOLVED_REFERENCE when importing classes from kotlin-stdlib</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78263\"><code>KT-78263</code></a>\njava.lang.NoClassDefFoundError: Could not initialize class\ncom.intellij.psi.impl.PsiSubstitutorImpl</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78318\"><code>KT-78318</code></a>\nUnresolved reference when compiling kotlin/JS project on fresh\nmaster</li>\n</ul>\n<h3>Tools. Compiler Plugins</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78490\"><code>KT-78490</code></a>\n&quot;AssertionError: SyntheticAccessorLowering should not attempt to\nmodify other files&quot; when calling protected open composable with\ndefault argument</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78038\"><code>KT-78038</code></a>\nMake jvm-abi-gen compiler plugin output classloader-friendly</li>\n</ul>\n<h3>Tools. Gradle</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-77023\"><code>KT-77023</code></a>\nSupport creating KotlinJvmAndroidCompilation in KotlinBaseApiPlugin</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/c448af19ded1b1a4e96e9af6412cd9acb100ce1a\"><code>c448af1</code></a>\nAdd ChangeLog for 2.2.10-RC2</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/4925857c812473358266556396fa76ac15b0dffd\"><code>4925857</code></a>\n[JS] Upgrade NPM dependencies</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/0e3327f52acd563a7846ffdf65c6d87a1e4f7f30\"><code>0e3327f</code></a>\n[K/N] Use coreSymbolicationImageListType=all_loaded by default</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/21231f535f1777db97ea7ea39bcabb9f6ddcb9a5\"><code>21231f5</code></a>\n[JVM] avoid unnecessary spills of some dead locals</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/42972543940d3f519561162dec6f859d9ce73ac3\"><code>4297254</code></a>\n[gradle] Fix missing mocha reporter module</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/95639d5e5baf1dfdb71bdf5c7962865cc6053dc4\"><code>95639d5</code></a>\n[JVM] Fix detection of $DefaultImpl bridges</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/09a5926c90cc1dd1b9cd9b4bb0f2ba398635dcb8\"><code>09a5926</code></a>\nFIR: allow to resolve some Java classes with\n<code>@kotlin.Metadata</code></li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/4bf855d50d78b8f346ac768eecceda0286f490c9\"><code>4bf855d</code></a>\n[K/JS] Fix incremental compilation for overridden external\nproperties</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/69050bd292fef7017f259d0839391a0fd2d6e66c\"><code>69050bd</code></a>\n[K/N][llvm] Update LLVM build to incorporate the recent changes</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/accbf36dfd0890efb10d2b927061903267447632\"><code>accbf36</code></a>\nAdd ChangeLog for 2.2.10-RC</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/JetBrains/kotlin/compare/v2.1.21...v2.2.10\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\n\nYou can trigger a rebase of this PR by commenting `@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits\nthat have been made to it\n- `@dependabot merge` will merge this PR after your CI passes on it\n- `@dependabot squash and merge` will squash and merge this PR after\nyour CI passes on it\n- `@dependabot cancel merge` will cancel a previously requested merge\nand block automerging\n- `@dependabot reopen` will reopen this PR if it is closed\n- `@dependabot close` will close this PR and stop Dependabot recreating\nit. You can achieve the same result by closing it manually\n- `@dependabot show <dependency name> ignore conditions` will show all\nof the ignore conditions of the specified dependency\n- `@dependabot ignore this major version` will close this PR and stop\nDependabot creating any more for this major version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this minor version` will close this PR and stop\nDependabot creating any more for this minor version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this dependency` will close this PR and stop\nDependabot creating any more for this dependency (unless you reopen the\nPR or upgrade to it yourself)\n\n\n</details>\n\n> **Note**\n> Automatic rebases have been disabled on this pull request as it has\nbeen open for over 30 days.\n\n---------\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>\nCo-authored-by: Oleg Smirnov <oleg31101996@gmail.com>",
           "timestamp": "2025-10-26T15:15:48Z",
@@ -40920,6 +40656,270 @@ window.BENCHMARK_DATA = {
           {
             "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
             "value": 10771.030601011857,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "00ab9798d8a11972f4ca109a03547f81727add7e",
+          "message": "Bump gradle/actions from 5 to 6 (#421)\n\nBumps [gradle/actions](https://github.com/gradle/actions) from 5 to 6.\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/gradle/actions/releases\">gradle/actions's\nreleases</a>.</em></p>\n<blockquote>\n<h2>v6.0.0</h2>\n<h2>Summary</h2>\n<ul>\n<li>Caching functionality of 'gradle-actions' has been extracted into a\nseparate <code>gradle-actions-caching</code> library, and is no longer\nopen-source.</li>\n<li>Existing, rudimentary, configuration-cache support has been removed,\npending a fully functional implementation in\n<code>gradle-actions-caching</code>.</li>\n<li>Dependencies updated to address security vulnerabilities</li>\n</ul>\n<blockquote>\n<p>[!IMPORTANT]</p>\n<h4>Licensing notice</h4>\n<p>The caching functionality in `gradle-actions` has been extracted into\n`gradle-actions-caching`, a proprietary commercial component that is not\ncovered by the MIT License.\nThe bundled `gradle-actions-caching` component is licensed and governed\nby a separate license, available at <a\nhref=\"https://gradle.com/legal/terms-of-use/\">https://gradle.com/legal/terms-of-use/</a>.</p>\n<p>The `gradle-actions-caching` component is used only when caching is\nenabled and is not loaded or used when caching is disabled.</p>\n<p>Use of the `gradle-actions-caching` component is subject to a\nseparate license, available at <a\nhref=\"https://gradle.com/legal/terms-of-use/\">https://gradle.com/legal/terms-of-use/</a>.\nIf you do not agree to these license terms, do not use the\n`gradle-actions-caching` component.</p>\n</blockquote>\n<h2>What's Changed</h2>\n<ul>\n<li>Bump the npm-dependencies group in /sources with 2 updates by <a\nhref=\"https://github.com/dependabot\"><code>@​dependabot</code></a>[bot]\nin <a\nhref=\"https://redirect.github.com/gradle/actions/pull/866\">gradle/actions#866</a></li>\n<li>Update known wrapper checksums by <a\nhref=\"https://github.com/github-actions\"><code>@​github-actions</code></a>[bot]\nin <a\nhref=\"https://redirect.github.com/gradle/actions/pull/868\">gradle/actions#868</a></li>\n<li>Dependency updates by <a\nhref=\"https://github.com/bigdaz\"><code>@​bigdaz</code></a> in <a\nhref=\"https://redirect.github.com/gradle/actions/pull/876\">gradle/actions#876</a></li>\n<li>Update known wrapper checksums by <a\nhref=\"https://github.com/github-actions\"><code>@​github-actions</code></a>[bot]\nin <a\nhref=\"https://redirect.github.com/gradle/actions/pull/878\">gradle/actions#878</a></li>\n<li>Bump <code>@​types/node</code> from 25.3.3 to 25.3.5 in /sources in\nthe npm-dependencies group across 1 directory by <a\nhref=\"https://github.com/dependabot\"><code>@​dependabot</code></a>[bot]\nin <a\nhref=\"https://redirect.github.com/gradle/actions/pull/877\">gradle/actions#877</a></li>\n<li>Bump the github-actions group across 3 directories with 3 updates by\n<a\nhref=\"https://github.com/dependabot\"><code>@​dependabot</code></a>[bot]\nin <a\nhref=\"https://redirect.github.com/gradle/actions/pull/867\">gradle/actions#867</a></li>\n<li>Update known wrapper checksums by <a\nhref=\"https://github.com/github-actions\"><code>@​github-actions</code></a>[bot]\nin <a\nhref=\"https://redirect.github.com/gradle/actions/pull/881\">gradle/actions#881</a></li>\n<li>Bump the npm-dependencies group in /sources with 6 updates by <a\nhref=\"https://github.com/dependabot\"><code>@​dependabot</code></a>[bot]\nin <a\nhref=\"https://redirect.github.com/gradle/actions/pull/879\">gradle/actions#879</a></li>\n<li>Bump the github-actions group across 3 directories with 5 updates by\n<a\nhref=\"https://github.com/dependabot\"><code>@​dependabot</code></a>[bot]\nin <a\nhref=\"https://redirect.github.com/gradle/actions/pull/880\">gradle/actions#880</a></li>\n<li>Remove configuration-cache support by <a\nhref=\"https://github.com/bigdaz\"><code>@​bigdaz</code></a> in <a\nhref=\"https://redirect.github.com/gradle/actions/pull/884\">gradle/actions#884</a></li>\n<li>Extract caching logic into a separate\n<code>gradle-actions-caching</code> component by <a\nhref=\"https://github.com/bigdaz\"><code>@​bigdaz</code></a> in <a\nhref=\"https://redirect.github.com/gradle/actions/pull/885\">gradle/actions#885</a></li>\n<li>Update gradle-actions-caching library to v0.3.0 by <a\nhref=\"https://github.com/bot-githubaction\"><code>@​bot-githubaction</code></a>\nin <a\nhref=\"https://redirect.github.com/gradle/actions/pull/899\">gradle/actions#899</a></li>\n<li>Avoid windows shutdown bug by <a\nhref=\"https://github.com/bigdaz\"><code>@​bigdaz</code></a> in <a\nhref=\"https://redirect.github.com/gradle/actions/pull/900\">gradle/actions#900</a></li>\n<li>Dependency updates by <a\nhref=\"https://github.com/bigdaz\"><code>@​bigdaz</code></a> in <a\nhref=\"https://redirect.github.com/gradle/actions/pull/905\">gradle/actions#905</a></li>\n<li>Fix critical and high npm vulnerabilities by <a\nhref=\"https://github.com/bigdaz\"><code>@​bigdaz</code></a> in <a\nhref=\"https://redirect.github.com/gradle/actions/pull/904\">gradle/actions#904</a></li>\n<li>Fix rendering of job-disabled message by <a\nhref=\"https://github.com/bigdaz\"><code>@​bigdaz</code></a> in <a\nhref=\"https://redirect.github.com/gradle/actions/pull/909\">gradle/actions#909</a></li>\n</ul>\n<p><strong>Full Changelog</strong>: <a\nhref=\"https://github.com/gradle/actions/compare/v5.0.2...v6.0.0\">https://github.com/gradle/actions/compare/v5.0.2...v6.0.0</a></p>\n<h2>v5.0.2</h2>\n<h2>Summary</h2>\n<p>This release contains no functional changes. It updates dependencies\nand known Gradle wrapper checksums.</p>\n<h2>What's Changed</h2>\n<ul>\n<li>Update dependencies by <a\nhref=\"https://github.com/bigdaz\"><code>@​bigdaz</code></a> in <a\nhref=\"https://redirect.github.com/gradle/actions/pull/851\">gradle/actions#851</a></li>\n<li>Bump the github-actions group across 2 directories with 3 updates by\n<a\nhref=\"https://github.com/dependabot\"><code>@​dependabot</code></a>[bot]\nin <a\nhref=\"https://redirect.github.com/gradle/actions/pull/850\">gradle/actions#850</a></li>\n<li>Update DV config by <a\nhref=\"https://github.com/bigdaz\"><code>@​bigdaz</code></a> in <a\nhref=\"https://redirect.github.com/gradle/actions/pull/848\">gradle/actions#848</a></li>\n<li>Convert project to ESM and update dependencies by <a\nhref=\"https://github.com/bigdaz\"><code>@​bigdaz</code></a> in <a\nhref=\"https://redirect.github.com/gradle/actions/pull/854\">gradle/actions#854</a></li>\n<li>Workflow fixes by <a\nhref=\"https://github.com/bigdaz\"><code>@​bigdaz</code></a> in <a\nhref=\"https://redirect.github.com/gradle/actions/pull/856\">gradle/actions#856</a></li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/gradle/actions/commit/0f4528296b4bc09e8ae0fc7be30185a4ab435545\"><code>0f45282</code></a>\n[bot] Update dist directory</li>\n<li><a\nhref=\"https://github.com/gradle/actions/commit/6c6dec06f4612d8393c436b3d93f54f408f5a698\"><code>6c6dec0</code></a>\nFix rendering of job-disabled message (<a\nhref=\"https://redirect.github.com/gradle/actions/issues/909\">#909</a>)</li>\n<li><a\nhref=\"https://github.com/gradle/actions/commit/dd0829a494cc28ae9ae74e6412dd34826e596beb\"><code>dd0829a</code></a>\nAdd cache-disabled example to demo workflow</li>\n<li><a\nhref=\"https://github.com/gradle/actions/commit/fd60153b4a99e4fbe4153c9b324db3656cce237d\"><code>fd60153</code></a>\n[bot] Update dist directory</li>\n<li><a\nhref=\"https://github.com/gradle/actions/commit/9c9963b8af61925c56b35f59a6146dbae22a028b\"><code>9c9963b</code></a>\nDependency updates (<a\nhref=\"https://redirect.github.com/gradle/actions/issues/905\">#905</a>)</li>\n<li><a\nhref=\"https://github.com/gradle/actions/commit/22c3ef2608c0dfb7dcddd7cc02ac86c4e433f347\"><code>22c3ef2</code></a>\nUpdate known wrapper checksums</li>\n<li><a\nhref=\"https://github.com/gradle/actions/commit/51a7f13c39af711d57ce38a1f40fe59240387476\"><code>51a7f13</code></a>\nBump Gradle Wrapper from 9.4.0 to 9.4.1.</li>\n<li><a\nhref=\"https://github.com/gradle/actions/commit/2c1f55600df49d611f35bb14e54608259a5f6475\"><code>2c1f556</code></a>\nBump github/codeql-action in the github-actions group across 1\ndirectory</li>\n<li><a\nhref=\"https://github.com/gradle/actions/commit/d0745b9c76935efe917d08d37511723e408aad80\"><code>d0745b9</code></a>\nBump <code>@​typescript-eslint/eslint-plugin</code></li>\n<li><a\nhref=\"https://github.com/gradle/actions/commit/8bfa39f57125083d3deace2bf3725f8df8c27d66\"><code>8bfa39f</code></a>\nAdd instructions for claude</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/gradle/actions/compare/v5...v6\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\n\n[![Dependabot compatibility\nscore](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=gradle/actions&package-manager=github_actions&previous-version=5&new-version=6)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)\n\nDependabot will resolve any conflicts with this PR as long as you don't\nalter it yourself. You can also trigger a rebase manually by commenting\n`@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits\nthat have been made to it\n- `@dependabot show <dependency name> ignore conditions` will show all\nof the ignore conditions of the specified dependency\n- `@dependabot ignore this major version` will close this PR and stop\nDependabot creating any more for this major version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this minor version` will close this PR and stop\nDependabot creating any more for this minor version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this dependency` will close this PR and stop\nDependabot creating any more for this dependency (unless you reopen the\nPR or upgrade to it yourself)\n\n\n</details>\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-29T16:00:49Z",
+          "tree_id": "224b43b65fd5e29b79ce906b026b6cc80952ce81",
+          "url": "https://github.com/OptimumCode/json-schema-validator/commit/00ab9798d8a11972f4ca109a03547f81727add7e"
+        },
+        "date": 1774801564314,
+        "tool": "jmh",
+        "benches": [
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2654.0110569936005,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2722.1089984092437,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2815.548872001019,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2751.311060393282,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1025.2725551174951,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 932.6598543300901,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2801.79937508262,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2781.3665964309243,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4093.6525351153637,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 6365364.142084045,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 697.2089382131063,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 664.1607863811165,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4137.555744436475,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1924.582429067453,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4325.810849612679,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 900030.3321770271,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4137.497343524192,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1996.6663418726362,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 89.41002858596661,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 94.6940030638299,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 345.20399922696663,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 391.48360800140364,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 348.2064401881336,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 342.1822078943017,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 967.9061120661778,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1009.9935760863185,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 343.4244912681458,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 356.91655073901984,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 244.02135712266286,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 0.18165603976223896,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1548.6570896065982,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1422.3998991469366,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 238.7727953056191,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 519.7220475888582,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 230.98150761402476,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1.1075453056690203,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 241.63855158239454,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 497.15527209363864,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 11309.47397713723,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 10508.666405598662,
             "unit": "us/op",
             "extra": "iterations: 10\nforks: 1\nthreads: 1"
           }
