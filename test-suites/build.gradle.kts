@@ -21,7 +21,6 @@ kotlin {
   // wasmJs target is not added because the okio does not provide a dependency to use FileSystem API in wasmJs target
   applyDefaultHierarchyTemplate()
 
-  macosX64()
   macosArm64()
   iosX64()
   iosArm64()
