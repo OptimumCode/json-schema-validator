@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1780509489507,
+  "lastUpdate": 1780509505512,
   "repoUrl": "https://github.com/OptimumCode/json-schema-validator",
   "entries": {
     "KMP JSON schema validator": [
@@ -26658,270 +26658,6 @@ window.BENCHMARK_DATA = {
             "username": "web-flow"
           },
           "distinct": true,
-          "id": "e9601b4427b1866771a91015e6dcc817125305c3",
-          "message": "Bump test-suites/schema-test-suite from `e99b24c` to `be58fa9` (#356)\n\nBumps\n[test-suites/schema-test-suite](https://github.com/json-schema-org/JSON-Schema-Test-Suite)\nfrom `e99b24c` to `be58fa9`.\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/json-schema-org/JSON-Schema-Test-Suite/commit/be58fa98d5f79bb8d20f45a15e540332669ad947\"><code>be58fa9</code></a>\nMerge pull request <a\nhref=\"https://redirect.github.com/json-schema-org/JSON-Schema-Test-Suite/issues/791\">#791</a>\nfrom json-schema-org/ether/fix-draft-next-removal</li>\n<li><a\nhref=\"https://github.com/json-schema-org/JSON-Schema-Test-Suite/commit/acaece38e8d5f2373052c77110159db5c11b63a9\"><code>acaece3</code></a>\nstop using the term &quot;draft&quot; to mean &quot;version&quot;, and\nfix the remaining mentions...</li>\n<li><a\nhref=\"https://github.com/json-schema-org/JSON-Schema-Test-Suite/commit/980e10529f4aba741403a8466cace29a97e67a22\"><code>980e105</code></a>\nMerge pull request <a\nhref=\"https://redirect.github.com/json-schema-org/JSON-Schema-Test-Suite/issues/790\">#790</a>\nfrom dylankerr-bis/add-test-sibling-nested-ref-id</li>\n<li><a\nhref=\"https://github.com/json-schema-org/JSON-Schema-Test-Suite/commit/b5037ed7ac94f2da1865969c95f700259c347822\"><code>b5037ed</code></a>\nAdd test for sibling $ref and $id in nested schema to v1 suite</li>\n<li><a\nhref=\"https://github.com/json-schema-org/JSON-Schema-Test-Suite/commit/4cf559962d6dd01aa576e9b8889d771df70d9e50\"><code>4cf5599</code></a>\nMerge pull request <a\nhref=\"https://redirect.github.com/json-schema-org/JSON-Schema-Test-Suite/issues/776\">#776</a>\nfrom davishmcclurg/idn-hostname-separators</li>\n<li><a\nhref=\"https://github.com/json-schema-org/JSON-Schema-Test-Suite/commit/a930db4328776cb9fe4ef9297912dacf5157366b\"><code>a930db4</code></a>\nShorten test descriptions to appease ci</li>\n<li><a\nhref=\"https://github.com/json-schema-org/JSON-Schema-Test-Suite/commit/aab08752cf060a333bc44e68ad7294aa20024107\"><code>aab0875</code></a>\nUpdates form PR feedback</li>\n<li><a\nhref=\"https://github.com/json-schema-org/JSON-Schema-Test-Suite/commit/081a16a76aff9921c54cc549508ce8afaf768483\"><code>081a16a</code></a>\nTest IDN label separators separate labels</li>\n<li><a\nhref=\"https://github.com/json-schema-org/JSON-Schema-Test-Suite/commit/658c8cf9f355b9b4e378d4af7201638f1cf802e2\"><code>658c8cf</code></a>\nTest IDN label separator in <code>hostname</code> format</li>\n<li><a\nhref=\"https://github.com/json-schema-org/JSON-Schema-Test-Suite/commit/38c04b830a2aa4fa388ec48501268069ef02b432\"><code>38c04b8</code></a>\nTest label separator position in hostname formats</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/json-schema-org/JSON-Schema-Test-Suite/compare/e99b24c92006fd83803be511d77278910986d6aa...be58fa98d5f79bb8d20f45a15e540332669ad947\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\n\nDependabot will resolve any conflicts with this PR as long as you don't\nalter it yourself. You can also trigger a rebase manually by commenting\n`@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits\nthat have been made to it\n- `@dependabot merge` will merge this PR after your CI passes on it\n- `@dependabot squash and merge` will squash and merge this PR after\nyour CI passes on it\n- `@dependabot cancel merge` will cancel a previously requested merge\nand block automerging\n- `@dependabot reopen` will reopen this PR if it is closed\n- `@dependabot close` will close this PR and stop Dependabot recreating\nit. You can achieve the same result by closing it manually\n- `@dependabot show <dependency name> ignore conditions` will show all\nof the ignore conditions of the specified dependency\n- `@dependabot ignore this major version` will close this PR and stop\nDependabot creating any more for this major version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this minor version` will close this PR and stop\nDependabot creating any more for this minor version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this dependency` will close this PR and stop\nDependabot creating any more for this dependency (unless you reopen the\nPR or upgrade to it yourself)\n\n\n</details>\n\n---------\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>\nCo-authored-by: Oleg Smirnov <oleg31101996@gmail.com>",
-          "timestamp": "2025-11-08T15:16:35Z",
-          "tree_id": "d346e3979b34ec93d215a8ba9b79b3b15c7ac55d",
-          "url": "https://github.com/OptimumCode/json-schema-validator/commit/e9601b4427b1866771a91015e6dcc817125305c3"
-        },
-        "date": 1762616605465,
-        "tool": "jmh",
-        "benches": [
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2841.7853053888007,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2677.5987614274527,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2884.4854151256923,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2860.780702859962,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1053.8019070655616,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 996.4220165929079,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2928.062895385012,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2957.040145977401,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4091.5750191202847,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 5530406.232462695,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 707.693686026638,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 720.2505727940882,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4091.0033780072567,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2051.8404625975445,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4080.5576866532415,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1038520.6641244091,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4069.526914752907,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1917.7356646188946,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 92.61824036239469,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 97.0582029136293,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 355.64112067744196,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 384.1569012588676,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 338.24478269783106,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 355.72686588153454,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 933.2821075972934,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1095.0270281819762,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 331.9682571640195,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 359.1276390804862,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 245.32104636242556,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 0.18484099454923442,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1422.118401723788,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1411.3880807032242,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 238.45424023586588,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 480.59772996406684,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 259.67017437456366,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 0.9565551821784247,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 242.53422184209404,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 514.3957638061324,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 10756.492496019218,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 10192.721405545248,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          }
-        ]
-      },
-      {
-        "commit": {
-          "author": {
-            "email": "49699333+dependabot[bot]@users.noreply.github.com",
-            "name": "dependabot[bot]",
-            "username": "dependabot[bot]"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
           "id": "fd36315de16551c732ae7965472ab64163abd199",
           "message": "Bump com.networknt:json-schema-validator from 1.5.8 to 2.0.0 (#346)\n\nBumps\n[com.networknt:json-schema-validator](https://github.com/networknt/json-schema-validator)\nfrom 1.5.8 to 2.0.0.\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/networknt/json-schema-validator/releases\">com.networknt:json-schema-validator's\nreleases</a>.</em></p>\n<blockquote>\n<h2>2.0.0- 2025-10-25</h2>\n<h3>Added</h3>\n<h3>Changed</h3>\n<ul>\n<li>Fix ref with sibling id from 2019-09 (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1203\">#1203</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Refactor walk and update docs (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1202\">#1202</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Fix matching of $ when there are trailing newlines (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1201\">#1201</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Refactor evaluation context out from validator state (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1199\">#1199</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Main refactor for 2.x (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1198\">#1198</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Refactor set to list in execution context (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1197\">#1197</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Refactor and remove validation message handler (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1196\">#1196</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Add benchmark for performance regression testing (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1195\">#1195</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n</ul>\n<h2>1.5.9- 2025-09-13</h2>\n<h3>Added</h3>\n<h3>Changed</h3>\n<ul>\n<li>Fix idn-hostname format and update json schema test suite (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1191\">#1191</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Fix JoniRegularExpression compatibility issues with ECMA-262 (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1193\">#1193</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Fix time format validation (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1188\">#1188</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Fix eclipse junit issue due to m2e-core (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1189\">#1189</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Support readOnly and writeOnly for required validation (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1186\">#1186</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Spanish translations (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1183\">#1183</a>)\nThanks <a\nhref=\"https://github.com/MickMonaghanGW\"><code>@​MickMonaghanGW</code></a></li>\n<li>Upgrade to ITU 1.14.0 (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1184\">#1184</a>)\nThanks <a href=\"https://github.com/ethlo\"><code>@​ethlo</code></a></li>\n<li>Add mpenet/legba to list of librairies (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1181\">#1181</a>)\nThanks <a\nhref=\"https://github.com/mpenet\"><code>@​mpenet</code></a></li>\n</ul>\n</blockquote>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/networknt/json-schema-validator/blob/master/CHANGELOG.md\">com.networknt:json-schema-validator's\nchangelog</a>.</em></p>\n<blockquote>\n<h1>Change Log</h1>\n<p>All notable changes to this project will be documented in this\nfile.</p>\n<p>This format is based on <a href=\"http://keepachangelog.com/\">Keep a\nChangelog</a>.</p>\n<p>This project does not adhere to <a\nhref=\"https://semver.org/\">Semantic Versioning</a> and minor version\nchanges can have incompatible API changes. These incompatible API\nchanges will largely affect those who have custom validator or walker\nimplementations. Those who just use the library to validate using the\nstandard JSON Schema Draft specifications may not need changes.</p>\n<h2>[Unreleased]</h2>\n<h3>Added</h3>\n<h3>Changed</h3>\n<h2>2.0.0- 2025-10-25</h2>\n<h3>Added</h3>\n<h3>Changed</h3>\n<ul>\n<li>Fix ref with sibling id from 2019-09 (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1203\">#1203</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Refactor walk and update docs (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1202\">#1202</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Fix matching of $ when there are trailing newlines (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1201\">#1201</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Refactor evaluation context out from validator state (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1199\">#1199</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Main refactor for 2.x (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1198\">#1198</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Refactor set to list in execution context (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1197\">#1197</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Refactor and remove validation message handler (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1196\">#1196</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Add benchmark for performance regression testing (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1195\">#1195</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n</ul>\n<h2>1.5.9- 2025-09-13</h2>\n<h3>Added</h3>\n<h3>Changed</h3>\n<ul>\n<li>Fix idn-hostname format and update json schema test suite (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1191\">#1191</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Fix JoniRegularExpression compatibility issues with ECMA-262 (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1193\">#1193</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Fix time format validation (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1188\">#1188</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Fix eclipse junit issue due to m2e-core (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1189\">#1189</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Support readOnly and writeOnly for required validation (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1186\">#1186</a>)\nThanks <a\nhref=\"https://github.com/justin-tay\"><code>@​justin-tay</code></a></li>\n<li>Spanish translations (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1183\">#1183</a>)\nThanks <a\nhref=\"https://github.com/MickMonaghanGW\"><code>@​MickMonaghanGW</code></a></li>\n<li>Upgrade to ITU 1.14.0 (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1184\">#1184</a>)\nThanks <a href=\"https://github.com/ethlo\"><code>@​ethlo</code></a></li>\n<li>Add mpenet/legba to list of librairies (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1181\">#1181</a>)\nThanks <a\nhref=\"https://github.com/mpenet\"><code>@​mpenet</code></a></li>\n</ul>\n<h2>1.5.8- 2025-06-27</h2>\n<h3>Added</h3>\n<h3>Changed</h3>\n<ul>\n<li>upgrade maven-gpg to 3.2.7</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/networknt/json-schema-validator/commit/0dde00ce3386c33335f6531478f06b4c6dbec061\"><code>0dde00c</code></a>\nupgrade to 2.0.0 and update changelog</li>\n<li><a\nhref=\"https://github.com/networknt/json-schema-validator/commit/b4abbc296cb421ebb0ba59e866d16099a2f62803\"><code>b4abbc2</code></a>\nFix ref with sibling id from 2019-09 (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1203\">#1203</a>)</li>\n<li><a\nhref=\"https://github.com/networknt/json-schema-validator/commit/7bebfebbbee6f7160564fadb97b3d41f44bf949b\"><code>7bebfeb</code></a>\nRefactor walk and update docs (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1202\">#1202</a>)</li>\n<li><a\nhref=\"https://github.com/networknt/json-schema-validator/commit/4dbdc9f0edd5722637050217465b67fa265cbabd\"><code>4dbdc9f</code></a>\nFix matching of $ when there are trailing newlines (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1201\">#1201</a>)</li>\n<li><a\nhref=\"https://github.com/networknt/json-schema-validator/commit/9527f4ae64fe9cd55c7f46bd2e627342abbdc1c0\"><code>9527f4a</code></a>\nRefactor evaluation context out from validator state (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1199\">#1199</a>)</li>\n<li><a\nhref=\"https://github.com/networknt/json-schema-validator/commit/e880dd0aa16a52098aa6eea25d688275ac1590d9\"><code>e880dd0</code></a>\nMain refactor for 2.x (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1198\">#1198</a>)</li>\n<li><a\nhref=\"https://github.com/networknt/json-schema-validator/commit/02a6e06b0ccb349c997cbf985f1399821ea9a663\"><code>02a6e06</code></a>\nRefactor set to list in execution context (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1197\">#1197</a>)</li>\n<li><a\nhref=\"https://github.com/networknt/json-schema-validator/commit/19b2207b709fea5cb87aedcc34895682efa9dbdc\"><code>19b2207</code></a>\nRefactor and remove validation message handler (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1196\">#1196</a>)</li>\n<li><a\nhref=\"https://github.com/networknt/json-schema-validator/commit/db7178048d124e908effc2b42b52f07d894f05ee\"><code>db71780</code></a>\nAdd benchmark for performance regression testing (<a\nhref=\"https://redirect.github.com/networknt/json-schema-validator/issues/1195\">#1195</a>)</li>\n<li><a\nhref=\"https://github.com/networknt/json-schema-validator/commit/e78c38895c6e63226417c1851b14e55f1facdaf7\"><code>e78c388</code></a>\nupdate tag number</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/networknt/json-schema-validator/compare/1.5.8...2.0.0\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\n\n[![Dependabot compatibility\nscore](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.networknt:json-schema-validator&package-manager=gradle&previous-version=1.5.8&new-version=2.0.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)\n\nDependabot will resolve any conflicts with this PR as long as you don't\nalter it yourself. You can also trigger a rebase manually by commenting\n`@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits\nthat have been made to it\n- `@dependabot merge` will merge this PR after your CI passes on it\n- `@dependabot squash and merge` will squash and merge this PR after\nyour CI passes on it\n- `@dependabot cancel merge` will cancel a previously requested merge\nand block automerging\n- `@dependabot reopen` will reopen this PR if it is closed\n- `@dependabot close` will close this PR and stop Dependabot recreating\nit. You can achieve the same result by closing it manually\n- `@dependabot show <dependency name> ignore conditions` will show all\nof the ignore conditions of the specified dependency\n- `@dependabot ignore this major version` will close this PR and stop\nDependabot creating any more for this major version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this minor version` will close this PR and stop\nDependabot creating any more for this minor version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this dependency` will close this PR and stop\nDependabot creating any more for this dependency (unless you reopen the\nPR or upgrade to it yourself)\n\n\n</details>\n\n---------\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>\nCo-authored-by: Oleg Smirnov <oleg31101996@gmail.com>",
           "timestamp": "2025-11-09T13:15:39Z",
@@ -39840,6 +39576,270 @@ window.BENCHMARK_DATA = {
           {
             "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
             "value": 10224.52942994228,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "21156d782c35cbe90491375951f444588f5a5766",
+          "message": "Bump gradle-wrapper from 9.5.0 to 9.5.1 (#442)\n\nBumps [gradle-wrapper](https://github.com/gradle/gradle) from 9.5.0 to\n9.5.1.\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/gradle/gradle/releases\">gradle-wrapper's\nreleases</a>.</em></p>\n<blockquote>\n<h2>9.5.1</h2>\n<p>The Gradle team is excited to announce Gradle 9.5.1.</p>\n<p>Here are the highlights of this release:</p>\n<ul>\n<li>Task provenance in reports and failure messages</li>\n<li>Type-safe accessors for precompiled Kotlin Settings plugins</li>\n</ul>\n<p><a href=\"https://docs.gradle.org/9.5.1/release-notes.html\">Read the\nRelease Notes</a></p>\n<p>We would like to thank the following community members for their\ncontributions to this release of Gradle:\n<a href=\"https://github.com/atm1020\">atm1020</a>,\n<a href=\"https://github.com/mataha\">mataha</a>,\n<a href=\"https://github.com/aSemy\">Adam</a>,\n<a href=\"https://github.com/kelemen\">Attila Kelemen</a>,\n<a href=\"https://github.com/britter\">Benedikt Ritter</a>,\n<a href=\"https://github.com/Vampire\">Björn Kautler</a>,\n<a href=\"https://github.com/budindepunk\">Caro Silva Rode</a>,\n<a href=\"https://github.com/chanani\">CHANHAN</a>,\n<a href=\"https://github.com/DmitryNez\">Dmitry Nezavitin</a>,\n<a href=\"https://github.com/Juneezee\">Eng Zer Jun</a>,\n<a href=\"https://github.com/KugelLibelle\">KugelLibelle</a>,\n<a href=\"https://github.com/vmadalin\">Madalin Valceleanu</a>,\n<a href=\"https://github.com/quijote\">Markus Gaisbauer</a>,\n<a href=\"https://github.com/koppor\">Oliver Kopp</a>,\n<a href=\"https://github.com/hfhbd\">Philip Wedemann</a>,\n<a href=\"https://github.com/ploober\">ploober</a>,\n<a href=\"https://github.com/rpalcolea\">Roberto Perez Alcolea</a>,\n<a href=\"https://github.com/R0h1tAnand\">Rohit Anand</a>,\n<a href=\"https://github.com/Suvrat1629\">Suvrat Acharya</a>,\n<a href=\"https://github.com/usv240\">Ujwal Suresh Vanjare</a>,\n<a href=\"https://github.com/urdak\">Victor Merkulov</a></p>\n<h2>Upgrade instructions</h2>\n<p>Switch your build to use Gradle 9.5.1 by updating your wrapper:</p>\n<pre><code>./gradlew wrapper --gradle-version=9.5.1 &amp;&amp; ./gradlew\nwrapper\n</code></pre>\n<p>See the Gradle <a\nhref=\"https://docs.gradle.org/9.5.1/userguide/upgrading_version_9.html\">9.x\nupgrade guide</a> to learn about deprecations, breaking changes and\nother considerations when upgrading.</p>\n<p>For Java, Groovy, Kotlin and Android compatibility, see the <a\nhref=\"https://docs.gradle.org/9.5.1/userguide/compatibility.html\">full\ncompatibility notes</a>.</p>\n<h2>Reporting problems</h2>\n<p>If you find a problem with this release, please file a bug on <a\nhref=\"https://github.com/gradle/gradle/issues\">GitHub Issues</a>\nadhering to our issue guidelines.\nIf you're not sure you're encountering a bug, please use the <a\nhref=\"https://discuss.gradle.org/c/help-discuss\">forum</a>.</p>\n<p>We hope you will build happiness with Gradle, and we look forward to\nyour feedback via <a href=\"https://twitter.com/gradle\">Twitter</a> or on\n<a href=\"https://github.com/gradle\">GitHub</a>.</p>\n</blockquote>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/gradle/gradle/commit/fd78213f09782e62ca4957f9cfd3d90c6c3f1767\"><code>fd78213</code></a>\nUpdate Documentation Infrastructure: Fix scrolling issue in user manual\n(<a\nhref=\"https://redirect.github.com/gradle/gradle/issues/37861\">#37861</a>)</li>\n<li><a\nhref=\"https://github.com/gradle/gradle/commit/7758437128d1c52702786ad719a13ade1b860aa8\"><code>7758437</code></a>\nfix scroll</li>\n<li><a\nhref=\"https://github.com/gradle/gradle/commit/2fd605fdcd69fea10570e9eb1343bbd7ca01c9d0\"><code>2fd605f</code></a>\nOnly try to run as worker thread in DefaultBuildOperationQueue (<a\nhref=\"https://redirect.github.com/gradle/gradle/issues/37845\">#37845</a>)</li>\n<li><a\nhref=\"https://github.com/gradle/gradle/commit/af6984901238402386ae263d746380504e5f9138\"><code>af69849</code></a>\nRelease notes for Gradle 9.5.1 (<a\nhref=\"https://redirect.github.com/gradle/gradle/issues/37853\">#37853</a>)</li>\n<li><a\nhref=\"https://github.com/gradle/gradle/commit/f4d9d03e9bb47d2d17b6d8314fdaa32c3d0b3c1e\"><code>f4d9d03</code></a>\nRelease notes for Gradle 9.5.1</li>\n<li><a\nhref=\"https://github.com/gradle/gradle/commit/01eda3adf40dbe97e81475e813705409dcfe1091\"><code>01eda3a</code></a>\nAddress review feedback on worker-lease retry changes</li>\n<li><a\nhref=\"https://github.com/gradle/gradle/commit/7024e15139b2db9df831dd15a8b9e9052acd9a51\"><code>7024e15</code></a>\nRevert enrich file visitor with size info on <code>release</code> branch\n(<a\nhref=\"https://redirect.github.com/gradle/gradle/issues/37848\">#37848</a>)</li>\n<li><a\nhref=\"https://github.com/gradle/gradle/commit/d51476fda21330c037a04b43ec9a93a929d05b87\"><code>d51476f</code></a>\nFix tryRunAsWorkerThread null-return test to match contract</li>\n<li><a\nhref=\"https://github.com/gradle/gradle/commit/090ebabc5b6f648e01c0269a321d80372fdbfe0f\"><code>090ebab</code></a>\nRevert &quot;Add getLength() to\nFilePropertyVisitor.VisitState&quot;</li>\n<li><a\nhref=\"https://github.com/gradle/gradle/commit/bceab24677298144860f6919bdcb031e806dbf23\"><code>bceab24</code></a>\nRevert &quot;Fix annotation&quot;</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/gradle/gradle/compare/v9.5.0...v9.5.1\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\n\n[![Dependabot compatibility\nscore](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=gradle-wrapper&package-manager=gradle&previous-version=9.5.0&new-version=9.5.1)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)\n\nDependabot will resolve any conflicts with this PR as long as you don't\nalter it yourself. You can also trigger a rebase manually by commenting\n`@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits\nthat have been made to it\n- `@dependabot show <dependency name> ignore conditions` will show all\nof the ignore conditions of the specified dependency\n- `@dependabot ignore this major version` will close this PR and stop\nDependabot creating any more for this major version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this minor version` will close this PR and stop\nDependabot creating any more for this minor version (unless you reopen\nthe PR or upgrade to it yourself)\n- `@dependabot ignore this dependency` will close this PR and stop\nDependabot creating any more for this dependency (unless you reopen the\nPR or upgrade to it yourself)\n\n\n</details>\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-03T19:32:44+02:00",
+          "tree_id": "326178953bad374c17c5fc4e5e8df1b4cd62d1e8",
+          "url": "https://github.com/OptimumCode/json-schema-validator/commit/21156d782c35cbe90491375951f444588f5a5766"
+        },
+        "date": 1780509501559,
+        "tool": "jmh",
+        "benches": [
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3577.792581971843,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3518.0548012747067,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3813.9030859492755,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3757.9972695798183,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1376.2867763238828,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1303.3861406694773,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3868.8336340155574,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3783.426578825736,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 5461.773685032125,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 8805945.852676937,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 861.9492252427184,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 919.3108568384556,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 5694.673813676947,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2595.803788556348,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 5904.487815666175,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1189519.805614952,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 5502.807913881804,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2517.8862512377113,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 129.3391115408697,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 143.67842326674102,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 262.7743308787761,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 290.38269729177864,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 258.5733939110875,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 270.8349602268654,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 718.28098227218,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 777.6473154967669,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 253.52467150557277,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 270.4416942060903,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 187.90048978843393,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 0.12396734936439457,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1089.0069529563,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1094.5244036543745,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 178.6084587957577,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 387.7755081951715,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 172.02608528949594,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 0.8293417888197044,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 180.12527426195157,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 377.8050662470745,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 7789.046866288225,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 7129.379166598653,
             "unit": "us/op",
             "extra": "iterations: 10\nforks: 1\nthreads: 1"
           }
