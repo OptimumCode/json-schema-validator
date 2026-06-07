@@ -20,11 +20,11 @@ class JsonSchemaUriFormatValidationTest : FunSpec() {
           "https://localhost#",
           "h://localhost",
           "https://locahost#frag?ment",
+          "file:///home/runner/work/gloo-mesh-enterprise",
         ),
       invalidTestCases =
         listOf(
           TestCase("", "empty"),
-          TestCase("https:///", "empty hostname"),
           TestCase("2http://localhost", "invalid schema"),
           TestCase("https://example.com:44a/", "invalid port"),
           TestCase("https:", "only schema"),

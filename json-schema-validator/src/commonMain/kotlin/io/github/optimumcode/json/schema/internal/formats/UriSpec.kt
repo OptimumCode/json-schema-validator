@@ -17,12 +17,17 @@ internal object UriSpec {
       return true
     }
     return when {
-      hierPart.startsWith("//") ->
+      hierPart.startsWith("//") -> {
         isValidAuthorityWithPath(hierPart.substring(2))
-      hierPart.startsWith("/") ->
+      }
+
+      hierPart.startsWith("/") -> {
         isValidAbsolutePath(hierPart.substring(1))
-      else ->
+      }
+
+      else -> {
         isValidRootlessPath(hierPart)
+      }
     }
   }
 
@@ -31,12 +36,17 @@ internal object UriSpec {
       return true
     }
     return when {
-      relativePart.startsWith("//") ->
+      relativePart.startsWith("//") -> {
         isValidAuthorityWithPath(relativePart.substring(2))
-      relativePart.startsWith("/") ->
+      }
+
+      relativePart.startsWith("/") -> {
         isValidAbsolutePath(relativePart.substring(1))
-      else ->
+      }
+
+      else -> {
         isValidNoschemaPath(relativePart)
+      }
     }
   }
 
@@ -106,8 +116,13 @@ internal object UriSpec {
     val segmentSeparatorIndex = authorityWithPath.indexOf('/')
     val hostEndIndex =
       when {
+        // authority cannot start from :
         portSeparatorIndex > 0 -> portSeparatorIndex
-        segmentSeparatorIndex > 0 -> segmentSeparatorIndex
+
+        // there is not / in authority part so we should take the segment
+        // as the end of host name event if it is the first character (empty host)
+        segmentSeparatorIndex >= 0 -> segmentSeparatorIndex
+
         else -> authorityWithPath.length
       }
     val hostStartIndex =
@@ -148,8 +163,10 @@ internal object UriSpec {
   }
 
   private fun isValidHost(host: String): Boolean {
+    // According to RFC3986 https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.2
+    // It is okay to have an empty host because some of the schemas have a default resolution strategy
     if (host.isEmpty()) {
-      return false
+      return true
     }
     if (IpV4FormatValidator.validate(host).isValid()) {
       return true
