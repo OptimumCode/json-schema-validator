@@ -119,7 +119,8 @@ internal object UriSpec {
         // authority cannot start from :
         portSeparatorIndex > 0 -> portSeparatorIndex
 
-        // there is not / in authority part so we should take the segment as the end of host name event if it is the first character (empty host)
+        // there is not / in authority part so we should take the segment
+        // as the end of host name event if it is the first character (empty host)
         segmentSeparatorIndex >= 0 -> segmentSeparatorIndex
 
         else -> authorityWithPath.length
