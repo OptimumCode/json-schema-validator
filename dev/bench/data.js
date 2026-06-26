@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782486133323,
+  "lastUpdate": 1782486236172,
   "repoUrl": "https://github.com/OptimumCode/json-schema-validator",
   "entries": {
     "KMP JSON schema validator": [
@@ -25698,270 +25698,6 @@ window.BENCHMARK_DATA = {
             "username": "web-flow"
           },
           "distinct": true,
-          "id": "8109aca022cc8b1c772d2093033e586b7c670615",
-          "message": "Bump okio from 3.16.2 to 3.16.3 (#364)",
-          "timestamp": "2025-11-17T12:23:03Z",
-          "tree_id": "725e3d0a65e11052119adf76dc39681a1e6518e4",
-          "url": "https://github.com/OptimumCode/json-schema-validator/commit/8109aca022cc8b1c772d2093033e586b7c670615"
-        },
-        "date": 1763383698084,
-        "tool": "jmh",
-        "benches": [
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2878.871068417531,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2736.6638031561124,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2852.8672954235085,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2835.226285277831,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1023.3756447133534,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 988.0712034813362,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 3015.223085226729,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 2976.5254557397375,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4136.082733901865,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 5725333.957900095,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 689.058095495863,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 679.9155723388401,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4310.305286749924,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1933.4254213781871,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4338.997945857299,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 934901.8898158353,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 4230.5419368217035,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1876.1503093090516,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 89.44330258252681,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 94.83878327098185,
-            "unit": "ops/s",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 366.59164784473114,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 369.41036856059816,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 355.0675698628409,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 344.6814930992477,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 962.012705581216,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1003.8899101493446,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 332.9278671373096,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 368.00023602355856,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 259.7613871366001,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 0.1627283854969328,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1437.0806705123698,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1434.4376693282343,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 251.81774240280146,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 518.840117824359,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 225.99688067202027,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 1.0685341908028645,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 254.8680089291485,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 507.95386552472354,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 11090.708423565324,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          },
-          {
-            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
-            "value": 9903.806221002556,
-            "unit": "us/op",
-            "extra": "iterations: 10\nforks: 1\nthreads: 1"
-          }
-        ]
-      },
-      {
-        "commit": {
-          "author": {
-            "email": "49699333+dependabot[bot]@users.noreply.github.com",
-            "name": "dependabot[bot]",
-            "username": "dependabot[bot]"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
           "id": "8dfdf2e9cf4f808a7b14e4b10c5d9f36a0936cc9",
           "message": "Bump com.google.devtools.ksp:symbol-processing-gradle-plugin from 2.3.2 to 2.3.3 (#367)",
           "timestamp": "2025-11-21T21:40:23+01:00",
@@ -38880,6 +38616,270 @@ window.BENCHMARK_DATA = {
           {
             "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
             "value": 10166.844089040198,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9e7103fc3e39c3787f00f8963941ff3c9625bddb",
+          "message": "Bump kotlin from 2.3.21 to 2.4.0 (#453)\n\nBumps `kotlin` from 2.3.21 to 2.4.0.\nUpdates `org.jetbrains.kotlin:kotlin-gradle-plugin` from 2.3.21 to 2.4.0\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/releases\">org.jetbrains.kotlin:kotlin-gradle-plugin's\nreleases</a>.</em></p>\n<blockquote>\n<h2>Kotlin 2.4.0</h2>\n<h2>Changelog</h2>\n<h3>Analysis API</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83867\"><code>KT-83867</code></a>\nOVERLOAD_RESOLUTION_AMBIGUITY false positive with assertEquals in IJ\nrepo</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83723\"><code>KT-83723</code></a>\n[Analysis API] Enable experimental KDoc resolver by default</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83388\"><code>KT-83388</code></a>\nAnalysis API: properly support KMP in KotlinPackageProvider</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-65683\"><code>KT-65683</code></a>\nAnalysis API: Dangling file session creation causes a\n<code>computeIfAbsent</code> contract violation</li>\n</ul>\n<h3>Analysis API. Code Compilation</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78946\"><code>KT-78946</code></a>\nEvaluation of variable with local class in type parameter leads to\nInventNamesForLocalClasses exception</li>\n</ul>\n<h3>Analysis API. FIR</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-68260\"><code>KT-68260</code></a>\nK2 AA: InvalidFirElementTypeException “For CALLABLE_REFERENCE_EXPRESSION\nwith text <code>::lam1</code>, unexpected element of type: no element\nfound” with illegal callable reference call</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70896\"><code>KT-70896</code></a>\nAA: False positive deprecation warning with override of built-in method\nin JDK mapped class</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84711\"><code>KT-84711</code></a>\nK2 IDE sometimes loses FIR plugin-generated declarations after file\nchanges</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84625\"><code>KT-84625</code></a>\nAnalysis API: collectDesignationPath fails for nested classes inside\nplugin-generated top-level classes</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84596\"><code>KT-84596</code></a>\nImprove K2 Jooq completion performance</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84525\"><code>KT-84525</code></a>\nKaValueParameterSymbol#getHasSynthesizedName returns false for\nFirDeclarationOrigin.SubstitutionOverride.DeclarationSite</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83546\"><code>KT-83546</code></a>\nKotlin analysis reach ClsCustomNavigationPolicy</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84259\"><code>KT-84259</code></a>\nMove CommonDefaultImportsProvider to the frontend independent\nmodule</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82945\"><code>KT-82945</code></a>\nAnalysis API: KotlinIllegalArgumentExceptionWithAttachments: Expected\nFirResolvedTypeRef with ConeKotlinType but was FirUserTypeRefImpl</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-71135\"><code>KT-71135</code></a>\nAA: exception from sealed inheritors checker when\n<code>analyzeCopy</code></li>\n</ul>\n<h3>Analysis API. Infrastructure</h3>\n<h4>Fixes</h4>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83905\"><code>KT-83905</code></a>\nAnalysis API: Improve UX with test data</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84913\"><code>KT-84913</code></a>\nExtract compiler classes used by the PSI &amp; Analysis API to a\nseparate module</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-64986\"><code>KT-64986</code></a>\nAnalysis API: Implement Analysis API tests for different KMP\nPlatforms</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84776\"><code>KT-84776</code></a>\nThe test data manager misses the redundancy check in the update\nmode</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84962\"><code>KT-84962</code></a>\nThe test data manager misses -ea flag</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84388\"><code>KT-84388</code></a>\nPreserve the EOF status in the test data manager to avoid extra\nchanges</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84362\"><code>KT-84362</code></a>\nAnalysis API tests produce many warnings due to &quot;not yet loaded\nregistry&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84279\"><code>KT-84279</code></a>\nTest Data Manager fails on a clean build</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83913\"><code>KT-83913</code></a>\nExclude compiler-based Analysis API tests from Git tracking</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-80379\"><code>KT-80379</code></a>\nExtract per-module test generators for AA tests</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84120\"><code>KT-84120</code></a>\nMove CLI modules out of kotlin-compiler-fe10-for-ide</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83200\"><code>KT-83200</code></a>\nTrack external dependencies of the Analysis API modules</li>\n</ul>\n<h3>Analysis API. Light Classes</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82434\"><code>KT-82434</code></a>\nLight classes should prefer enum entries to properties</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84200\"><code>KT-84200</code></a>\nSLC: return type is not boxed for delegated methods with generic\noriginal method</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72451\"><code>KT-72451</code></a>\n&quot;CCE: class PsiPrimitiveType cannot be cast to class\nPsiClassType&quot; with same-named enum class and typealias</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/blob/master/ChangeLog.md\">org.jetbrains.kotlin:kotlin-gradle-plugin's\nchangelog</a>.</em></p>\n<blockquote>\n<h2>2.4.0</h2>\n<h3>Analysis API</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83867\"><code>KT-83867</code></a>\nOVERLOAD_RESOLUTION_AMBIGUITY false positive with assertEquals in IJ\nrepo</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83723\"><code>KT-83723</code></a>\n[Analysis API] Enable experimental KDoc resolver by default</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83388\"><code>KT-83388</code></a>\nAnalysis API: properly support KMP in KotlinPackageProvider</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-65683\"><code>KT-65683</code></a>\nAnalysis API: Dangling file session creation causes a\n<code>computeIfAbsent</code> contract violation</li>\n</ul>\n<h3>Analysis API. Code Compilation</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78946\"><code>KT-78946</code></a>\nEvaluation of variable with local class in type parameter leads to\nInventNamesForLocalClasses exception</li>\n</ul>\n<h3>Analysis API. FIR</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-68260\"><code>KT-68260</code></a>\nK2 AA: InvalidFirElementTypeException “For CALLABLE_REFERENCE_EXPRESSION\nwith text <code>::lam1</code>, unexpected element of type: no element\nfound” with illegal callable reference call</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70896\"><code>KT-70896</code></a>\nAA: False positive deprecation warning with override of built-in method\nin JDK mapped class</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84711\"><code>KT-84711</code></a>\nK2 IDE sometimes loses FIR plugin-generated declarations after file\nchanges</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84625\"><code>KT-84625</code></a>\nAnalysis API: collectDesignationPath fails for nested classes inside\nplugin-generated top-level classes</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84596\"><code>KT-84596</code></a>\nImprove K2 Jooq completion performance</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84525\"><code>KT-84525</code></a>\nKaValueParameterSymbol#getHasSynthesizedName returns false for\nFirDeclarationOrigin.SubstitutionOverride.DeclarationSite</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83546\"><code>KT-83546</code></a>\nKotlin analysis reach ClsCustomNavigationPolicy</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84259\"><code>KT-84259</code></a>\nMove CommonDefaultImportsProvider to the frontend independent\nmodule</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82945\"><code>KT-82945</code></a>\nAnalysis API: KotlinIllegalArgumentExceptionWithAttachments: Expected\nFirResolvedTypeRef with ConeKotlinType but was FirUserTypeRefImpl</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-71135\"><code>KT-71135</code></a>\nAA: exception from sealed inheritors checker when\n<code>analyzeCopy</code></li>\n</ul>\n<h3>Analysis API. Infrastructure</h3>\n<h4>Fixes</h4>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83905\"><code>KT-83905</code></a>\nAnalysis API: Improve UX with test data</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84913\"><code>KT-84913</code></a>\nExtract compiler classes used by the PSI &amp; Analysis API to a\nseparate module</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-64986\"><code>KT-64986</code></a>\nAnalysis API: Implement Analysis API tests for different KMP\nPlatforms</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84776\"><code>KT-84776</code></a>\nThe test data manager misses the redundancy check in the update\nmode</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84962\"><code>KT-84962</code></a>\nThe test data manager misses -ea flag</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84388\"><code>KT-84388</code></a>\nPreserve the EOF status in the test data manager to avoid extra\nchanges</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84362\"><code>KT-84362</code></a>\nAnalysis API tests produce many warnings due to &quot;not yet loaded\nregistry&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84279\"><code>KT-84279</code></a>\nTest Data Manager fails on a clean build</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83913\"><code>KT-83913</code></a>\nExclude compiler-based Analysis API tests from Git tracking</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-80379\"><code>KT-80379</code></a>\nExtract per-module test generators for AA tests</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84120\"><code>KT-84120</code></a>\nMove CLI modules out of kotlin-compiler-fe10-for-ide</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83200\"><code>KT-83200</code></a>\nTrack external dependencies of the Analysis API modules</li>\n</ul>\n<h3>Analysis API. Light Classes</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82434\"><code>KT-82434</code></a>\nLight classes should prefer enum entries to properties</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84200\"><code>KT-84200</code></a>\nSLC: return type is not boxed for delegated methods with generic\noriginal method</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72451\"><code>KT-72451</code></a>\n&quot;CCE: class PsiPrimitiveType cannot be cast to class\nPsiClassType&quot; with same-named enum class and typealias</li>\n</ul>\n<h3>Analysis API. PSI</h3>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/add726ca8c82922b6ab4cb2a27ae738d6a780817\"><code>add726c</code></a>\nAdd ChangeLog for 2.4.0-RC2</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/69a4a81ef24de99aec8c05d175239ddfe29c876d\"><code>69a4a81</code></a>\n[Wasm] Add binaryen per-file arguments</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/8907c635d4a7101e318b895c2829fc917c64e92c\"><code>8907c63</code></a>\n[KGP] Suppress duplicate compiler warning output when --warning-mode=all\nis a...</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/f9bef128ea07e986602e3c6524cea85038308ae6\"><code>f9bef12</code></a>\n[KGP] Add failing test for duplicate compiler warning output via\nProblems API</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/7fe49c227af21127ab4eb39a2da693e14a068fe4\"><code>7fe49c2</code></a>\nKT-86268: Use 2.4.0 toolchain for abiValidation with older CVs</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/13d25e2c581f55cecbe80bf9e9359af14fa00ef9\"><code>13d25e2</code></a>\nKT-86268: Regression test added</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/f7d1a76541b33871e9be156143ceb904588c4863\"><code>f7d1a76</code></a>\n[JKlib] Fix JAR deserializer configuration.</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/5cec663affd3fe9e7b7342e336ad4952ae59a2ad\"><code>5cec663</code></a>\n[JKlib] Wire up JvmBuiltInClassDescriptorFactory</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/ef146114de8b0db65ff96b21a67c87da95a8c82e\"><code>ef14611</code></a>\nMake the default stability of non-final classes <code>Unknown</code>\ninstead of <code>Stable</code></li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/d76473afd242d7655c975a6346ed4b24c35573ca\"><code>d76473a</code></a>\n[Gradle] Fix GeneralNativeIT.shouldAllowToOverrideDownloadUrl test\nfailures</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/JetBrains/kotlin/compare/v2.3.21...v2.4.0\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\nUpdates `org.jetbrains.kotlin.plugin.serialization` from 2.3.21 to 2.4.0\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/releases\">org.jetbrains.kotlin.plugin.serialization's\nreleases</a>.</em></p>\n<blockquote>\n<h2>Kotlin 2.4.0</h2>\n<h2>Changelog</h2>\n<h3>Analysis API</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83867\"><code>KT-83867</code></a>\nOVERLOAD_RESOLUTION_AMBIGUITY false positive with assertEquals in IJ\nrepo</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83723\"><code>KT-83723</code></a>\n[Analysis API] Enable experimental KDoc resolver by default</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83388\"><code>KT-83388</code></a>\nAnalysis API: properly support KMP in KotlinPackageProvider</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-65683\"><code>KT-65683</code></a>\nAnalysis API: Dangling file session creation causes a\n<code>computeIfAbsent</code> contract violation</li>\n</ul>\n<h3>Analysis API. Code Compilation</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78946\"><code>KT-78946</code></a>\nEvaluation of variable with local class in type parameter leads to\nInventNamesForLocalClasses exception</li>\n</ul>\n<h3>Analysis API. FIR</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-68260\"><code>KT-68260</code></a>\nK2 AA: InvalidFirElementTypeException “For CALLABLE_REFERENCE_EXPRESSION\nwith text <code>::lam1</code>, unexpected element of type: no element\nfound” with illegal callable reference call</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70896\"><code>KT-70896</code></a>\nAA: False positive deprecation warning with override of built-in method\nin JDK mapped class</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84711\"><code>KT-84711</code></a>\nK2 IDE sometimes loses FIR plugin-generated declarations after file\nchanges</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84625\"><code>KT-84625</code></a>\nAnalysis API: collectDesignationPath fails for nested classes inside\nplugin-generated top-level classes</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84596\"><code>KT-84596</code></a>\nImprove K2 Jooq completion performance</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84525\"><code>KT-84525</code></a>\nKaValueParameterSymbol#getHasSynthesizedName returns false for\nFirDeclarationOrigin.SubstitutionOverride.DeclarationSite</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83546\"><code>KT-83546</code></a>\nKotlin analysis reach ClsCustomNavigationPolicy</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84259\"><code>KT-84259</code></a>\nMove CommonDefaultImportsProvider to the frontend independent\nmodule</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82945\"><code>KT-82945</code></a>\nAnalysis API: KotlinIllegalArgumentExceptionWithAttachments: Expected\nFirResolvedTypeRef with ConeKotlinType but was FirUserTypeRefImpl</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-71135\"><code>KT-71135</code></a>\nAA: exception from sealed inheritors checker when\n<code>analyzeCopy</code></li>\n</ul>\n<h3>Analysis API. Infrastructure</h3>\n<h4>Fixes</h4>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83905\"><code>KT-83905</code></a>\nAnalysis API: Improve UX with test data</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84913\"><code>KT-84913</code></a>\nExtract compiler classes used by the PSI &amp; Analysis API to a\nseparate module</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-64986\"><code>KT-64986</code></a>\nAnalysis API: Implement Analysis API tests for different KMP\nPlatforms</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84776\"><code>KT-84776</code></a>\nThe test data manager misses the redundancy check in the update\nmode</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84962\"><code>KT-84962</code></a>\nThe test data manager misses -ea flag</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84388\"><code>KT-84388</code></a>\nPreserve the EOF status in the test data manager to avoid extra\nchanges</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84362\"><code>KT-84362</code></a>\nAnalysis API tests produce many warnings due to &quot;not yet loaded\nregistry&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84279\"><code>KT-84279</code></a>\nTest Data Manager fails on a clean build</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83913\"><code>KT-83913</code></a>\nExclude compiler-based Analysis API tests from Git tracking</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-80379\"><code>KT-80379</code></a>\nExtract per-module test generators for AA tests</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84120\"><code>KT-84120</code></a>\nMove CLI modules out of kotlin-compiler-fe10-for-ide</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83200\"><code>KT-83200</code></a>\nTrack external dependencies of the Analysis API modules</li>\n</ul>\n<h3>Analysis API. Light Classes</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82434\"><code>KT-82434</code></a>\nLight classes should prefer enum entries to properties</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84200\"><code>KT-84200</code></a>\nSLC: return type is not boxed for delegated methods with generic\noriginal method</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72451\"><code>KT-72451</code></a>\n&quot;CCE: class PsiPrimitiveType cannot be cast to class\nPsiClassType&quot; with same-named enum class and typealias</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/blob/master/ChangeLog.md\">org.jetbrains.kotlin.plugin.serialization's\nchangelog</a>.</em></p>\n<blockquote>\n<h2>2.4.0</h2>\n<h3>Analysis API</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83867\"><code>KT-83867</code></a>\nOVERLOAD_RESOLUTION_AMBIGUITY false positive with assertEquals in IJ\nrepo</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83723\"><code>KT-83723</code></a>\n[Analysis API] Enable experimental KDoc resolver by default</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83388\"><code>KT-83388</code></a>\nAnalysis API: properly support KMP in KotlinPackageProvider</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-65683\"><code>KT-65683</code></a>\nAnalysis API: Dangling file session creation causes a\n<code>computeIfAbsent</code> contract violation</li>\n</ul>\n<h3>Analysis API. Code Compilation</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78946\"><code>KT-78946</code></a>\nEvaluation of variable with local class in type parameter leads to\nInventNamesForLocalClasses exception</li>\n</ul>\n<h3>Analysis API. FIR</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-68260\"><code>KT-68260</code></a>\nK2 AA: InvalidFirElementTypeException “For CALLABLE_REFERENCE_EXPRESSION\nwith text <code>::lam1</code>, unexpected element of type: no element\nfound” with illegal callable reference call</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70896\"><code>KT-70896</code></a>\nAA: False positive deprecation warning with override of built-in method\nin JDK mapped class</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84711\"><code>KT-84711</code></a>\nK2 IDE sometimes loses FIR plugin-generated declarations after file\nchanges</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84625\"><code>KT-84625</code></a>\nAnalysis API: collectDesignationPath fails for nested classes inside\nplugin-generated top-level classes</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84596\"><code>KT-84596</code></a>\nImprove K2 Jooq completion performance</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84525\"><code>KT-84525</code></a>\nKaValueParameterSymbol#getHasSynthesizedName returns false for\nFirDeclarationOrigin.SubstitutionOverride.DeclarationSite</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83546\"><code>KT-83546</code></a>\nKotlin analysis reach ClsCustomNavigationPolicy</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84259\"><code>KT-84259</code></a>\nMove CommonDefaultImportsProvider to the frontend independent\nmodule</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82945\"><code>KT-82945</code></a>\nAnalysis API: KotlinIllegalArgumentExceptionWithAttachments: Expected\nFirResolvedTypeRef with ConeKotlinType but was FirUserTypeRefImpl</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-71135\"><code>KT-71135</code></a>\nAA: exception from sealed inheritors checker when\n<code>analyzeCopy</code></li>\n</ul>\n<h3>Analysis API. Infrastructure</h3>\n<h4>Fixes</h4>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83905\"><code>KT-83905</code></a>\nAnalysis API: Improve UX with test data</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84913\"><code>KT-84913</code></a>\nExtract compiler classes used by the PSI &amp; Analysis API to a\nseparate module</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-64986\"><code>KT-64986</code></a>\nAnalysis API: Implement Analysis API tests for different KMP\nPlatforms</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84776\"><code>KT-84776</code></a>\nThe test data manager misses the redundancy check in the update\nmode</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84962\"><code>KT-84962</code></a>\nThe test data manager misses -ea flag</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84388\"><code>KT-84388</code></a>\nPreserve the EOF status in the test data manager to avoid extra\nchanges</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84362\"><code>KT-84362</code></a>\nAnalysis API tests produce many warnings due to &quot;not yet loaded\nregistry&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84279\"><code>KT-84279</code></a>\nTest Data Manager fails on a clean build</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83913\"><code>KT-83913</code></a>\nExclude compiler-based Analysis API tests from Git tracking</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-80379\"><code>KT-80379</code></a>\nExtract per-module test generators for AA tests</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84120\"><code>KT-84120</code></a>\nMove CLI modules out of kotlin-compiler-fe10-for-ide</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83200\"><code>KT-83200</code></a>\nTrack external dependencies of the Analysis API modules</li>\n</ul>\n<h3>Analysis API. Light Classes</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82434\"><code>KT-82434</code></a>\nLight classes should prefer enum entries to properties</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84200\"><code>KT-84200</code></a>\nSLC: return type is not boxed for delegated methods with generic\noriginal method</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72451\"><code>KT-72451</code></a>\n&quot;CCE: class PsiPrimitiveType cannot be cast to class\nPsiClassType&quot; with same-named enum class and typealias</li>\n</ul>\n<h3>Analysis API. PSI</h3>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/add726ca8c82922b6ab4cb2a27ae738d6a780817\"><code>add726c</code></a>\nAdd ChangeLog for 2.4.0-RC2</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/69a4a81ef24de99aec8c05d175239ddfe29c876d\"><code>69a4a81</code></a>\n[Wasm] Add binaryen per-file arguments</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/8907c635d4a7101e318b895c2829fc917c64e92c\"><code>8907c63</code></a>\n[KGP] Suppress duplicate compiler warning output when --warning-mode=all\nis a...</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/f9bef128ea07e986602e3c6524cea85038308ae6\"><code>f9bef12</code></a>\n[KGP] Add failing test for duplicate compiler warning output via\nProblems API</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/7fe49c227af21127ab4eb39a2da693e14a068fe4\"><code>7fe49c2</code></a>\nKT-86268: Use 2.4.0 toolchain for abiValidation with older CVs</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/13d25e2c581f55cecbe80bf9e9359af14fa00ef9\"><code>13d25e2</code></a>\nKT-86268: Regression test added</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/f7d1a76541b33871e9be156143ceb904588c4863\"><code>f7d1a76</code></a>\n[JKlib] Fix JAR deserializer configuration.</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/5cec663affd3fe9e7b7342e336ad4952ae59a2ad\"><code>5cec663</code></a>\n[JKlib] Wire up JvmBuiltInClassDescriptorFactory</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/ef146114de8b0db65ff96b21a67c87da95a8c82e\"><code>ef14611</code></a>\nMake the default stability of non-final classes <code>Unknown</code>\ninstead of <code>Stable</code></li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/d76473afd242d7655c975a6346ed4b24c35573ca\"><code>d76473a</code></a>\n[Gradle] Fix GeneralNativeIT.shouldAllowToOverrideDownloadUrl test\nfailures</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/JetBrains/kotlin/compare/v2.3.21...v2.4.0\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\nUpdates `org.jetbrains.kotlin.plugin.allopen` from 2.3.21 to 2.4.0\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/releases\">org.jetbrains.kotlin.plugin.allopen's\nreleases</a>.</em></p>\n<blockquote>\n<h2>Kotlin 2.4.0</h2>\n<h2>Changelog</h2>\n<h3>Analysis API</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83867\"><code>KT-83867</code></a>\nOVERLOAD_RESOLUTION_AMBIGUITY false positive with assertEquals in IJ\nrepo</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83723\"><code>KT-83723</code></a>\n[Analysis API] Enable experimental KDoc resolver by default</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83388\"><code>KT-83388</code></a>\nAnalysis API: properly support KMP in KotlinPackageProvider</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-65683\"><code>KT-65683</code></a>\nAnalysis API: Dangling file session creation causes a\n<code>computeIfAbsent</code> contract violation</li>\n</ul>\n<h3>Analysis API. Code Compilation</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78946\"><code>KT-78946</code></a>\nEvaluation of variable with local class in type parameter leads to\nInventNamesForLocalClasses exception</li>\n</ul>\n<h3>Analysis API. FIR</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-68260\"><code>KT-68260</code></a>\nK2 AA: InvalidFirElementTypeException “For CALLABLE_REFERENCE_EXPRESSION\nwith text <code>::lam1</code>, unexpected element of type: no element\nfound” with illegal callable reference call</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70896\"><code>KT-70896</code></a>\nAA: False positive deprecation warning with override of built-in method\nin JDK mapped class</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84711\"><code>KT-84711</code></a>\nK2 IDE sometimes loses FIR plugin-generated declarations after file\nchanges</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84625\"><code>KT-84625</code></a>\nAnalysis API: collectDesignationPath fails for nested classes inside\nplugin-generated top-level classes</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84596\"><code>KT-84596</code></a>\nImprove K2 Jooq completion performance</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84525\"><code>KT-84525</code></a>\nKaValueParameterSymbol#getHasSynthesizedName returns false for\nFirDeclarationOrigin.SubstitutionOverride.DeclarationSite</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83546\"><code>KT-83546</code></a>\nKotlin analysis reach ClsCustomNavigationPolicy</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84259\"><code>KT-84259</code></a>\nMove CommonDefaultImportsProvider to the frontend independent\nmodule</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82945\"><code>KT-82945</code></a>\nAnalysis API: KotlinIllegalArgumentExceptionWithAttachments: Expected\nFirResolvedTypeRef with ConeKotlinType but was FirUserTypeRefImpl</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-71135\"><code>KT-71135</code></a>\nAA: exception from sealed inheritors checker when\n<code>analyzeCopy</code></li>\n</ul>\n<h3>Analysis API. Infrastructure</h3>\n<h4>Fixes</h4>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83905\"><code>KT-83905</code></a>\nAnalysis API: Improve UX with test data</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84913\"><code>KT-84913</code></a>\nExtract compiler classes used by the PSI &amp; Analysis API to a\nseparate module</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-64986\"><code>KT-64986</code></a>\nAnalysis API: Implement Analysis API tests for different KMP\nPlatforms</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84776\"><code>KT-84776</code></a>\nThe test data manager misses the redundancy check in the update\nmode</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84962\"><code>KT-84962</code></a>\nThe test data manager misses -ea flag</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84388\"><code>KT-84388</code></a>\nPreserve the EOF status in the test data manager to avoid extra\nchanges</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84362\"><code>KT-84362</code></a>\nAnalysis API tests produce many warnings due to &quot;not yet loaded\nregistry&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84279\"><code>KT-84279</code></a>\nTest Data Manager fails on a clean build</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83913\"><code>KT-83913</code></a>\nExclude compiler-based Analysis API tests from Git tracking</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-80379\"><code>KT-80379</code></a>\nExtract per-module test generators for AA tests</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84120\"><code>KT-84120</code></a>\nMove CLI modules out of kotlin-compiler-fe10-for-ide</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83200\"><code>KT-83200</code></a>\nTrack external dependencies of the Analysis API modules</li>\n</ul>\n<h3>Analysis API. Light Classes</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82434\"><code>KT-82434</code></a>\nLight classes should prefer enum entries to properties</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84200\"><code>KT-84200</code></a>\nSLC: return type is not boxed for delegated methods with generic\noriginal method</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72451\"><code>KT-72451</code></a>\n&quot;CCE: class PsiPrimitiveType cannot be cast to class\nPsiClassType&quot; with same-named enum class and typealias</li>\n</ul>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Changelog</summary>\n<p><em>Sourced from <a\nhref=\"https://github.com/JetBrains/kotlin/blob/master/ChangeLog.md\">org.jetbrains.kotlin.plugin.allopen's\nchangelog</a>.</em></p>\n<blockquote>\n<h2>2.4.0</h2>\n<h3>Analysis API</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83867\"><code>KT-83867</code></a>\nOVERLOAD_RESOLUTION_AMBIGUITY false positive with assertEquals in IJ\nrepo</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83723\"><code>KT-83723</code></a>\n[Analysis API] Enable experimental KDoc resolver by default</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83388\"><code>KT-83388</code></a>\nAnalysis API: properly support KMP in KotlinPackageProvider</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-65683\"><code>KT-65683</code></a>\nAnalysis API: Dangling file session creation causes a\n<code>computeIfAbsent</code> contract violation</li>\n</ul>\n<h3>Analysis API. Code Compilation</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-78946\"><code>KT-78946</code></a>\nEvaluation of variable with local class in type parameter leads to\nInventNamesForLocalClasses exception</li>\n</ul>\n<h3>Analysis API. FIR</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-68260\"><code>KT-68260</code></a>\nK2 AA: InvalidFirElementTypeException “For CALLABLE_REFERENCE_EXPRESSION\nwith text <code>::lam1</code>, unexpected element of type: no element\nfound” with illegal callable reference call</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-70896\"><code>KT-70896</code></a>\nAA: False positive deprecation warning with override of built-in method\nin JDK mapped class</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84711\"><code>KT-84711</code></a>\nK2 IDE sometimes loses FIR plugin-generated declarations after file\nchanges</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84625\"><code>KT-84625</code></a>\nAnalysis API: collectDesignationPath fails for nested classes inside\nplugin-generated top-level classes</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84596\"><code>KT-84596</code></a>\nImprove K2 Jooq completion performance</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84525\"><code>KT-84525</code></a>\nKaValueParameterSymbol#getHasSynthesizedName returns false for\nFirDeclarationOrigin.SubstitutionOverride.DeclarationSite</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83546\"><code>KT-83546</code></a>\nKotlin analysis reach ClsCustomNavigationPolicy</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84259\"><code>KT-84259</code></a>\nMove CommonDefaultImportsProvider to the frontend independent\nmodule</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82945\"><code>KT-82945</code></a>\nAnalysis API: KotlinIllegalArgumentExceptionWithAttachments: Expected\nFirResolvedTypeRef with ConeKotlinType but was FirUserTypeRefImpl</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-71135\"><code>KT-71135</code></a>\nAA: exception from sealed inheritors checker when\n<code>analyzeCopy</code></li>\n</ul>\n<h3>Analysis API. Infrastructure</h3>\n<h4>Fixes</h4>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83905\"><code>KT-83905</code></a>\nAnalysis API: Improve UX with test data</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84913\"><code>KT-84913</code></a>\nExtract compiler classes used by the PSI &amp; Analysis API to a\nseparate module</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-64986\"><code>KT-64986</code></a>\nAnalysis API: Implement Analysis API tests for different KMP\nPlatforms</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84776\"><code>KT-84776</code></a>\nThe test data manager misses the redundancy check in the update\nmode</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84962\"><code>KT-84962</code></a>\nThe test data manager misses -ea flag</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84388\"><code>KT-84388</code></a>\nPreserve the EOF status in the test data manager to avoid extra\nchanges</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84362\"><code>KT-84362</code></a>\nAnalysis API tests produce many warnings due to &quot;not yet loaded\nregistry&quot;</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84279\"><code>KT-84279</code></a>\nTest Data Manager fails on a clean build</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83913\"><code>KT-83913</code></a>\nExclude compiler-based Analysis API tests from Git tracking</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-80379\"><code>KT-80379</code></a>\nExtract per-module test generators for AA tests</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84120\"><code>KT-84120</code></a>\nMove CLI modules out of kotlin-compiler-fe10-for-ide</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-83200\"><code>KT-83200</code></a>\nTrack external dependencies of the Analysis API modules</li>\n</ul>\n<h3>Analysis API. Light Classes</h3>\n<ul>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-82434\"><code>KT-82434</code></a>\nLight classes should prefer enum entries to properties</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-84200\"><code>KT-84200</code></a>\nSLC: return type is not boxed for delegated methods with generic\noriginal method</li>\n<li><a\nhref=\"https://youtrack.jetbrains.com/issue/KT-72451\"><code>KT-72451</code></a>\n&quot;CCE: class PsiPrimitiveType cannot be cast to class\nPsiClassType&quot; with same-named enum class and typealias</li>\n</ul>\n<h3>Analysis API. PSI</h3>\n<!-- raw HTML omitted -->\n</blockquote>\n<p>... (truncated)</p>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/add726ca8c82922b6ab4cb2a27ae738d6a780817\"><code>add726c</code></a>\nAdd ChangeLog for 2.4.0-RC2</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/69a4a81ef24de99aec8c05d175239ddfe29c876d\"><code>69a4a81</code></a>\n[Wasm] Add binaryen per-file arguments</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/8907c635d4a7101e318b895c2829fc917c64e92c\"><code>8907c63</code></a>\n[KGP] Suppress duplicate compiler warning output when --warning-mode=all\nis a...</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/f9bef128ea07e986602e3c6524cea85038308ae6\"><code>f9bef12</code></a>\n[KGP] Add failing test for duplicate compiler warning output via\nProblems API</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/7fe49c227af21127ab4eb39a2da693e14a068fe4\"><code>7fe49c2</code></a>\nKT-86268: Use 2.4.0 toolchain for abiValidation with older CVs</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/13d25e2c581f55cecbe80bf9e9359af14fa00ef9\"><code>13d25e2</code></a>\nKT-86268: Regression test added</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/f7d1a76541b33871e9be156143ceb904588c4863\"><code>f7d1a76</code></a>\n[JKlib] Fix JAR deserializer configuration.</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/5cec663affd3fe9e7b7342e336ad4952ae59a2ad\"><code>5cec663</code></a>\n[JKlib] Wire up JvmBuiltInClassDescriptorFactory</li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/ef146114de8b0db65ff96b21a67c87da95a8c82e\"><code>ef14611</code></a>\nMake the default stability of non-final classes <code>Unknown</code>\ninstead of <code>Stable</code></li>\n<li><a\nhref=\"https://github.com/JetBrains/kotlin/commit/d76473afd242d7655c975a6346ed4b24c35573ca\"><code>d76473a</code></a>\n[Gradle] Fix GeneralNativeIT.shouldAllowToOverrideDownloadUrl test\nfailures</li>\n<li>Additional commits viewable in <a\nhref=\"https://github.com/JetBrains/kotlin/compare/v2.3.21...v2.4.0\">compare\nview</a></li>\n</ul>\n</details>\n<br />\n\n---------\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>\nCo-authored-by: Oleg Smirnov <oleg31101996@gmail.com>",
+          "timestamp": "2026-06-26T16:36:30+02:00",
+          "tree_id": "6046a29420a123f08711ee675415be037007b461",
+          "url": "https://github.com/OptimumCode/json-schema-validator/commit/9e7103fc3e39c3787f00f8963941ff3c9625bddb"
+        },
+        "date": 1782486232506,
+        "tool": "jmh",
+        "benches": [
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2860.110856737181,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2656.6173298971203,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 3029.878156274021,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2778.6829441699556,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1050.7917910351866,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 982.7081078078888,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2835.096638349526,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 2759.056647609986,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4058.59024012219,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 6156026.354367141,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 696.0004142465997,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 688.4173688166835,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4214.3523031760005,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1894.8348209742703,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4341.70963534534,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 926421.7756985361,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 4036.7514508160552,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1932.2880641278844,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 85.28974453876076,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonThroughputBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 97.02070217096447,
+            "unit": "ops/s",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 343.5439807495833,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpBasic ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 399.53604980206563,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 330.83912788081074,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpCollectErrors ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 347.1059517848764,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1017.7115596110937,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 998.2671275846375,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 334.7745444245412,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpEmptyCollector ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 357.7008801396307,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 246.70634781265957,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 0.15109822300805062,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1517.148382551191,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateKmpVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1521.0839786152505,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 246.8970508927185,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntDetailed ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 532.0452597900442,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 227.9141146776464,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntFlag ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 1.0870264873647655,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 245.93055847198676,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateNetworkntVerbose ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 526.2514737228408,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 11430.342113714734,
+            "unit": "us/op",
+            "extra": "iterations: 10\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jvm.ComparisonAvgTimeBenchmark.validateOpenApi ( {\"objectPath\":\"openapi-invalid.json\",\"schemaPath\":\"openapi_schema.json\"} )",
+            "value": 10403.280320049398,
             "unit": "us/op",
             "extra": "iterations: 10\nforks: 1\nthreads: 1"
           }
