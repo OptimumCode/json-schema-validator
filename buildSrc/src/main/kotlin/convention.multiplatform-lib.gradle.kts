@@ -13,7 +13,7 @@ kotlin {
   explicitApi()
 
   jvm()
-  js(IR) {
+  js {
     browser()
     generateTypeScriptDefinitions()
     nodejs()
