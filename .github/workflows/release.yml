@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v7
       - name: Get version
         id: versions
-        uses: HardNorth/github-version-generate@v1.4.0
+        uses: HardNorth/github-version-generate@v1.4.1
         with:
           version-source: file
           version-file: ${{ env.VERSION_FILE }}
